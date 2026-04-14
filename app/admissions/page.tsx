@@ -3,84 +3,92 @@ import { Footer } from "@/components/footer"
 import Link from "next/link"
 import {
   ClipboardList, FileText, CheckCircle, UserCheck, GraduationCap,
-  Download, Phone, ArrowRight, AlertCircle
+  Phone, ArrowRight, AlertCircle, Heart, Home
 } from "lucide-react"
 
 const steps = [
   {
     step: "01",
     icon: ClipboardList,
-    title: "Obtain Application Form",
-    description: "Visit the school office in person or download the application form from this website. Forms are also available through our admissions hotline.",
+    title: "Visit the School",
+    description: "Come to our campus to learn about the school, meet the director, and obtain an application form.",
   },
   {
     step: "02",
     icon: FileText,
     title: "Submit Documents",
-    description: "Complete the form and attach all required supporting documents. Submit in person at the admissions office or send via email.",
+    description: "Complete the application form and attach all required supporting documents.",
   },
   {
     step: "03",
     icon: CheckCircle,
-    title: "Entrance Assessment",
-    description: "Shortlisted applicants are invited for a written entrance assessment covering Mathematics, English, and Science relevant to their level.",
+    title: "Assessment",
+    description: "Pupils may be assessed to determine their appropriate class level and any learning support needs.",
   },
   {
     step: "04",
     icon: UserCheck,
-    title: "Interview & Review",
-    description: "Successful candidates and their parents/guardians attend a brief interview with the admissions panel and school administration.",
+    title: "Interview",
+    description: "Parents/guardians meet with the school administration to discuss the child's background and needs.",
   },
   {
     step: "05",
     icon: GraduationCap,
-    title: "Offer & Enrollment",
-    description: "Accepted students receive an official admission letter. Enrollment is finalized upon payment of registration fees and submission of remaining documents.",
+    title: "Enrollment",
+    description: "Upon acceptance, complete registration and enrollment. Vulnerable children may receive fee support.",
   },
+]
+
+const prePrimaryRequirements = [
+  "Completed application form",
+  "Birth certificate (original + copy)",
+  "Two recent passport photographs",
+  "Immunization records",
+  "Parent/guardian national ID copy",
 ]
 
 const primaryRequirements = [
   "Completed application form",
   "Birth certificate (original + copy)",
   "Two recent passport photographs",
-  "Previous school report cards (last 2 years)",
+  "Previous school report cards (if applicable)",
   "Transfer letter from previous school (if applicable)",
   "Parent/guardian national ID copy",
 ]
 
-const secondaryRequirements = [
-  "Completed application form",
-  "PSLE / NECTA results certificate",
-  "Birth certificate (original + copy)",
-  "Two recent passport photographs",
-  "Previous school academic records",
-  "Transfer certificate from previous school",
-  "Parent/guardian national ID copy",
-]
-
-const downloadForms = [
-  { title: "Primary Admissions Form", size: "PDF, 280KB", icon: Download },
-  { title: "Secondary Admissions Form (Form 1–4)", size: "PDF, 310KB", icon: Download },
-  { title: "A-Level Admissions Form (Form 5–6)", size: "PDF, 295KB", icon: Download },
-  { title: "Boarding Application Form", size: "PDF, 265KB", icon: Download },
+const specialSupport = [
+  {
+    icon: Heart,
+    title: "Orphans & Vulnerable Children",
+    description: "Special support including reduced or waived school fees, school uniforms, learning materials, and basic needs for orphans and children from very poor families.",
+  },
+  {
+    icon: Home,
+    title: "Boarding Facilities",
+    description: "Separate dormitories for boys and girls are available for pupils who need boarding. This includes meals, supervision, and pastoral care.",
+  },
 ]
 
 const faqs = [
   {
     q: "When does the academic year begin?",
-    a: "The school year at Sammena School begins in January, with admissions intake running from October through December of the preceding year.",
+    a: "The school year follows the Tanzanian academic calendar, typically starting in January. Contact us for specific intake dates.",
   },
   {
-    q: "Are there mid-year admissions?",
-    a: "Limited mid-year placements may be available subject to vacancy. Contact our admissions office to inquire about current availability.",
+    q: "What ages do you accept?",
+    a: "We accept children from pre-primary age (around 4-5 years) through Standard 7 (around 13-14 years).",
   },
   {
-    q: "Is boarding available for all students?",
-    a: "Boarding facilities are available for secondary school students. Primary students are day scholars only. Priority is given to students from distant regions.",
+    q: "Is boarding available?",
+    a: "Yes, we have separate dormitories for boys and girls. Boarding is available for both primary pupils and special circumstances.",
   },
   {
-    q: "Do you offer scholarships?",
-    a: "Yes. Merit-based scholarships are available for exceptionally talented students. Contact the admissions office for scholarship eligibility and application procedures.",
+    q: "Do you provide support for orphans?",
+    a: "Yes. Orphans and children from vulnerable families can receive reduced or waived fees, uniforms, learning materials, and basic needs support.",
+  },
+  {
+    q: "What is the medium of instruction?",
+    a: "Sammena is an English-medium school. We teach in English to prepare pupils for secondary education where English is used.",
   },
 ]
 
@@ -95,7 +103,7 @@ export default function AdmissionsPage() {
           <span className="text-school-orange font-semibold text-sm uppercase tracking-wider">Join Us</span>
           <h1 className="text-4xl md:text-5xl font-bold mt-2 mb-4 text-balance">Admissions</h1>
           <p className="text-white/65 text-lg max-w-2xl mx-auto leading-relaxed">
-            We welcome students of all backgrounds who are eager to learn, grow, and achieve. Here&apos;s everything you need to know about joining Sammena School.
+            We welcome children of all backgrounds who are eager to learn. Special consideration is given to orphans and children from vulnerable families.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
             <a
@@ -110,6 +118,25 @@ export default function AdmissionsPage() {
             >
               <Phone className="w-4 h-4" /> Call Admissions
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Special Support Banner */}
+      <section className="py-10 bg-school-orange">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-6">
+            {specialSupport.map(({ icon: Icon, title, description }) => (
+              <div key={title} className="flex gap-4 bg-white/10 rounded-2xl p-5 border border-white/20">
+                <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+                  <Icon className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-white text-sm mb-1">{title}</h3>
+                  <p className="text-white/80 text-xs leading-relaxed">{description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -150,6 +177,26 @@ export default function AdmissionsPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">Admission Requirements</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
+            {/* Pre-Primary */}
+            <div className="bg-card rounded-2xl p-7 border border-border shadow-sm">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-10 h-10 rounded-xl bg-school-orange/10 flex items-center justify-center">
+                  <GraduationCap className="w-5 h-5 text-school-orange" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-foreground">Pre-Primary School</h3>
+                  <p className="text-muted-foreground text-xs">Nursery & Kindergarten</p>
+                </div>
+              </div>
+              <ul className="space-y-3">
+                {prePrimaryRequirements.map((req) => (
+                  <li key={req} className="flex items-start gap-2.5">
+                    <CheckCircle className="w-4 h-4 text-school-orange shrink-0 mt-0.5" />
+                    <span className="text-muted-foreground text-sm">{req}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
             {/* Primary */}
             <div className="bg-card rounded-2xl p-7 border border-border shadow-sm">
               <div className="flex items-center gap-3 mb-5">
@@ -170,60 +217,12 @@ export default function AdmissionsPage() {
                 ))}
               </ul>
             </div>
-            {/* Secondary */}
-            <div className="bg-card rounded-2xl p-7 border border-border shadow-sm">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-school-orange/10 flex items-center justify-center">
-                  <GraduationCap className="w-5 h-5 text-school-orange" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-foreground">Secondary School</h3>
-                  <p className="text-muted-foreground text-xs">Form 1 – 6</p>
-                </div>
-              </div>
-              <ul className="space-y-3">
-                {secondaryRequirements.map((req) => (
-                  <li key={req} className="flex items-start gap-2.5">
-                    <CheckCircle className="w-4 h-4 text-school-orange shrink-0 mt-0.5" />
-                    <span className="text-muted-foreground text-sm">{req}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
           <div className="mt-5 flex items-start gap-2.5 bg-school-orange/10 border border-school-orange/20 rounded-xl px-5 py-4">
             <AlertCircle className="w-4 h-4 text-school-orange shrink-0 mt-0.5" />
             <p className="text-sm text-foreground/70">
-              All submitted documents become the property of Sammena School and will not be returned. Please ensure all copies are legible and certified where required.
+              For orphans or children from vulnerable families without complete documentation, please contact us directly. We will work with you to find a solution.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Download Forms */}
-      <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <span className="text-school-orange font-semibold text-sm uppercase tracking-wider">Download</span>
-            <h2 className="text-3xl font-bold text-foreground mt-2">Application Forms</h2>
-            <p className="text-muted-foreground mt-2 text-sm">Download, print, and complete your application form below.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {downloadForms.map(({ title, size, icon: Icon }) => (
-              <button
-                key={title}
-                className="group flex flex-col items-center text-center gap-3 bg-card rounded-2xl p-6 border border-border hover:border-school-orange/40 hover:shadow-lg transition-all"
-              >
-                <div className="w-12 h-12 rounded-xl bg-school-orange/10 flex items-center justify-center group-hover:bg-school-orange transition-colors">
-                  <Icon className="w-5 h-5 text-school-orange group-hover:text-white transition-colors" />
-                </div>
-                <div>
-                  <div className="font-semibold text-foreground text-sm mb-0.5">{title}</div>
-                  <div className="text-muted-foreground text-xs">{size}</div>
-                </div>
-                <span className="text-school-orange text-xs font-semibold group-hover:underline">Download Form</span>
-              </button>
-            ))}
           </div>
         </div>
       </section>
@@ -250,10 +249,10 @@ export default function AdmissionsPage() {
       <section className="py-16 bg-school-orange">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 text-balance">
-            Have More Questions? We&apos;re Here to Help.
+            Ready to Enroll Your Child?
           </h2>
           <p className="text-white/85 mb-7">
-            Our admissions team is available Monday–Friday, 8:00am – 5:00pm.
+            Visit our campus or call us to begin the admissions process. We welcome all children.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a

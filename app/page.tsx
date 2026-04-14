@@ -8,52 +8,52 @@ import {
 } from "lucide-react"
 
 const stats = [
-  { value: "1,200+", label: "Students Enrolled" },
-  { value: "80+", label: "Qualified Teachers" },
-  { value: "15+", label: "Departments" },
-  { value: "95%", label: "Pass Rate" },
+  { value: "259", label: "Pupils Enrolled" },
+  { value: "13", label: "Dedicated Staff" },
+  { value: "34", label: "Orphans Supported" },
+  { value: "2009", label: "Year Founded" },
 ]
 
 const features = [
   {
     icon: BookOpen,
-    title: "Academic Excellence",
-    description: "Rigorous curriculum with a focus on critical thinking, science, mathematics, and the arts — preparing students for national and international exams.",
+    title: "English-Medium Education",
+    description: "Unlike most government schools, we teach in English from an early age, preparing pupils for secondary education and beyond.",
   },
   {
     icon: Users,
-    title: "Holistic Development",
-    description: "Beyond academics, we nurture character, leadership, and social skills through clubs, sports, and community service programs.",
+    title: "Supporting Vulnerable Children",
+    description: "Special focus on orphans and children from disadvantaged backgrounds, providing scholarships, uniforms, and basic needs support.",
   },
   {
     icon: Trophy,
-    title: "Proven Results",
-    description: "Consistently ranked among the top-performing schools in Tanzania with outstanding NECTA and CSEE examination results.",
+    title: "Holistic Development",
+    description: "Beyond academics, we nurture character, discipline, and life skills to help every child grow into a confident, responsible citizen.",
   },
   {
     icon: Shield,
-    title: "Safe & Supportive",
-    description: "A secure, inclusive environment with professional counseling, dedicated boarding facilities, and 24/7 security on campus.",
+    title: "Safe & Caring Environment",
+    description: "A green, child-friendly campus with separate dormitories for boys and girls, clean water, and dedicated pastoral care.",
   },
 ]
 
 const testimonials = [
   {
-    name: "Mrs. Amina Hassan",
+    name: "Parent of Standard 5 Pupil",
     role: "Parent",
-    quote: "Sammena School transformed my daughter's confidence and academic performance. The teachers are dedicated and the environment is truly nurturing.",
+    quote: "My child was struggling before Sammena. The teachers here truly care — they not only teach but also provide moral guidance and support for our family.",
     rating: 5,
   },
   {
-    name: "James Mwangi",
-    role: "Form 6 Graduate, 2023",
-    quote: "I gained so much more than grades here. The guidance counselors and sports programs shaped who I am today. I am proud to be a Sammena alumnus.",
+    name: "Community Volunteer",
+    role: "Supporter",
+    quote: "What Mr. Menavi has built here is remarkable. These children, many of them orphans, now have hope and a real chance at a bright future through education.",
     rating: 5,
   },
   {
-    name: "Dr. Peter Kimaro",
-    role: "Parent",
-    quote: "The ICT and science facilities are world-class. My son is passionate about technology and Sammena gave him every tool to succeed.",
+    name: "Former Pupil",
+    role: "Secondary School Student",
+    quote: "Sammena taught me English well, which helped me transition smoothly to secondary school. I am grateful for the foundation I received there.",
     rating: 5,
   },
 ]
@@ -87,14 +87,14 @@ export default function HomePage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-2 bg-school-orange/20 border border-school-orange/30 rounded-full px-4 py-1.5 mb-6">
             <GraduationCap className="w-4 h-4 text-school-orange" />
-            <span className="text-school-orange text-sm font-medium">Tanzania&apos;s Premier School</span>
+            <span className="text-school-orange text-sm font-medium">English-Medium Pre & Primary School</span>
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 text-balance leading-tight">
-            Shaping Tomorrow&apos;s<br />
-            <span className="text-school-orange">Leaders</span> Today
+            Changing Lives Through<br />
+            <span className="text-school-orange">Education</span>
           </h1>
           <p className="text-lg sm:text-xl text-white/75 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Sammena School provides a world-class education rooted in excellence, discipline, and innovation — empowering every student to achieve their highest potential.
+            Since 2009, Sammena Pre & Primary School has provided quality education, care, and moral guidance to children — with a special focus on orphans and vulnerable families in Tanzania.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
@@ -140,13 +140,13 @@ export default function HomePage() {
             <div>
               <span className="text-school-orange font-semibold text-sm uppercase tracking-wider">About Sammena</span>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2 mb-5 text-balance">
-                A Legacy of Academic Excellence in Tanzania
+                Education That Changes Lives
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-5">
-                Sammena School stands as one of Tanzania&apos;s leading educational institutions, offering both primary and secondary education with an unwavering commitment to academic rigor, moral character, and holistic development.
+                Founded in 2009 by Samwel Langdare Menavi, Sammena Pre & Primary School was established with a powerful mission: to provide quality education to children who need it most — especially orphans and those from vulnerable backgrounds.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                Our dedicated faculty, modern facilities, and comprehensive programs create an environment where every student can discover their potential and grow into confident, responsible citizens.
+                Operating on 7 acres of leased land, our English-medium school offers 8 classrooms, separate boarding facilities for boys and girls, clean piped water, and a caring environment where 259 pupils — including 34 orphans — can learn and grow.
               </p>
               <div className="flex flex-wrap gap-3 mb-8">
                 {values.map(({ icon: Icon, label }) => (
@@ -174,8 +174,8 @@ export default function HomePage() {
               </div>
               {/* Floating badge */}
               <div className="absolute -bottom-5 -left-5 bg-school-dark rounded-2xl px-5 py-4 shadow-xl">
-                <div className="text-3xl font-bold text-school-orange">15+</div>
-                <div className="text-white/70 text-xs mt-0.5">Years of Excellence</div>
+                <div className="text-3xl font-bold text-school-orange">2009</div>
+                <div className="text-white/70 text-xs mt-0.5">Founded</div>
               </div>
             </div>
           </div>
@@ -240,10 +240,10 @@ export default function HomePage() {
       <section className="py-20 bg-school-dark">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-balance">
-            Ready to Join the Sammena Family?
+            Help Us Change More Lives
           </h2>
           <p className="text-white/65 text-lg mb-8 max-w-xl mx-auto">
-            Enroll your child in Tanzania&apos;s premier school and give them the foundation for a lifetime of success.
+            Enroll your child or support our mission to provide quality education to orphans and vulnerable children in Tanzania.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link

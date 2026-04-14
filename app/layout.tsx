@@ -15,13 +15,13 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Sammena School — Excellence in Education | Tanzania',
-  description: 'Sammena School is a premier academic institution in Tanzania, committed to nurturing excellence, character, and lifelong learning in every student.',
-  keywords: 'Sammena School, Tanzania school, education Tanzania, secondary school Tanzania, primary school Tanzania',
+  title: 'Sammena Pre & Primary School — Changing Lives Through Education | Tanzania',
+  description: 'Sammena Pre & Primary School in Tanzania provides quality English-medium education with special focus on orphans and vulnerable children. Founded in 2009 by Samwel Langdare Menavi.',
+  keywords: 'Sammena School, Tanzania primary school, English medium school Tanzania, orphan support Tanzania, education Tanzania, pre-primary school Tanzania',
   generator: 'v0.app',
   openGraph: {
-    title: 'Sammena School — Excellence in Education',
-    description: 'A premier academic institution in Tanzania committed to nurturing excellence.',
+    title: 'Sammena Pre & Primary School — Changing Lives Through Education',
+    description: 'Quality English-medium education for children in Tanzania, with special support for orphans and vulnerable families. Founded 2009.',
     type: 'website',
   },
 }

@@ -10,7 +10,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   { href: "/academics", label: "Academics" },
-  { href: "/departments", label: "Departments" },
+  { href: "/projects", label: "Projects" },
   { href: "/admissions", label: "Admissions" },
   { href: "/gallery", label: "Gallery" },
   { href: "/contact", label: "Contact" },
@@ -49,7 +49,7 @@ export function Navbar() {
             </div>
             <div className="leading-tight">
               <span className="block text-white font-bold text-base tracking-wide">SAMMENA</span>
-              <span className="block text-school-orange text-[10px] font-medium tracking-[0.15em] uppercase">School</span>
+              <span className="block text-school-orange text-[10px] font-medium tracking-[0.15em] uppercase">Pre & Primary</span>
             </div>
           </Link>
 

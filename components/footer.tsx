@@ -5,7 +5,7 @@ const quickLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   { href: "/academics", label: "Academics" },
-  { href: "/departments", label: "Departments" },
+  { href: "/projects", label: "Development Projects" },
 ]
 
 const moreLinks = [
@@ -34,11 +34,11 @@ export function Footer() {
               </div>
               <div className="leading-tight">
                 <span className="block text-white font-bold text-base tracking-wide">SAMMENA</span>
-                <span className="block text-school-orange text-[10px] font-medium tracking-[0.15em] uppercase">School</span>
+                <span className="block text-school-orange text-[10px] font-medium tracking-[0.15em] uppercase">Pre & Primary</span>
               </div>
             </Link>
             <p className="text-white/60 text-sm leading-relaxed mb-5">
-              Nurturing excellence, character, and lifelong learning in the heart of Tanzania since our founding.
+              Providing quality English-medium education, care, and moral guidance to children since 2009 — with special focus on orphans and vulnerable families.
             </p>
             <div className="flex items-center gap-3">
               {socialLinks.map(({ href, icon: Icon, label }) => (
@@ -124,7 +124,7 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Sammena School. All rights reserved.
           </p>
           <p className="text-white/40 text-xs">
-            Tanzania &mdash; Excellence in Education
+            Tanzania &mdash; Changing Lives Through Education
           </p>
         </div>
       </div>
