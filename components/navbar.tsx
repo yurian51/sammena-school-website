@@ -1,10 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown, ChevronRight, Menu, X } from "lucide-react"
+import { ChevronDown, ChevronRight, GraduationCap, Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const navLinks = [
@@ -42,8 +41,8 @@ export function Navbar() {
     <header className={cn("fixed inset-x-0 top-0 z-50 transition-all duration-300", isScrolled ? "border-b border-white/10 bg-[#071d3b]/95 py-2 shadow-xl backdrop-blur-xl" : "bg-gradient-to-b from-[#061a36]/90 via-[#061a36]/45 to-transparent py-3")}>
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="group flex items-center gap-3" aria-label="Sammena Schools home">
-          <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white shadow-md ring-1 ring-[#c9a24b]/70">
-            <Image src="/images/logo.png" alt="Sammena Schools" fill sizes="48px" className="object-contain p-0.5" />
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-[#c9a24b]/70">
+            <GraduationCap className="h-7 w-7 text-[#123f73]" />
           </div>
           <div className="leading-none">
             <span className="block text-[19px] font-extrabold tracking-[0.08em] text-white transition-colors group-hover:text-[#d8b55b]">SAMMENA</span>
