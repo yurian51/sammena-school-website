@@ -15,7 +15,6 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://sammena.school'),
   title: {
     default: 'SAMMENA SCHOOLS | Building Bright Minds. Shaping Better Futures.',
     template: '%s | SAMMENA SCHOOLS',
