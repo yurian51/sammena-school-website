@@ -15,22 +15,23 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Sammena Pre & Primary School — Changing Lives Through Education | Tanzania',
-  description: 'Sammena Pre & Primary School in Tanzania provides quality English-medium education with special focus on orphans and vulnerable children. Founded in 2009 by Samwel Langdare Menavi.',
-  keywords: 'Sammena School, Tanzania primary school, English medium school Tanzania, orphan support Tanzania, education Tanzania, pre-primary school Tanzania',
-  generator: 'v0.app',
-  openGraph: {
-    title: 'Sammena Pre & Primary School — Changing Lives Through Education',
-    description: 'Quality English-medium education for children in Tanzania, with special support for orphans and vulnerable families. Founded 2009.',
-    type: 'website',
+  metadataBase: new URL('https://sammena.school'),
+  title: {
+    default: 'SAMMENA SCHOOLS | Building Bright Minds. Shaping Better Futures.',
+    template: '%s | SAMMENA SCHOOLS',
   },
+  description: 'The official digital home of Sammena Schools, including Sammena Pre & Primary School and the planned Sammena Secondary School expansion for 2028.',
+  keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'Sammena Secondary School', 'school Tanzania', 'education Tanzania'],
+  openGraph: {
+    title: 'SAMMENA SCHOOLS',
+    description: 'Building Bright Minds. Shaping Better Futures.',
+    type: 'website',
+    siteName: 'SAMMENA SCHOOLS',
+  },
+  robots: { index: true, follow: true },
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${poppins.variable} ${inter.variable} bg-background`}>
       <body className="font-sans antialiased">
