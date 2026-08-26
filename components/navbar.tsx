@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown, ChevronRight, GraduationCap, Menu, X } from "lucide-react"
+import { ChevronDown, ChevronRight, GraduationCap, Menu, X, Search, Phone, Mail, CalendarDays, ExternalLink } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const navLinks = [
-  { href: "/about", label: "About" },
+  { href: "/about", label: "About Sammena" },
   { href: "/academics", label: "Academics" },
   { href: "/admissions", label: "Admissions" },
   { href: "/gallery", label: "School Life" },
@@ -18,6 +18,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [schoolsOpen, setSchoolsOpen] = useState(false)
+  const [resourcesOpen, setResourcesOpen] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -30,6 +31,7 @@ export function Navbar() {
   useEffect(() => {
     setMobileOpen(false)
     setSchoolsOpen(false)
+    setResourcesOpen(false)
   }, [pathname])
 
   useEffect(() => {
@@ -38,49 +40,65 @@ export function Navbar() {
   }, [mobileOpen])
 
   return (
-    <header className={cn("fixed inset-x-0 top-0 z-50 transition-all duration-300", isScrolled ? "border-b border-white/10 bg-[#071d3b]/95 py-2 shadow-xl backdrop-blur-xl" : "bg-gradient-to-b from-[#061a36]/90 via-[#061a36]/45 to-transparent py-3")}>
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="group flex items-center gap-3" aria-label="Sammena Schools home">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-[#c9a24b]/70">
-            <GraduationCap className="h-7 w-7 text-[#123f73]" />
+    <header className="fixed inset-x-0 top-0 z-50">
+      <div className="hidden bg-[#05152c] text-white/75 md:block">
+        <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-4 text-[11px] sm:px-6 lg:px-8">
+          <div className="flex items-center gap-5">
+            <span className="inline-flex items-center gap-1.5"><Phone className="h-3 w-3 text-[#d8b55b]" /> School Office</span>
+            <span className="inline-flex items-center gap-1.5"><Mail className="h-3 w-3 text-[#d8b55b]" /> Official Contact</span>
+            <span className="hidden items-center gap-1.5 lg:inline-flex"><CalendarDays className="h-3 w-3 text-[#d8b55b]" /> Academic Calendar</span>
           </div>
-          <div className="leading-none">
-            <span className="block text-[19px] font-extrabold tracking-[0.08em] text-white transition-colors group-hover:text-[#d8b55b]">SAMMENA</span>
-            <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.28em] text-[#d8b55b]">Schools</span>
+          <div className="flex items-center gap-4">
+            <Link href="/resources" className="hover:text-white">Resources</Link>
+            <Link href="/contact" className="hover:text-white">Visit Sammena</Link>
+            <Link href="/portal" className="inline-flex items-center gap-1 font-semibold text-[#d8b55b] hover:text-[#efd98e]">Portal <ExternalLink className="h-3 w-3" /></Link>
           </div>
-        </Link>
-
-        <div className="hidden items-center gap-1 lg:flex">
-          <Link href="/" className={cn("rounded-lg px-3 py-2 text-sm font-medium transition-colors", pathname === "/" ? "text-[#d8b55b]" : "text-white/80 hover:text-white")}>Home</Link>
-          <div className="relative" onMouseEnter={() => setSchoolsOpen(true)} onMouseLeave={() => setSchoolsOpen(false)}>
-            <button type="button" onClick={() => setSchoolsOpen((value) => !value)} className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-white/80 transition-colors hover:text-white" aria-expanded={schoolsOpen}>
-              Our Schools <ChevronDown className={cn("h-4 w-4 transition-transform", schoolsOpen && "rotate-180")} />
-            </button>
-            <div className={cn("absolute left-1/2 top-full mt-2 w-72 -translate-x-1/2 rounded-2xl border border-[#d8b55b]/20 bg-white p-2 shadow-2xl transition-all", schoolsOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0")}>
-              <Link href="/" className="block rounded-xl p-4 hover:bg-[#f6f2e8]"><span className="block text-sm font-bold text-[#071d3b]">Pre & Primary School</span><span className="mt-1 block text-xs text-slate-500">Our current school community</span></Link>
-              <Link href="/secondary" className="block rounded-xl p-4 hover:bg-[#f6f2e8]"><span className="flex items-center gap-2 text-sm font-bold text-[#071d3b]">Secondary School <span className="rounded-full bg-[#d8b55b]/20 px-2 py-0.5 text-[10px] font-bold uppercase text-[#8a6a24]">2028</span></span><span className="mt-1 block text-xs text-slate-500">Our planned secondary expansion</span></Link>
-            </div>
-          </div>
-          {navLinks.map((link) => <Link key={link.href} href={link.href} className={cn("rounded-lg px-3 py-2 text-sm font-medium transition-colors", pathname === link.href ? "text-[#d8b55b]" : "text-white/80 hover:text-white")}>{link.label}</Link>)}
-          <Link href="/admissions" className="ml-3 inline-flex items-center gap-2 rounded-xl bg-[#c9a24b] px-5 py-2.5 text-sm font-bold text-[#071d3b] shadow-lg shadow-[#c9a24b]/20 transition hover:-translate-y-0.5 hover:bg-[#dfc477]">Apply Now <ChevronRight className="h-4 w-4" /></Link>
         </div>
+      </div>
 
-        <button type="button" onClick={() => setMobileOpen((value) => !value)} className="rounded-xl p-2.5 text-white transition hover:bg-white/10 lg:hidden" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}>
-          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </nav>
+      <div className={cn("border-b border-white/10 transition-all duration-300", isScrolled ? "bg-[#071d3b]/98 shadow-xl backdrop-blur-xl" : "bg-[#071d3b]/88 backdrop-blur-md")}>
+        <nav className="mx-auto flex h-[74px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <Link href="/" className="group flex items-center gap-3" aria-label="Sammena Schools home">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-[#c9a24b]/80"><GraduationCap className="h-7 w-7 text-[#123f73]" /></div>
+            <div className="leading-none"><span className="block text-[19px] font-extrabold tracking-[0.08em] text-white group-hover:text-[#d8b55b]">SAMMENA</span><span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.28em] text-[#d8b55b]">Schools</span></div>
+          </Link>
 
-      <div className={cn("fixed inset-x-0 bottom-0 top-[88px] bg-[#071d3b] transition-all duration-300 lg:hidden", mobileOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0")}>
-        <div className="mx-auto max-w-2xl overflow-y-auto px-5 py-6">
-          <Link href="/" className="mb-2 block rounded-xl px-4 py-3 text-base font-semibold text-white hover:bg-white/5">Home</Link>
-          <div className="rounded-xl border border-white/10 p-2">
-            <p className="px-3 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b55b]">Our Schools</p>
-            <Link href="/" className="block rounded-lg px-3 py-3 text-white/90 hover:bg-white/5">Pre & Primary School</Link>
-            <Link href="/secondary" className="flex items-center justify-between rounded-lg px-3 py-3 text-white/90 hover:bg-white/5">Secondary School <span className="rounded-full bg-[#d8b55b]/20 px-2 py-0.5 text-[10px] font-bold text-[#d8b55b]">2028</span></Link>
+          <div className="hidden items-center gap-0.5 lg:flex">
+            <Link href="/" className={cn("rounded-md px-3 py-2.5 text-[13px] font-semibold", pathname === "/" ? "text-[#d8b55b]" : "text-white/80 hover:text-white")}>Home</Link>
+            <div className="relative" onMouseEnter={() => setSchoolsOpen(true)} onMouseLeave={() => setSchoolsOpen(false)}>
+              <button type="button" onClick={() => setSchoolsOpen(v => !v)} className="flex items-center gap-1 rounded-md px-3 py-2.5 text-[13px] font-semibold text-white/80 hover:text-white" aria-expanded={schoolsOpen}>Our Schools <ChevronDown className={cn("h-3.5 w-3.5", schoolsOpen && "rotate-180")} /></button>
+              <div className={cn("absolute left-1/2 top-full mt-2 w-[430px] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl transition-all", schoolsOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0")}>
+                <div className="grid grid-cols-2 gap-2">
+                  <Link href="/" className="rounded-xl p-4 hover:bg-[#f6f2e8]"><span className="mb-2 flex h-9 w-9 items-center justify-center rounded-lg bg-[#123f73]/10 text-[#123f73]"><GraduationCap className="h-5 w-5" /></span><span className="block text-sm font-bold text-[#071d3b]">Pre & Primary School</span><span className="mt-1 block text-xs leading-relaxed text-slate-500">Our current school community and academic foundation.</span></Link>
+                  <Link href="/secondary" className="rounded-xl p-4 hover:bg-[#f6f2e8]"><span className="mb-2 flex h-9 w-9 items-center justify-center rounded-lg bg-[#c9a24b]/20 text-[#8a6a24]"><GraduationCap className="h-5 w-5" /></span><span className="flex items-center gap-2 text-sm font-bold text-[#071d3b]">Secondary School <span className="rounded-full bg-[#d8b55b]/20 px-2 py-0.5 text-[9px] font-bold uppercase text-[#8a6a24]">2028</span></span><span className="mt-1 block text-xs leading-relaxed text-slate-500">Our planned next stage of the Sammena education pathway.</span></Link>
+                </div>
+              </div>
+            </div>
+            {navLinks.map(link => <Link key={link.href} href={link.href} className={cn("rounded-md px-3 py-2.5 text-[13px] font-semibold", pathname === link.href ? "text-[#d8b55b]" : "text-white/80 hover:text-white")}>{link.label}</Link>)}
+            <div className="relative" onMouseEnter={() => setResourcesOpen(true)} onMouseLeave={() => setResourcesOpen(false)}>
+              <button type="button" onClick={() => setResourcesOpen(v => !v)} className="flex items-center gap-1 rounded-md px-3 py-2.5 text-[13px] font-semibold text-white/80 hover:text-white" aria-expanded={resourcesOpen}>Resources <ChevronDown className={cn("h-3.5 w-3.5", resourcesOpen && "rotate-180")} /></button>
+              <div className={cn("absolute right-0 top-full mt-2 w-64 rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl transition-all", resourcesOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0")}>
+                <Link href="/resources" className="block rounded-xl p-3 hover:bg-[#f6f2e8]"><span className="block text-sm font-bold text-[#071d3b]">Resource Centre</span><span className="text-xs text-slate-500">Downloads and school resources</span></Link>
+                <Link href="/news" className="block rounded-xl p-3 hover:bg-[#f6f2e8]"><span className="block text-sm font-bold text-[#071d3b]">News & Events</span><span className="text-xs text-slate-500">Latest school updates</span></Link>
+                <Link href="/calendar" className="block rounded-xl p-3 hover:bg-[#f6f2e8]"><span className="block text-sm font-bold text-[#071d3b]">Academic Calendar</span><span className="text-xs text-slate-500">Key dates and activities</span></Link>
+              </div>
+            </div>
+            <Link href="/search" className="ml-1 rounded-md p-2.5 text-white/75 hover:bg-white/10 hover:text-white" aria-label="Search Sammena website"><Search className="h-4 w-4" /></Link>
+            <Link href="/admissions" className="ml-2 inline-flex items-center gap-2 rounded-lg bg-[#c9a24b] px-4 py-2.5 text-[13px] font-bold text-[#071d3b] shadow-lg shadow-[#c9a24b]/20 hover:bg-[#dfc477]">Apply Now <ChevronRight className="h-3.5 w-3.5" /></Link>
           </div>
-          {navLinks.map((link) => <Link key={link.href} href={link.href} className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">{link.label}</Link>)}
+
+          <button type="button" onClick={() => setMobileOpen(v => !v)} className="rounded-xl p-2.5 text-white hover:bg-white/10 lg:hidden" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}>{mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}</button>
+        </nav>
+      </div>
+
+      <div className={cn("fixed inset-x-0 bottom-0 top-[74px] overflow-y-auto bg-[#071d3b] transition-all duration-300 lg:hidden", mobileOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0")}>
+        <div className="mx-auto max-w-2xl px-5 py-6">
+          <div className="mb-5 rounded-2xl border border-white/10 bg-white/5 p-4"><div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d8b55b]">SAMMENA SCHOOLS</div><div className="mt-1 text-sm text-white/65">Building Bright Minds. Shaping Better Futures.</div></div>
+          <Link href="/" className="mb-2 block rounded-xl px-4 py-3 text-base font-semibold text-white hover:bg-white/5">Home</Link>
+          <div className="rounded-xl border border-white/10 p-2"><p className="px-3 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b55b]">Our Schools</p><Link href="/" className="block rounded-lg px-3 py-3 text-white/90 hover:bg-white/5">Pre & Primary School</Link><Link href="/secondary" className="flex items-center justify-between rounded-lg px-3 py-3 text-white/90 hover:bg-white/5">Secondary School <span className="rounded-full bg-[#d8b55b]/20 px-2 py-0.5 text-[10px] font-bold text-[#d8b55b]">2028</span></Link></div>
+          {navLinks.map(link => <Link key={link.href} href={link.href} className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">{link.label}</Link>)}
+          <Link href="/resources" className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">Resources</Link><Link href="/news" className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">News & Events</Link><Link href="/search" className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">Search</Link><Link href="/portal" className="mt-2 block rounded-xl border border-white/10 px-4 py-3 text-base font-semibold text-[#d8b55b]">Parent / Student Portal</Link>
           <Link href="/admissions" className="mt-6 flex items-center justify-center gap-2 rounded-xl bg-[#c9a24b] px-5 py-4 font-bold text-[#071d3b]">Apply for Admission <ChevronRight className="h-4 w-4" /></Link>
-          <div className="mt-10 border-t border-white/10 pt-6 text-center text-sm text-white/50">SAMMENA SCHOOLS<br /><span className="text-[#d8b55b]">Building Bright Minds. Shaping Better Futures.</span></div>
         </div>
       </div>
     </header>
