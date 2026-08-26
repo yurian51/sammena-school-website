@@ -1,198 +1,87 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, GraduationCap, ChevronRight } from "lucide-react"
+import { ChevronDown, ChevronRight, Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About Us" },
+  { href: "/about", label: "About" },
   { href: "/academics", label: "Academics" },
-  { href: "/projects", label: "Projects" },
   { href: "/admissions", label: "Admissions" },
-  { href: "/gallery", label: "Gallery" },
+  { href: "/gallery", label: "School Life" },
   { href: "/contact", label: "Contact" },
 ]
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [schoolsOpen, setSchoolsOpen] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 20)
-    window.addEventListener("scroll", onScroll)
+    const onScroll = () => setIsScrolled(window.scrollY > 18)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
   useEffect(() => {
     setMobileOpen(false)
+    setSchoolsOpen(false)
   }, [pathname])
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = ""
-    }
-    return () => {
-      document.body.style.overflow = ""
-    }
+    document.body.style.overflow = mobileOpen ? "hidden" : ""
+    return () => { document.body.style.overflow = "" }
   }, [mobileOpen])
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        isScrolled
-          ? "bg-school-dark/95 backdrop-blur-xl shadow-2xl shadow-black/20 py-2"
-          : "bg-gradient-to-b from-school-dark/50 to-transparent py-4"
-      )}
-    >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-school-orange to-school-orange-light flex items-center justify-center shadow-lg shadow-school-orange/20 group-hover:shadow-xl group-hover:shadow-school-orange/30 transition-all duration-300 group-hover:scale-105">
-              <GraduationCap className="w-5 h-5 text-white" />
-              <div className="absolute inset-0 rounded-xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </div>
-            <div className="leading-tight">
-              <span className="block text-white font-bold text-lg tracking-wide group-hover:text-school-orange transition-colors">
-                SAMMENA
-              </span>
-              <span className="block text-school-orange/80 text-[10px] font-semibold tracking-[0.2em] uppercase">
-                Pre & Primary
-              </span>
-            </div>
-          </Link>
-
-          {/* Desktop Nav */}
-          <ul className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={cn(
-                    "relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group",
-                    pathname === link.href
-                      ? "text-school-orange"
-                      : "text-white/80 hover:text-white"
-                  )}
-                >
-                  {link.label}
-                  {/* Active/hover indicator */}
-                  <span className={cn(
-                    "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-school-orange rounded-full transition-all duration-300",
-                    pathname === link.href ? "w-4" : "w-0 group-hover:w-4"
-                  )} />
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* CTA + Mobile toggle */}
-          <div className="flex items-center gap-4">
-            <Link
-              href="/admissions"
-              className={cn(
-                "hidden lg:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-300 group",
-                "bg-school-orange text-white hover:bg-school-orange-light",
-                "shadow-lg shadow-school-orange/20 hover:shadow-xl hover:shadow-school-orange/30",
-                "hover:-translate-y-0.5"
-              )}
-            >
-              Apply Now
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </Link>
-            
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className={cn(
-                "lg:hidden relative p-2.5 rounded-xl transition-all duration-300",
-                mobileOpen 
-                  ? "bg-school-orange text-white" 
-                  : "text-white hover:bg-white/10"
-              )}
-              aria-label="Toggle menu"
-            >
-              <div className="relative w-5 h-5">
-                <Menu className={cn(
-                  "absolute inset-0 w-5 h-5 transition-all duration-300",
-                  mobileOpen ? "opacity-0 rotate-90" : "opacity-100 rotate-0"
-                )} />
-                <X className={cn(
-                  "absolute inset-0 w-5 h-5 transition-all duration-300",
-                  mobileOpen ? "opacity-100 rotate-0" : "opacity-0 -rotate-90"
-                )} />
-              </div>
-            </button>
+    <header className={cn("fixed inset-x-0 top-0 z-50 transition-all duration-300", isScrolled ? "border-b border-white/10 bg-[#071d3b]/95 py-2 shadow-xl backdrop-blur-xl" : "bg-gradient-to-b from-[#061a36]/90 via-[#061a36]/45 to-transparent py-3")}>
+      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="group flex items-center gap-3" aria-label="Sammena Schools home">
+          <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white shadow-md ring-1 ring-[#c9a24b]/70">
+            <Image src="/images/logo.png" alt="Sammena Schools" fill sizes="48px" className="object-contain p-0.5" />
           </div>
+          <div className="leading-none">
+            <span className="block text-[19px] font-extrabold tracking-[0.08em] text-white transition-colors group-hover:text-[#d8b55b]">SAMMENA</span>
+            <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.28em] text-[#d8b55b]">Schools</span>
+          </div>
+        </Link>
+
+        <div className="hidden items-center gap-1 lg:flex">
+          <Link href="/" className={cn("rounded-lg px-3 py-2 text-sm font-medium transition-colors", pathname === "/" ? "text-[#d8b55b]" : "text-white/80 hover:text-white")}>Home</Link>
+          <div className="relative" onMouseEnter={() => setSchoolsOpen(true)} onMouseLeave={() => setSchoolsOpen(false)}>
+            <button type="button" onClick={() => setSchoolsOpen((value) => !value)} className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-white/80 transition-colors hover:text-white" aria-expanded={schoolsOpen}>
+              Our Schools <ChevronDown className={cn("h-4 w-4 transition-transform", schoolsOpen && "rotate-180")} />
+            </button>
+            <div className={cn("absolute left-1/2 top-full mt-2 w-72 -translate-x-1/2 rounded-2xl border border-[#d8b55b]/20 bg-white p-2 shadow-2xl transition-all", schoolsOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0")}>
+              <Link href="/" className="block rounded-xl p-4 hover:bg-[#f6f2e8]"><span className="block text-sm font-bold text-[#071d3b]">Pre & Primary School</span><span className="mt-1 block text-xs text-slate-500">Our current school community</span></Link>
+              <Link href="/secondary" className="block rounded-xl p-4 hover:bg-[#f6f2e8]"><span className="flex items-center gap-2 text-sm font-bold text-[#071d3b]">Secondary School <span className="rounded-full bg-[#d8b55b]/20 px-2 py-0.5 text-[10px] font-bold uppercase text-[#8a6a24]">2028</span></span><span className="mt-1 block text-xs text-slate-500">Our planned secondary expansion</span></Link>
+            </div>
+          </div>
+          {navLinks.map((link) => <Link key={link.href} href={link.href} className={cn("rounded-lg px-3 py-2 text-sm font-medium transition-colors", pathname === link.href ? "text-[#d8b55b]" : "text-white/80 hover:text-white")}>{link.label}</Link>)}
+          <Link href="/admissions" className="ml-3 inline-flex items-center gap-2 rounded-xl bg-[#c9a24b] px-5 py-2.5 text-sm font-bold text-[#071d3b] shadow-lg shadow-[#c9a24b]/20 transition hover:-translate-y-0.5 hover:bg-[#dfc477]">Apply Now <ChevronRight className="h-4 w-4" /></Link>
         </div>
+
+        <button type="button" onClick={() => setMobileOpen((value) => !value)} className="rounded-xl p-2.5 text-white transition hover:bg-white/10 lg:hidden" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}>
+          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
       </nav>
 
-      {/* Mobile Menu */}
-      <div className={cn(
-        "lg:hidden fixed inset-x-0 top-[72px] bottom-0 bg-school-dark/98 backdrop-blur-xl transition-all duration-500 ease-out",
-        mobileOpen 
-          ? "opacity-100 translate-y-0" 
-          : "opacity-0 -translate-y-4 pointer-events-none"
-      )}>
-        <div className="h-full overflow-y-auto">
-          <ul className="px-4 py-6 space-y-2">
-            {navLinks.map((link, index) => (
-              <li 
-                key={link.href}
-                className={cn(
-                  "transition-all duration-300",
-                  mobileOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
-                )}
-                style={{ transitionDelay: mobileOpen ? `${index * 50}ms` : "0ms" }}
-              >
-                <Link
-                  href={link.href}
-                  className={cn(
-                    "flex items-center justify-between px-5 py-4 rounded-xl text-base font-medium transition-all duration-300",
-                    pathname === link.href
-                      ? "bg-school-orange/20 text-school-orange border border-school-orange/20"
-                      : "text-white/80 hover:text-white hover:bg-white/5 border border-transparent"
-                  )}
-                >
-                  {link.label}
-                  <ChevronRight className={cn(
-                    "w-4 h-4 transition-transform",
-                    pathname === link.href ? "text-school-orange" : "text-white/40"
-                  )} />
-                </Link>
-              </li>
-            ))}
-            <li 
-              className={cn(
-                "pt-4 transition-all duration-300",
-                mobileOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
-              )}
-              style={{ transitionDelay: mobileOpen ? `${navLinks.length * 50}ms` : "0ms" }}
-            >
-              <Link
-                href="/admissions"
-                className="flex items-center justify-center gap-2 w-full px-5 py-4 text-base font-semibold bg-school-orange text-white rounded-xl hover:bg-school-orange-light transition-colors shadow-lg shadow-school-orange/20"
-              >
-                Apply Now
-                <ChevronRight className="w-4 h-4" />
-              </Link>
-            </li>
-          </ul>
-          
-          {/* Footer in mobile menu */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-white/10">
-            <p className="text-white/40 text-sm text-center">
-              Sammena Pre & Primary School<br />
-              <span className="text-school-orange/60">Changing Lives Through Education</span>
-            </p>
+      <div className={cn("fixed inset-x-0 bottom-0 top-[88px] bg-[#071d3b] transition-all duration-300 lg:hidden", mobileOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0")}>
+        <div className="mx-auto max-w-2xl overflow-y-auto px-5 py-6">
+          <Link href="/" className="mb-2 block rounded-xl px-4 py-3 text-base font-semibold text-white hover:bg-white/5">Home</Link>
+          <div className="rounded-xl border border-white/10 p-2">
+            <p className="px-3 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b55b]">Our Schools</p>
+            <Link href="/" className="block rounded-lg px-3 py-3 text-white/90 hover:bg-white/5">Pre & Primary School</Link>
+            <Link href="/secondary" className="flex items-center justify-between rounded-lg px-3 py-3 text-white/90 hover:bg-white/5">Secondary School <span className="rounded-full bg-[#d8b55b]/20 px-2 py-0.5 text-[10px] font-bold text-[#d8b55b]">2028</span></Link>
           </div>
+          {navLinks.map((link) => <Link key={link.href} href={link.href} className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">{link.label}</Link>)}
+          <Link href="/admissions" className="mt-6 flex items-center justify-center gap-2 rounded-xl bg-[#c9a24b] px-5 py-4 font-bold text-[#071d3b]">Apply for Admission <ChevronRight className="h-4 w-4" /></Link>
+          <div className="mt-10 border-t border-white/10 pt-6 text-center text-sm text-white/50">SAMMENA SCHOOLS<br /><span className="text-[#d8b55b]">Building Bright Minds. Shaping Better Futures.</span></div>
         </div>
       </div>
     </header>
