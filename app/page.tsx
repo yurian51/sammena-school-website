@@ -5,6 +5,7 @@ import Link from "next/link"
 import { ArrowRight, BookOpen, CheckCircle2, ChevronRight, Heart, ShieldCheck, Sparkles, Trophy, Users } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { InstitutionalSections } from "@/components/institutional-sections"
 import { cn } from "@/lib/utils"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
@@ -49,6 +50,8 @@ export default function HomePage() {
           <div className="mt-16 grid max-w-4xl gap-3 sm:grid-cols-2 lg:grid-cols-4">{highlights.map((item) => <div key={item} className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80 backdrop-blur-md"><CheckCircle2 className="h-4 w-4 shrink-0 text-[#d8b55b]" />{item}</div>)}</div>
         </div>
       </section>
+
+      <InstitutionalSections />
 
       <section className="relative overflow-hidden py-20 sm:py-24 lg:py-28">
         <div className="absolute -right-40 top-0 h-96 w-96 rounded-full bg-[#d8b55b]/10 blur-3xl" />
