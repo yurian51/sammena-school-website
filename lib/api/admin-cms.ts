@@ -10,7 +10,7 @@ const service = new CmsService(new PostgresCmsRepository())
 
 export async function publishCmsContent(context: AuthContext | null, content: CmsContent, requestId: string) {
   const user = requirePermission(context, "cms:publish")
-  const published = await service.publish(content)
+  const published = await service.publish(content, user.role)
   await auditAction(user, AUDIT_ACTIONS.CMS_PUBLISHED, "cms_content", published.id, requestId)
   return published
 }
