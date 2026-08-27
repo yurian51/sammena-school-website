@@ -1,11 +1,14 @@
 import { generateApplicationReference } from "./reference"
-import type { AdmissionsApplication, ApplicationStatus } from "./types"
-import type { AdmissionsRepository, DraftInput } from "./repository"
+import type { AdmissionsApplication, ApplicationStatus, CreateApplicationInput } from "./types"
+import type { AdmissionsRepository } from "./repository"
+import { validateAdmissionsApplication } from "./validation"
 
 export class AdmissionsService {
   constructor(private readonly repository: AdmissionsRepository) {}
 
-  async createDraft(input: DraftInput): Promise<AdmissionsApplication> {
+  async createDraft(input: CreateApplicationInput): Promise<AdmissionsApplication> {
+    const validation = validateAdmissionsApplication(input)
+    if (!validation.ok) throw new Error("VALIDATION_ERROR")
     const reference = generateApplicationReference()
     return this.repository.createDraft(reference, input)
   }
