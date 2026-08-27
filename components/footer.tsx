@@ -1,131 +1,84 @@
 import Link from "next/link"
-import { GraduationCap, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Youtube } from "lucide-react"
+import { ArrowRight, GraduationCap, Phone, Mail, MapPin } from "lucide-react"
 
-const quickLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About Us" },
-  { href: "/academics", label: "Academics" },
-  { href: "/projects", label: "Development Projects" },
-]
-
-const moreLinks = [
-  { href: "/admissions", label: "Admissions" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/contact", label: "Contact" },
-]
-
-const socialLinks = [
-  { href: "#", icon: Facebook, label: "Facebook" },
-  { href: "#", icon: Twitter, label: "Twitter" },
-  { href: "#", icon: Instagram, label: "Instagram" },
-  { href: "#", icon: Youtube, label: "YouTube" },
+const groups = [
+  {
+    title: "Explore",
+    links: [
+      ["/", "Home"],
+      ["/about", "About Sammena"],
+      ["/academics", "Academics"],
+      ["/secondary", "Secondary School · 2028"],
+    ],
+  },
+  {
+    title: "School Services",
+    links: [
+      ["/admissions", "Admissions"],
+      ["/resources", "Resource Centre"],
+      ["/calendar", "Academic Calendar"],
+      ["/portal", "Parent / Student Portal"],
+    ],
+  },
+  {
+    title: "Community",
+    links: [
+      ["/gallery", "School Life"],
+      ["/news", "News & Events"],
+      ["/search", "Search Website"],
+      ["/contact", "Contact Sammena"],
+    ],
+  },
 ]
 
 export function Footer() {
   return (
     <footer className="bg-school-dark text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-          {/* Brand */}
-          <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-school-orange flex items-center justify-center">
-                <GraduationCap className="w-5 h-5 text-white" />
-              </div>
-              <div className="leading-tight">
-                <span className="block text-white font-bold text-base tracking-wide">SAMMENA</span>
-                <span className="block text-school-orange text-[10px] font-medium tracking-[0.15em] uppercase">Pre & Primary</span>
-              </div>
+      <div className="mx-auto max-w-7xl px-5 pb-8 pt-14 sm:px-6 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-[1.35fr_2fr]">
+          <div>
+            <Link href="/" className="inline-flex items-center gap-3" aria-label="SAMMENA SCHOOLS home">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-[#123f73] shadow-sm ring-1 ring-[#d8b55b]/70">
+                <GraduationCap className="h-6 w-6" />
+              </span>
+              <span className="leading-none">
+                <span className="block text-lg font-extrabold tracking-[0.08em]">SAMMENA</span>
+                <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.3em] text-school-gold">Schools</span>
+              </span>
             </Link>
-            <p className="text-white/60 text-sm leading-relaxed mb-5">
-              Providing quality English-medium education, care, and moral guidance to children since 2009 — with special focus on orphans and vulnerable families.
+            <p className="mt-5 max-w-md text-sm leading-7 text-white/60">
+              Building bright minds and shaping better futures through learning, character, wellbeing and meaningful school experiences.
             </p>
-            <div className="flex items-center gap-3">
-              {socialLinks.map(({ href, icon: Icon, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="w-8 h-8 rounded-lg bg-white/10 hover:bg-school-orange flex items-center justify-center transition-colors"
-                >
-                  <Icon className="w-4 h-4 text-white" />
-                </a>
-              ))}
-            </div>
+            <Link href="/admissions" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-school-gold px-4 py-3 text-sm font-bold text-school-dark hover:bg-school-gold-light">
+              Apply for Admission <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Quick Links</h3>
-            <ul className="space-y-2.5">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-white/60 hover:text-school-orange text-sm transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* More Links */}
-          <div>
-            <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">More</h3>
-            <ul className="space-y-2.5">
-              {moreLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-white/60 hover:text-school-orange text-sm transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Contact Us</h3>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-school-orange mt-0.5 shrink-0" />
-                <span className="text-white/60 text-sm">Tanzania, East Africa</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-school-orange shrink-0" />
-                <a href="tel:+255750227073" className="text-white/60 hover:text-school-orange text-sm transition-colors">
-                  +255 750 227 073
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-school-orange shrink-0" />
-                <a href="tel:+255692227073" className="text-white/60 hover:text-school-orange text-sm transition-colors">
-                  +255 692 227 073
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-school-orange shrink-0" />
-                <a href="mailto:info@sammenaschools" className="text-white/60 hover:text-school-orange text-sm transition-colors break-all">
-                  info@sammenaschools
-                </a>
-              </li>
-            </ul>
+          <div className="grid gap-8 sm:grid-cols-3">
+            {groups.map((group) => (
+              <div key={group.title}>
+                <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-school-gold">{group.title}</h2>
+                <ul className="mt-4 space-y-3">
+                  {group.links.map(([href, label]) => (
+                    <li key={href}>
+                      <Link href={href} className="text-sm text-white/60 transition hover:text-white">{label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white/40 text-xs">
-            &copy; {new Date().getFullYear()} Sammena School. All rights reserved.
-          </p>
-          <p className="text-white/40 text-xs">
-            Tanzania &mdash; Changing Lives Through Education
-          </p>
+        <div className="mt-12 grid gap-5 border-t border-white/10 pt-7 sm:grid-cols-3">
+          <div className="flex items-start gap-2.5 text-sm text-white/60"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-school-gold" /><span>Tanzania, East Africa</span></div>
+          <div className="flex items-center gap-2.5 text-sm text-white/60"><Phone className="h-4 w-4 shrink-0 text-school-gold" /><span>Official school contact</span></div>
+          <div className="flex items-center gap-2.5 text-sm text-white/60"><Mail className="h-4 w-4 shrink-0 text-school-gold" /><span>Official email</span></div>
+        </div>
+
+        <div className="mt-7 flex flex-col gap-2 border-t border-white/10 pt-5 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} SAMMENA SCHOOLS. All rights reserved.</p>
+          <p>Established 2018 · Building Bright Minds. Shaping Better Futures.</p>
         </div>
       </div>
     </footer>
