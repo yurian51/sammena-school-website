@@ -1,7 +1,9 @@
 import type { AdmissionsApplication, ApplicationStatus } from "./types"
 
+export type DraftInput = Omit<AdmissionsApplication, "reference" | "status" | "createdAt" | "updatedAt">
+
 export interface AdmissionsRepository {
-  createDraft(input: Omit<AdmissionsApplication, "reference" | "status" | "createdAt" | "updatedAt">): Promise<AdmissionsApplication>
+  createDraft(reference: string, input: DraftInput): Promise<AdmissionsApplication>
   findByReference(reference: string): Promise<AdmissionsApplication | null>
   updateStatus(reference: string, status: ApplicationStatus): Promise<AdmissionsApplication>
 }
@@ -9,16 +11,16 @@ export interface AdmissionsRepository {
 export class InMemoryAdmissionsRepository implements AdmissionsRepository {
   private readonly records = new Map<string, AdmissionsApplication>()
 
-  async createDraft(input: Omit<AdmissionsApplication, "reference" | "status" | "createdAt" | "updatedAt">) {
+  async createDraft(reference: string, input: DraftInput) {
     const now = new Date().toISOString()
     const application: AdmissionsApplication = {
       ...input,
-      reference: input.reference,
+      reference,
       status: "DRAFT",
       createdAt: now,
       updatedAt: now,
     }
-    this.records.set(application.reference, application)
+    this.records.set(reference, application)
     return application
   }
 
