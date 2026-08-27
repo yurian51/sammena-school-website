@@ -4,6 +4,7 @@ import { hasPermission } from "./roles"
 export interface AuthContext {
   userId: string
   role: Role
+  schoolId?: string
 }
 
 export function requirePermission(context: AuthContext | null, permission: Permission): AuthContext {
