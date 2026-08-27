@@ -1,13 +1,12 @@
-import type { AdmissionsRepository } from "../../admissions/repository"
-import type { AdmissionsApplication, ApplicationStatus, CreateApplicationInput } from "../../admissions/types"
+import type { AdmissionsRepository, DraftInput } from "../../admissions/repository"
+import type { AdmissionsApplication, ApplicationStatus } from "../../admissions/types"
 import { getDbClient } from "../client"
 import type { ApplicationRow } from "../types"
 import { mapApplicationRow } from "../mappers"
 
 export class PostgresAdmissionsRepository implements AdmissionsRepository {
-  async createDraft(reference: string, input: CreateApplicationInput): Promise<AdmissionsApplication> {
-    const db = getDbClient()
-    const result = await db.query<ApplicationRow>(
+  async createDraft(reference: string, input: DraftInput): Promise<AdmissionsApplication> {
+    const result = await getDbClient().query<ApplicationRow>(
       `insert into applications (reference, guardian_full_name, guardian_phone, guardian_email, learner_full_name, learner_date_of_birth, learner_entry_level, learner_previous_school)
        values ($1,$2,$3,$4,$5,$6,$7,$8) returning *`,
       [reference, input.guardian.fullName, input.guardian.phone, input.guardian.email ?? null, input.learner.fullName, input.learner.dateOfBirth, input.learner.entryLevel, input.learner.previousSchool ?? null],
