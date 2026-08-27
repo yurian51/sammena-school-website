@@ -1,23 +1,29 @@
 export const CONTENT_STATUSES = ["DRAFT", "REVIEW", "APPROVED", "PUBLISHED", "ARCHIVED"] as const
 export type ContentStatus = (typeof CONTENT_STATUSES)[number]
+export type CmsContentStatus = ContentStatus
 
-export type NewsItem = {
+type CmsBase = {
   id: string
   title: string
   slug: string
+  status: ContentStatus
+  createdAt: string
+  updatedAt: string
+  publishedAt?: string
+}
+
+export type NewsItem = CmsBase & {
+  type: "NEWS"
   excerpt: string
   body: string
   category: string
-  publishedAt?: string
-  status: ContentStatus
 }
 
-export type Announcement = {
-  id: string
-  title: string
+export type Announcement = CmsBase & {
+  type: "ANNOUNCEMENT"
   summary: string
-  publishedAt?: string
   expiresAt?: string
   priority: "NORMAL" | "IMPORTANT"
-  status: ContentStatus
 }
+
+export type CmsContent = NewsItem | Announcement

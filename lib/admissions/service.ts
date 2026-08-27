@@ -1,11 +1,15 @@
 import { generateApplicationReference } from "./reference"
-import type { AdmissionsApplication, ApplicationStatus } from "./types"
-import type { AdmissionsRepository, DraftInput } from "./repository"
+import type { AdmissionsApplication, ApplicationStatus, CreateApplicationInput } from "./types"
+import type { AdmissionsRepository } from "./repository"
+import { canTransition } from "./transitions"
+import { validateAdmissionsApplication } from "./validation"
 
 export class AdmissionsService {
   constructor(private readonly repository: AdmissionsRepository) {}
 
-  async createDraft(input: DraftInput): Promise<AdmissionsApplication> {
+  async createDraft(input: CreateApplicationInput): Promise<AdmissionsApplication> {
+    const validation = validateAdmissionsApplication(input)
+    if (!validation.ok) throw new Error("VALIDATION_ERROR")
     const reference = generateApplicationReference()
     return this.repository.createDraft(reference, input)
   }
@@ -15,6 +19,11 @@ export class AdmissionsService {
   }
 
   async updateStatus(reference: string, status: ApplicationStatus) {
+    const existing = await this.repository.findByReference(reference)
+    if (!existing) throw new Error("APPLICATION_NOT_FOUND")
+    if (existing.status !== status && !canTransition(existing.status, status)) {
+      throw new Error("INVALID_STATUS_TRANSITION")
+    }
     return this.repository.updateStatus(reference, status)
   }
 }

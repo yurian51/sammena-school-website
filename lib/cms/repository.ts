@@ -10,7 +10,13 @@ export class InMemoryCmsRepository implements CmsRepository {
   private readonly records = new Map<string, CmsContent>()
 
   async listPublished(contentType?: CmsContent["type"]) {
-    return [...this.records.values()].filter(item => item.status === "PUBLISHED" && (!contentType || item.type === contentType))
+    const now = Date.now()
+    return [...this.records.values()].filter(item => {
+      if (item.status !== "PUBLISHED") return false
+      if (contentType && item.type !== contentType) return false
+      if (item.type === "ANNOUNCEMENT" && item.expiresAt && Date.parse(item.expiresAt) <= now) return false
+      return true
+    })
   }
 
   async save(content: CmsContent) {
