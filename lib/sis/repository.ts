@@ -9,6 +9,7 @@ export interface StudentRepository extends SchoolScopedRepository {
   findById(id: string): Promise<Student | null>
   findByAdmissionNumber(admissionNumber: string): Promise<Student | null>
   create(student: Student): Promise<Student>
+  update(id: string, input: Partial<Omit<Student, "id" | "schoolId" | "admissionNumber">>): Promise<Student>
 }
 
 export interface GuardianRepository extends SchoolScopedRepository {

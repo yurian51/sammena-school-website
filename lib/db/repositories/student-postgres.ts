@@ -48,4 +48,49 @@ export class PostgresStudentRepository implements StudentRepository {
 
     return mapStudentRow(result.rows[0])
   }
+
+  async update(id: string, input: Partial<Omit<Parameters<StudentRepository["create"]>[0], "id" | "schoolId" | "admissionNumber">>) {
+    const allowed = [
+      "firstName",
+      "middleName",
+      "lastName",
+      "dateOfBirth",
+      "isActive",
+    ] as const
+
+    const values: unknown[] = []
+    const assignments: string[] = []
+
+    for (const field of allowed) {
+      if (input[field] !== undefined) {
+        values.push(input[field] ?? null)
+        const column = field.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)
+        assignments.push(`${column} = $${values.length}`)
+      }
+    }
+
+    if (assignments.length === 0) {
+      const current = await this.findById(id)
+      if (!current) throw new Error("SIS_STUDENT_NOT_FOUND")
+      return current
+    }
+
+    values.push(id, this.schoolId)
+    const idParam = values.length - 1
+    const schoolParam = values.length
+
+    const result = await getDbClient().query<StudentRow>(
+      `update students
+       set ${assignments.join(", ")}
+       where id = $${idParam} and school_id = $${schoolParam}
+       returning id, school_id, admission_number, first_name, middle_name, last_name, date_of_birth, is_active`,
+      values,
+    )
+
+    if (!result.rows[0]) {
+      throw new Error("SIS_STUDENT_NOT_FOUND")
+    }
+
+    return mapStudentRow(result.rows[0])
+  }
 }
