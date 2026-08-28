@@ -1,63 +1,60 @@
-import type { AcademicYear, Class, Enrollment, Stream } from "./types"
+import type { Enrollment, Student } from "./types"
 import type { Guardian } from "./supporting-types"
 
-export interface StudentProfileFeatureSources {
-  findAcademicYear(id: string): Promise<AcademicYear | null>
-  findClass(id: string): Promise<Class | null>
-  findStream(id: string): Promise<Stream | null>
+export interface StudentProfileHealth {
+  score: number
+  hasGuardian: boolean
+  hasPrimaryGuardian: boolean
+  hasActiveEnrollment: boolean
+  hasStream: boolean
+  missing: string[]
 }
 
-export interface StudentProfileAcademicContext {
-  academicYear: AcademicYear | null
-  class: Class | null
-  stream: Stream | null
+export interface StudentEnrollmentTimelineItem {
+  enrollmentId: string
+  academicYearId: string
+  classId: string
+  streamId?: string
+  status: Enrollment["status"]
+  enrolledAt: string
 }
 
-export interface StudentProfileFeatureSummary {
-  primaryGuardian: Guardian | null
-  currentEnrollment: Enrollment | null
-  academicContext: StudentProfileAcademicContext
-  flags: {
-    hasGuardian: boolean
-    hasActiveEnrollment: boolean
-    hasStream: boolean
-  }
-}
-
-export async function enrichStudentProfile(
+export function calculateStudentProfileHealth(
+  student: Student,
+  guardians: Guardian[],
   primaryGuardian: Guardian | null,
   currentEnrollment: Enrollment | null,
-  sources: StudentProfileFeatureSources,
-): Promise<StudentProfileFeatureSummary> {
-  if (!currentEnrollment) {
-    return {
-      primaryGuardian,
-      currentEnrollment: null,
-      academicContext: { academicYear: null, class: null, stream: null },
-      flags: {
-        hasGuardian: Boolean(primaryGuardian),
-        hasActiveEnrollment: false,
-        hasStream: false,
-      },
-    }
-  }
+): StudentProfileHealth {
+  const checks = [
+    ["student", Boolean(student.id)],
+    ["guardian", guardians.length > 0],
+    ["primary guardian", Boolean(primaryGuardian)],
+    ["active enrollment", Boolean(currentEnrollment)],
+    ["stream", Boolean(currentEnrollment?.streamId)],
+  ] as const
 
-  const [academicYear, classRecord, stream] = await Promise.all([
-    sources.findAcademicYear(currentEnrollment.academicYearId),
-    sources.findClass(currentEnrollment.classId),
-    currentEnrollment.streamId
-      ? sources.findStream(currentEnrollment.streamId)
-      : Promise.resolve(null),
-  ])
-
+  const passed = checks.filter(([, ok]) => ok).length
   return {
-    primaryGuardian,
-    currentEnrollment,
-    academicContext: { academicYear, class: classRecord, stream },
-    flags: {
-      hasGuardian: Boolean(primaryGuardian),
-      hasActiveEnrollment: true,
-      hasStream: Boolean(stream),
-    },
+    score: Math.round((passed / checks.length) * 100),
+    hasGuardian: guardians.length > 0,
+    hasPrimaryGuardian: Boolean(primaryGuardian),
+    hasActiveEnrollment: Boolean(currentEnrollment),
+    hasStream: Boolean(currentEnrollment?.streamId),
+    missing: checks.filter(([, ok]) => !ok).map(([label]) => label),
   }
+}
+
+export function buildEnrollmentTimeline(
+  enrollments: Enrollment[],
+): StudentEnrollmentTimelineItem[] {
+  return [...enrollments]
+    .sort((a, b) => b.enrolledAt.localeCompare(a.enrolledAt))
+    .map(enrollment => ({
+      enrollmentId: enrollment.id,
+      academicYearId: enrollment.academicYearId,
+      classId: enrollment.classId,
+      streamId: enrollment.streamId,
+      status: enrollment.status,
+      enrolledAt: enrollment.enrolledAt,
+    }))
 }
