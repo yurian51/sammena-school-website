@@ -8,7 +8,11 @@ import { AdmissionsService } from "../admissions/service"
 import { CmsService } from "../cms/service"
 import { StudentService } from "../sis/student-service"
 
-export function createServerServices() {
+export interface ServerServiceContext {
+  schoolId: string
+}
+
+export function createServerServices(context: ServerServiceContext) {
   const admissionsRepository = new PostgresAdmissionsRepository()
   const cmsRepository = new PostgresCmsRepository()
   const studentRepository = new PostgresStudentRepository()
@@ -20,7 +24,7 @@ export function createServerServices() {
     cms: new CmsService(cmsRepository),
     audit: new PostgresAuditRepository(),
     sis: {
-      student: new StudentService("default", studentRepository),
+      student: new StudentService(context.schoolId, studentRepository),
       guardian: guardianRepository,
       enrollment: enrollmentRepository,
     },
