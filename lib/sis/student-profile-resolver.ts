@@ -1,5 +1,5 @@
 import type { Enrollment, Student } from "./types"
-import type { Guardian } from "./supporting-types"
+import type { Guardian, StudentGuardian } from "./supporting-types"
 
 const CURRENT_ENROLLMENT_STATUSES = new Set<Enrollment["status"]>(["ACTIVE"])
 
@@ -15,8 +15,12 @@ export function resolveStudentProfileContext(
   student: Student,
   guardians: Guardian[],
   enrollments: Enrollment[],
+  relationships: StudentGuardian[] = [],
 ): StudentProfileContext {
-  const primaryGuardian = guardians[0] ?? null
+  const primaryRelationship = relationships.find(relationship => relationship.isPrimary)
+  const primaryGuardian = primaryRelationship
+    ? guardians.find(guardian => guardian.id === primaryRelationship.guardianId) ?? null
+    : null
   const currentEnrollment = enrollments.find(enrollment =>
     CURRENT_ENROLLMENT_STATUSES.has(enrollment.status),
   ) ?? null
