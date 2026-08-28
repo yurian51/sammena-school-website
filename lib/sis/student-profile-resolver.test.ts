@@ -46,6 +46,22 @@ describe("resolveStudentProfileContext", () => {
     expect(result.currentEnrollment).toEqual(enrollment)
   })
 
+  it("resolves primary guardian from relationship metadata", () => {
+    const relationships: StudentGuardian[] = [
+      { studentId: student.id, guardianId: secondary.id, relationship: "PARENT", isPrimary: false },
+      { studentId: student.id, guardianId: primary.id, relationship: "GUARDIAN", isPrimary: true },
+    ]
+
+    const result = resolveStudentProfileContext(
+      student,
+      [secondary, primary],
+      [enrollment],
+      relationships,
+    )
+
+    expect(result.primaryGuardian).toEqual(primary)
+  })
+
   it("preserves guardian and enrollment collections", () => {
     const result = resolveStudentProfileContext(
       student,
