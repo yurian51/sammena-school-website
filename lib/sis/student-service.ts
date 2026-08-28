@@ -19,6 +19,12 @@ export class StudentService {
     if (student.schoolId !== this.schoolId) {
       throw new Error("SIS_SCHOOL_SCOPE_VIOLATION")
     }
+
+    const existing = await this.repository.findByAdmissionNumber(student.admissionNumber)
+    if (existing) {
+      throw new Error("SIS_ADMISSION_NUMBER_ALREADY_EXISTS")
+    }
+
     return this.repository.create(student)
   }
 }
