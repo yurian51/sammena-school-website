@@ -1,0 +1,23 @@
+name: Runner Diagnostic
+
+on:
+  push:
+    branches:
+      - 'feat/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runner:
+    name: Runner Smoke Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Runner started
+        run: echo "GitHub Actions runner started successfully"
+      - name: Runtime
+        run: |
+          node --version
+          npm --version
