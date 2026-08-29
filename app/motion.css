@@ -1,0 +1,28 @@
+/* Sammena motion layer: cinematic, purposeful and accessible. */
+
+@keyframes sammena-hero-breathe { 0%,100% { transform: scale(1.02); } 50% { transform: scale(1.07); } }
+@keyframes sammena-light-drift { 0% { transform: translate3d(-8%,0,0) rotate(-8deg); opacity:.12; } 50% { transform: translate3d(8%,3%,0) rotate(8deg); opacity:.24; } 100% { transform: translate3d(-8%,0,0) rotate(-8deg); opacity:.12; } }
+@keyframes sammena-reveal { from { opacity:0; transform: translate3d(0,28px,0) scale(.985); filter: blur(6px); } to { opacity:1; transform:none; filter:none; } }
+@keyframes sammena-shimmer { from { transform:translateX(-130%); } to { transform:translateX(130%); } }
+@keyframes sammena-float { 0%,100% { transform:translate3d(0,0,0); } 50% { transform:translate3d(0,-8px,0); } }
+
+main > section:first-of-type > img { animation: sammena-hero-breathe 18s ease-in-out infinite; transform-origin:center; }
+main > section:first-of-type::after { content:""; position:absolute; inset:-20%; pointer-events:none; background:linear-gradient(110deg,transparent 35%,rgba(216,181,91,.10) 48%,rgba(255,255,255,.07) 52%,transparent 65%); transform:translateX(-35%) skewX(-12deg); animation:sammena-light-drift 14s ease-in-out infinite; mix-blend-mode:screen; }
+main > section:first-of-type h1 { animation:sammena-reveal 1s cubic-bezier(.16,1,.3,1) .15s both; }
+main > section:first-of-type p { animation:sammena-reveal .9s cubic-bezier(.16,1,.3,1) .35s both; }
+main > section:first-of-type a { animation:sammena-reveal .8s cubic-bezier(.16,1,.3,1) calc(.48s + var(--motion-delay,0s)) both; }
+main > section:first-of-type > div > div:last-child > div { animation:sammena-reveal .7s cubic-bezier(.16,1,.3,1) both; }
+main > section:first-of-type > div > div:last-child > div:nth-child(2){animation-delay:.08s}.main > section:first-of-type > div > div:last-child > div:nth-child(3){animation-delay:.16s}.main > section:first-of-type > div > div:last-child > div:nth-child(4){animation-delay:.24s}
+
+.group { transition:transform .55s cubic-bezier(.16,1,.3,1), box-shadow .55s cubic-bezier(.16,1,.3,1); }
+.group:hover { transform:translateY(-4px); }
+
+@media (min-width:768px) {
+  header { transition:filter .35s ease; }
+  header:hover { filter:saturate(1.04); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main > section:first-of-type > img, main > section:first-of-type::after, main > section:first-of-type h1, main > section:first-of-type p, main > section:first-of-type a, main > section:first-of-type > div > div:last-child > div { animation:none !important; }
+  .group, .group:hover { transform:none !important; }
+}
