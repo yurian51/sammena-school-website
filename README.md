@@ -21,7 +21,107 @@
 
 ---
 
-## ✦ Experience the Architecture
+# ✦ THE MOTION-FIRST EXPERIENCE
+
+The visual language of Sammena is built around **movement, depth, continuity and responsive storytelling**. Every transition should communicate where the user came from, where they are going and why the next state matters.
+
+```text
+╭────────────────────────────────────────────────────────────╮
+│                                                            │
+│       DISCOVER → EXPLORE → CONNECT → APPLY → BELONG        │
+│          ╲        ╲         ╲       ╲        ╲             │
+│           ╲        ╲         ╲       ╲        ╲            │
+│            ◉────────◉─────────◉───────◉────────◉           │
+│                                                            │
+╰────────────────────────────────────────────────────────────╯
+```
+
+### Motion principles
+
+```text
+01  MICRO-MOTION       Buttons, cards, icons and controls respond naturally.
+02  SCROLL-MOTION      Sections reveal, transform and connect as the story unfolds.
+03  DEPTH-MOTION       Layers, glass, light and shadows create spatial hierarchy.
+04  DATA-MOTION        Counters, timelines and status changes animate meaningfully.
+05  NAV-MOTION         Navigation transitions preserve context instead of teleporting.
+06  STATE-MOTION       Loading, success, error and empty states communicate clearly.
+07  CINEMATIC-MOTION   Hero sequences create a memorable first impression.
+08  RESPONSIVE-MOTION  Motion adapts to screen size and interaction capability.
+09  ACCESSIBLE-MOTION  Reduced-motion preferences remain respected.
+10  PURPOSEFUL-MOTION  No animation exists merely because a CSS property was bored.
+```
+
+> **The goal is not maximum movement. It is maximum perceived quality.**
+
+---
+
+## 🌊 The Experience Flow
+
+```text
+                         ┌──────────────────┐
+                         │   SAMMENA START   │
+                         └────────┬─────────┘
+                                  │
+                           ✦ INTRO MOTION ✦
+                                  │
+                                  ▼
+                     ┌────────────────────────┐
+                     │   DISCOVER THE SCHOOL  │
+                     └────────────┬───────────┘
+                                  │
+                         ╱ SCROLL TRANSITION ╲
+                        ╱                       ╲
+                       ▼                         ▼
+              ┌────────────────┐       ┌────────────────┐
+              │ SCHOOL LIFE    │       │ ACADEMICS      │
+              └───────┬────────┘       └───────┬────────┘
+                      ╲                         ╱
+                       ╲                       ╱
+                        ╲                     ╱
+                         ▼                   ▼
+                       ┌──────────────────────┐
+                       │      ADMISSIONS      │
+                       └──────────┬───────────┘
+                                  │
+                           ✦ FORM JOURNEY ✦
+                                  │
+                                  ▼
+                       ┌──────────────────────┐
+                       │    FAMILY HUB        │
+                       └──────────┬───────────┘
+                                  │
+                                  ▼
+                         ┌────────────────┐
+                         │  SAMMENA SIS   │
+                         └────────────────┘
+```
+
+---
+
+# 🌌 THE README IS AN INTERFACE TOO
+
+This document uses **motion-inspired diagrams, progressive disclosure, visual hierarchy, state transitions and architectural storytelling** so the documentation mirrors the product philosophy.
+
+GitHub Markdown does not execute arbitrary CSS or JavaScript, so this README deliberately avoids pretending that ASCII art is secretly a browser engine. The actual website is where cinematic motion belongs.
+
+### Motion vocabulary
+
+```text
+FADE        → introduction
+REVEAL      → discovery
+SLIDE       → navigation
+SCALE       → emphasis
+PARALLAX    → depth
+MORPH       → state transition
+FLOW        → relationships
+PULSE       → attention
+SPRING      → interaction feedback
+STAGGER     → sequential storytelling
+```
+
+---
+
+# 🏫 EXPERIENCE ARCHITECTURE
 
 ```text
                          ┌───────────────────────┐
@@ -48,55 +148,13 @@
                        💰 FINANCE · 💬 COMMUNICATIONS
 ```
 
-### The idea
-
 The public website is the visible surface. Underneath it, the project is being shaped into a secure school platform where admissions, family services, academic operations, communications and eventually the **Sammena SIS** can share a coherent foundation.
 
 ---
 
-# 🌌 The README Is an Interface Too
-
-This document intentionally uses motion-inspired architecture diagrams, progressive disclosure, visual hierarchy and animated-thinking patterns rather than the usual graveyard of bullet points.
-
-> **No JavaScript is required inside this README.** The animation concept is expressed through structure, sequencing and GitHub-native rendering so the documentation remains portable and safe.
-
-### The visual rhythm
-
-```text
-          DISCOVER
-             │
-             ▼
-       ┌─────────────┐
-       │   WEBSITE   │
-       └──────┬──────┘
-              │
-              ▼
-        ┌───────────┐
-        │ ADMISSIONS│
-        └─────┬─────┘
-              │
-              ▼
-       ┌──────────────┐
-       │ FAMILY + SIS │
-       └──────┬───────┘
-              │
-              ▼
-          CONNECT
-              │
-              ▼
-         INTELLIGENT
-           SCHOOL
-```
-
-The actual application follows the same philosophy: **simple on the surface, structured underneath.**
-
----
-
-## 🚀 Project Status
+# 🚀 PROJECT STATUS
 
 **ACTIVE DEVELOPMENT · BACKEND FOUNDATION PHASE**
-
-Current direction:
 
 ```text
 PUBLIC EXPERIENCE       ████████████████████  Active
@@ -113,38 +171,49 @@ PRODUCTION DEPLOYMENT   ░░░░░░░░░░░░░░░░░░�
 
 ---
 
-# 🎓 Admissions Engine
+# 🎓 ADMISSIONS ENGINE
 
 Admissions is being developed as a real domain rather than a decorative form.
 
 ```text
 FORM
-  ↓
-VALIDATE
-  ↓
-NORMALIZE
-  ↓
-CONSENT
-  ↓
-ELIGIBILITY
-  ↓
-DUPLICATE / IDEMPOTENCY CHECK
-  ↓
-PERSIST
-  ↓
-REVIEW QUEUE
-  ↓
-SLA + PRIORITY
-  ↓
-DOCUMENT REVIEW
-  ↓
-DECISION
-  ↓
-AUDIT
-  ↓
-NOTIFICATION
-  ↓
-STUDENT 360
+  │
+  ▼
+VALIDATE ──→ NORMALIZE ──→ CONSENT
+                              │
+                              ▼
+                         ELIGIBILITY
+                              │
+                     ┌────────┴────────┐
+                     ▼                 ▼
+                DUPLICATE          IDEMPOTENCY
+                     ╲                 ╱
+                      ╲               ╱
+                       ▼             ▼
+                          PERSIST
+                             │
+                             ▼
+                       REVIEW QUEUE
+                             │
+                    ┌────────┴────────┐
+                    ▼                 ▼
+                   SLA             PRIORITY
+                    ╲                 ╱
+                     ╲               ╱
+                      ▼             ▼
+                     DOCUMENT REVIEW
+                             │
+                             ▼
+                          DECISION
+                             │
+                 ┌───────────┴───────────┐
+                 ▼                       ▼
+               AUDIT                NOTIFICATION
+                 ╲                       ╱
+                  ╲                     ╱
+                   └───────┬───────────┘
+                           ▼
+                       STUDENT 360
 ```
 
 ### Admissions capabilities in the current foundation
@@ -171,7 +240,38 @@ STUDENT 360
 
 ---
 
-# 🧭 Domain Architecture
+# 🌀 STATE TRANSITIONS
+
+The application should feel alive because its **state has meaning**.
+
+```text
+        ┌─────────┐
+        │  DRAFT  │
+        └────┬────┘
+             │ submit
+             ▼
+      ┌─────────────┐
+      │  SUBMITTED  │
+      └──────┬──────┘
+             │ review
+             ▼
+      ┌─────────────┐
+      │ UNDER_REVIEW│
+      └──┬───────┬──┘
+         │       │
+         │       ├───────────────┐
+         ▼       ▼               ▼
+   MORE_INFO   ACCEPTED       REJECTED
+      │
+      │ resubmit
+      └──────────────→ SUBMITTED
+```
+
+Every visual state transition in the product should correspond to a meaningful domain transition underneath it.
+
+---
+
+# 🧭 DOMAIN ARCHITECTURE
 
 ```text
 apps / routes
@@ -206,14 +306,14 @@ This separation keeps UI, business rules and storage concerns from becoming one 
 
 ---
 
-# 🛡️ Security by Design
-
-Security is treated as an architectural constraint, not a checkbox stapled onto the end.
+# 🛡️ SECURITY BY DESIGN
 
 ```text
 INPUT
   ↓
 SERVER VALIDATION
+  ↓
+CONSENT
   ↓
 AUTHORIZATION
   ↓
@@ -245,43 +345,47 @@ CONTROLLED RESPONSE
 
 ---
 
-# 🧬 Data Lifecycle
+# 🧬 DATA LIFECYCLE
 
 ```text
 ┌──────────────┐
 │ PUBLIC FORM  │
 └──────┬───────┘
+       │ reveal
        ▼
 ┌──────────────┐
 │  VALIDATION  │
 └──────┬───────┘
+       │ transform
        ▼
 ┌──────────────┐
 │  PERSISTENCE │
 └──────┬───────┘
+       │ queue
        ▼
 ┌──────────────┐
 │    REVIEW    │
 └──────┬───────┘
+       │ decide
        ▼
 ┌──────────────┐
 │   DECISION   │
 └──────┬───────┘
+       │ notify
        ▼
 ┌──────────────┐
 │ NOTIFICATION │
 └──────┬───────┘
+       │ connect
        ▼
 ┌──────────────┐
 │  STUDENT 360 │
 └──────────────┘
 ```
 
-Accepted applications can feed Student 360 while the original admission record remains auditable historical data.
-
 ---
 
-# ⚙️ Technology
+# ⚙️ TECHNOLOGY
 
 | Layer | Direction |
 |---|---|
@@ -294,26 +398,33 @@ Accepted applications can feed Student 360 while the original admission record r
 | Database Target | PostgreSQL |
 | ORM Target | Prisma |
 | Styling | Modern responsive UI architecture |
+| Motion Direction | Purposeful, accessible, cinematic motion |
 
 The repository's current package configuration is the source of truth for installed dependencies. Prisma/PostgreSQL runtime activation is a separate implementation milestone and is not silently assumed here.
 
 ---
 
-# 🧪 Quality Gates
+# 🧪 QUALITY GATES
 
 ```text
 TYPECHECK
-   ↓
+   │
+   ▼
 UNIT TESTS
-   ↓
+   │
+   ▼
 INTEGRATION TESTS
-   ↓
+   │
+   ▼
 DATABASE MIGRATION TEST
-   ↓
+   │
+   ▼
 PRODUCTION BUILD
-   ↓
+   │
+   ▼
 SECURITY REVIEW
-   ↓
+   │
+   ▼
 RELEASE
 ```
 
@@ -341,7 +452,7 @@ Tests should be executed through the repository's configured test command once t
 
 ---
 
-# 🗂️ Documentation Map
+# 🗂️ DOCUMENTATION MAP
 
 The `docs/` directory is becoming the project's operational memory.
 
@@ -376,7 +487,7 @@ DOMAIN → CONTRACT → IMPLEMENTATION → VERIFICATION → OPERATIONS
 
 ---
 
-# 🧱 Development Philosophy
+# 🧱 DEVELOPMENT PHILOSOPHY
 
 ### 1. Build the domain before the decoration
 
@@ -386,25 +497,30 @@ A beautiful admissions dashboard with no reliable application lifecycle is just 
 
 Implemented, designed, planned and verified are different states.
 
-### 3. Prefer reusable boundaries
+### 3. Separate motion from meaning
+
+Motion should explain hierarchy, feedback, progression and continuity. It should never block reading or make a user fight the interface.
+
+### 4. Prefer reusable boundaries
 
 Services, repositories, policies and projections should remain independently testable.
 
-### 4. Protect learner data by default
+### 5. Protect learner data by default
 
 If a field is not needed by the current workflow, the system should not casually expose it.
 
-### 5. Verify before declaring victory
+### 6. Verify before declaring victory
 
 ```text
 IMPLEMENTED ≠ VERIFIED
 DESIGNED ≠ DEPLOYED
 DOCUMENTED ≠ PRODUCTION-READY
+ANIMATED ≠ WELL-DESIGNED
 ```
 
 ---
 
-# 🛣️ Roadmap
+# 🛣️ ROADMAP
 
 ```text
              NOW
@@ -413,26 +529,32 @@ DOCUMENTED ≠ PRODUCTION-READY
      ┌─────────────────┐
      │ DOMAIN FOUNDATION│
      └────────┬────────┘
+              │ motion: reveal
               ▼
      ┌─────────────────┐
      │   PERSISTENCE    │
      └────────┬────────┘
+              │ motion: connect
               ▼
      ┌─────────────────┐
      │ SECURITY + RBAC  │
      └────────┬────────┘
+              │ motion: transform
               ▼
      ┌─────────────────┐
      │ STAFF OPERATIONS │
      └────────┬────────┘
+              │ motion: flow
               ▼
      ┌─────────────────┐
      │  FAMILY SERVICES │
      └────────┬────────┘
+              │ motion: expand
               ▼
      ┌─────────────────┐
      │    SAMMENA SIS   │
      └────────┬────────┘
+              │ motion: converge
               ▼
      ┌─────────────────┐
      │ CONNECTED SCHOOL │
@@ -442,7 +564,7 @@ DOCUMENTED ≠ PRODUCTION-READY
 
 ---
 
-# 📊 Project Health
+# 📊 PROJECT HEALTH
 
 | Area | Status |
 |---|---|
@@ -464,7 +586,7 @@ DOCUMENTED ≠ PRODUCTION-READY
 
 ---
 
-# 🌍 The Bigger Vision
+# 🌍 THE BIGGER VISION
 
 Sammena should not merely **have a website**.
 
@@ -491,13 +613,13 @@ It should have a digital environment where the right information reaches the rig
                BETTER EDUCATION
 ```
 
-The long-term goal is a connected platform that reduces administrative friction while keeping security, clarity and human oversight at the center.
+The long-term goal is a connected platform that reduces administrative friction while keeping security, clarity, accessibility and human oversight at the center.
 
 ---
 
 <div align="center">
 
-### Built with intent. Designed to grow. Verified before trusted.
+### Built with intent. Designed to move. Verified before trusted.
 
 **SAMMENA SCHOOLS**
 
