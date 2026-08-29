@@ -1,81 +1,334 @@
-# SAMMENA SCHOOLS Website
+<div align="center">
 
-Official institutional website foundation for **Sammena Pre & Primary School**, designed to support the school's current primary-school presence and its planned expansion toward a secondary school by 2028.
+# 🏫 SAMMENA SCHOOLS
 
-## Project status
+### The Digital Front Door of a Modern African School
 
-**Active development · Backend foundation phase**
+**Institutional Website · Admissions · Family Experience · Future SIS**
 
-The public website experience is being developed first, followed by secure digital services such as admissions, a Family Hub, CMS and the future Sammena SIS.
+<br/>
 
-> Deployment is intentionally out of scope for the current development phase.
+[![Status](https://img.shields.io/badge/status-active%20development-ff7a18?style=for-the-badge)](#project-status)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)](#technology)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)](#technology)
+[![Quality](https://img.shields.io/badge/quality-gates-green?style=for-the-badge)](#quality-gates)
 
-## Vision
+<br/>
 
-Build a modern, trustworthy digital front door for Sammena that can grow from an institutional website into a connected school platform.
+> **A school website designed not as a brochure, but as the first layer of a connected digital school.**
+
+</div>
+
+---
+
+## ✦ Experience the Architecture
 
 ```text
-Public Website
-      ↓
-Admissions · CMS · Family Hub
-      ↓
-Authentication + RBAC
-      ↓
-SAMMENA SIS
-      ↓
-Students · Academics · Attendance · Finance · Communications
+                         ┌───────────────────────┐
+                         │   SAMMENA SCHOOLS     │
+                         │   DIGITAL FRONT DOOR  │
+                         └───────────┬───────────┘
+                                     │
+                    ╭────────────────┼────────────────╮
+                    ↓                ↓                ↓
+              🌐 WEBSITE       🎓 ADMISSIONS      👨‍👩‍👧 FAMILY HUB
+                    │                │                │
+                    ╰────────────────┼────────────────╯
+                                     ↓
+                            🔐 IDENTITY + RBAC
+                                     ↓
+                              🧠 SAMMENA SIS
+                                     │
+              ╭──────────────────────┼──────────────────────╮
+              ↓                      ↓                      ↓
+         👨‍🎓 STUDENTS          📚 ACADEMICS          📅 ATTENDANCE
+              │                      │                      │
+              ╰──────────────────────┼──────────────────────╯
+                                     ↓
+                       💰 FINANCE · 💬 COMMUNICATIONS
 ```
 
-## Current capabilities
+### The idea
 
-- Institutional homepage and navigation
-- About and academic information
-- School life and resources
-- News and events structure
-- Academic calendar
-- Admissions information and application UX
-- Family Hub gateway
-- Search and contact experiences
-- Responsive/mobile-first design direction
-- Accessibility, SEO, privacy and performance quality gates
+The public website is the visible surface. Underneath it, the project is being shaped into a secure school platform where admissions, family services, academic operations, communications and eventually the **Sammena SIS** can share a coherent foundation.
 
-## Backend foundation
+---
 
-Backend domain work is being organized around:
+# 🌌 The README Is an Interface Too
 
-- Admissions
-- CMS
-- Identity and RBAC
-- Enquiries
-- Calendar/events
+This document intentionally uses motion-inspired architecture diagrams, progressive disclosure, visual hierarchy and animated-thinking patterns rather than the usual graveyard of bullet points.
 
-The current development repository uses typed domain/service/repository boundaries. In-memory repositories are development/test implementations and are **not** a production data store.
+> **No JavaScript is required inside this README.** The animation concept is expressed through structure, sequencing and GitHub-native rendering so the documentation remains portable and safe.
 
-## Security principles
+### The visual rhythm
 
-- Server-side validation
+```text
+          DISCOVER
+             │
+             ▼
+       ┌─────────────┐
+       │   WEBSITE   │
+       └──────┬──────┘
+              │
+              ▼
+        ┌───────────┐
+        │ ADMISSIONS│
+        └─────┬─────┘
+              │
+              ▼
+       ┌──────────────┐
+       │ FAMILY + SIS │
+       └──────┬───────┘
+              │
+              ▼
+          CONNECT
+              │
+              ▼
+         INTELLIGENT
+           SCHOOL
+```
+
+The actual application follows the same philosophy: **simple on the surface, structured underneath.**
+
+---
+
+## 🚀 Project Status
+
+**ACTIVE DEVELOPMENT · BACKEND FOUNDATION PHASE**
+
+Current direction:
+
+```text
+PUBLIC EXPERIENCE       ████████████████████  Active
+ADMISSIONS DOMAIN       ██████████████████░░  Active
+BACKEND FOUNDATION      ███████████████░░░░░  Active
+PERSISTENCE             ████████░░░░░░░░░░░░  Building
+IDENTITY + RBAC         ██████░░░░░░░░░░░░░░  Planned/Building
+FAMILY HUB              █████░░░░░░░░░░░░░░░  Foundation
+SAMMENA SIS             ███░░░░░░░░░░░░░░░░░  Planned
+PRODUCTION DEPLOYMENT   ░░░░░░░░░░░░░░░░░░░░  Not claimed
+```
+
+> **Truth over theatre:** live admissions, authentication, SIS records, payments, private document collection and production deployment are not claimed as active until implemented and verified.
+
+---
+
+# 🎓 Admissions Engine
+
+Admissions is being developed as a real domain rather than a decorative form.
+
+```text
+FORM
+  ↓
+VALIDATE
+  ↓
+NORMALIZE
+  ↓
+CONSENT
+  ↓
+ELIGIBILITY
+  ↓
+DUPLICATE / IDEMPOTENCY CHECK
+  ↓
+PERSIST
+  ↓
+REVIEW QUEUE
+  ↓
+SLA + PRIORITY
+  ↓
+DOCUMENT REVIEW
+  ↓
+DECISION
+  ↓
+AUDIT
+  ↓
+NOTIFICATION
+  ↓
+STUDENT 360
+```
+
+### Admissions capabilities in the current foundation
+
+- Application validation
+- Input normalization
+- Eligibility evaluation
+- Application reference validation
+- Duplicate-detection foundation
+- Submission idempotency boundary
+- Application lookup
+- Search and advanced filters
+- Reviewer assignment foundation
+- Internal review notes
+- Document readiness model
+- Document status state machine
+- Review SLA calculation
+- Queue priority calculation
+- Public tracking projection
+- Notification event/queue foundation
+- Operational metrics
+- Audit architecture
+- Production readiness and security specifications
+
+---
+
+# 🧭 Domain Architecture
+
+```text
+apps / routes
+     │
+     ▼
+┌───────────────┐
+│ API / UI      │
+└───────┬───────┘
+        ▼
+┌───────────────┐
+│ Domain Layer  │
+├───────────────┤
+│ Validation    │
+│ Normalization │
+│ Eligibility   │
+│ State Policy  │
+│ Decisions     │
+│ SLA / Queue   │
+└───────┬───────┘
+        ▼
+┌────────────────────┐
+│ Repository Boundary│
+└─────────┬──────────┘
+          ▼
+┌────────────────────┐
+│ Persistent Storage │
+│ PostgreSQL target  │
+└────────────────────┘
+```
+
+This separation keeps UI, business rules and storage concerns from becoming one enormous file of sadness.
+
+---
+
+# 🛡️ Security by Design
+
+Security is treated as an architectural constraint, not a checkbox stapled onto the end.
+
+```text
+INPUT
+  ↓
+SERVER VALIDATION
+  ↓
+AUTHORIZATION
+  ↓
+OBJECT ACCESS CHECK
+  ↓
+STATE VALIDATION
+  ↓
+TRANSACTION
+  ↓
+AUDIT EVENT
+  ↓
+CONTROLLED RESPONSE
+```
+
+### Principles
+
 - Least-privilege RBAC
+- Server-side validation
 - Object-level authorization
-- Private storage for sensitive documents
-- Audit logging for privileged workflows
+- PII minimization
+- Private document storage
+- Safe public tracking projection
+- Rate limiting requirements
+- Duplicate submission protection
+- Idempotency for retry safety
+- Immutable audit intent
 - No credentials or secrets in source control
-- No student/admission records in public assets
+- No sensitive student records in public assets
 
-## Development
+---
 
-Requirements:
+# 🧬 Data Lifecycle
 
-- Node.js 20+
-- pnpm 10.15+
+```text
+┌──────────────┐
+│ PUBLIC FORM  │
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│  VALIDATION  │
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│  PERSISTENCE │
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│    REVIEW    │
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│   DECISION   │
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│ NOTIFICATION │
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│  STUDENT 360 │
+└──────────────┘
+```
 
-Install and run:
+Accepted applications can feed Student 360 while the original admission record remains auditable historical data.
+
+---
+
+# ⚙️ Technology
+
+| Layer | Direction |
+|---|---|
+| Framework | Next.js 16 |
+| UI | React 19 |
+| Language | TypeScript 5.7 |
+| Validation | Zod 3.24 |
+| Testing | Vitest 3.2 |
+| Package Manager | pnpm 10.15+ |
+| Database Target | PostgreSQL |
+| ORM Target | Prisma |
+| Styling | Modern responsive UI architecture |
+
+The repository's current package configuration is the source of truth for installed dependencies. Prisma/PostgreSQL runtime activation is a separate implementation milestone and is not silently assumed here.
+
+---
+
+# 🧪 Quality Gates
+
+```text
+TYPECHECK
+   ↓
+UNIT TESTS
+   ↓
+INTEGRATION TESTS
+   ↓
+DATABASE MIGRATION TEST
+   ↓
+PRODUCTION BUILD
+   ↓
+SECURITY REVIEW
+   ↓
+RELEASE
+```
+
+### Local development
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-Open `http://localhost:3000`.
+Then open:
+
+```text
+http://localhost:3000
+```
 
 Quality checks:
 
@@ -84,35 +337,170 @@ pnpm typecheck
 pnpm build
 ```
 
-## Architecture documentation
+Tests should be executed through the repository's configured test command once the relevant runtime dependencies are available.
 
-Key specifications live under `docs/`, including:
+---
 
-- Backend implementation order
-- Admissions domain rules and API contract
-- CMS schema and domain rules
-- SIS core schema
-- Authentication/RBAC matrix
-- Security baseline
-- Document storage policy
-- Accessibility quality gate
-- Performance budget
-- SEO/content strategy
-- Analytics events
-- Production/backend readiness gates
+# 🗂️ Documentation Map
 
-## Important boundaries
+The `docs/` directory is becoming the project's operational memory.
 
-This repository does **not** currently claim that live admissions, authentication, SIS records, payments, private document collection or production deployment are active. Those capabilities must be implemented and verified before activation.
+### Admissions
 
-## Branch strategy
+- `ADMISSIONS-API-CONTRACT.md`
+- `ADMISSIONS-SECURITY-MODEL.md`
+- `ADMISSIONS-PRODUCTION-READINESS.md`
+- `ADMISSIONS-DATABASE-SCHEMA.md`
+- `ADMISSIONS-PRISMA-MIGRATION.md`
+- `ADMISSIONS-DATA-LIFECYCLE.md`
+- `ADMISSIONS-STATE-MACHINE.md`
+- `ADMISSIONS-DOMAIN-BOUNDARIES.md`
+- `ADMISSIONS-IDEMPOTENCY.md`
+- `ADMISSIONS-PII-MINIMIZATION.md`
+- `ADMISSIONS-FAILURE-RECOVERY.md`
+- `ADMISSIONS-OBSERVABILITY.md`
 
-Current feature work is developed on:
+### Why this matters
 
-`feat/sammena-schools-rebrand`
+The project is intentionally moving from:
 
-Changes should be verified before merging into `main`.
+```text
+IDEA → UI → FEATURES
+```
 
-## License
+toward:
 
-Private project. All rights reserved unless otherwise specified by the project owner.
+```text
+DOMAIN → CONTRACT → IMPLEMENTATION → VERIFICATION → OPERATIONS
+```
+
+---
+
+# 🧱 Development Philosophy
+
+### 1. Build the domain before the decoration
+
+A beautiful admissions dashboard with no reliable application lifecycle is just an expensive screenshot.
+
+### 2. Separate facts from claims
+
+Implemented, designed, planned and verified are different states.
+
+### 3. Prefer reusable boundaries
+
+Services, repositories, policies and projections should remain independently testable.
+
+### 4. Protect learner data by default
+
+If a field is not needed by the current workflow, the system should not casually expose it.
+
+### 5. Verify before declaring victory
+
+```text
+IMPLEMENTED ≠ VERIFIED
+DESIGNED ≠ DEPLOYED
+DOCUMENTED ≠ PRODUCTION-READY
+```
+
+---
+
+# 🛣️ Roadmap
+
+```text
+             NOW
+              │
+              ▼
+     ┌─────────────────┐
+     │ DOMAIN FOUNDATION│
+     └────────┬────────┘
+              ▼
+     ┌─────────────────┐
+     │   PERSISTENCE    │
+     └────────┬────────┘
+              ▼
+     ┌─────────────────┐
+     │ SECURITY + RBAC  │
+     └────────┬────────┘
+              ▼
+     ┌─────────────────┐
+     │ STAFF OPERATIONS │
+     └────────┬────────┘
+              ▼
+     ┌─────────────────┐
+     │  FAMILY SERVICES │
+     └────────┬────────┘
+              ▼
+     ┌─────────────────┐
+     │    SAMMENA SIS   │
+     └────────┬────────┘
+              ▼
+     ┌─────────────────┐
+     │ CONNECTED SCHOOL │
+     │     PLATFORM     │
+     └─────────────────┘
+```
+
+---
+
+# 📊 Project Health
+
+| Area | Status |
+|---|---|
+| Public website | 🟢 Active |
+| Admissions domain | 🟢 Active |
+| Validation | 🟢 Implemented |
+| Admissions search | 🟢 Implemented |
+| Review architecture | 🟢 Implemented |
+| Document policy | 🟢 Implemented |
+| Audit architecture | 🟢 Implemented |
+| Notification foundation | 🟢 Implemented |
+| PostgreSQL target | 🟡 Planned/Building |
+| Prisma runtime | 🟡 Next milestone |
+| Authentication | 🟡 Building |
+| RBAC | 🟡 Building |
+| Secure document storage | 🟡 Building |
+| CI verification | 🔴 Required |
+| Production deployment | 🔴 Not claimed |
+
+---
+
+# 🌍 The Bigger Vision
+
+Sammena should not merely **have a website**.
+
+It should have a digital environment where the right information reaches the right person at the right moment.
+
+```text
+                  SAMMENA
+                     │
+        ┌────────────┼────────────┐
+        ↓            ↓            ↓
+      SCHOOL       FAMILY       STUDENT
+        │            │            │
+        └────────────┼────────────┘
+                     ↓
+                SHARED DATA
+                     │
+                     ↓
+              INTELLIGENT WORKFLOWS
+                     │
+                     ↓
+               BETTER OPERATIONS
+                     │
+                     ↓
+               BETTER EDUCATION
+```
+
+The long-term goal is a connected platform that reduces administrative friction while keeping security, clarity and human oversight at the center.
+
+---
+
+<div align="center">
+
+### Built with intent. Designed to grow. Verified before trusted.
+
+**SAMMENA SCHOOLS**
+
+`Website → Admissions → Family Hub → SIS → Connected School Platform`
+
+</div>
