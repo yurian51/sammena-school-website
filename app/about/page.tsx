@@ -1,11 +1,12 @@
+"use client"
+
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import Image from "next/image"
 import Link from "next/link"
-import {
-  BookOpen, Users, Building, Droplets, Home, UtensilsCrossed,
-  Eye, Target, Heart, GraduationCap, UserCheck, TreePine, ArrowRight
-} from "lucide-react"
+import { BookOpen, Users, Building, Droplets, Home, UtensilsCrossed, Eye, Target, Heart, GraduationCap, UserCheck, TreePine, ArrowRight } from "lucide-react"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import { cn } from "@/lib/utils"
 
 const infrastructure = [
   { icon: Building, name: "8 Classroom Buildings", description: "Spacious, well-ventilated classrooms for quality learning." },
@@ -15,255 +16,34 @@ const infrastructure = [
   { icon: Users, name: "Separate Toilet Facilities", description: "Dedicated toilets for boys, girls, and teachers." },
   { icon: TreePine, name: "Green Campus", description: "Flowers and trees creating a safe, child-friendly environment." },
 ]
-
 const coreValues = [
-  {
-    icon: Eye,
-    title: "Vision",
-    description: "To be a leading center of quality education in Tanzania, producing well-rounded graduates who drive positive change and break the cycle of poverty.",
-  },
-  {
-    icon: Target,
-    title: "Mission",
-    description: "To provide quality education, care, and moral guidance to children — with special focus on orphans and children from vulnerable and disadvantaged backgrounds.",
-  },
-  {
-    icon: Heart,
-    title: "Our Values",
-    description: "Compassion for the vulnerable, excellence in education, integrity in all we do, and a commitment to transforming lives through learning.",
-  },
+  { icon: Eye, title: "Vision", description: "To be a leading center of quality education in Tanzania, producing well-rounded graduates who drive positive change and break the cycle of poverty." },
+  { icon: Target, title: "Mission", description: "To provide quality education, care, and moral guidance to children — with special focus on orphans and children from vulnerable and disadvantaged backgrounds." },
+  { icon: Heart, title: "Our Values", description: "Compassion for the vulnerable, excellence in education, integrity in all we do, and a commitment to transforming lives through learning." },
 ]
+const keyFacts = [{ value: "2009", label: "Year Founded" }, { value: "2018", label: "Government Registered" }, { value: "259", label: "Pupils Enrolled" }, { value: "34", label: "Orphans Supported" }, { value: "10", label: "Teachers" }, { value: "7", label: "Acres of Land" }]
+const boardResponsibilities = ["Guiding school policies and development plans", "Overseeing transparency and proper use of resources", "Supporting school leadership and management", "Safeguarding the welfare and safety of pupils"]
 
-const keyFacts = [
-  { value: "2009", label: "Year Founded" },
-  { value: "2018", label: "Government Registered" },
-  { value: "259", label: "Pupils Enrolled" },
-  { value: "34", label: "Orphans Supported" },
-  { value: "10", label: "Teachers" },
-  { value: "7", label: "Acres of Land" },
-]
-
-const boardResponsibilities = [
-  "Guiding school policies and development plans",
-  "Overseeing transparency and proper use of resources",
-  "Supporting school leadership and management",
-  "Safeguarding the welfare and safety of pupils",
-]
+function Reveal({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const { ref, isVisible } = useScrollAnimation()
+  return <div ref={ref} data-motion="section" data-visible={isVisible ? "true" : "false"} className={cn(className)} style={{ transitionDelay: `${delay}ms` }}>{children}</div>
+}
 
 export default function AboutPage() {
-  return (
-    <main className="min-h-screen">
-      <Navbar />
+  return <main className="min-h-screen overflow-x-hidden"><Navbar />
+    <section className="relative isolate overflow-hidden bg-school-dark pb-20 pt-36 text-white"><div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(216,181,91,.16),transparent_48%)]"/><div className="relative mx-auto max-w-7xl px-5 text-center sm:px-6 lg:px-8"><Reveal><span className="text-school-orange font-semibold text-sm uppercase tracking-[0.2em]">Our Story</span><h1 className="mt-3 text-4xl font-bold tracking-tight md:text-6xl">About Sammena School</h1><p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/65">Founded with a vision to change lives through education, especially for orphans and vulnerable children in Tanzania.</p></Reveal></div></section>
 
-      {/* Page Hero */}
-      <section className="pt-32 pb-16 bg-school-dark text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="text-school-orange font-semibold text-sm uppercase tracking-wider">Our Story</span>
-          <h1 className="text-4xl md:text-5xl font-bold mt-2 mb-4 text-balance">About Sammena School</h1>
-          <p className="text-white/65 text-lg max-w-2xl mx-auto leading-relaxed">
-            Founded with a vision to change lives through education, especially for orphans and vulnerable children in Tanzania.
-          </p>
-        </div>
-      </section>
+    <section className="bg-background py-20 lg:py-28"><div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8"><Reveal><span className="text-school-orange font-semibold text-sm uppercase tracking-[0.2em]">The Founder</span><h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground md:text-5xl">A Vision Born from Compassion</h2><p className="mt-6 leading-8 text-muted-foreground">My name is <strong className="text-foreground">Samwel Langdare Menavi</strong>, the Founder and Director of Sammena Pre & Primary School. The school was established in 2009 with the main purpose of providing quality education, care, and moral guidance to children.</p><p className="mt-4 leading-8 text-muted-foreground">The idea of starting this school came from witnessing many children in the community failing to access education due to poverty, orphan hood, and unstable family situations. I strongly believe that <strong className="text-foreground">education is the most powerful tool to change lives</strong> and secure a better future for children.</p><p className="mt-4 leading-8 text-muted-foreground">In 2018, Sammena Pre & Primary School was officially registered by the government, strengthening its management, academic standards, and long-term sustainability.</p><div data-motion="card" className="mt-7 flex items-center gap-3 rounded-2xl border border-school-orange/20 bg-school-orange/10 p-5"><GraduationCap className="h-8 w-8 shrink-0 text-school-orange"/><div><div className="font-semibold text-foreground">English-Medium Instruction</div><p className="mt-1 text-xs leading-5 text-muted-foreground">Unlike most government schools, we teach in English from an early age, preparing pupils for secondary education.</p></div></div></Reveal><Reveal delay={120}><div data-motion="card" className="group relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-2xl"><Image src="/images/about-school.jpg" alt="Students at Sammena School" fill className="object-cover transition duration-1000 group-hover:scale-105"/><div className="absolute inset-0 bg-gradient-to-t from-[#071d3b]/45 to-transparent"/></div></Reveal></div></section>
 
-      {/* Founder's Story */}
-      <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <span className="text-school-orange font-semibold text-sm uppercase tracking-wider">The Founder</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2 mb-5 text-balance">
-                A Vision Born from Compassion
-              </h2>
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                My name is <strong className="text-foreground">Samwel Langdare Menavi</strong>, the Founder and Director of Sammena Pre & Primary School. The school was established in 2009 with the main purpose of providing quality education, care, and moral guidance to children.
-              </p>
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                The idea of starting this school came from witnessing many children in the community failing to access education due to poverty, orphan hood, and unstable family situations. I strongly believe that <strong className="text-foreground">education is the most powerful tool to change lives</strong> and secure a better future for children.
-              </p>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                In 2018, Sammena Pre & Primary School was officially registered by the government, strengthening its management, academic standards, and long-term sustainability.
-              </p>
-              <div className="flex items-center gap-3 p-4 bg-school-orange/10 border border-school-orange/20 rounded-xl">
-                <GraduationCap className="w-8 h-8 text-school-orange shrink-0" />
-                <div>
-                  <div className="font-semibold text-foreground text-sm">English-Medium Instruction</div>
-                  <p className="text-muted-foreground text-xs">Unlike most government schools, we teach in English from an early age, preparing pupils for secondary education.</p>
-                </div>
-              </div>
-            </div>
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/3]">
-              <Image
-                src="/images/about-school.jpg"
-                alt="Students at Sammena School"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+    <section className="bg-school-orange py-14"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><div className="grid grid-cols-2 gap-y-8 md:grid-cols-3 lg:grid-cols-6">{keyFacts.map((fact, i) => <Reveal key={fact.label} delay={i * 60} className="text-center"><div className="text-3xl font-bold text-white md:text-4xl">{fact.value}</div><div className="mt-1 text-sm text-white/80">{fact.label}</div></Reveal>)}</div></div></section>
 
-      {/* Key Facts */}
-      <section className="py-12 bg-school-orange">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {keyFacts.map((fact) => (
-              <div key={fact.label} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-white mb-1">{fact.value}</div>
-                <div className="text-white/80 text-sm">{fact.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+    <section className="bg-school-neutral py-20 lg:py-28"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><Reveal className="mb-12 text-center"><span className="text-school-orange font-semibold text-sm uppercase tracking-[0.2em]">Our Foundation</span><h2 className="mt-3 text-3xl font-bold text-foreground md:text-5xl">Mission, Vision & Values</h2></Reveal><div className="grid gap-6 md:grid-cols-3">{coreValues.map(({ icon: Icon, title, description }, i) => <Reveal key={title} delay={i * 100}><div data-motion="card" className="group h-full rounded-3xl border border-border bg-card p-8 shadow-sm"><div className="flex h-12 w-12 items-center justify-center rounded-xl bg-school-orange/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-school-orange"><Icon className="h-6 w-6 text-school-orange transition-colors duration-300 group-hover:text-white"/></div><h3 className="mt-6 text-xl font-bold text-foreground">{title}</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{description}</p></div></Reveal>)}</div></div></section>
 
-      {/* Mission, Vision, Values */}
-      <section className="py-20 bg-school-neutral">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="text-school-orange font-semibold text-sm uppercase tracking-wider">Our Foundation</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">Mission, Vision & Values</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {coreValues.map(({ icon: Icon, title, description }) => (
-              <div key={title} className="bg-card rounded-2xl p-8 shadow-sm border border-border hover:shadow-md transition-shadow group">
-                <div className="w-12 h-12 rounded-xl bg-school-orange/10 flex items-center justify-center mb-5 group-hover:bg-school-orange transition-colors">
-                  <Icon className="w-6 h-6 text-school-orange group-hover:text-white transition-colors" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-3">{title}</h3>
-                <p className="text-muted-foreground leading-relaxed text-sm">{description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+    <section className="bg-background py-20 lg:py-28"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><Reveal className="mx-auto mb-12 max-w-2xl text-center"><span className="text-school-orange font-semibold text-sm uppercase tracking-[0.2em]">Our Facilities</span><h2 className="mt-3 text-3xl font-bold text-foreground md:text-5xl">School Infrastructure</h2><p className="mt-4 leading-7 text-muted-foreground">Operating on 7 acres of land secured through a formal lease agreement, our campus provides a safe, green, and child-friendly environment.</p></Reveal><div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{infrastructure.map(({ icon: Icon, name, description }, i) => <Reveal key={name} delay={i * 70}><div data-motion="card" className="group flex h-full gap-4 rounded-2xl border border-border bg-card p-5"><div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-school-orange/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-school-orange"><Icon className="h-5 w-5 text-school-orange group-hover:text-white"/></div><div><h3 className="mb-1 text-sm font-semibold text-foreground">{name}</h3><p className="text-xs leading-6 text-muted-foreground">{description}</p></div></div></Reveal>)}</div></div></section>
 
-      {/* Infrastructure */}
-      <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="text-school-orange font-semibold text-sm uppercase tracking-wider">Our Facilities</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2 text-balance">
-              School Infrastructure
-            </h2>
-            <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
-              Operating on 7 acres of land secured through a formal lease agreement, our campus provides a safe, green, and child-friendly environment.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {infrastructure.map(({ icon: Icon, name, description }) => (
-              <div
-                key={name}
-                className="group flex gap-4 bg-card rounded-2xl p-5 border border-border hover:border-school-orange/30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
-              >
-                <div className="w-10 h-10 rounded-xl bg-school-orange/10 flex items-center justify-center shrink-0 group-hover:bg-school-orange transition-colors">
-                  <Icon className="w-5 h-5 text-school-orange group-hover:text-white transition-colors" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1 text-sm">{name}</h3>
-                  <p className="text-muted-foreground text-xs leading-relaxed">{description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+    <section className="bg-school-neutral py-20 lg:py-28"><div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8"><Reveal><span className="text-school-orange font-semibold text-sm uppercase tracking-[0.2em]">Governance</span><h2 className="mt-3 text-3xl font-bold text-foreground md:text-5xl">School Board & Leadership</h2><p className="mt-6 leading-8 text-muted-foreground">The school is governed by a School Board, mainly composed of parents with children enrolled at the school. In the future, the school plans to invite trusted friends and partners to become part of the Board, bringing diverse ideas and international perspectives.</p><h3 className="mt-7 font-semibold text-foreground">Board Responsibilities:</h3><ul className="mt-4 space-y-3">{boardResponsibilities.map(item => <li key={item} className="flex items-start gap-2.5"><UserCheck className="mt-1 h-4 w-4 shrink-0 text-school-orange"/><span className="text-sm leading-6 text-muted-foreground">{item}</span></li>)}</ul><div className="mt-7 rounded-2xl border border-border bg-card p-5"><h4 className="font-semibold text-foreground">Leadership Continuity</h4><p className="mt-2 text-xs leading-6 text-muted-foreground">The school has a clear management structure in place. Senior teachers and the school management team continue daily operations under the guidance of the School Board, ensuring uninterrupted learning and accountability.</p></div></Reveal><Reveal delay={140}><div data-motion="card" className="rounded-3xl border border-border bg-card p-8 shadow-sm"><h3 className="text-lg font-bold text-foreground">Pupils & Staff</h3><div className="mt-6 space-y-5">{[[Users,"259","Total Pupils"],[Heart,"34","Orphans & Vulnerable Children"],[BookOpen,"10","Teachers"],[UserCheck,"3","Non-Teaching Staff"]].map(([Icon,value,label]) => { const C = Icon as typeof Users; return <div key={label as string} className="group flex items-center gap-4"><div className="flex h-14 w-14 items-center justify-center rounded-xl bg-school-orange/10 transition-transform duration-300 group-hover:scale-105"><C className="h-7 w-7 text-school-orange"/></div><div><div className="text-2xl font-bold text-foreground">{value as string}</div><div className="text-sm text-muted-foreground">{label as string}</div></div></div>})}</div><p className="mt-6 text-xs leading-6 text-muted-foreground">Orphans and children from very poor families receive special support including reduced or waived fees, school uniforms, learning materials, and basic needs.</p></div></Reveal></div></section>
 
-      {/* Governance */}
-      <section className="py-20 bg-school-neutral">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <span className="text-school-orange font-semibold text-sm uppercase tracking-wider">Governance</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2 mb-5 text-balance">
-                School Board & Leadership
-              </h2>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                The school is governed by a School Board, mainly composed of parents with children enrolled at the school. In the future, the school plans to invite trusted friends and partners to become part of the Board, bringing diverse ideas and international perspectives.
-              </p>
-              <h3 className="font-semibold text-foreground mb-3">Board Responsibilities:</h3>
-              <ul className="space-y-3 mb-6">
-                {boardResponsibilities.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5">
-                    <UserCheck className="w-4 h-4 text-school-orange shrink-0 mt-0.5" />
-                    <span className="text-muted-foreground text-sm">{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="p-4 bg-card border border-border rounded-xl">
-                <h4 className="font-semibold text-foreground text-sm mb-2">Leadership Continuity</h4>
-                <p className="text-muted-foreground text-xs leading-relaxed">
-                  The school has a clear management structure in place. Senior teachers and the school management team continue daily operations under the guidance of the School Board, ensuring uninterrupted learning and accountability.
-                </p>
-              </div>
-            </div>
-            <div className="bg-card border border-border rounded-2xl p-8">
-              <h3 className="font-bold text-foreground mb-5 text-lg">Pupils & Staff</h3>
-              <div className="space-y-5">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-xl bg-school-orange/10 flex items-center justify-center">
-                    <Users className="w-7 h-7 text-school-orange" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-foreground">259</div>
-                    <div className="text-muted-foreground text-sm">Total Pupils</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-xl bg-school-orange/10 flex items-center justify-center">
-                    <Heart className="w-7 h-7 text-school-orange" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-foreground">34</div>
-                    <div className="text-muted-foreground text-sm">Orphans & Vulnerable Children</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-xl bg-school-orange/10 flex items-center justify-center">
-                    <BookOpen className="w-7 h-7 text-school-orange" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-foreground">10</div>
-                    <div className="text-muted-foreground text-sm">Teachers</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-xl bg-school-orange/10 flex items-center justify-center">
-                    <UserCheck className="w-7 h-7 text-school-orange" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-foreground">3</div>
-                    <div className="text-muted-foreground text-sm">Non-Teaching Staff</div>
-                  </div>
-                </div>
-              </div>
-              <p className="text-muted-foreground text-xs mt-5 leading-relaxed">
-                Orphans and children from very poor families receive special support including reduced or waived fees, school uniforms, learning materials, and basic needs.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Supporters */}
-      <section className="py-16 bg-school-dark text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="text-school-orange font-semibold text-sm uppercase tracking-wider">Our Supporters</span>
-          <h2 className="text-3xl font-bold text-white mt-2 mb-4">Growing Together</h2>
-          <p className="text-white/70 leading-relaxed mb-6">
-            Both before and after registration, the school has received valuable support from friends and well-wishers, including Tim&apos;s family, Tim&apos;s friends, Dominique&apos;s friends, and committed volunteers, whose support has played a key role in the growth of the school.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 bg-school-orange text-white font-semibold rounded-xl hover:bg-school-orange-light transition-colors shadow-lg shadow-school-orange/20"
-          >
-            Become a Supporter <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
-
-      <Footer />
-    </main>
-  )
+    <section className="bg-school-dark py-20 text-white"><div className="mx-auto max-w-4xl px-5 text-center sm:px-6"><Reveal><span className="text-school-orange font-semibold text-sm uppercase tracking-[0.2em]">Our Supporters</span><h2 className="mt-3 text-3xl font-bold md:text-4xl">Growing Together</h2><p className="mt-5 leading-8 text-white/70">Both before and after registration, the school has received valuable support from friends and well-wishers, including Tim&apos;s family, Tim&apos;s friends, Dominique&apos;s friends, and committed volunteers, whose support has played a key role in the growth of the school.</p><Link href="/contact" className="group mt-8 inline-flex items-center gap-2 rounded-xl bg-school-orange px-7 py-3.5 font-semibold shadow-lg shadow-school-orange/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-school-orange-light">Become a Supporter <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"/></Link></Reveal></div></section>
+    <Footer />
+  </main>
 }
