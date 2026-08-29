@@ -1,10 +1,12 @@
 /* Sammena motion layer: cinematic, purposeful and accessible. */
-
-@keyframes sammena-hero-breathe { 0%,100% { transform: scale(1.02); } 50% { transform: scale(1.07); } }
-@keyframes sammena-light-drift { 0% { transform: translate3d(-8%,0,0) rotate(-8deg); opacity:.12; } 50% { transform: translate3d(8%,3%,0) rotate(8deg); opacity:.24; } 100% { transform: translate3d(-8%,0,0) rotate(-8deg); opacity:.12; } }
+@keyframes sammena-hero-breathe { 0%,100% { transform:scale(1.02); } 50% { transform:scale(1.07); } }
+@keyframes sammena-light-drift { 0% { transform:translate3d(-8%,0,0) rotate(-8deg); opacity:.12; } 50% { transform:translate3d(8%,3%,0) rotate(8deg); opacity:.24; } 100% { transform:translate3d(-8%,0,0) rotate(-8deg); opacity:.12; } }
 @keyframes sammena-reveal { from { opacity:0; transform:translate3d(0,28px,0) scale(.985); filter:blur(6px); } to { opacity:1; transform:none; filter:none; } }
 @keyframes sammena-shimmer { from { transform:translateX(-130%); } to { transform:translateX(130%); } }
 @keyframes sammena-float { 0%,100% { transform:translate3d(0,0,0); } 50% { transform:translate3d(0,-8px,0); } }
+@keyframes sammena-nav-drop { from { opacity:0; transform:translate3d(0,-8px,0) scale(.98); } to { opacity:1; transform:none; } }
+@keyframes sammena-mobile-in { from { opacity:0; transform:translateY(-12px); } to { opacity:1; transform:none; } }
+@keyframes sammena-pulse-ring { 0%,100% { box-shadow:0 0 0 0 rgba(216,181,91,0); } 50% { box-shadow:0 0 0 7px rgba(216,181,91,.10); } }
 
 main > section:first-of-type > img { animation:sammena-hero-breathe 18s ease-in-out infinite; transform-origin:center; }
 main > section:first-of-type::after { content:""; position:absolute; inset:-20%; pointer-events:none; background:linear-gradient(110deg,transparent 35%,rgba(216,181,91,.10) 48%,rgba(255,255,255,.07) 52%,transparent 65%); transform:translateX(-35%) skewX(-12deg); animation:sammena-light-drift 14s ease-in-out infinite; mix-blend-mode:screen; }
@@ -19,12 +21,26 @@ main > section:first-of-type > div > div:last-child > div:nth-child(4) { animati
 .group { transition:transform .55s cubic-bezier(.16,1,.3,1),box-shadow .55s cubic-bezier(.16,1,.3,1); }
 .group:hover { transform:translateY(-4px); }
 
-@media (min-width:768px) {
-  header { transition:filter .35s ease; }
-  header:hover { filter:saturate(1.04); }
-}
+/* Navigation: tactile but restrained. */
+header a, header button { transition:color .25s ease,background-color .25s ease,border-color .25s ease,transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s ease; }
+header nav > a:hover, header nav > div > button:hover { transform:translateY(-1px); }
+header nav > a[href="/"] { position:relative; }
+header nav > a[href="/"]::after { content:""; position:absolute; left:50%; bottom:3px; width:0; height:2px; border-radius:999px; background:#d8b55b; transform:translateX(-50%); transition:width .3s cubic-bezier(.16,1,.3,1); }
+header nav > a[href="/"]:hover::after { width:55%; }
+header .absolute.w-\[430px\], header .absolute.w-64 { animation:sammena-nav-drop .24s cubic-bezier(.16,1,.3,1) both; transform-origin:top center; }
+header a[aria-label="Sammena Schools home"] > div:first-child { transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s ease; }
+header a[aria-label="Sammena Schools home"]:hover > div:first-child { transform:rotate(-3deg) scale(1.035); box-shadow:0 12px 28px rgba(0,0,0,.22); }
+header a[href="/admissions"] { position:relative; overflow:hidden; isolation:isolate; }
+header a[href="/admissions"]::before { content:""; position:absolute; inset:0; width:35%; background:linear-gradient(100deg,transparent,rgba(255,255,255,.25),transparent); transform:translateX(-180%) skewX(-18deg); transition:none; z-index:-1; }
+header a[href="/admissions"]:hover::before { animation:sammena-shimmer .75s ease-out; }
+header a[href="/admissions"]:hover { transform:translateY(-2px); box-shadow:0 12px 26px rgba(201,162,75,.22); }
+header .fixed.inset-x-0.bottom-0 { animation:sammena-mobile-in .3s cubic-bezier(.16,1,.3,1) both; }
+header .fixed.inset-x-0.bottom-0 a[href="/admissions"] { animation:sammena-pulse-ring 2.8s ease-in-out infinite; }
 
-@media (prefers-reduced-motion: reduce) {
+@media (min-width:768px) { header { transition:filter .35s ease; } header:hover { filter:saturate(1.04); } }
+@media (prefers-reduced-motion:reduce) {
   main > section:first-of-type > img,main > section:first-of-type::after,main > section:first-of-type h1,main > section:first-of-type p,main > section:first-of-type a,main > section:first-of-type > div > div:last-child > div { animation:none !important; }
-  .group,.group:hover { transform:none !important; }
+  .group,.group:hover,header nav > a:hover,header nav > div > button:hover,header a[aria-label="Sammena Schools home"]:hover > div:first-child,header a[href="/admissions"]:hover { transform:none !important; }
+  header .absolute.w-\[430px\],header .absolute.w-64,header .fixed.inset-x-0.bottom-0,header .fixed.inset-x-0.bottom-0 a[href="/admissions"] { animation:none !important; }
+  header a[href="/admissions"]::before { display:none; }
 }
