@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import Link from "next/link"
-import { ArrowRight, CheckCircle2, CreditCard, GraduationCap, Info, WalletCards } from "lucide-react"
+import { ArrowRight, CheckCircle2, GraduationCap, Info, WalletCards } from "lucide-react"
 import { FeeCalculator } from "@/components/admissions/fee-calculator"
 import { BoardingChecklist } from "@/components/admissions/boarding-checklist"
 
