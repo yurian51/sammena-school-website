@@ -1,0 +1,44 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import fs from 'node:fs'
+import path from 'node:path'
+
+const root = process.cwd()
+const read = (file) => fs.readFileSync(path.join(root, file), 'utf8')
+
+test('package scripts use the locked toolchain', () => {
+  const pkg = JSON.parse(read('package.json'))
+  assert.equal(pkg.packageManager, 'pnpm@10.15.0')
+  assert.equal(pkg.scripts.typecheck, 'tsc --noEmit')
+  assert.equal(pkg.scripts.test, 'node --test')
+  assert.equal(pkg.devDependencies.vitest, undefined)
+})
+
+test('production metadata routes are present', () => {
+  assert.ok(fs.existsSync(path.join(root, 'app', 'sitemap.ts')))
+  assert.ok(fs.existsSync(path.join(root, 'app', 'robots.ts')))
+  assert.ok(fs.existsSync(path.join(root, 'app', 'layout.tsx')))
+})
+
+test('public sitemap contains core institutional routes', () => {
+  const sitemap = read('app/sitemap.ts')
+  for (const route of ['/about', '/academics', '/admissions', '/gallery', '/contact', '/news', '/calendar', '/resources']) {
+    assert.match(sitemap, new RegExp(`['"]${route.replace('/', '\\/')}['"]`))
+  }
+})
+
+test('robots exposes the sitemap', () => {
+  const robots = read('app/robots.ts')
+  assert.match(robots, /sitemap:/)
+  assert.match(robots, /sitemap\.xml/)
+})
+
+test('CI workflow uses the repository package manager', () => {
+  const ci = read('.github/workflows/ci.yml')
+  assert.match(ci, /pnpm\/action-setup@v4/)
+  assert.match(ci, /version: 10\.15\.0/)
+  assert.match(ci, /pnpm install --frozen-lockfile/)
+  assert.match(ci, /pnpm run typecheck/)
+  assert.match(ci, /pnpm test/)
+  assert.match(ci, /pnpm run build/)
+})
