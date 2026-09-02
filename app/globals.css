@@ -27,6 +27,7 @@
   --school-dark: oklch(0.22 0.065 252);
   --school-gold: oklch(0.72 0.13 82);
   --school-gold-light: oklch(0.80 0.11 82);
+  --school-orange: oklch(0.72 0.13 82);
   --school-neutral: oklch(0.96 0.012 88);
   --sidebar: oklch(0.985 0.003 85);
   --sidebar-foreground: oklch(0.16 0.035 250);
@@ -72,6 +73,7 @@
   --color-school-dark: var(--school-dark);
   --color-school-gold: var(--school-gold);
   --color-school-gold-light: var(--school-gold-light);
+  --color-school-orange: var(--school-orange);
   --color-school-neutral: var(--school-neutral);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
