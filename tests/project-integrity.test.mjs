@@ -56,6 +56,22 @@ test('motion system fails open so animation cannot hide page content', () => {
   assert.match(motion, /\[data-motion=\\"section\\"\]\{ opacity:1; transform:none;/)
 })
 
+test('mobile navigation has resilient interaction controls', () => {
+  const nav = read('components/navbar.tsx')
+  assert.match(nav, /"use client"/)
+  assert.match(nav, /setMobileOpen\(v => !v\)/)
+  assert.match(nav, /aria-expanded=\{mobileOpen\}/)
+  assert.match(nav, /aria-controls="mobile-navigation"/)
+  assert.match(nav, /role="dialog"/)
+  assert.match(nav, /aria-modal="true"/)
+  assert.match(nav, /event\.key === "Escape"/)
+  assert.match(nav, /min-h-11 min-w-11/)
+  assert.match(nav, /overscroll-contain/)
+  assert.match(nav, /safe-area-inset-bottom/)
+  assert.match(nav, /const closeMobileMenu = \(\) => setMobileOpen\(false\)/)
+  assert.match(nav, /onClick=\{closeMobileMenu\}/)
+})
+
 test('CI workflow uses the repository package manager', () => {
   const ci = read('.github/workflows/ci.yml')
   assert.match(ci, /pnpm\/action-setup@v4/)
