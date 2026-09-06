@@ -2,9 +2,12 @@ name: CI
 
 on:
   push:
-    branches: [main, 'feat/**']
+    branches:
+      - main
+      - "feat/**"
   pull_request:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -27,9 +30,8 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 10.15.0
-          run_install: false
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -39,8 +41,8 @@ jobs:
         run: |
           node --version
           pnpm --version
-          test -f pnpm-lock.yaml
           test -f package.json
+          test -f pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -48,7 +50,7 @@ jobs:
       - name: Type check
         run: pnpm run typecheck
 
-      - name: Unit tests
+      - name: Tests
         run: pnpm test
 
       - name: Production build
