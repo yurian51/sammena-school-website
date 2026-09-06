@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 
 const routes = [
   '', '/about', '/academics', '/admissions', '/gallery', '/contact',
-  '/secondary', '/resources', '/news', '/calendar', '/search', '/portal', '/portal/student',
+  '/secondary', '/resources', '/news', '/calendar', '/search', '/portal', '/portal/student', '/portal/parent', '/admissions/track', '/admissions/admin/reports',
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {

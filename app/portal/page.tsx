@@ -5,7 +5,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 
 const portals = [
-  { icon: Users, title: "Parent Portal", text: "Fees, attendance, results, announcements and school communication.", href: null, label: "Coming soon", featured: false },
+  { icon: Users, title: "Parent Portal", text: "Fees, attendance, results, announcements and school communication.", href: "/portal/parent", label: "Open parent portal", featured: false },
   { icon: GraduationCap, title: "Student Portal", text: "Learning resources, timetable, results and student services.", href: "/portal/student", label: "Open student portal", featured: true },
   { icon: ShieldCheck, title: "Staff Portal", text: "Admissions, announcements and secure access to school systems.", href: "/admissions/admin", label: "Open staff portal", featured: false },
 ] as const
