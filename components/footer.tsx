@@ -1,5 +1,6 @@
+import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, ExternalLink, GraduationCap, Mail, MapPin, Phone } from "lucide-react"
+import { ArrowRight, ExternalLink, Mail, MapPin, Phone } from "lucide-react"
 
 const groups = [
   { title: "Explore", links: [["/", "Home"], ["/about", "About Sammena"], ["/academics", "Academics"], ["/secondary", "Secondary School · 2028"]] },
@@ -16,7 +17,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-5 pb-8 pt-14 sm:px-6 lg:px-8">
         <div className="grid gap-12 xl:grid-cols-[1.25fr_2fr]">
           <div>
-            <Link href="/" className="group inline-flex items-center gap-3" aria-label="SAMMENA SCHOOLS home"><span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-[#123f73] shadow-sm ring-1 ring-[#d8b55b]/70 transition-all duration-400 group-hover:-rotate-3 group-hover:scale-105 group-hover:shadow-lg"><GraduationCap className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" /></span><span className="leading-none"><span className="block text-lg font-extrabold tracking-[0.08em] transition-colors duration-300 group-hover:text-[#d8b55b]">SAMMENA</span><span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.3em] text-school-gold">Schools</span></span></Link>
+            <Link href="/" className="group inline-flex items-center gap-3" aria-label="SAMMENA SCHOOLS home"><Image src="/images/sammena-logo.png" alt="Sammena Pre & Primary School logo" width={48} height={48} className="h-12 w-12 rounded-xl bg-white object-cover shadow-sm ring-1 ring-[#d8b55b]/70 transition-all duration-400 group-hover:-rotate-3 group-hover:scale-105 group-hover:shadow-lg" /><span className="leading-none"><span className="block text-lg font-extrabold tracking-[0.08em] transition-colors duration-300 group-hover:text-[#d8b55b]">SAMMENA</span><span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.3em] text-school-gold">Schools</span></span></Link>
             <p className="mt-5 max-w-md text-sm leading-7 text-white/60">Building bright minds and shaping better futures through learning, character, wellbeing and meaningful school experiences.</p>
             <div className="mt-6 flex flex-wrap gap-3"><Link href="/admissions" className="group inline-flex items-center gap-2 rounded-xl bg-school-gold px-4 py-3 text-sm font-bold text-school-dark transition-all hover:-translate-y-0.5 hover:bg-school-gold-light hover:shadow-lg"><span>Apply for Admission</span><ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link><Link href="/contact" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-3 text-sm font-semibold text-white/80 transition-all hover:border-white/30 hover:bg-white/5 hover:text-white">Contact School</Link></div>
           </div>

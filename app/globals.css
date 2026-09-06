@@ -24,11 +24,13 @@
   --input: oklch(0.92 0.01 250);
   --ring: oklch(0.72 0.13 82);
   --radius: 0.75rem;
-  --school-dark: oklch(0.22 0.065 252);
-  --school-gold: oklch(0.72 0.13 82);
-  --school-gold-light: oklch(0.80 0.11 82);
-  --school-orange: oklch(0.72 0.13 82);
-  --school-neutral: oklch(0.96 0.012 88);
+  --school-dark: oklch(0.29 0.105 252);
+  --school-blue: oklch(0.43 0.14 247);
+  --school-sky: oklch(0.68 0.14 220);
+  --school-gold: oklch(0.67 0.13 82);
+  --school-gold-light: oklch(0.82 0.12 86);
+  --school-orange: oklch(0.67 0.13 82);
+  --school-neutral: oklch(0.975 0.008 245);
   --sidebar: oklch(0.985 0.003 85);
   --sidebar-foreground: oklch(0.16 0.035 250);
   --sidebar-primary: oklch(0.30 0.085 252);
@@ -71,6 +73,8 @@
   --font-sans: var(--font-poppins), var(--font-inter), 'Geist', sans-serif;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
   --color-school-dark: var(--school-dark);
+  --color-school-blue: var(--school-blue);
+  --color-school-sky: var(--school-sky);
   --color-school-gold: var(--school-gold);
   --color-school-gold-light: var(--school-gold-light);
   --color-school-orange: var(--school-orange);

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ChevronDown, ChevronRight, GraduationCap, Menu, X, Search, Phone, Mail, CalendarDays, ExternalLink } from "lucide-react"
@@ -59,7 +60,7 @@ export function Navbar() {
       <div className={cn("border-b border-white/10 transition-all duration-500", isScrolled ? "bg-[#071d3b]/98 shadow-xl backdrop-blur-xl" : "bg-[#071d3b]/88 backdrop-blur-md")}>
         <nav className="mx-auto flex h-[74px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="group flex items-center gap-3" aria-label="Sammena Schools home">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-[#c9a24b]/80"><GraduationCap className="h-7 w-7 text-[#123f73]" /></div>
+            <Image src="/images/sammena-logo.png" alt="Sammena Pre & Primary School logo" width={48} height={48} className="h-12 w-12 shrink-0 rounded-full bg-white object-cover shadow-md ring-1 ring-[#c9a24b]/80" />
             <div className="leading-none"><span className="block text-[19px] font-extrabold tracking-[0.08em] text-white group-hover:text-[#d8b55b]">SAMMENA</span><span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.28em] text-[#d8b55b]">Schools</span></div>
           </Link>
 

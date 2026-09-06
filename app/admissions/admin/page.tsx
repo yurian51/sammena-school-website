@@ -1,6 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import {
@@ -68,7 +69,7 @@ export default function AdmissionsAdminPage() {
         <aside className={cn("fixed inset-y-0 left-0 z-50 flex w-[280px] shrink-0 flex-col bg-[#071d3b] text-white transition-transform duration-300 lg:static lg:translate-x-0", mobileNavOpen ? "translate-x-0" : "-translate-x-full")}>
           <div className="flex items-center justify-between border-b border-white/10 px-6 py-6">
             <Link href="/" className="flex items-center gap-3" aria-label="Sammena Schools home">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#123f73] shadow-lg ring-1 ring-[#d8b55b]/80"><GraduationCap className="h-6 w-6" /></span>
+              <Image src="/images/sammena-logo.png" alt="Sammena Pre & Primary School logo" width={44} height={44} className="h-11 w-11 rounded-full bg-white object-cover shadow-lg ring-1 ring-[#d8b55b]/80" />
               <span className="leading-none"><strong className="block text-[16px] tracking-[0.12em]">SAMMENA</strong><small className="mt-1 block text-[9px] font-semibold uppercase tracking-[0.3em] text-[#d8b55b]">Staff Portal</small></span>
             </Link>
             <button type="button" onClick={() => setMobileNavOpen(false)} className="rounded-lg p-2 text-white/60 hover:bg-white/10 hover:text-white lg:hidden" aria-label="Close menu"><X className="h-5 w-5" /></button>
