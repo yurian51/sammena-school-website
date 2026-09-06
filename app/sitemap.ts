@@ -1,9 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-const routes = [
-  '', '/about', '/academics', '/admissions', '/gallery', '/contact',
-  '/secondary', '/resources', '/news', '/calendar', '/search', '/portal', '/portal/student', '/portal/parent', '/admissions/track', '/admissions/admin/reports',
-]
+const routes = ['', '/about', '/academics', '/admissions', '/gallery', '/contact', '/secondary', '/resources', '/news', '/calendar', '/search']
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena.sch.tz'
