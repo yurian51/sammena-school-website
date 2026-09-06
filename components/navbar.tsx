@@ -74,7 +74,7 @@ export function Navbar() {
                 </div>
               </div>
             </div>
-            {navLinks.map(link => <Link key={link.href} href={link.href} className={cn("rounded-md px-3 py-2.5 text-[13px] font-semibold", pathname === link.href ? "text-[#d8b55b]" : "text-white/80 hover:text-white")}>{link.label}</Link>)}
+            {navLinks.map(link => <Link key={link.href} href={link.href} aria-current={pathname === link.href ? "page" : undefined} className={cn("relative rounded-md px-3 py-2.5 text-[13px] font-semibold transition-colors after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-[#d8b55b] after:transition-transform", pathname === link.href ? "text-[#d8b55b] after:scale-x-100" : "text-white/80 hover:text-white hover:after:scale-x-100")}>{link.label}</Link>)}
             <div className="relative" onMouseEnter={() => setResourcesOpen(true)} onMouseLeave={() => setResourcesOpen(false)}>
               <button type="button" onClick={() => setResourcesOpen(v => !v)} className="flex items-center gap-1 rounded-md px-3 py-2.5 text-[13px] font-semibold text-white/80 hover:text-white" aria-expanded={resourcesOpen}>Resources <ChevronDown className={cn("h-3.5 w-3.5 transition-transform duration-300", resourcesOpen && "rotate-180")} /></button>
               <div className={cn("absolute right-0 top-full mt-2 w-64 rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl transition-all duration-300", resourcesOpen ? "visible translate-y-0 scale-100 opacity-100" : "invisible -translate-y-2 scale-[.98] opacity-0")}>
@@ -90,6 +90,8 @@ export function Navbar() {
           <button type="button" onClick={() => setMobileOpen(v => !v)} className="rounded-xl p-2.5 text-white transition-all duration-200 hover:scale-105 hover:bg-white/10 lg:hidden" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}>{mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}</button>
         </nav>
       </div>
+
+      <div className="hidden border-t border-[#d8b55b]/20 bg-[#f6f2e8] text-[#071d3b] md:block"><div className="mx-auto flex h-8 max-w-7xl items-center justify-between gap-4 px-4 text-[11px] sm:px-6 lg:px-8"><div className="flex min-w-0 items-center gap-3"><span className="shrink-0 font-bold uppercase tracking-[0.14em] text-[#8a6a24]">Official information</span><span className="hidden truncate text-slate-500 sm:inline">Admissions, school life, academic dates and approved Sammena resources.</span></div><div className="flex shrink-0 items-center gap-4 font-semibold"><Link href="/news" className="hover:text-[#8a6a24]">News & Events</Link><Link href="/calendar" className="hover:text-[#8a6a24]">Academic Calendar</Link><Link href="/resources" className="text-[#8a6a24] hover:text-[#071d3b]">Resource Centre</Link></div></div></div>
 
       <div className={cn("fixed inset-x-0 bottom-0 top-[74px] overflow-y-auto bg-[#071d3b] transition-all duration-300 lg:hidden", mobileOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0")}>
         <div className="mx-auto max-w-2xl px-5 py-6">
