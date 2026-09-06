@@ -2,12 +2,9 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
-      - 'feat/**'
+    branches: [main, 'feat/**']
   pull_request:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -37,6 +34,13 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+
+      - name: Verify toolchain
+        run: |
+          node --version
+          pnpm --version
+          test -f pnpm-lock.yaml
+          test -f package.json
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
