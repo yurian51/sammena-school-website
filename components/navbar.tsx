@@ -36,9 +36,23 @@ export function Navbar() {
   }, [pathname])
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : ""
-    return () => { document.body.style.overflow = "" }
+    if (!mobileOpen) {
+      document.body.style.overflow = ""
+      return
+    }
+    const previous = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOpen(false)
+    }
+    document.addEventListener("keydown", onKeyDown)
+    return () => {
+      document.body.style.overflow = previous
+      document.removeEventListener("keydown", onKeyDown)
+    }
   }, [mobileOpen])
+
+  const closeMobileMenu = () => setMobileOpen(false)
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -70,7 +84,7 @@ export function Navbar() {
               <button type="button" onClick={() => setSchoolsOpen(v => !v)} className="flex items-center gap-1 rounded-md px-3 py-2.5 text-[13px] font-semibold text-white/80 hover:text-white" aria-expanded={schoolsOpen}>Our Schools <ChevronDown className={cn("h-3.5 w-3.5 transition-transform duration-300", schoolsOpen && "rotate-180")} /></button>
               <div className={cn("absolute left-1/2 top-full mt-2 w-[430px] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl transition-all duration-300", schoolsOpen ? "visible translate-y-0 scale-100 opacity-100" : "invisible -translate-y-2 scale-[.98] opacity-0")}>
                 <div className="grid grid-cols-2 gap-2">
-                  <Link href="/" className="rounded-xl p-4 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#f6f2e8]"><span className="mb-2 flex h-9 w-9 items-center justify-center rounded-lg bg-[#123f73]/10 text-[#123f73] transition-transform duration-300 group-hover:scale-105"><GraduationCap className="h-5 w-5" /></span><span className="block text-sm font-bold text-[#071d3b]">Pre & Primary School</span><span className="mt-1 block text-xs leading-relaxed text-slate-500">Our current school community and academic foundation.</span></Link>
+                  <Link href="/" className="group rounded-xl p-4 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#f6f2e8]"><span className="mb-2 flex h-9 w-9 items-center justify-center rounded-lg bg-[#123f73]/10 text-[#123f73] transition-transform duration-300 group-hover:scale-105"><GraduationCap className="h-5 w-5" /></span><span className="block text-sm font-bold text-[#071d3b]">Pre & Primary School</span><span className="mt-1 block text-xs leading-relaxed text-slate-500">Our current school community and academic foundation.</span></Link>
                   <Link href="/secondary" className="rounded-xl p-4 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#f6f2e8]"><span className="mb-2 flex h-9 w-9 items-center justify-center rounded-lg bg-[#c9a24b]/20 text-[#8a6a24]"><GraduationCap className="h-5 w-5" /></span><span className="flex items-center gap-2 text-sm font-bold text-[#071d3b]">Secondary School <span className="rounded-full bg-[#d8b55b]/20 px-2 py-0.5 text-[9px] font-bold uppercase text-[#8a6a24]">2028</span></span><span className="mt-1 block text-xs leading-relaxed text-slate-500">Our planned next stage of the Sammena education pathway.</span></Link>
                 </div>
               </div>
@@ -85,24 +99,23 @@ export function Navbar() {
               </div>
             </div>
             <Link href="/search" className="ml-1 rounded-md p-2.5 text-white/75 transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white" aria-label="Search Sammena website"><Search className="h-4 w-4" /></Link>
-            <Link href="/admissions" className="ml-2 inline-flex items-center gap-2 rounded-lg bg-[#c9a24b] px-4 py-2.5 text-[13px] font-bold text-[#071d3b] shadow-lg shadow-[#c9a24b]/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#dfc477]">Apply Now <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" /></Link>
+            <Link href="/admissions" className="group ml-2 inline-flex items-center gap-2 rounded-lg bg-[#c9a24b] px-4 py-2.5 text-[13px] font-bold text-[#071d3b] shadow-lg shadow-[#c9a24b]/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#dfc477]">Apply Now <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" /></Link>
           </div>
 
-          <button type="button" onClick={() => setMobileOpen(v => !v)} className="rounded-xl p-2.5 text-white transition-all duration-200 hover:scale-105 hover:bg-white/10 lg:hidden" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}>{mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}</button>
+          <button type="button" onClick={() => setMobileOpen(v => !v)} className="relative z-[70] flex min-h-11 min-w-11 items-center justify-center rounded-xl p-2.5 text-white transition-all duration-200 hover:scale-105 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d8b55b] lg:hidden" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen} aria-controls="mobile-navigation">{mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}</button>
         </nav>
       </div>
 
       <div className="hidden border-t border-[#d8b55b]/20 bg-[#f6f2e8] text-[#071d3b] md:block"><div className="mx-auto flex h-8 max-w-7xl items-center justify-between gap-4 px-4 text-[11px] sm:px-6 lg:px-8"><div className="flex min-w-0 items-center gap-3"><span className="shrink-0 font-bold uppercase tracking-[0.14em] text-[#8a6a24]">Official information</span><span className="hidden truncate text-slate-500 sm:inline">Admissions, school life, academic dates and approved Sammena resources.</span></div><div className="flex shrink-0 items-center gap-4 font-semibold"><Link href="/news" className="hover:text-[#8a6a24]">News & Events</Link><Link href="/calendar" className="hover:text-[#8a6a24]">Academic Calendar</Link><Link href="/resources" className="text-[#8a6a24] hover:text-[#071d3b]">Resource Centre</Link></div></div></div>
 
-      <div className={cn("fixed inset-x-0 bottom-0 top-[74px] overflow-y-auto bg-[#071d3b] transition-all duration-300 md:top-[110px] lg:hidden", mobileOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0")}>
-
+      <div id="mobile-navigation" role="dialog" aria-modal="true" aria-label="Mobile navigation" className={cn("fixed inset-x-0 bottom-0 top-[74px] z-[60] overflow-y-auto overscroll-contain bg-[#071d3b] pb-[env(safe-area-inset-bottom)] transition-[opacity,visibility,transform] duration-300 md:top-[110px] lg:hidden", mobileOpen ? "visible translate-y-0 opacity-100" : "invisible pointer-events-none -translate-y-2 opacity-0")}>
         <div className="mx-auto max-w-2xl px-5 py-6">
           <div className="mb-5 rounded-2xl border border-white/10 bg-white/5 p-4"><div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d8b55b]">SAMMENA SCHOOLS</div><div className="mt-1 text-sm text-white/65">Building Bright Minds. Shaping Better Futures.</div></div>
-          <Link href="/" className="mb-2 block rounded-xl px-4 py-3 text-base font-semibold text-white transition-all duration-200 hover:translate-x-1 hover:bg-white/5">Home</Link>
-          <div className="rounded-xl border border-white/10 p-2"><p className="px-3 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b55b]">Our Schools</p><Link href="/" className="block rounded-lg px-3 py-3 text-white/90 transition-all duration-200 hover:translate-x-1 hover:bg-white/5">Pre & Primary School</Link><Link href="/secondary" className="flex items-center justify-between rounded-lg px-3 py-3 text-white/90 transition-all duration-200 hover:translate-x-1 hover:bg-white/5">Secondary School <span className="rounded-full bg-[#d8b55b]/20 px-2 py-0.5 text-[10px] font-bold text-[#d8b55b]">2028</span></Link></div>
-          {navLinks.map(link => <Link key={link.href} href={link.href} className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 transition-all duration-200 hover:translate-x-1 hover:bg-white/5">{link.label}</Link>)}
-          <Link href="/resources" className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 transition-all duration-200 hover:translate-x-1 hover:bg-white/5">Resources</Link><Link href="/news" className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 transition-all duration-200 hover:translate-x-1 hover:bg-white/5">News & Events</Link><Link href="/search" className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 transition-all duration-200 hover:translate-x-1 hover:bg-white/5">Search</Link><Link href="/portal" className="mt-2 block rounded-xl border border-white/10 px-4 py-3 text-base font-semibold text-[#d8b55b] transition-all duration-200 hover:bg-white/5">Parent / Student Portal</Link>
-          <Link href="/admissions" className="mt-6 flex items-center justify-center gap-2 rounded-xl bg-[#c9a24b] px-5 py-4 font-bold text-[#071d3b] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#dfc477]">Apply for Admission <ChevronRight className="h-4 w-4" /></Link>
+          <Link onClick={closeMobileMenu} href="/" className="mb-2 block min-h-11 rounded-xl px-4 py-3 text-base font-semibold text-white transition-all duration-200 hover:translate-x-1 hover:bg-white/5">Home</Link>
+          <div className="rounded-xl border border-white/10 p-2"><p className="px-3 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b55b]">Our Schools</p><Link onClick={closeMobileMenu} href="/" className="block min-h-11 rounded-lg px-3 py-3 text-white/90 transition-all duration-200 hover:translate-x-1 hover:bg-white/5">Pre & Primary School</Link><Link onClick={closeMobileMenu} href="/secondary" className="flex min-h-11 items-center justify-between rounded-lg px-3 py-3 text-white/90 transition-all duration-200 hover:translate-x-1 hover:bg-white/5">Secondary School <span className="rounded-full bg-[#d8b55b]/20 px-2 py-0.5 text-[10px] font-bold text-[#d8b55b]">2028</span></Link></div>
+          {navLinks.map(link => <Link onClick={closeMobileMenu} key={link.href} href={link.href} className="mt-2 block min-h-11 rounded-xl px-4 py-3 text-base font-semibold text-white/90 transition-all duration-200 hover:translate-x-1 hover:bg-white/5">{link.label}</Link>)}
+          <Link onClick={closeMobileMenu} href="/resources" className="mt-2 block min-h-11 rounded-xl px-4 py-3 text-base font-semibold text-white/90 transition-all duration-200 hover:translate-x-1 hover:bg-white/5">Resources</Link><Link onClick={closeMobileMenu} href="/news" className="mt-2 block min-h-11 rounded-xl px-4 py-3 text-base font-semibold text-white/90 transition-all duration-200 hover:translate-x-1 hover:bg-white/5">News & Events</Link><Link onClick={closeMobileMenu} href="/search" className="mt-2 block min-h-11 rounded-xl px-4 py-3 text-base font-semibold text-white/90 transition-all duration-200 hover:translate-x-1 hover:bg-white/5">Search</Link><Link onClick={closeMobileMenu} href="/portal" className="mt-2 block min-h-11 rounded-xl border border-white/10 px-4 py-3 text-base font-semibold text-[#d8b55b] transition-all duration-200 hover:bg-white/5">Parent / Student Portal</Link>
+          <Link onClick={closeMobileMenu} href="/admissions" className="mt-6 flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#c9a24b] px-5 py-4 font-bold text-[#071d3b] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#dfc477]">Apply for Admission <ChevronRight className="h-4 w-4" /></Link>
         </div>
       </div>
     </header>
