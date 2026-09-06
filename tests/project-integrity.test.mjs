@@ -11,7 +11,8 @@ test('package scripts use the locked toolchain', () => {
   assert.equal(pkg.packageManager, 'pnpm@10.15.0')
   assert.equal(pkg.scripts.typecheck, 'tsc --noEmit')
   assert.equal(pkg.scripts.test, 'node --test')
-  assert.equal(pkg.devDependencies.vitest, undefined)
+  assert.equal(typeof pkg.devDependencies.vitest, 'string')
+  assert.equal(pkg.scripts['test:unit'], 'vitest run')
 })
 
 test('production metadata routes are present', () => {

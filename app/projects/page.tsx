@@ -2,7 +2,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import Link from "next/link"
 import {
-  Bath, Zap, GraduationCap, Egg, Road, ArrowRight, Heart, Target
+  Bath, Zap, GraduationCap, Egg, Construction, ArrowRight, Heart, Target
 } from "lucide-react"
 
 const projects = [
@@ -39,7 +39,7 @@ const projects = [
     priority: 4,
   },
   {
-    icon: Road,
+    icon: Construction,
     title: "Infrastructure & Access Road",
     description: "Improve safety, accessibility, and learning conditions by upgrading internal infrastructure and the road leading to the school.",
     scope: "School pathways, drainage, fencing improvements, and access road grading",

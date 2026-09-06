@@ -1,4 +1,5 @@
-import type { Class, Stream, Subject, TeachingAssignment } from "./types"
+import type { Class, Stream } from "./types"
+import type { Subject, TeachingAssignment } from "./supporting-types"
 
 export interface ClassRepository {
   readonly schoolId: string

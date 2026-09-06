@@ -1,4 +1,4 @@
-import type { AdmissionsApplication, ApplicationStatus } from "./types"
+import type { AdmissionApplication, ApplicationStatus } from "./types"
 import type { AdmissionsRepository } from "./repository"
 import { AdmissionsService } from "./service"
 
@@ -9,7 +9,7 @@ export class AdmissionsStaffService {
     this.service = new AdmissionsService(repository)
   }
 
-  async getApplication(reference: string): Promise<AdmissionsApplication> {
+  async getApplication(reference: string): Promise<AdmissionApplication> {
     const application = await this.service.getByReference(reference)
     if (!application) throw new Error("APPLICATION_NOT_FOUND")
     return application

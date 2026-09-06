@@ -6,7 +6,7 @@ export function normalizeAdmissionApplication(input: AdmissionApplicationInput):
     guardian: input.guardian.trim().replace(/\s+/g, " "),
     learner: input.learner.trim().replace(/\s+/g, " "),
     phone: input.phone.replace(/[\s()-]/g, ""),
-    email: input.email.trim().toLowerCase(),
+    email: (input.email ?? "").trim().toLowerCase(),
     previous: input.previous.trim(),
     homeRegion: input.homeRegion.trim(),
     homeDistrict: input.homeDistrict.trim(),

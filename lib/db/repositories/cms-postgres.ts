@@ -21,7 +21,8 @@ export class PostgresCmsRepository implements CmsRepository {
     const priority = content.type === "ANNOUNCEMENT" ? content.priority : null
     const excerpt = content.type === "NEWS" ? content.excerpt : null
     const body = content.type === "NEWS" ? content.body : null
-    const result = await getDbClient().query<CmsContentRow>(`insert into cms_content (id,type,title,slug,excerpt,body,category,summary,priority,status,published_at,expires_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) returning *`, [content.id, content.type, content.title, content.slug, excerpt, body, category, summary, priority, content.status, content.publishedAt ?? null, content.expiresAt ?? null])
+    const expiresAt = content.type === "ANNOUNCEMENT" ? content.expiresAt ?? null : null
+    const result = await getDbClient().query<CmsContentRow>(`insert into cms_content (id,type,title,slug,excerpt,body,category,summary,priority,status,published_at,expires_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) returning *`, [content.id, content.type, content.title, content.slug, excerpt, body, category, summary, priority, content.status, content.publishedAt ?? null, expiresAt])
     const row = result.rows[0]
     if (!row) throw new Error("DATABASE_INSERT_FAILED")
     return mapCmsRow(row)

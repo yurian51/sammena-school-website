@@ -15,8 +15,9 @@ const student: Student = {
 const repository: StudentRepository = {
   schoolId: "school-a",
   findById: async () => student,
-  findByAdmissionNumber: async () => student,
+  findByAdmissionNumber: async () => null,
   create: async value => value,
+  update: async (_id, input) => ({ ...student, ...input }),
 }
 
 describe("SIS school scope", () => {

@@ -1,4 +1,5 @@
-import type { AcademicYear, Enrollment, Guardian, Student } from "./types"
+import type { AcademicYear, Enrollment, Student } from "./types"
+import type { Guardian } from "./supporting-types"
 import type { StudentGuardian } from "./supporting-types"
 
 export interface SchoolScopedRepository {

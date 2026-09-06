@@ -1,19 +1,19 @@
-import type { AdmissionsApplication, ApplicationStatus } from "./types"
+import type { AdmissionApplication, ApplicationStatus } from "./types"
 
-export type DraftInput = Omit<AdmissionsApplication, "reference" | "status" | "createdAt" | "updatedAt">
+export type DraftInput = Omit<AdmissionApplication, "reference" | "status" | "createdAt" | "updatedAt">
 
 export interface AdmissionsRepository {
-  createDraft(reference: string, input: DraftInput): Promise<AdmissionsApplication>
-  findByReference(reference: string): Promise<AdmissionsApplication | null>
-  updateStatus(reference: string, status: ApplicationStatus): Promise<AdmissionsApplication>
+  createDraft(reference: string, input: DraftInput): Promise<AdmissionApplication>
+  findByReference(reference: string): Promise<AdmissionApplication | null>
+  updateStatus(reference: string, status: ApplicationStatus): Promise<AdmissionApplication>
 }
 
 export class InMemoryAdmissionsRepository implements AdmissionsRepository {
-  private readonly records = new Map<string, AdmissionsApplication>()
+  private readonly records = new Map<string, AdmissionApplication>()
 
   async createDraft(reference: string, input: DraftInput) {
     const now = new Date().toISOString()
-    const application: AdmissionsApplication = {
+    const application: AdmissionApplication = {
       ...input,
       reference,
       status: "DRAFT",

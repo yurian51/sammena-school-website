@@ -12,7 +12,7 @@ export class InMemoryCmsRepository implements CmsRepository {
 
   async listPublished(contentType?: CmsContent["type"]) {
     const now = Date.now()
-    return [...this.records.values()].filter(item => item.status === "PUBLISHED" && (!contentType || item.type === contentType) && (!item.expiresAt || Date.parse(item.expiresAt) > now))
+    return [...this.records.values()].filter(item => item.status === "PUBLISHED" && (!contentType || item.type === contentType) && (item.type !== "ANNOUNCEMENT" || !item.expiresAt || Date.parse(item.expiresAt) > now))
   }
   async findById(id: string) { return this.records.get(id) ?? null }
   async save(content: CmsContent) { this.records.set(content.id, content); return content }

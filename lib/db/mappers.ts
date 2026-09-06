@@ -1,8 +1,8 @@
 import type { ApplicationRow, CmsContentRow } from "./types"
-import type { AdmissionsApplication } from "../admissions/types"
+import type { AdmissionApplication } from "../admissions/types"
 import type { CmsContent } from "../cms/types"
 
-export function mapApplicationRow(row: ApplicationRow): AdmissionsApplication {
+export function mapApplicationRow(row: ApplicationRow): AdmissionApplication {
   return { reference: row.reference, status: row.status, guardian: { fullName: row.guardian_full_name, phone: row.guardian_phone, email: row.guardian_email ?? undefined }, learner: { fullName: row.learner_full_name, dateOfBirth: row.learner_date_of_birth, entryLevel: row.learner_entry_level, previousSchool: row.learner_previous_school ?? undefined }, createdAt: row.created_at, updatedAt: row.updated_at }
 }
 

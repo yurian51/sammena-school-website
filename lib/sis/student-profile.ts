@@ -1,4 +1,5 @@
-import type { Guardian, Student } from "./supporting-types"
+import type { Student } from "./types"
+import type { Guardian } from "./supporting-types"
 import type { Enrollment } from "./types"
 
 export interface StudentProfile {

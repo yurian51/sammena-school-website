@@ -13,6 +13,30 @@ export function canPublish(role: string): boolean {
 }
 
 export function toPublicContent(content: CmsContent, now = new Date()) {
-  if (!isPublicContent(content.status, content.publishedAt, content.expiresAt, now)) return null
-  return { id: content.id, type: content.type, title: content.title, slug: content.slug, excerpt: content.excerpt, body: content.body, publishedAt: content.publishedAt }
+  const expiresAt = content.type === "ANNOUNCEMENT" ? content.expiresAt : undefined
+  if (!isPublicContent(content.status, content.publishedAt, expiresAt, now)) return null
+
+  if (content.type === "NEWS") {
+    return {
+      id: content.id,
+      type: content.type,
+      title: content.title,
+      slug: content.slug,
+      excerpt: content.excerpt,
+      body: content.body,
+      category: content.category,
+      publishedAt: content.publishedAt,
+    }
+  }
+
+  return {
+    id: content.id,
+    type: content.type,
+    title: content.title,
+    slug: content.slug,
+    summary: content.summary,
+    priority: content.priority,
+    expiresAt: content.expiresAt,
+    publishedAt: content.publishedAt,
+  }
 }

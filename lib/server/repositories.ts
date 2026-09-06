@@ -12,12 +12,12 @@ export interface ServerServiceContext {
   schoolId: string
 }
 
-export function createServerServices(context: ServerServiceContext) {
+export function createServerServices(context: ServerServiceContext = { schoolId: process.env.SAMMENA_SCHOOL_ID ?? "public" }) {
   const admissionsRepository = new PostgresAdmissionsRepository()
   const cmsRepository = new PostgresCmsRepository()
-  const studentRepository = new PostgresStudentRepository()
-  const guardianRepository = new PostgresGuardianRepository()
-  const enrollmentRepository = new PostgresEnrollmentRepository()
+  const studentRepository = new PostgresStudentRepository(context.schoolId)
+  const guardianRepository = new PostgresGuardianRepository(context.schoolId)
+  const enrollmentRepository = new PostgresEnrollmentRepository(context.schoolId)
 
   return {
     admissions: new AdmissionsService(admissionsRepository),
