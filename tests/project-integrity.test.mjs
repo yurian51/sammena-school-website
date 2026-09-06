@@ -5,6 +5,7 @@ import path from 'node:path'
 
 const root = process.cwd()
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8')
+const exists = (file) => fs.existsSync(path.join(root, file))
 
 test('package scripts use the locked toolchain', () => {
   const pkg = JSON.parse(read('package.json'))
@@ -15,10 +16,18 @@ test('package scripts use the locked toolchain', () => {
   assert.equal(pkg.scripts['test:unit'], 'vitest run')
 })
 
+test('core institutional routes have page entrypoints', () => {
+  const routes = ['', 'about', 'academics', 'admissions', 'gallery', 'contact', 'secondary', 'resources', 'news', 'calendar', 'search']
+  for (const route of routes) {
+    const file = route ? `app/${route}/page.tsx` : 'app/page.tsx'
+    assert.ok(exists(file), `Missing route entrypoint: ${file}`)
+  }
+})
+
 test('production metadata routes are present', () => {
-  assert.ok(fs.existsSync(path.join(root, 'app', 'sitemap.ts')))
-  assert.ok(fs.existsSync(path.join(root, 'app', 'robots.ts')))
-  assert.ok(fs.existsSync(path.join(root, 'app', 'layout.tsx')))
+  assert.ok(exists('app/sitemap.ts'))
+  assert.ok(exists('app/robots.ts'))
+  assert.ok(exists('app/layout.tsx'))
 })
 
 test('public sitemap contains core institutional routes and excludes private areas', () => {
@@ -33,8 +42,8 @@ test('robots protects private and service routes', () => {
   const robots = read('app/robots.ts')
   assert.match(robots, /sitemap:/)
   assert.match(robots, /sitemap\.xml/)
-  assert.match(robots, /['"]\/api\//)
-  assert.match(robots, /['"]\/portal\//)
+  assert.match(robots, /['"]\/api['"]|['"]\/api\//)
+  assert.match(robots, /['"]\/portal['"]|['"]\/portal\//)
 })
 
 test('motion system fails open so animation cannot hide page content', () => {
