@@ -93,7 +93,8 @@ export function Navbar() {
 
       <div className="hidden border-t border-[#d8b55b]/20 bg-[#f6f2e8] text-[#071d3b] md:block"><div className="mx-auto flex h-8 max-w-7xl items-center justify-between gap-4 px-4 text-[11px] sm:px-6 lg:px-8"><div className="flex min-w-0 items-center gap-3"><span className="shrink-0 font-bold uppercase tracking-[0.14em] text-[#8a6a24]">Official information</span><span className="hidden truncate text-slate-500 sm:inline">Admissions, school life, academic dates and approved Sammena resources.</span></div><div className="flex shrink-0 items-center gap-4 font-semibold"><Link href="/news" className="hover:text-[#8a6a24]">News & Events</Link><Link href="/calendar" className="hover:text-[#8a6a24]">Academic Calendar</Link><Link href="/resources" className="text-[#8a6a24] hover:text-[#071d3b]">Resource Centre</Link></div></div></div>
 
-      <div className={cn("fixed inset-x-0 bottom-0 top-[74px] overflow-y-auto bg-[#071d3b] transition-all duration-300 lg:hidden", mobileOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0")}>
+      <div className={cn("fixed inset-x-0 bottom-0 top-[74px] overflow-y-auto bg-[#071d3b] transition-all duration-300 md:top-[110px] lg:hidden", mobileOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0")}>
+
         <div className="mx-auto max-w-2xl px-5 py-6">
           <div className="mb-5 rounded-2xl border border-white/10 bg-white/5 p-4"><div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d8b55b]">SAMMENA SCHOOLS</div><div className="mt-1 text-sm text-white/65">Building Bright Minds. Shaping Better Futures.</div></div>
           <Link href="/" className="mb-2 block rounded-xl px-4 py-3 text-base font-semibold text-white transition-all duration-200 hover:translate-x-1 hover:bg-white/5">Home</Link>
