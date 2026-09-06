@@ -1,35 +1,29 @@
 import Link from "next/link"
-import { ArrowRight, GraduationCap, Phone, Mail, MapPin } from "lucide-react"
+import { ArrowRight, ExternalLink, GraduationCap, Mail, MapPin, Phone } from "lucide-react"
 
 const groups = [
   { title: "Explore", links: [["/", "Home"], ["/about", "About Sammena"], ["/academics", "Academics"], ["/secondary", "Secondary School · 2028"]] },
-  { title: "School Services", links: [["/admissions", "Admissions"], ["/admissions/fees", "Fees & Payment Guide"], ["/resources", "Resource Centre"], ["/calendar", "Academic Calendar"], ["/portal", "Parent / Student Portal"]] },
+  { title: "Admissions & Services", links: [["/admissions", "Admissions"], ["/admissions/fees", "Fees & Payment Guide"], ["/resources", "Resource Centre"], ["/calendar", "Academic Calendar"], ["/portal", "Parent / Student Portal"]] },
   { title: "Community", links: [["/gallery", "School Life"], ["/news", "News & Events"], ["/search", "Search Website"], ["/contact", "Contact Sammena"]] },
 ]
+
+const partnerLinks = ["School leadership", "Family experience", "Learning pathway", "Official notices"]
 
 export function Footer() {
   return (
     <footer className="bg-school-dark text-white">
+      <div className="border-b border-white/10 bg-white/[0.03]"><div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-7 gap-y-3 px-5 py-4 text-xs text-white/55 sm:px-6 lg:px-8"><span className="font-bold uppercase tracking-[0.18em] text-school-gold">SAMMENA SCHOOLS</span>{partnerLinks.map((label) => <span key={label} className="inline-flex items-center gap-2"><span className="h-1 w-1 rounded-full bg-school-gold/70" />{label}</span>)}</div></div>
       <div className="mx-auto max-w-7xl px-5 pb-8 pt-14 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1.35fr_2fr]">
+        <div className="grid gap-12 xl:grid-cols-[1.25fr_2fr]">
           <div>
-            <Link href="/" className="group inline-flex items-center gap-3" aria-label="SAMMENA SCHOOLS home">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-[#123f73] shadow-sm ring-1 ring-[#d8b55b]/70 transition-all duration-400 group-hover:-rotate-3 group-hover:scale-105 group-hover:shadow-lg"><GraduationCap className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" /></span>
-              <span className="leading-none"><span className="block text-lg font-extrabold tracking-[0.08em] transition-colors duration-300 group-hover:text-[#d8b55b]">SAMMENA</span><span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.3em] text-school-gold">Schools</span></span>
-            </Link>
+            <Link href="/" className="group inline-flex items-center gap-3" aria-label="SAMMENA SCHOOLS home"><span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-[#123f73] shadow-sm ring-1 ring-[#d8b55b]/70 transition-all duration-400 group-hover:-rotate-3 group-hover:scale-105 group-hover:shadow-lg"><GraduationCap className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" /></span><span className="leading-none"><span className="block text-lg font-extrabold tracking-[0.08em] transition-colors duration-300 group-hover:text-[#d8b55b]">SAMMENA</span><span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.3em] text-school-gold">Schools</span></span></Link>
             <p className="mt-5 max-w-md text-sm leading-7 text-white/60">Building bright minds and shaping better futures through learning, character, wellbeing and meaningful school experiences.</p>
-            <Link href="/admissions" className="group relative mt-6 inline-flex overflow-hidden items-center gap-2 rounded-xl bg-school-gold px-4 py-3 text-sm font-bold text-school-dark transition-all duration-300 hover:-translate-y-0.5 hover:bg-school-gold-light hover:shadow-lg"><span className="relative z-10">Apply for Admission</span><ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" /></Link>
+            <div className="mt-6 flex flex-wrap gap-3"><Link href="/admissions" className="group inline-flex items-center gap-2 rounded-xl bg-school-gold px-4 py-3 text-sm font-bold text-school-dark transition-all hover:-translate-y-0.5 hover:bg-school-gold-light hover:shadow-lg"><span>Apply for Admission</span><ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link><Link href="/contact" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-3 text-sm font-semibold text-white/80 transition-all hover:border-white/30 hover:bg-white/5 hover:text-white">Contact School</Link></div>
           </div>
-          <div className="grid gap-8 sm:grid-cols-3">
-            {groups.map(group => <div key={group.title}><h2 className="text-xs font-bold uppercase tracking-[0.18em] text-school-gold">{group.title}</h2><ul className="mt-4 space-y-3">{group.links.map(([href,label]) => <li key={href}><Link href={href} className="group/link inline-flex text-sm text-white/60 transition-all duration-250 hover:translate-x-1 hover:text-white"><span>{label}</span><ArrowRight className="ml-1 h-3.5 w-3.5 -translate-x-1 opacity-0 transition-all duration-250 group-hover/link:translate-x-0 group-hover/link:opacity-100" /></Link></li>)}</ul></div>)}
-          </div>
+          <div className="grid gap-8 sm:grid-cols-3">{groups.map(group => <div key={group.title}><h2 className="text-xs font-bold uppercase tracking-[0.18em] text-school-gold">{group.title}</h2><ul className="mt-4 space-y-3">{group.links.map(([href, label]) => <li key={href}><Link href={href} className="group/link inline-flex text-sm text-white/60 transition-all hover:translate-x-1 hover:text-white"><span>{label}</span><ArrowRight className="ml-1 h-3.5 w-3.5 -translate-x-1 opacity-0 transition-all group-hover/link:translate-x-0 group-hover/link:opacity-100" /></Link></li>)}</ul></div>)}</div>
         </div>
-        <div className="mt-12 grid gap-5 border-t border-white/10 pt-7 sm:grid-cols-3">
-          <div className="group flex items-start gap-2.5 text-sm text-white/60 transition-colors duration-300 hover:text-white"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-school-gold transition-transform duration-300 group-hover:-translate-y-0.5" /><span>Tanzania, East Africa</span></div>
-          <div className="group flex items-center gap-2.5 text-sm text-white/60 transition-colors duration-300 hover:text-white"><Phone className="h-4 w-4 shrink-0 text-school-gold transition-transform duration-300 group-hover:scale-110" /><span>Official school contact</span></div>
-          <div className="group flex items-center gap-2.5 text-sm text-white/60 transition-colors duration-300 hover:text-white"><Mail className="h-4 w-4 shrink-0 text-school-gold transition-transform duration-300 group-hover:scale-110" /><span>Official email</span></div>
-        </div>
-        <div className="mt-7 flex flex-col gap-2 border-t border-white/10 pt-5 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between"><p>© {new Date().getFullYear()} SAMMENA SCHOOLS. All rights reserved.</p><p>Established 2018 · Building Bright Minds. Shaping Better Futures.</p></div>
+        <div className="mt-12 grid gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:grid-cols-3"><div className="flex items-start gap-2.5 text-sm text-white/60"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-school-gold" /><span>Tanzania, East Africa</span></div><div className="flex items-center gap-2.5 text-sm text-white/60"><Phone className="h-4 w-4 shrink-0 text-school-gold" /><span>Official school contact</span></div><div className="flex items-center gap-2.5 text-sm text-white/60"><Mail className="h-4 w-4 shrink-0 text-school-gold" /><span>Official email</span></div></div>
+        <div className="mt-7 flex flex-col gap-2 border-t border-white/10 pt-5 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between"><p>© {new Date().getFullYear()} SAMMENA SCHOOLS. All rights reserved.</p><p className="inline-flex items-center gap-1.5">Established 2018 · Building Bright Minds. Shaping Better Futures. <ExternalLink className="h-3 w-3" /></p></div>
       </div>
     </footer>
   )
