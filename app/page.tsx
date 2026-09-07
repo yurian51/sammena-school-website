@@ -2,75 +2,100 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, BookOpen, CheckCircle2, ChevronRight, Heart, ShieldCheck, Sparkles, Trophy, Users } from "lucide-react"
+import { ArrowRight, Bell, BookOpen, CalendarDays, ChevronRight, FileText, GraduationCap, Users } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { InstitutionalSections } from "@/components/institutional-sections"
-import { cn } from "@/lib/utils"
-import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
-const reasons = [
-  { icon: BookOpen, title: "A Strong Learning Foundation", text: "A learning environment designed to build confidence, knowledge, discipline and curiosity from the early years through primary education." },
-  { icon: Heart, title: "Care Beyond the Classroom", text: "We believe education includes character, wellbeing, belonging and the support children need to grow with confidence." },
-  { icon: Trophy, title: "Whole-Child Development", text: "Academic learning is strengthened through sport, creativity, leadership, teamwork and meaningful school experiences." },
-  { icon: ShieldCheck, title: "A Safe School Community", text: "Our school experience is designed around respect, responsibility, care and a positive environment for learners." },
+const quickLinks = [
+  { href: "/admissions", title: "Admissions", text: "Application information, requirements and guidance.", icon: GraduationCap },
+  { href: "/academics", title: "Academics", text: "Learning programmes, subjects and academic information.", icon: BookOpen },
+  { href: "/calendar", title: "Academic Calendar", text: "Important school dates, terms and activities.", icon: CalendarDays },
+  { href: "/resources", title: "Downloads", text: "Forms, documents, policies and school resources.", icon: FileText },
 ]
-
-const journey = [
-  { title: "Early Years", text: "Building confidence, communication and positive learning habits." },
-  { title: "Pre-Primary", text: "Developing foundational literacy, numeracy, social and practical skills." },
-  { title: "Primary", text: "Strengthening academic knowledge, character, independence and responsibility." },
-  { title: "The Next Chapter", text: "A planned pathway toward secondary education under the SAMMENA SCHOOLS vision." },
-]
-
-const highlights = ["Child-centred learning", "Academic and character development", "Family and community connection", "Sport and co-curricular growth"]
-
-function Reveal({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
-  const { ref, isVisible } = useScrollAnimation()
-  return <div ref={ref} data-motion="section" data-visible={isVisible ? "true" : "false"} className={cn(className)} style={{ transitionDelay: `${delay}ms` }}>{children}</div>
-}
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen overflow-x-hidden bg-background">
+    <main className="min-h-screen bg-white text-slate-800">
       <Navbar />
 
-      <section className="relative isolate flex min-h-[760px] items-center overflow-hidden bg-[#071d3b] pt-24 text-white lg:min-h-screen">
-        <Image src="/images/hero-bg.jpg" alt="Sammena school campus" fill priority className="object-cover" />
-        <div className="absolute inset-0 bg-[#071d3b]/78" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#071d3b]/95 via-[#071d3b]/72 to-[#071d3b]/35" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#071d3b] to-transparent" />
-        <div className="relative mx-auto w-full max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#d8b55b]/35 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#ead28d] backdrop-blur-md"><Sparkles className="h-4 w-4" /> SAMMENA SCHOOLS</div>
-            <h1 className="mt-7 text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">Building Bright Minds.<span className="block text-[#d8b55b]">Shaping Better Futures.</span></h1>
-            <p className="mt-7 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">Welcome to Sammena Schools, an education community focused on helping children learn, grow, discover their strengths and prepare for the future.</p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row"><Link href="/admissions" className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#c9a24b] px-6 py-3.5 font-bold text-[#071d3b] shadow-xl transition hover:-translate-y-0.5 hover:bg-[#dfc477]">Start an Admission <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link><Link href="/about" className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3.5 font-semibold text-white backdrop-blur-sm transition hover:bg-white/15">Discover Sammena <ChevronRight className="h-4 w-4" /></Link></div>
+      <section className="relative border-b border-slate-200 bg-[#0a3158] pt-[118px] text-white">
+        <div className="mx-auto grid max-w-7xl items-stretch lg:grid-cols-[1.05fr_.95fr]">
+          <div className="flex min-h-[500px] flex-col justify-center px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#e2c46c]">SAMMENA SCHOOLS</p>
+            <h1 className="mt-5 max-w-3xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">Sammena Pre & Primary School</h1>
+            <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">A learning community committed to strong foundations, character, responsibility and meaningful opportunities for every child.</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/admissions" className="inline-flex items-center gap-2 bg-[#c8a64b] px-6 py-3.5 font-bold text-[#071d3b] transition-colors hover:bg-[#ddc16b]">Admissions <ArrowRight className="h-4 w-4" /></Link>
+              <Link href="/about" className="inline-flex items-center gap-2 border border-white/35 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-white/10">About the School <ChevronRight className="h-4 w-4" /></Link>
+            </div>
           </div>
-          <div className="mt-16 grid max-w-4xl gap-3 sm:grid-cols-2 lg:grid-cols-4">{highlights.map((item, index) => <div key={item} className="group flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80 backdrop-blur-md transition-all duration-500 hover:-translate-y-1 hover:border-[#d8b55b]/30 hover:bg-white/10" style={{ animationDelay: `${index * 80}ms` }}><CheckCircle2 className="h-4 w-4 shrink-0 text-[#d8b55b] transition-transform duration-300 group-hover:scale-110" />{item}</div>)}</div>
+          <div className="relative min-h-[330px] lg:min-h-[500px]">
+            <Image src="/images/hero-bg.jpg" alt="Sammena school campus" fill priority className="object-cover" />
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-slate-200 bg-[#f7f7f5]">
+        <div className="mx-auto max-w-7xl px-5 py-3 sm:px-8">
+          <div className="flex items-center gap-4 text-sm">
+            <span className="flex shrink-0 items-center gap-2 font-bold uppercase tracking-[0.12em] text-[#0a3158]"><Bell className="h-4 w-4 text-[#a17d24]" /> Official Notice</span>
+            <span className="hidden h-4 w-px bg-slate-300 sm:block" />
+            <span className="truncate text-slate-600">Admissions, academic dates and approved school announcements are published through the official information centre.</span>
+            <Link href="/news" className="ml-auto hidden shrink-0 font-semibold text-[#8a6a24] sm:inline-flex">View updates <ArrowRight className="ml-1 h-4 w-4" /></Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-slate-200 bg-white py-12 sm:py-14">
+        <div className="mx-auto grid max-w-7xl gap-px border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-4">
+          {quickLinks.map(({ href, title, text, icon: Icon }) => (
+            <Link key={href} href={href} className="group bg-white p-6 transition-colors hover:bg-[#faf8f1]">
+              <Icon className="h-6 w-6 text-[#9b7728]" />
+              <h2 className="mt-4 text-lg font-bold text-[#0a3158]">{title}</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-500">{text}</p>
+              <span className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[#8a6a24]">Open <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
+            </Link>
+          ))}
         </div>
       </section>
 
       <InstitutionalSections />
 
-      <section className="relative overflow-hidden py-20 sm:py-24 lg:py-28">
-        <div className="absolute -right-40 top-0 h-96 w-96 rounded-full bg-[#d8b55b]/10 blur-3xl" />
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:gap-20 lg:px-8">
-          <Reveal><span className="text-sm font-bold uppercase tracking-[0.2em] text-[#9a7628]">Welcome to Sammena</span><h2 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-[#071d3b] sm:text-4xl lg:text-5xl">Education with purpose, character and a future in mind.</h2><p className="mt-6 text-base leading-8 text-slate-600 sm:text-lg">Sammena Schools brings together the values, people and learning experiences that make a school community meaningful. Our approach is centred on strong foundations, responsible citizenship and helping every learner discover what they can become.</p><div className="mt-8 flex flex-wrap gap-3">{[[Users, "Community"], [Heart, "Care"], [BookOpen, "Learning"], [Trophy, "Growth"]].map(([Icon, label]) => { const IconComponent = Icon as typeof Users; return <div key={label as string} data-motion="card" className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-[#071d3b] shadow-sm"><IconComponent className="h-4 w-4 text-[#b28b32]" />{label as string}</div> })}</div><Link href="/about" className="group mt-9 inline-flex items-center gap-2 font-bold text-[#8a6a24]">Learn about Sammena <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link></Reveal>
-          <Reveal delay={150} className="relative"><div data-motion="card" className="relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-2xl"><Image src="/images/about-school.jpg" alt="Students at Sammena School" fill className="object-cover transition duration-700 hover:scale-105" /><div className="absolute inset-0 bg-gradient-to-t from-[#071d3b]/55 to-transparent" /><div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/15 bg-[#071d3b]/75 p-5 text-white backdrop-blur-md"><p className="text-xs font-bold uppercase tracking-[0.18em] text-[#d8b55b]">Our commitment</p><p className="mt-2 text-sm leading-6 text-white/80">Create an environment where learning, character and opportunity grow together.</p></div></div></Reveal>
+      <section className="border-y border-slate-200 bg-white py-16 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-[0.16em] text-[#9b7728]">Welcome to Sammena</p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-[#0a3158] sm:text-4xl">Education grounded in learning, character and community.</h2>
+            <p className="mt-5 leading-8 text-slate-600">Sammena Schools is building a clear education pathway from the early years through primary education, with a long-term vision for secondary education. Our website is designed to give families reliable information about the school, admissions, academics, activities and official resources.</p>
+            <Link href="/about" className="mt-7 inline-flex items-center gap-2 font-bold text-[#8a6a24]">Read about Sammena <ArrowRight className="h-4 w-4" /></Link>
+          </div>
+          <div className="relative aspect-[16/10] overflow-hidden border border-slate-200">
+            <Image src="/images/about-school.jpg" alt="Students at Sammena School" fill className="object-cover" />
+          </div>
         </div>
       </section>
 
-      <section className="bg-[#f6f2e8] py-20 sm:py-24"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><Reveal className="mx-auto max-w-2xl text-center"><span className="text-sm font-bold uppercase tracking-[0.2em] text-[#9a7628]">Our Schools</span><h2 className="mt-3 text-3xl font-bold tracking-tight text-[#071d3b] sm:text-4xl">One vision. A growing education pathway.</h2><p className="mt-4 leading-7 text-slate-600">Explore the current school community and the planned next chapter of the SAMMENA SCHOOLS journey.</p></Reveal><div className="mt-12 grid gap-6 lg:grid-cols-2">
-        <Reveal><Link href="/" data-motion="card" className="group block h-full overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"><div className="relative aspect-[16/8] overflow-hidden"><Image src="/images/hero-bg.jpg" alt="Sammena Pre & Primary School" fill className="object-cover transition duration-700 group-hover:scale-105" /><div className="absolute inset-0 bg-gradient-to-t from-[#071d3b]/80 to-transparent" /><div className="absolute bottom-5 left-6"><span className="rounded-full bg-white/15 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white backdrop-blur">Current school</span></div></div><div className="p-7"><h3 className="text-2xl font-bold text-[#071d3b]">Sammena Pre & Primary School</h3><p className="mt-3 leading-7 text-slate-600">Discover our learning environment, academic approach, school life and admissions information.</p><span className="mt-6 inline-flex items-center gap-2 font-bold text-[#8a6a24]">Explore the school <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></span></div></Link></Reveal>
-        <Reveal delay={120}><Link href="/secondary" data-motion="card" className="group block h-full overflow-hidden rounded-3xl border border-[#d8b55b]/30 bg-[#071d3b] text-white"><div className="relative overflow-hidden p-8 sm:p-10 lg:min-h-[390px]"><div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#d8b55b]/15 blur-3xl" /><div className="relative"><span className="inline-flex rounded-full border border-[#d8b55b]/35 bg-white/5 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[#ead28d]">Planned expansion · 2028</span><h3 className="mt-7 text-3xl font-bold">Sammena Secondary School</h3><p className="mt-4 max-w-lg leading-7 text-white/70">The planned next chapter of the Sammena education pathway, presented clearly as future institutional planning.</p><div className="mt-8 flex items-center gap-2 font-bold text-[#d8b55b]">View the 2028 plan <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></div></div></div></Link></Reveal>
-      </div></div></section>
+      <section className="bg-[#f7f7f5] py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="flex flex-col justify-between gap-4 border-b border-slate-300 pb-5 sm:flex-row sm:items-end">
+            <div><p className="text-sm font-bold uppercase tracking-[0.16em] text-[#9b7728]">School information</p><h2 className="mt-2 text-3xl font-bold text-[#0a3158]">News, notices and school life</h2></div>
+            <Link href="/news" className="inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24]">All news and events <ArrowRight className="h-4 w-4" /></Link>
+          </div>
+          <div className="mt-8 grid gap-6 lg:grid-cols-3">
+            <article className="border border-slate-200 bg-white p-6"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#9b7728]">Announcements</p><h3 className="mt-4 text-xl font-bold text-[#0a3158]">Official school notices</h3><p className="mt-3 text-sm leading-7 text-slate-600">Approved announcements and important family information will be published in one place.</p><Link href="/news" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24]">View announcements <ArrowRight className="h-4 w-4" /></Link></article>
+            <article className="border border-slate-200 bg-white p-6"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#9b7728]">Academic Calendar</p><h3 className="mt-4 text-xl font-bold text-[#0a3158]">Important dates</h3><p className="mt-3 text-sm leading-7 text-slate-600">Term dates, examinations, meetings and school activities can be found in the official calendar.</p><Link href="/calendar" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24]">Open calendar <ArrowRight className="h-4 w-4" /></Link></article>
+            <article className="border border-slate-200 bg-white p-6"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#9b7728]">School Life</p><h3 className="mt-4 text-xl font-bold text-[#0a3158]">Learning beyond the classroom</h3><p className="mt-3 text-sm leading-7 text-slate-600">Explore school activities, events, student experiences and the wider Sammena community.</p><Link href="/gallery" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24]">View school life <ArrowRight className="h-4 w-4" /></Link></article>
+          </div>
+        </div>
+      </section>
 
-      <section className="py-20 sm:py-24 lg:py-28"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:items-end"><Reveal><span className="text-sm font-bold uppercase tracking-[0.2em] text-[#9a7628]">Why Sammena</span><h2 className="mt-4 text-3xl font-bold tracking-tight text-[#071d3b] sm:text-4xl">More than a place to learn.</h2><p className="mt-5 leading-7 text-slate-600">The strongest school experience connects academic progress with confidence, character, relationships and real opportunities to grow.</p></Reveal><Reveal delay={100} className="grid gap-4 sm:grid-cols-2">{reasons.map(({ icon: Icon, title, text }) => <article key={title} data-motion="card" className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#071d3b] text-[#d8b55b]"><Icon className="h-5 w-5" /></div><h3 className="mt-5 font-bold text-[#071d3b]">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{text}</p></article>)}</Reveal></div></div></section>
-
-      <section className="bg-[#071d3b] py-20 text-white sm:py-24"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><Reveal className="max-w-2xl"><span className="text-sm font-bold uppercase tracking-[0.2em] text-[#d8b55b]">The learning journey</span><h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">A pathway built for growth.</h2><p className="mt-5 leading-7 text-white/65">From early foundations to future secondary education, the SAMMENA SCHOOLS vision is designed around continuity and purposeful development.</p></Reveal><div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">{journey.map((item, index) => <Reveal key={item.title} delay={index * 80}><article data-motion="card" className="relative h-full rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm"><div className="text-sm font-bold text-[#d8b55b]">0{index + 1}</div><h3 className="mt-5 text-lg font-bold">{item.title}</h3><p className="mt-3 text-sm leading-6 text-white/60">{item.text}</p></article></Reveal>)}</div></div></section>
-
-      <section className="relative overflow-hidden py-20 sm:py-24"><div className="absolute inset-0 bg-[#f6f2e8]" /><div className="absolute -right-24 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#d8b55b]/15 blur-3xl" /><Reveal className="relative mx-auto max-w-5xl px-5 text-center sm:px-6"><span className="text-sm font-bold uppercase tracking-[0.2em] text-[#9a7628]">Admissions</span><h2 className="mt-4 text-3xl font-bold tracking-tight text-[#071d3b] sm:text-4xl">Give your child a strong place to begin.</h2><p className="mx-auto mt-5 max-w-2xl leading-7 text-slate-600">Learn about the admission process, requirements and the information families need before applying.</p><div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row"><Link href="/admissions" className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#071d3b] px-6 py-3.5 font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#123f73]">Explore Admissions <ArrowRight className="h-4 w-4" /></Link><Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3.5 font-bold text-[#071d3b] transition hover:-translate-y-0.5 hover:border-[#c9a24b]">Contact Sammena <ChevronRight className="h-4 w-4" /></Link></div></Reveal></section>
+      <section className="border-t border-slate-200 bg-[#0a3158] py-16 text-white sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[1.2fr_.8fr] lg:items-center">
+          <div><p className="text-sm font-bold uppercase tracking-[0.16em] text-[#e2c46c]">Our community</p><h2 className="mt-3 text-3xl font-bold sm:text-4xl">A school is built by its people.</h2><p className="mt-5 max-w-2xl leading-8 text-white/75">Students, teachers, families and the wider community all have a role in creating a respectful and purposeful learning environment.</p></div>
+          <div className="grid grid-cols-2 gap-px border border-white/15 bg-white/15"><div className="bg-[#0a3158] p-5"><Users className="h-5 w-5 text-[#e2c46c]" /><p className="mt-3 text-sm font-semibold">Students & families</p></div><div className="bg-[#0a3158] p-5"><BookOpen className="h-5 w-5 text-[#e2c46c]" /><p className="mt-3 text-sm font-semibold">Teaching & learning</p></div></div>
+        </div>
+      </section>
 
       <Footer />
     </main>
