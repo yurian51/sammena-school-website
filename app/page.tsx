@@ -19,18 +19,18 @@ export default function HomePage() {
     <main className="min-h-screen bg-white text-slate-800">
       <Navbar />
 
-      <section className="relative border-b border-slate-200 bg-[#0a3158] pt-[118px] text-white">
+      <section className="hero-institutional relative border-b border-slate-200 bg-[#0a3158] pt-[118px] text-white">
         <div className="mx-auto grid max-w-7xl items-stretch lg:grid-cols-[1.05fr_.95fr]">
           <div className="flex min-h-[500px] flex-col justify-center px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
-            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#e2c46c]">SAMMENA SCHOOLS</p>
+            <p className="institutional-rule text-sm font-semibold uppercase tracking-[0.16em] text-[#e2c46c]">SAMMENA SCHOOLS</p>
             <h1 className="mt-5 max-w-3xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">Sammena Pre & Primary School</h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">A learning community committed to strong foundations, character, responsibility and meaningful opportunities for every child.</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/admissions" className="inline-flex items-center gap-2 bg-[#c8a64b] px-6 py-3.5 font-bold text-[#071d3b] transition-colors hover:bg-[#ddc16b]">Admissions <ArrowRight className="h-4 w-4" /></Link>
-              <Link href="/about" className="inline-flex items-center gap-2 border border-white/35 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-white/10">About the School <ChevronRight className="h-4 w-4" /></Link>
+              <Link href="/admissions" className="link-arrow inline-flex items-center gap-2 bg-[#c8a64b] px-6 py-3.5 font-bold text-[#071d3b] transition-colors hover:bg-[#ddc16b]">Admissions <ArrowRight className="h-4 w-4" /></Link>
+              <Link href="/about" className="link-arrow inline-flex items-center gap-2 border border-white/35 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-white/10">About the School <ChevronRight className="h-4 w-4" /></Link>
             </div>
           </div>
-          <div className="relative min-h-[330px] lg:min-h-[500px]">
+          <div className="media-frame relative min-h-[330px] lg:min-h-[500px]">
             <Image src="/images/hero-bg.jpg" alt="Sammena school campus" fill priority className="object-cover" />
           </div>
         </div>
@@ -96,7 +96,7 @@ export default function HomePage() {
             <p className="mt-5 leading-8 text-slate-600">Sammena Schools is building a clear education pathway from the early years through primary education, with a long-term vision for secondary education. Our website is designed to give families reliable information about the school, admissions, academics, activities and official resources.</p>
             <Link href="/about" className="mt-7 inline-flex items-center gap-2 font-bold text-[#8a6a24]">Read about Sammena <ArrowRight className="h-4 w-4" /></Link>
           </div>
-          <div className="relative aspect-[16/10] overflow-hidden border border-slate-200">
+          <div className="media-frame relative aspect-[16/10] overflow-hidden border border-slate-200">
             <Image src="/images/about-school.jpg" alt="Students at Sammena School" fill className="object-cover" />
           </div>
         </div>
