@@ -19,7 +19,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-white text-slate-800">
       <Navbar />
 
-      <section className="hero-institutional relative border-b border-slate-200 bg-[#0a3158] pt-[118px] text-white">
+      <section className="hero-institutional group relative border-b border-slate-200 bg-[#0a3158] pt-[118px] text-white">
         <div className="mx-auto grid max-w-7xl items-stretch lg:grid-cols-[1.05fr_.95fr]">
           <div className="flex min-h-[500px] flex-col justify-center px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
             <p className="institutional-rule text-sm font-semibold uppercase tracking-[0.16em] text-[#e2c46c]">SAMMENA SCHOOLS</p>
