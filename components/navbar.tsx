@@ -53,41 +53,28 @@ export function Navbar() {
 
   useEffect(() => {
     if (!mobileOpen) return
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Tab") {
-        const items = Array.from(document.querySelectorAll<HTMLElement>("[data-mobile-nav] a, [data-mobile-nav] button"))
-        if (!items.length) return
-        const first = items[0], last = items[items.length - 1]
-        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
-        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
-      }
-    }
-    document.addEventListener("keydown", onKeyDown)
-    return () => document.removeEventListener("keydown", onKeyDown)
-  }, [mobileOpen])
-
-  useEffect(() => {
-    if (!mobileOpen) return
     const first = document.querySelector<HTMLElement>("[data-mobile-nav] a, [data-mobile-nav] button")
     first?.focus()
   }, [mobileOpen])
 
   useEffect(() => {
-    if (!mobileOpen) {
-      document.body.style.overflow = ""
-      return
+    if (!mobileOpen) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Tab") return
+      const items = Array.from(document.querySelectorAll<HTMLElement>("[data-mobile-nav] a, [data-mobile-nav] button"))
+      if (!items.length) return
+      const first = items[0]
+      const last = items[items.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
     }
-      document.body.style.overflow = ""
-      return
-    }
-    const previous = document.body.style.overflow
-    document.body.style.overflow = "hidden"
-    const onKeyDown = (event: KeyboardEvent) => event.key === "Escape" && setMobileOpen(false)
     document.addEventListener("keydown", onKeyDown)
-    return () => {
-      document.body.style.overflow = previous
-      document.removeEventListener("keydown", onKeyDown)
-    }
+    return () => document.removeEventListener("keydown", onKeyDown)
   }, [mobileOpen])
 
   const closeMobileMenu = () => setMobileOpen(false)
