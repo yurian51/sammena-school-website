@@ -19,13 +19,13 @@ export default function HomePage() {
     <main className="min-h-screen bg-white text-slate-800">
       <Navbar />
 
-      <section className="hero-institutional group relative border-b border-slate-200 bg-[#0a3158] pt-[118px] text-white">
+      <section className="hero-institutional group relative motion-safe:transition-colors border-b border-slate-200 bg-[#0a3158] pt-[118px] text-white">
         <div className="mx-auto grid max-w-7xl items-stretch lg:grid-cols-[1.05fr_.95fr]">
           <div className="flex min-h-[500px] flex-col justify-center px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
             <p className="institutional-rule text-sm font-semibold uppercase tracking-[0.16em] text-[#e2c46c]">SAMMENA SCHOOLS</p>
-            <h1 className="mt-5 max-w-3xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">Sammena Pre & Primary School</h1>
+            <h1 className="mt-5 max-w-3xl text-4xl font-bold leading-tight motion-safe:transition-transform motion-safe:duration-500 sm:text-5xl lg:text-6xl group-hover:translate-x-0.5">Sammena Pre & Primary School</h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">A learning community committed to strong foundations, character, responsibility and meaningful opportunities for every child.</p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-3 motion-safe:animate-[fadeIn_.7s_ease-out]">
               <Link href="/admissions" className="link-arrow inline-flex items-center gap-2 bg-[#c8a64b] px-6 py-3.5 font-bold text-[#071d3b] transition-colors hover:bg-[#ddc16b]">Admissions <ArrowRight className="h-4 w-4" /></Link>
               <Link href="/about" className="link-arrow inline-flex items-center gap-2 border border-white/35 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-white/10">About the School <ChevronRight className="h-4 w-4" /></Link>
             </div>
@@ -88,7 +88,7 @@ export default function HomePage() {
 
       <InstitutionalSections />
 
-      <section className="border-y border-slate-200 bg-white py-16 sm:py-20">
+      <section className="border-y border-slate-200 bg-white py-16 motion-safe:animate-[fadeIn_.7s_ease-out] sm:py-20">
         <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.16em] text-[#9b7728]">Welcome to Sammena</p>
@@ -102,7 +102,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[#f7f7f5] py-16 sm:py-20">
+      <section className="bg-[#f7f7f5] py-16 motion-safe:animate-[fadeIn_.7s_ease-out] sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="flex flex-col justify-between gap-4 border-b border-slate-300 pb-5 sm:flex-row sm:items-end">
             <div><p className="text-sm font-bold uppercase tracking-[0.16em] text-[#9b7728]">School information</p><h2 className="mt-2 text-3xl font-bold text-[#0a3158]">News, notices and school life</h2></div>
