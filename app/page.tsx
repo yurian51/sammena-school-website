@@ -23,7 +23,7 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-7xl items-stretch lg:grid-cols-[1.05fr_.95fr]">
           <div className="flex min-h-[500px] flex-col justify-center px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
             <p className="institutional-rule text-sm font-semibold uppercase tracking-[0.16em] text-[#e2c46c]">SAMMENA SCHOOLS</p>
-            <h1 className="mt-5 max-w-3xl text-4xl font-bold leading-tight motion-safe:transition-transform motion-safe:duration-500 sm:text-5xl lg:text-6xl group-hover:translate-x-0.5">Sammena Pre & Primary School</h1>
+            <h1 className="mt-5 max-w-3xl text-4xl font-bold leading-tight motion-safe:transition-transform motion-safe:duration-500 group-hover:translate-x-0.5 sm:text-5xl lg:text-6xl">Sammena Pre & Primary School</h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">A learning community committed to strong foundations, character, responsibility and meaningful opportunities for every child.</p>
             <div className="mt-8 flex flex-wrap gap-3 motion-safe:animate-in">
               <Link href="/admissions" className="link-arrow inline-flex items-center gap-2 bg-[#c8a64b] px-6 py-3.5 font-bold text-[#071d3b] transition-colors hover:bg-[#ddc16b]">Admissions <ArrowRight className="h-4 w-4" /></Link>
