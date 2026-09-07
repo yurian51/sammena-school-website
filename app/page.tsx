@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, Bell, BookOpen, CalendarDays, ChevronRight, FileText, GraduationCap, Users } from "lucide-react"
+import { ArrowRight, Bell, BookOpen, CalendarDays, ChevronRight, FileText, GraduationCap, Users, Phone, MessageCircle } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { InstitutionalSections } from "@/components/institutional-sections"
@@ -93,10 +93,11 @@ export default function HomePage() {
       <section className="border-t border-slate-200 bg-[#0a3158] py-16 text-white sm:py-20">
         <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[1.2fr_.8fr] lg:items-center">
           <div><p className="text-sm font-bold uppercase tracking-[0.16em] text-[#e2c46c]">Our community</p><h2 className="mt-3 text-3xl font-bold sm:text-4xl">A school is built by its people.</h2><p className="mt-5 max-w-2xl leading-8 text-white/75">Students, teachers, families and the wider community all have a role in creating a respectful and purposeful learning environment.</p></div>
-          <div className="grid grid-cols-2 gap-px border border-white/15 bg-white/15"><div className="bg-[#0a3158] p-5"><Users className="h-5 w-5 text-[#e2c46c]" /><p className="mt-3 text-sm font-semibold">Students & families</p></div><div className="bg-[#0a3158] p-5"><BookOpen className="h-5 w-5 text-[#e2c46c]" /><p className="mt-3 text-sm font-semibold">Teaching & learning</p></div></div>
+          <div className="grid gap-px border border-white/15 bg-white/15 sm:grid-cols-2"><div className="bg-[#0a3158] p-5"><Users className="h-5 w-5 text-[#e2c46c]" /><p className="mt-3 text-sm font-semibold">Students & families</p></div><div className="bg-[#0a3158] p-5"><BookOpen className="h-5 w-5 text-[#e2c46c]" /><p className="mt-3 text-sm font-semibold">Teaching & learning</p></div></div>
         </div>
       </section>
 
+      <section className="border-t border-slate-200 bg-white py-8"><div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 sm:px-8 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-sm font-bold uppercase tracking-[0.16em] text-[#9b7728]">Need assistance?</p><p className="mt-1 text-sm text-slate-600">Speak with the school directly about admissions and general enquiries.</p></div><div className="flex flex-wrap gap-3"><a href="tel:+255750227073" className="inline-flex items-center gap-2 border border-[#0a3158]/20 px-4 py-3 text-sm font-bold text-[#0a3158] hover:bg-[#0a3158] hover:text-white"><Phone className="h-4 w-4" /> Call +255 750 227 073</a><a href="https://wa.me/255750227073" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#0a3158] px-4 py-3 text-sm font-bold text-white hover:bg-[#06203b]"><MessageCircle className="h-4 w-4" /> WhatsApp</a></div></div></section>
       <Footer />
     </main>
   )
