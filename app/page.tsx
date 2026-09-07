@@ -47,6 +47,23 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="border-b border-slate-200 bg-[#f6f7f8] py-8 sm:py-10">
+        <div className="mx-auto grid max-w-7xl gap-4 px-5 sm:grid-cols-3 sm:px-8">
+          <a href="/admissions" className="group border-l-4 border-[#9b7728] bg-white px-5 py-4 shadow-sm transition hover:-translate-y-0.5">
+            <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#9b7728]">Admissions</p>
+            <p className="mt-1 text-sm font-semibold text-[#0a3158]">Start your application <ArrowRight className="ml-1 inline h-3.5 w-3.5 transition-transform group-hover:translate-x-1" /></p>
+          </a>
+          <a href="/academics" className="group border-l-4 border-[#0a3158] bg-white px-5 py-4 shadow-sm transition hover:-translate-y-0.5">
+            <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#9b7728]">Academics</p>
+            <p className="mt-1 text-sm font-semibold text-[#0a3158]">Explore learning programmes <ArrowRight className="ml-1 inline h-3.5 w-3.5 transition-transform group-hover:translate-x-1" /></p>
+          </a>
+          <a href="/calendar" className="group border-l-4 border-[#9b7728] bg-white px-5 py-4 shadow-sm transition hover:-translate-y-0.5">
+            <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#9b7728]">Calendar</p>
+            <p className="mt-1 text-sm font-semibold text-[#0a3158]">See important school dates <ArrowRight className="ml-1 inline h-3.5 w-3.5 transition-transform group-hover:translate-x-1" /></p>
+          </a>
+        </div>
+      </section>
+
       <section className="border-b border-slate-200 bg-white py-12 sm:py-14">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="mb-7 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
