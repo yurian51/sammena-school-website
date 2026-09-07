@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, Download, FileText, ShieldCheck, CalendarDays, BookOpen, Search } from "lucide-react"
+import { ArrowRight, Download, FileText, ShieldCheck, CalendarDays, BookOpen, Search, Sparkles } from "lucide-react"
 import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
