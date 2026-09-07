@@ -58,7 +58,7 @@ export function Navbar() {
       <div className="hidden bg-[#06203b] text-white/80 md:block">
         <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-4 text-[11px] sm:px-6 lg:px-8">
           <div className="flex items-center gap-5">
-            <span className="inline-flex items-center gap-1.5"><Phone className="h-3 w-3 text-[#e2c46c]" /> School Office</span>
+            <a href="tel:+255750227073" className="inline-flex items-center gap-1.5 hover:text-white"><Phone className="h-3 w-3 text-[#e2c46c]" /> +255 750 227 073</a>
             <span className="inline-flex items-center gap-1.5"><Mail className="h-3 w-3 text-[#e2c46c]" /> Official Contact</span>
           </div>
           <div className="flex items-center gap-4">
