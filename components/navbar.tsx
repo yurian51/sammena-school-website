@@ -124,7 +124,7 @@ export function Navbar() {
             <Link href="/admissions" className="ml-2 inline-flex items-center gap-2 bg-[#c8a64b] px-4 py-2.5 text-[13px] font-bold text-[#071d3b] hover:bg-[#ddc16b]">Apply Now <ChevronRight className="h-3.5 w-3.5" /></Link>
           </div>
 
-          <button type="button" onClick={() => setMobileOpen(v => !v)} className="relative z-[70] flex min-h-11 min-w-11 items-center justify-center rounded-md text-white lg:hidden" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen} aria-controls="mobile-navigation">{mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}</button>
+          <button type="button" onClick={() => setMobileOpen(v => !v)} className="relative z-[70] flex min-h-11 min-w-11 items-center justify-center rounded-md text-white lg:hidden" aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileOpen} aria-controls="mobile-navigation">{mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}</button>
         </nav>
       </div>
 
