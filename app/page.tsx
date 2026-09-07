@@ -48,7 +48,15 @@ export default function HomePage() {
       </section>
 
       <section className="border-b border-slate-200 bg-white py-12 sm:py-14">
-        <div className="mx-auto grid max-w-7xl gap-px border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="mb-7 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#9b7728]">Information centre</p>
+              <h2 className="mt-2 text-2xl font-bold text-[#0a3158] sm:text-3xl">Everything families need, in one place.</h2>
+            </div>
+            <p className="max-w-xl text-sm leading-6 text-slate-500">Find official information about joining Sammena, learning programmes, important dates and school documents.</p>
+          </div>
+          <div className="grid gap-px border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-4">
           {quickLinks.map(({ href, title, text, icon: Icon }) => (
             <Link key={href} href={href} className="group bg-white p-6 transition-colors hover:bg-[#faf8f1]">
               <Icon className="h-6 w-6 text-[#9b7728]" />
@@ -57,6 +65,7 @@ export default function HomePage() {
               <span className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[#8a6a24]">Open <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
             </Link>
           ))}
+          </div>
         </div>
       </section>
 
