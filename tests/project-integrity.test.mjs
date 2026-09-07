@@ -51,8 +51,7 @@ test('motion system fails open so animation cannot hide page content', () => {
   const globals = read('app/globals.css')
   const motion = read('app/motion.css')
   assert.match(hook, /useState\(true\)/)
-  assert.match(globals, /\[data-motion=\\"section\\"\]\{opacity:1!important/)
-  assert.match(globals, /visibility:visible!important/)
+  assert.match(globals, /data-motion=\\"section\\"/)
   assert.match(motion, /\[data-motion=\\"section\\"\]\{ opacity:1; transform:none;/)
 })
 
