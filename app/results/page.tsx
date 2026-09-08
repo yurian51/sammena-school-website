@@ -39,7 +39,7 @@ function ResultTable({ title, subtitle, rows }: { title: string; subtitle: strin
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#8a6a24]">{subtitle}</p>
             <h2 className="mt-2 text-3xl font-bold text-[#0a3158] sm:text-4xl">{title}</h2>
           </div>
-          <p className="max-w-xl text-sm leading-6 text-slate-500">Historical results are presented as an institutional archive. Figures are only displayed when independently verified from an accessible school-level source. Historical years remain visible with a traceable Arusha district archive link. School-level figures are published only after they can be verified from the underlying school result record.</p>
+          <p className="max-w-xl text-sm leading-6 text-slate-500">Historical results are presented as an institutional archive. School-level figures are marked verified only when the underlying record was successfully retrieved. Figures are only displayed when independently verified from an accessible school-level source. Historical years remain visible with a traceable Arusha district archive link. School-level figures are published only after they can be verified from the underlying school result record.</p>
         </div>
 
         <div className="overflow-hidden border border-slate-200 bg-white shadow-sm">
@@ -89,12 +89,36 @@ export default function ResultsPage() {
             <div className="max-w-4xl">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#e2c46c]">Academic Record • PS0101160</p>
               <h1 className="mt-4 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">Examination Results</h1>
-              <p className="mt-5 max-w-3xl text-base leading-7 text-white/75 sm:text-lg">A central archive of Sammena Primary School results for Standard Seven (PSLE) and Standard Four (SFNA), beginning with the 2018 historical record.</p>
+              <p className="mt-5 max-w-3xl text-base leading-7 text-white/75 sm:text-lg">A central archive of Sammena Primary School results for Standard Seven (PSLE) and Standard Four (SFNA), covering the historical record from 2018 onward.</p>
             </div>
           </div>
         </section>
 
         <section className="border-b border-slate-200 bg-[#faf8f1] py-10">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+            <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#8a6a24]">Latest verified record</p>
+                <h2 className="mt-2 text-2xl font-bold text-[#0a3158]">2025 Performance Snapshot</h2>
+              </div>
+              <span className="inline-flex w-fit items-center border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-emerald-700">Source verified</span>
+            </div>
+            <div className="grid gap-px overflow-hidden border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                { label: "PSLE candidates", value: "29", detail: "27 passed • 93.1%" },
+                { label: "PSLE average", value: "162.72", detail: "2025 school record" },
+                { label: "SFNA candidates", value: "28", detail: "28 passed • 100%" },
+                { label: "SFNA average", value: "192.04", detail: "2025 school record" },
+              ].map(item => (
+                <div key={item.label} className="bg-white p-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">{item.label}</p>
+                  <p className="mt-2 text-2xl font-bold text-[#0a3158]">{item.value}</p>
+                  <p className="mt-1 text-xs text-slate-500">{item.detail}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
           <div className="mx-auto grid max-w-7xl gap-4 px-5 sm:px-8 md:grid-cols-3 lg:px-10">
             {[
               { icon: GraduationCap, title: "PSLE • Standard 7", text: "Primary School Leaving Examination results." },
