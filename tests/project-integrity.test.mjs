@@ -80,3 +80,27 @@ test('CI workflow uses the repository package manager', () => {
   assert.match(ci, /pnpm test/)
   assert.match(ci, /pnpm run build/)
 })
+
+
+test('results archive is present and traceable', () => {
+  const results = read('app/results/page.tsx')
+  for (const year of ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025']) {
+    assert.match(results, new RegExp(year))
+  }
+  assert.match(results, /PS0101160/)
+  assert.match(results, /historicalArchive/)
+  assert.match(results, /verified/)
+})
+
+test('public contact channels remain wired', () => {
+  const nav = read('components/navbar.tsx')
+  const contact = read('app/contact/page.tsx')
+  assert.match(nav, /tel:\+255750227073/)
+  assert.match(contact, /wa\.me\/255750227073/)
+  assert.match(contact, /\+255 750 227 073/)
+})
+
+test('production fallback URL is the live Render service', () => {
+  assert.match(read('app/sitemap.ts'), /sammena-school-website\.onrender\.com/)
+  assert.match(read('app/robots.ts'), /sammena-school-website\.onrender\.com/)
+})
