@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight, ExternalLink, GraduationCap } from "lucide-react";
 
 const psle = [
-  { year: 2025, sat: 29, passed: 27, rate: "93.1%", average: "162.72", grades: "B: 7 · C: 20 · D: 2", source: "https://shuleyetu.co.tz/shuleni/school/ps0101160-sammena-primary-school-arusha-dc", verified: "2025 summary" },
+  { year: 2025, sat: 29, passed: 27, rate: "93.1%", average: "162.72", grades: "27 passed out of 29", source: "https://shuleyetu.co.tz/shuleni/school/ps0101160-sammena-primary-school-arusha-dc", verified: "2025 summary" },
   { year: 2024, sat: 17, passed: 16, rate: "94.1%", average: "198.0588", grades: "A: 2 · B: 9 · C: 5 · D: 1 · E: 0", source: "https://onlinesys.necta.go.tz/results/2024/psle/results/shl_ps0101160.htm", verified: "NECTA" },
   { year: 2023, sat: 18, passed: 18, rate: "100%", average: "222.8889", grades: "A: 0 · B: 17 · C: 1 · D: 0 · E: 0", source: "https://onlinesys.necta.go.tz/results/2023/psle/results/shl_ps0101160.htm", verified: "NECTA" },
   { year: 2022, sat: 16, passed: 16, rate: "100%", average: "210.9375", grades: "A: 3 · B: 10 · C: 3 · D: 0 · E: 0", source: "https://onlinesys.necta.go.tz/results/2022/psle/results/shl_ps0101160.htm", verified: "NECTA" },
@@ -15,7 +15,7 @@ const psle = [
 const sfna = [
   { year: 2025, sat: 28, passed: 28, rate: "100%", average: "192.04", grades: "A: 3 · B: 14 · C: 10 · D: 1", source: "https://shuleyetu.co.tz/shuleni/school/ps0101160-sammena-primary-school-arusha-dc", verified: "2025 summary" },
   { year: 2024, sat: 34, passed: 33, rate: "97.1%", average: "174.1176", grades: "A: 1 · B: 17 · C: 12 · D: 3 · Referred: 1", source: "https://onlinesys.necta.go.tz/results/2024/sfna/results/ps0101160.htm", verified: "NECTA" },
-  { year: 2023, sat: null, passed: null, rate: null, average: null, grades: "School listed in Arusha SFNA archive; individual result not retrieved.", source: "https://maktaba.tetea.org/exam-results/SFNA2023/distr_ps0101.htm", verified: "Archive index" },
+  { year: 2023, sat: 18, passed: 18, rate: "100%", average: "188.44", grades: "A: 0 · B: 10 · C: 8", source: "https://arusha.go.tz/storage/app/media/uploaded-files/SAMMENA%20-%20DETAILED.pdf", verified: "Arusha DC" },
   { year: 2022, sat: null, passed: null, rate: null, average: null, grades: "Individual school result not retrieved from accessible archive.", source: "https://www.necta.go.tz/", verified: "NECTA archive portal" },
   { year: 2021, sat: null, passed: null, rate: null, average: null, grades: "School listed in Arusha SFNA archive; individual result not retrieved.", source: "https://maktaba.tetea.org/exam-results/SFNA2021/distr_ps0101.htm", verified: "Archive index" },
   { year: 2020, sat: null, passed: null, rate: null, average: null, grades: "Individual school result not retrieved from accessible archive.", source: "https://www.necta.go.tz/", verified: "NECTA archive portal" },
