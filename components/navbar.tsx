@@ -13,6 +13,7 @@ const navLinks = [
   { href: "/admissions", label: "Admissions" },
   { href: "/gallery", label: "School Life" },
   { href: "/news", label: "News & Events" },
+  { href: "/results", label: "Results" },
   { href: "/contact", label: "Contact" },
 ]
 
@@ -90,6 +91,7 @@ export function Navbar() {
           <div className="flex items-center gap-4">
             <Link href="/resources" className="hover:text-white">Resources</Link>
             <Link href="/calendar" className="hover:text-white">Academic Calendar</Link>
+            <Link href="/results" className="hover:text-white">Results</Link>
             <Link href="/portal" className="inline-flex items-center gap-1 font-semibold text-[#e2c46c] hover:text-white">Parent / Student Portal <ExternalLink className="h-3 w-3" /></Link>
           </div>
         </div>
