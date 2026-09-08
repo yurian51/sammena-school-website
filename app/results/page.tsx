@@ -13,9 +13,9 @@ const historicalArchive = {
     2021: "https://maktaba.tetea.org/exam-results/PSLE2021/distr_0101.htm",
   },
   sfna: {
-    2018: "https://maktaba.tetea.org/",
+    2018: "https://maktaba.tetea.org/exam-results/SFNA2018/distr_ps0101.htm",
     2019: "https://maktaba.tetea.org/exam-results/SFNA2019/distr_ps0101.htm",
-    2020: "https://maktaba.tetea.org/",
+    2020: "https://maktaba.tetea.org/exam-results/SFNA2020/distr_ps0101.htm",
     2021: "https://maktaba.tetea.org/exam-results/SFNA2021/distr_ps0101.htm",
   },
 }
@@ -54,7 +54,7 @@ function ResultTable({ title, subtitle, rows }: { title: string; subtitle: strin
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#8a6a24]">{subtitle}</p>
             <h2 className="mt-2 text-3xl font-bold text-[#0a3158] sm:text-4xl">{title}</h2>
           </div>
-          <p className="max-w-xl text-sm leading-6 text-slate-500">Historical results are presented as an institutional archive. School-level figures are marked verified only when the underlying record was successfully retrieved. Figures are only displayed when independently verified from an accessible school-level source. Historical years remain visible with a traceable Arusha district archive link. School-level figures are published only after they can be verified from the underlying school result record.</p>
+          <p className="max-w-xl text-sm leading-6 text-slate-500">Historical results are presented as an institutional archive. School-level figures are marked verified only when the underlying record was successfully retrieved. Figures are only displayed when independently verified from an accessible school-level source. Historical years remain visible with a traceable Arusha district archive link. School-level figures are published only after they can be verified from the underlying school result record. The archive is intentionally conservative: a district listing is not treated as a school-level result.</p>
         </div>
 
         <div className="overflow-hidden border border-slate-200 bg-white shadow-sm">
