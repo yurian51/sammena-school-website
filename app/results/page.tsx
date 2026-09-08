@@ -13,7 +13,7 @@ const psle = [
   ...[2021, 2020, 2019, 2018].map(year => ({
     year, candidates: null, average: null, grade: null, pass: null,
     note: "School-level figure not independently extracted in this verification pass.",
-    source: `https://maktaba.tetea.org/exam-results/PSLE${year}/shl_ps0101160.htm`,
+    source: `https://maktaba.tetea.org/exam-results/PSLE${year}/distr_0101.htm`,
     verified: false,
   })),
 ]
@@ -24,7 +24,7 @@ const sfna = [
   ...[2023, 2022, 2021, 2020, 2019, 2018].map(year => ({
     year, candidates: null, average: null, grade: null, pass: null,
     note: "School-level figure not independently extracted in this verification pass.",
-    source: `https://maktaba.tetea.org/exam-results/SFNA${year}/ps0101160.htm`,
+    source: `https://www.necta.go.tz/results/`,
     verified: false,
   })),
 ]
@@ -64,7 +64,7 @@ function ResultTable({ title, subtitle, rows }: { title: string; subtitle: strin
                     <td className="px-5 py-4 text-slate-600">{row.pass ?? row.note}</td>
                     <td className="px-5 py-4">
                       <a href={row.source} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-semibold text-[#8a6a24] hover:text-[#0a3158]">
-                        {row.verified ? "Official result" : "Open archive"} <ExternalLink className="h-3.5 w-3.5" />
+                        {row.verified ? (row.source.includes("shuleyetu") ? "School record" : "NECTA result") : "Open archive"} <ExternalLink className="h-3.5 w-3.5" />
                       </a>
                     </td>
                   </tr>
