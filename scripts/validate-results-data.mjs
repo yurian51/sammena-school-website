@@ -15,3 +15,9 @@ if (file.includes('source: undefined')) {
 }
 
 console.log("Results archive integrity checks passed.");
+
+const registry = JSON.parse(fs.readFileSync("data/results-sources.json", "utf8"));
+if (registry.centre !== "PS0101160") throw new Error("Unexpected Sammena centre number");
+if (registry.verifiedSchoolLevel.psle.join(",") !== "2022,2023,2024,2025") throw new Error("PSLE verification coverage changed unexpectedly");
+if (registry.verifiedSchoolLevel.sfna.join(",") !== "2023,2024,2025") throw new Error("SFNA verification coverage changed unexpectedly");
+if (!Array.isArray(registry.sources) || registry.sources.length < 7) throw new Error("Results provenance registry incomplete");
