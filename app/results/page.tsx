@@ -12,8 +12,8 @@ const psle = [
   { year: 2022, candidates: 16, average: "210.9375", grade: "B", pass: "—", note: "3 A, 10 B, 3 C", source: "https://onlinesys.necta.go.tz/results/2022/psle/results/shl_ps0101160.htm", verified: true },
   ...[2021, 2020, 2019, 2018].map(year => ({
     year, candidates: null, average: null, grade: null, pass: null,
-    note: "School-level figure not independently extracted in this verification pass.",
-    source: `https://maktaba.tetea.org/exam-results/PSLE${year}/distr_0101.htm`,
+    note: "NECTA school archive identified; school-level summary still requires source extraction.",
+    source: `https://onlinesys.necta.go.tz/results/${year}/psle/results/shl_ps0101160.htm`,
     verified: false,
   })),
 ]
@@ -21,10 +21,11 @@ const psle = [
 const sfna = [
   { year: 2025, candidates: 28, average: "192.04", grade: "—", pass: "100%", note: "28 of 28 passed", source: "https://shuleyetu.co.tz/shuleni/school/ps0101160-sammena-primary-school-arusha-dc", verified: true },
   { year: 2024, candidates: 34, average: "174.1176", grade: "C", pass: "—", note: "1 A, 17 B, 12 C, 3 D, 1 referred", source: "https://onlinesys.necta.go.tz/results/2024/sfna/results/ps0101160.htm", verified: true },
-  ...[2023, 2022, 2021, 2020, 2019, 2018].map(year => ({
+  { year: 2023, candidates: 18, average: "188.44", grade: "—", pass: "—", note: "0 A, 10 B, 8 C; Arusha DC detailed result", source: "https://arusha.go.tz/storage/app/media/uploaded-files/SAMMENA%20-%20DETAILED.pdf", verified: true },
+  ...[2022, 2021, 2020, 2019, 2018].map(year => ({
     year, candidates: null, average: null, grade: null, pass: null,
-    note: "School-level figure not independently extracted in this verification pass.",
-    source: `https://www.necta.go.tz/results/`,
+    note: "NECTA/SFNA archive identified; school-level summary still requires source extraction.",
+    source: `https://onlinesys.necta.go.tz/results/${year}/sfna/results/ps0101160.htm`,
     verified: false,
   })),
 ]
@@ -38,7 +39,7 @@ function ResultTable({ title, subtitle, rows }: { title: string; subtitle: strin
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#8a6a24]">{subtitle}</p>
             <h2 className="mt-2 text-3xl font-bold text-[#0a3158] sm:text-4xl">{title}</h2>
           </div>
-          <p className="max-w-xl text-sm leading-6 text-slate-500">Historical results are presented as an institutional archive. Figures are only displayed when independently verified from an accessible source.</p>
+          <p className="max-w-xl text-sm leading-6 text-slate-500">Historical results are presented as an institutional archive. Figures are only displayed when independently verified from an accessible source. Historical years remain visible with a direct archive link while older school-level figures are being recovered.</p>
         </div>
 
         <div className="overflow-hidden border border-slate-200 bg-white shadow-sm">
@@ -64,7 +65,7 @@ function ResultTable({ title, subtitle, rows }: { title: string; subtitle: strin
                     <td className="px-5 py-4 text-slate-600">{row.pass ?? row.note}</td>
                     <td className="px-5 py-4">
                       <a href={row.source} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-semibold text-[#8a6a24] hover:text-[#0a3158]">
-                        {row.verified ? (row.source.includes("shuleyetu") ? "School record" : "NECTA result") : "Open archive"} <ExternalLink className="h-3.5 w-3.5" />
+                        {row.verified ? (row.source.includes("shuleyetu") ? "School record" : "Verified result") : "Open official archive"} <ExternalLink className="h-3.5 w-3.5" />
                       </a>
                     </td>
                   </tr>
@@ -118,7 +119,7 @@ export default function ResultsPage() {
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#e2c46c]">Official centre</p>
                 <h2 className="mt-2 text-2xl font-bold">SAMMENA PRIMARY SCHOOL — PS0101160</h2>
-                <p className="mt-2 text-sm text-white/70">Historical archive from 2018 onward. Candidate-level identifiers are intentionally not reproduced on this public page.</p>
+                <p className="mt-2 text-sm text-white/70">Historical archive from 2018 onward. Candidate-level identifiers are intentionally not reproduced on this public page. Older school-level figures are not invented when the indexed source cannot currently be extracted.</p>
               </div>
               <Link href="/contact" className="inline-flex items-center justify-center gap-2 bg-[#c8a64b] px-5 py-3 font-bold text-[#071d3b] hover:bg-[#ddc16b]">Contact the School <TrendingUp className="h-4 w-4" /></Link>
             </div>
