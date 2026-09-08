@@ -13,9 +13,9 @@ const historicalArchive = {
     2021: "https://maktaba.tetea.org/exam-results/PSLE2021/distr_0101.htm",
   },
   sfna: {
-    2018: "https://maktaba.tetea.org/exam-results/SFNA2018/distr_ps0101.htm",
+    2018: "https://maktaba.tetea.org/",
     2019: "https://maktaba.tetea.org/exam-results/SFNA2019/distr_ps0101.htm",
-    2020: "https://maktaba.tetea.org/exam-results/SFNA2020/distr_ps0101.htm",
+    2020: "https://maktaba.tetea.org/",
     2021: "https://maktaba.tetea.org/exam-results/SFNA2021/distr_ps0101.htm",
   },
 }
