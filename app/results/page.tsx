@@ -25,7 +25,7 @@ const sfna = [
   ...[2022, 2021, 2020, 2019, 2018].map(year => ({
     year, candidates: null, average: null, grade: null, pass: null,
     note: "Sammena is listed in the Arusha SFNA historical archive; school-level figures are not yet extracted from an accessible school page.",
-    source: year === 2021 ? "https://maktaba.tetea.org/exam-results/SFNA2021/distr_ps0101.htm" : year === 2019 ? "https://maktaba.tetea.org/exam-results/SFNA2019/distr_ps0101.htm" : year === 2023 ? "https://maktaba.tetea.org/exam-results/SFNA2023/distr_ps0101.htm" : "https://maktaba.tetea.org/exam-results/SFNA2019/distr_ps0101.htm",
+    source: year === 2021 ? "https://maktaba.tetea.org/exam-results/SFNA2021/distr_ps0101.htm" : year === 2019 ? "https://maktaba.tetea.org/exam-results/SFNA2019/distr_ps0101.htm" : "https://maktaba.tetea.org/",
     verified: false,
   })),
 ]
