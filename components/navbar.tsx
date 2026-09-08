@@ -137,7 +137,7 @@ export function Navbar() {
           <Link onClick={closeMobileMenu} href="/academics" className="block border-b border-white/10 py-4 text-base font-semibold text-white">Academics</Link>
           <Link onClick={closeMobileMenu} href="/admissions" className="block border-b border-white/10 py-4 text-base font-semibold text-white">Admissions</Link>
           <Link onClick={closeMobileMenu} href="/gallery" className="block border-b border-white/10 py-4 text-base font-semibold text-white">School Life</Link>
-          <Link onClick={closeMobileMenu} href="/news" className="block border-b border-white/10 py-4 text-base font-semibold text-white">News & Events</Link>
+          <Link onClick={closeMobileMenu} href="/news" className="block border-b border-white/10 py-4 text-base font-semibold text-white">News & Events</Link>\n          <Link onClick={closeMobileMenu} href="/results" className="block border-b border-white/10 py-4 text-base font-semibold text-white">Results</Link>
           <Link onClick={closeMobileMenu} href="/resources" className="block border-b border-white/10 py-4 text-base font-semibold text-white">Resources</Link>
           <Link onClick={closeMobileMenu} href="/calendar" className="block border-b border-white/10 py-4 text-base font-semibold text-white">Academic Calendar</Link>
           <Link onClick={closeMobileMenu} href="/contact" className="block border-b border-white/10 py-4 text-base font-semibold text-white">Contact</Link>
