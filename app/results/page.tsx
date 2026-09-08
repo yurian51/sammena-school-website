@@ -134,6 +134,8 @@ export default function ResultsPage() {
             </div>
           </div>
         </section>
+
+        <section className="border-b border-slate-200 bg-white py-10">
           <div className="mx-auto grid max-w-7xl gap-4 px-5 sm:px-8 md:grid-cols-3 lg:px-10">
             {[
               { icon: GraduationCap, title: "PSLE • Standard 7", text: "Primary School Leaving Examination results." },
