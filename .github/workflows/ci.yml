@@ -53,5 +53,8 @@ jobs:
       - name: Tests
         run: pnpm test
 
+      - name: Results data integrity
+        run: pnpm run test:data
+
       - name: Production build
         run: pnpm run build
