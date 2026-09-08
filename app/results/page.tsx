@@ -5,7 +5,22 @@ import { BarChart3, ExternalLink, GraduationCap, ShieldCheck, TrendingUp } from 
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 
-const historicalArchive = {\n  psle: {\n    2018: "https://maktaba.tetea.org/exam-results/PSLE2018/distr_0101.htm",\n    2019: "https://maktaba.tetea.org/exam-results/PSLE2019/distr_0101.htm",\n    2020: "https://maktaba.tetea.org/exam-results/PSLE2020/distr_0101.htm",\n    2021: "https://maktaba.tetea.org/exam-results/PSLE2021/distr_0101.htm",\n  },\n  sfna: {\n    2018: "https://maktaba.tetea.org/exam-results/SFNA2018/distr_ps0101.htm",\n    2019: "https://maktaba.tetea.org/exam-results/SFNA2019/distr_ps0101.htm",\n    2020: "https://maktaba.tetea.org/exam-results/SFNA2020/distr_ps0101.htm",\n    2021: "https://maktaba.tetea.org/exam-results/SFNA2021/distr_ps0101.htm",\n  },\n}\n\nconst psle = [
+const historicalArchive = {
+  psle: {
+    2018: "https://maktaba.tetea.org/exam-results/PSLE2018/distr_0101.htm",
+    2019: "https://maktaba.tetea.org/exam-results/PSLE2019/distr_0101.htm",
+    2020: "https://maktaba.tetea.org/exam-results/PSLE2020/distr_0101.htm",
+    2021: "https://maktaba.tetea.org/exam-results/PSLE2021/distr_0101.htm",
+  },
+  sfna: {
+    2018: "https://maktaba.tetea.org/exam-results/SFNA2018/distr_ps0101.htm",
+    2019: "https://maktaba.tetea.org/exam-results/SFNA2019/distr_ps0101.htm",
+    2020: "https://maktaba.tetea.org/exam-results/SFNA2020/distr_ps0101.htm",
+    2021: "https://maktaba.tetea.org/exam-results/SFNA2021/distr_ps0101.htm",
+  },
+}
+
+const psle = [
   { year: 2025, candidates: 29, average: "162.72", grade: "—", pass: "93.1%", note: "27 of 29 passed", source: "https://shuleyetu.co.tz/shuleni/school/ps0101160-sammena-primary-school-arusha-dc", verified: true },
   { year: 2024, candidates: 17, average: "198.0588", grade: "B", pass: "—", note: "2 A, 9 B, 5 C, 1 D", source: "https://onlinesys.necta.go.tz/results/2024/psle/results/shl_ps0101160.htm", verified: true },
   { year: 2023, candidates: 18, average: "222.8889", grade: "B", pass: "—", note: "17 B, 1 C", source: "https://onlinesys.necta.go.tz/results/2023/psle/results/shl_ps0101160.htm", verified: true },
@@ -135,7 +150,28 @@ export default function ResultsPage() {
         </section>
 
         <ResultTable title="Standard Seven Results" subtitle="PSLE • Darasa la Saba" rows={psle} />
-        <ResultTable title="Standard Four Results" subtitle="SFNA • Darasa la Nne" rows={sfna} />\n\n        <section className="border-t border-slate-200 bg-[#faf8f1] py-12">\n          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">\n            <div className="border border-slate-200 bg-white p-6 sm:p-8">\n              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#8a6a24]">2018–2021 archive recovery</p>\n              <h2 className="mt-2 text-2xl font-bold text-[#0a3158]">Historical result records</h2>\n              <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">The historical archive confirms Sammena Primary School (PS0101160) in the Arusha district result records for these years. The public archive links below are retained so the underlying record remains traceable. No unverified school-level figures are invented on this website.</p>\n              <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">\n                {[2018, 2019, 2020, 2021].map(year => (\n                  <div key={year} className="border border-slate-200 p-4">\n                    <p className="font-bold text-[#0a3158]">{year}</p>\n                    <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">\n                      <a href={historicalArchive.psle[year as 2018 | 2019 | 2020 | 2021]} target="_blank" rel="noopener noreferrer" className="text-[#8a6a24] hover:text-[#0a3158]">PSLE archive ↗</a>\n                      <a href={historicalArchive.sfna[year as 2018 | 2019 | 2020 | 2021]} target="_blank" rel="noopener noreferrer" className="text-[#8a6a24] hover:text-[#0a3158]">SFNA archive ↗</a>\n                    </div>\n                  </div>\n                ))}\n              </div>\n            </div>\n          </div>\n        </section>
+        <ResultTable title="Standard Four Results" subtitle="SFNA • Darasa la Nne" rows={sfna} />
+
+        <section className="border-t border-slate-200 bg-[#faf8f1] py-12">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+            <div className="border border-slate-200 bg-white p-6 sm:p-8">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#8a6a24]">2018–2021 archive recovery</p>
+              <h2 className="mt-2 text-2xl font-bold text-[#0a3158]">Historical result records</h2>
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">The historical archive confirms Sammena Primary School (PS0101160) in the Arusha district result records for these years. The public archive links below are retained so the underlying record remains traceable. No unverified school-level figures are invented on this website.</p>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {[2018, 2019, 2020, 2021].map(year => (
+                  <div key={year} className="border border-slate-200 p-4">
+                    <p className="font-bold text-[#0a3158]">{year}</p>
+                    <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
+                      <a href={historicalArchive.psle[year as 2018 | 2019 | 2020 | 2021]} target="_blank" rel="noopener noreferrer" className="text-[#8a6a24] hover:text-[#0a3158]">PSLE archive ↗</a>
+                      <a href={historicalArchive.sfna[year as 2018 | 2019 | 2020 | 2021]} target="_blank" rel="noopener noreferrer" className="text-[#8a6a24] hover:text-[#0a3158]">SFNA archive ↗</a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
         <section className="border-t border-slate-200 bg-[#0a3158] py-14 text-white">
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
