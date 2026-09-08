@@ -104,3 +104,27 @@ test('production fallback URL is the live Render service', () => {
   assert.match(read('app/sitemap.ts'), /sammena-school-website\.onrender\.com/)
   assert.match(read('app/robots.ts'), /sammena-school-website\.onrender\.com/)
 })
+
+
+test('institutional pages are not empty shells', () => {
+  const routes = [
+    'app/page.tsx',
+    'app/about/page.tsx',
+    'app/academics/page.tsx',
+    'app/admissions/page.tsx',
+    'app/gallery/page.tsx',
+    'app/news/page.tsx',
+    'app/results/page.tsx',
+    'app/contact/page.tsx',
+    'app/calendar/page.tsx',
+    'app/resources/page.tsx',
+    'app/secondary/page.tsx',
+    'app/search/page.tsx',
+  ]
+  for (const route of routes) {
+    const source = read(route)
+    assert.ok(source.length > 2500, `Suspiciously small page: ${route}`)
+    assert.match(source, /<main[\\s>]/, `Missing main content root: ${route}`)
+    assert.match(source, /<section[\\s>]/, `Missing section content: ${route}`)
+  }
+})
