@@ -1,10 +1,11 @@
 "use client"
 
 import { FormEvent, useMemo, useState } from "react"
-import { Search, ArrowRight, BookOpen, CalendarDays, GraduationCap, Newspaper } from "lucide-react"
+import { Search, ArrowRight, BookOpen, CalendarDays, GraduationCap, Newspaper, ClipboardCheck } from "lucide-react"
 import Link from "next/link"
 
 const searchablePages = [
+  { title: "Academic Results", description: "PSLE and SFNA results with published source references.", href: "/results", icon: ClipboardCheck, terms: "results PSLE SFNA examination exam grades performance" },
   { title: "Admissions", description: "Application process, requirements and admissions guidance.", href: "/admissions", icon: GraduationCap, terms: "admission apply requirements enrollment" },
   { title: "Academics", description: "Academic approach, learning journey and school programmes.", href: "/academics", icon: BookOpen, terms: "academics curriculum learning subjects" },
   { title: "News & Events", description: "Verified school updates, announcements and events.", href: "/news", icon: Newspaper, terms: "news announcement events updates" },
