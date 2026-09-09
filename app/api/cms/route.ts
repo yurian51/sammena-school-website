@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   try {
     const value = new URL(request.url).searchParams.get("type")
     const type = value === "NEWS" || value === "ANNOUNCEMENT" ? value as CmsContent["type"] : undefined
-    const data = await createServerServices().cms.listPublished(type)
+    const data = await createServerServices({ schoolId: process.env.SCHOOL_ID ?? "sammena-primary" }).cms.listPublished(type)
     return Response.json({ data, requestId })
   } catch (error) {
     return mapDomainError(error, requestId)

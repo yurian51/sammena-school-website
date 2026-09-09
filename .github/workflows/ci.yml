@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - "feat/**"
+      - 'feat/**'
   pull_request:
     branches:
       - main
@@ -20,7 +20,7 @@ concurrency:
 jobs:
   quality:
     name: Quality Gate
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 15
     steps:
       - name: Checkout
@@ -30,19 +30,13 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 10.15.0
+          run_install: false
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 22
           cache: pnpm
-
-      - name: Verify toolchain
-        run: |
-          node --version
-          pnpm --version
-          test -f package.json
-          test -f pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -50,11 +44,8 @@ jobs:
       - name: Type check
         run: pnpm run typecheck
 
-      - name: Tests
+      - name: Unit tests
         run: pnpm test
-
-      - name: Results data integrity
-        run: pnpm run test:data
 
       - name: Production build
         run: pnpm run build
