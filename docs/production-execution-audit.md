@@ -544,3 +544,119 @@ The repository is materially further along, but the external CI execution layer 
 458. If tests run, inspect their exit status.
 459. If build runs, inspect its exit status.
 460. Only promote the branch after executable checks provide evidence.
+
+
+## Execution continuation — SIS policy review, checks 461–560
+
+461. Retrieved all files changed by PR #20.
+462. Counted 31 changed files in the PR.
+463. Identified the SIS policy modules among changed files.
+464. Inspected student profile action policy.
+465. Inspected student profile data-quality logic.
+466. Inspected student 360 summary logic.
+467. Inspected student risk engine.
+468. Inspected student risk prioritization.
+469. Verified student profile actions are role-gated in the policy helper.
+470. Verified admin actions include enrollment/document operations.
+471. Verified teacher actions require an enrollment context.
+472. Verified finance is scoped to fee visibility.
+473. Verified parent has no administrative action in the policy helper.
+474. Added regression tests for parent action boundaries.
+475. Added regression tests for teacher enrollment boundaries.
+476. Added regression tests for finance boundaries.
+477. Verified duplicate actions are removed by the policy helper.
+478. Verified student risk levels are explicitly typed.
+479. Verified risk indicators carry codes.
+480. Verified risk indicators carry human-readable labels.
+481. Verified risk indicators carry scores.
+482. Verified risk scores are clamped at zero.
+483. Verified low/medium/high/critical thresholds are explicit.
+484. Verified attendance risk threshold is explicit.
+485. Verified academic risk threshold is explicit.
+486. Verified fee-arrears risk is explicit.
+487. Verified profile-completeness risk is explicit.
+488. Verified risk priority maps from risk level.
+489. Verified urgent maps only from critical risk.
+490. Verified priority maps only from high risk.
+491. Verified watch maps only from medium risk.
+492. Verified routine maps from low risk.
+493. Verified risk queue sorting is non-mutating.
+494. Verified student IDs are carried into risk queue items.
+495. Verified risk reasons are derived from indicator labels.
+
+### Student 360 data integrity
+
+496. Verified attendance total is derived from attendance categories.
+497. Verified attendance percentage avoids division by zero.
+498. Verified attendance percentage is rounded to two decimals.
+499. Verified late and excused attendance are treated as attended in the current business rule.
+500. Verified fee billed values are normalized to non-negative.
+501. Verified fee paid values are normalized to non-negative.
+502. Verified fee balance cannot become negative.
+503. Verified fee payment rate is capped at 100%.
+504. Verified document totals are normalized to non-negative.
+505. Verified verified-document count cannot exceed total.
+506. Verified missing-document count is derived from total minus verified.
+507. Verified academic subject counts are non-negative.
+508. Verified academic average is bounded to 0–100.
+509. Verified academic position cannot be below 1 when present.
+510. Verified nullable academic values remain nullable.
+511. Existing student 360 tests cover attendance calculation.
+512. Existing student 360 tests cover fee normalization.
+513. Existing student 360 tests cover document completeness.
+514. Existing student 360 tests cover academic normalization.
+515. Existing risk tests cover healthy-student baseline.
+516. Existing risk tests cover combined risk indicators.
+517. New profile-action tests cover role boundaries.
+518. No raw student data was added to the policy tests.
+519. No guardian personal data was added to the policy tests.
+520. No credentials were added to the policy tests.
+
+### SIS privacy boundary
+
+521. Confirmed the action-policy module is not itself an authorization middleware.
+522. Recorded server-side authorization as a required production gate.
+523. Recorded tenant/school scoping as a required production gate.
+524. Recorded object-level student authorization as a required production gate.
+525. Recorded guardian relationship verification as a required production gate.
+526. Recorded audit logging as a required production gate.
+527. Recorded sensitive-document authorization as a required production gate.
+528. Recorded private-results authorization as a required production gate.
+529. Recorded fee-data authorization as a required production gate.
+530. Recorded report-card authorization as a required production gate.
+531. Prevented the policy helper from being treated as sufficient server authorization.
+532. Kept SIS functionality separated from public website search.
+533. Kept private student records out of the public Results archive.
+534. Kept student identifiers out of public Results content.
+535. Kept guardian information out of public Results content.
+
+### Release verification preparation
+
+536. Re-read the current PR head after the review-driven search fix.
+537. Confirmed search index contains Results.
+538. Confirmed sitemap contains Results.
+539. Confirmed Results navigation remains intact.
+540. Confirmed Results footer link remains intact.
+541. Confirmed Results mobile link remains intact.
+542. Confirmed Results source links remain intact.
+543. Confirmed Results test file remains present.
+544. Confirmed SIS regression test file is present.
+545. Confirmed no dependency update was introduced.
+546. Confirmed package lock remains unchanged by this pass.
+547. Confirmed the latest changes are source/documentation/test changes.
+548. Confirmed no deployment was triggered manually from this tool path.
+549. Confirmed production branch was not force-mutated.
+550. Confirmed main was not merged while checks were unavailable.
+
+### CI evidence after latest commits
+
+551. Queried recent workflow runs again.
+552. Confirmed commit `b9011c34` produced a workflow run.
+553. Confirmed commit `f460e0d4` is the latest application-test change.
+554. Confirmed previous runs still conclude `startup_failure`.
+555. Confirmed previous startup-failure runs have zero jobs.
+556. Confirmed no successful typecheck result is available.
+557. Confirmed no successful test result is available.
+558. Confirmed no successful production-build result is available.
+559. Confirmed no successful browser-smoke result is available.
+560. Kept production deployment blocked until executable evidence exists.
