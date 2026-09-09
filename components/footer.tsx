@@ -25,6 +25,7 @@ const groups = [
     links: [
       ["/gallery", "School Life"],
       ["/news", "News & Events"],
+      ["/results", "Academic Results"],
       ["/search", "Search Website"],
       ["/contact", "Contact Sammena"],
     ],
