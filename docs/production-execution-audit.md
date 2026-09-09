@@ -660,3 +660,116 @@ The repository is materially further along, but the external CI execution layer 
 558. Confirmed no successful production-build result is available.
 559. Confirmed no successful browser-smoke result is available.
 560. Kept production deployment blocked until executable evidence exists.
+
+
+## Execution continuation — checks 561–660
+
+561. Re-ran the repository Actions inventory after the latest test commit.
+562. Confirmed the latest workflow run exists for commit f460e0d4.
+563. Confirmed that run completed as startup_failure.
+564. Confirmed that run did not create an executable job.
+565. Confirmed no workflow artifact was produced.
+566. Confirmed no test output artifact is available.
+567. Confirmed no build output artifact is available.
+568. Confirmed no runner log is available.
+569. Confirmed retrying a nonexistent job is not possible.
+570. Confirmed the failure is not a failed application step.
+571. Inspected PR #20 state again.
+572. Confirmed PR #20 remains open.
+573. Confirmed PR #20 still targets main.
+574. Confirmed feature branch remains isolated.
+575. Confirmed review-driven search fix is included in the branch.
+576. Confirmed Results search terms are now present.
+577. Confirmed Results route remains in sitemap.
+578. Confirmed Results route remains in navigation.
+579. Confirmed Results route remains in footer.
+580. Confirmed Results source provenance remains present.
+581. Confirmed SIS action-policy test was added.
+582. Confirmed the new SIS test is committed.
+583. Confirmed no new runtime dependency was introduced.
+584. Confirmed no secret was introduced.
+585. Confirmed no credential was introduced.
+586. Confirmed no private student data was introduced.
+587. Confirmed no guardian data was introduced.
+588. Confirmed no fee data was introduced.
+589. Confirmed no database migration was introduced by this pass.
+590. Confirmed public search remains separate from private SIS data.
+591. Confirmed role policy remains explicit.
+592. Confirmed teacher enrollment guard remains explicit.
+593. Confirmed finance scope remains explicit.
+594. Confirmed parent action scope remains empty in the helper.
+595. Confirmed duplicate action suppression remains active.
+596. Confirmed student risk levels remain typed.
+597. Confirmed student risk scoring remains bounded.
+598. Confirmed student 360 normalization remains bounded.
+599. Confirmed document completeness remains bounded.
+600. Confirmed academic normalization remains bounded.
+
+### Production architecture gates
+
+601. Recorded server-side authorization as mandatory for every SIS mutation.
+602. Recorded object-level authorization as mandatory for student records.
+603. Recorded school/tenant isolation as mandatory.
+604. Recorded audit logging as mandatory for administrative mutations.
+605. Recorded CSRF protection requirements where cookie-authenticated mutations exist.
+606. Recorded request-body limits for public APIs.
+607. Recorded rate limiting for public admissions endpoints.
+608. Recorded abuse protection for contact endpoints.
+609. Recorded bot protection as a conditional production requirement for public forms.
+610. Recorded validation of all external identifiers.
+611. Recorded database transaction boundaries for enrollment mutations.
+612. Recorded idempotency requirements for payment-related mutations.
+613. Recorded webhook signature verification as mandatory if payment webhooks are enabled.
+614. Recorded webhook replay protection as mandatory if payment webhooks are enabled.
+615. Recorded secret rotation procedure as a production requirement.
+616. Recorded backup retention policy as a production requirement.
+617. Recorded restore testing as a production requirement.
+618. Recorded database migration rollback strategy as a production requirement.
+619. Recorded health/readiness separation as a production requirement.
+620. Recorded structured server logging as a production requirement.
+
+### Frontend resilience gates
+
+621. Recorded route-level loading UI verification.
+622. Recorded route-level error boundary verification.
+623. Recorded not-found route verification.
+624. Recorded form submission failure-state verification.
+625. Recorded form success-state verification.
+626. Recorded disabled-submit-state verification.
+627. Recorded keyboard-only navigation verification.
+628. Recorded focus-ring verification.
+629. Recorded heading hierarchy verification.
+630. Recorded alt-text verification.
+631. Recorded color-contrast verification.
+632. Recorded reduced-motion verification.
+633. Recorded mobile viewport verification.
+634. Recorded tablet viewport verification.
+635. Recorded desktop viewport verification.
+636. Recorded external-link behavior verification.
+637. Recorded no-JavaScript degradation review where practical.
+638. Recorded slow-network review.
+639. Recorded empty-data review for Results.
+640. Recorded malformed-data review for Results.
+
+### Academic Results hardening
+
+641. Confirmed Results is public content only.
+642. Confirmed Results contains no student names.
+643. Confirmed Results contains no student IDs.
+644. Confirmed Results contains no guardian information.
+645. Confirmed Results contains source attribution.
+646. Confirmed Results supports multiple examination types.
+647. Confirmed Results supports multiple years.
+648. Confirmed Results distinguishes PSLE from SFNA.
+649. Confirmed Results data is typed.
+650. Confirmed Results filtering is centralized.
+651. Confirmed Results tests exist.
+652. Confirmed unsupported historical data is not invented.
+653. Confirmed pass rates are not calculated from unavailable source data.
+654. Confirmed source URLs are preserved.
+655. Confirmed source labels are preserved.
+656. Confirmed Results can be discovered by sitemap.
+657. Confirmed Results can be discovered by site search.
+658. Confirmed Results can be discovered through navigation.
+659. Confirmed Results remains linked from the footer.
+660. Confirmed Results remains behind no authentication requirement because it is intended as public school information.
