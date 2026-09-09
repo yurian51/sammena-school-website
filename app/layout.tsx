@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Poppins, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
-import './motion.css'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -15,7 +14,7 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena-school-website.onrender.com'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena.sch.tz'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -27,6 +26,7 @@ export const metadata: Metadata = {
   keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'Sammena Secondary School', 'school Tanzania', 'education Tanzania'],
   alternates: { canonical: '/' },
   openGraph: {
+    url: siteUrl,
     title: 'SAMMENA SCHOOLS',
     description: 'Building Bright Minds. Shaping Better Futures.',
     type: 'website',
@@ -35,7 +35,6 @@ export const metadata: Metadata = {
   },
   twitter: { card: 'summary_large_image', title: 'SAMMENA SCHOOLS', description: 'Building Bright Minds. Shaping Better Futures.' },
   robots: { index: true, follow: true },
-  icons: { icon: '/images/sammena-logo.png', apple: '/images/sammena-logo.png' },
 }
 
 const organizationJsonLd = {

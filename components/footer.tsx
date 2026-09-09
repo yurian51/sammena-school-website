@@ -5,7 +5,7 @@ import { ArrowRight, ExternalLink, Mail, MapPin, Phone } from "lucide-react"
 const groups = [
   { title: "Explore", links: [["/", "Home"], ["/about", "About Sammena"], ["/academics", "Academics"], ["/secondary", "Secondary School · 2028"]] },
   { title: "Admissions & Services", links: [["/admissions", "Admissions"], ["/admissions/fees", "Fees & Payment Guide"], ["/resources", "Resource Centre"], ["/calendar", "Academic Calendar"], ["/portal", "Parent / Student Portal"]] },
-  { title: "Community", links: [["/gallery", "School Life"], ["/news", "News & Events"], ["/search", "Search Website"], ["/contact", "Contact Sammena"]] },
+  { title: "Community", links: [["/gallery", "School Life"], ["/news", "News & Events"], ["/results", "Academic Results"], ["/search", "Search Website"], ["/contact", "Contact Sammena"]] },
 ]
 
 const partnerLinks = ["School leadership", "Family experience", "Learning pathway", "Official notices"]

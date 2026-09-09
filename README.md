@@ -39,6 +39,7 @@ DISCOVER → UNDERSTAND → TRUST → APPLY → CONNECT → BELONG
 - News & Events hub with category filtering
 - Academic Calendar information architecture
 - Public website search experience
+- Public academic results archive with source-linked PSLE/SFNA records
 - Future secondary-school pathway presentation
 
 ### Design direction

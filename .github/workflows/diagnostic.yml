@@ -1,10 +1,12 @@
-name: Runner Diagnostic
+name: Actions Diagnostic
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - 'feat/**'
-  workflow_dispatch:
+    paths:
+      - '.github/workflows/diagnostic.yml'
 
 permissions:
   contents: read
@@ -15,9 +17,10 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 5
     steps:
-      - name: Runner started
-        run: echo "GitHub Actions runner started successfully"
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Runtime
         run: |
           node --version
           npm --version
+          echo "GitHub Actions runner started successfully."
