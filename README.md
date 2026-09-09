@@ -33,6 +33,7 @@ Students · Academics · Attendance · Finance · Communications
 - School life and resources
 - News and events structure
 - Academic calendar
+- Public academic results archive with source-linked PSLE/SFNA records
 - Admissions information and application UX
 - Family Hub gateway
 - Search and contact experiences
@@ -83,6 +84,10 @@ Quality checks:
 pnpm typecheck
 pnpm build
 ```
+
+## Production execution audit
+
+The current 100-step execution and verification record is maintained in `docs/production-execution-audit.md`. It records completed implementation work, external verification, and the remaining production gates without pretending that unfinished infrastructure is already live.
 
 ## Architecture documentation
 
