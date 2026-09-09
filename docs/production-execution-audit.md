@@ -235,3 +235,76 @@ The academic-results feature is implemented and committed on the feature branch.
 198. Public forms require rate-limit and abuse controls before production.
 199. The next production gate is to obtain a functioning CI execution environment or run equivalent checks in a controlled build environment.
 200. Production deployment remains intentionally gated until those checks pass.
+
+
+## Execution continuation — SEO and discoverability hardening
+
+201. Inspected the generated robots configuration.
+202. Confirmed robots uses the configured public site URL.
+203. Inspected the generated sitemap configuration.
+204. Confirmed the sitemap is generated dynamically by Next.js.
+205. Added the Admissions application route to the sitemap.
+206. Added the Academic Results route to the sitemap.
+207. Marked Academic Results as weekly-change content.
+208. Raised Academic Results sitemap priority to 0.9.
+209. Preserved Admissions priority at 0.95.
+210. Inspected root metadata configuration.
+211. Confirmed metadataBase is derived from NEXT_PUBLIC_SITE_URL.
+212. Confirmed title templates are configured.
+213. Confirmed description metadata exists.
+214. Confirmed keyword metadata exists.
+215. Confirmed canonical metadata exists.
+216. Added the public site URL to OpenGraph metadata.
+217. Confirmed OpenGraph site name.
+218. Confirmed OpenGraph locale.
+219. Confirmed Twitter card metadata.
+220. Confirmed robots index/follow metadata.
+221. Confirmed EducationalOrganization JSON-LD exists.
+222. Confirmed JSON-LD uses the public site URL.
+223. Confirmed production-only analytics rendering.
+224. Preserved environment-driven site URL configuration.
+225. Did not hard-code deployment-specific preview URLs.
+
+## Execution continuation — navigation integrity
+
+226. Confirmed Academic Results has a dedicated route.
+227. Confirmed Academic Results is reachable from desktop navigation.
+228. Confirmed Academic Results is reachable from mobile navigation.
+229. Confirmed Academic Results is reachable from the resource navigation.
+230. Confirmed Academic Results is reachable from the footer.
+231. Confirmed the results route links back to Contact for verification requests.
+232. Confirmed external source links open in a separate browsing context.
+233. Confirmed external source links use noreferrer.
+234. Confirmed result cards are keyed by examination type and year.
+235. Confirmed PSLE and SFNA are separated in the UI.
+
+## Execution continuation — data safety
+
+236. Confirmed result data is typed.
+237. Confirmed examination type is a finite union.
+238. Confirmed source URL is mandatory for each result.
+239. Confirmed source label is mandatory for each result.
+240. Confirmed pass-rate data is optional rather than inferred.
+241. Confirmed grade distribution is explicit.
+242. Confirmed candidate counts are explicit.
+243. Confirmed school averages are explicit.
+244. Confirmed the UI does not manufacture missing statistics.
+245. Confirmed unsupported historical years are not synthesized.
+246. Confirmed the centre number is stored once in school identity.
+247. Confirmed result filtering is centralized.
+248. Confirmed tests exercise the result filtering helper.
+249. Confirmed tests exercise the centre number.
+250. Confirmed tests exercise historical PSLE ordering.
+
+## Execution continuation — operational gate
+
+251. Queried recent Actions runs after runner changes.
+252. Confirmed the new runs still report startup_failure.
+253. Confirmed those runs still contain zero jobs.
+254. Confirmed there are therefore no job logs available.
+255. Confirmed the combined commit status has no successful checks.
+256. Avoided declaring CI success.
+257. Avoided declaring production readiness.
+258. Avoided bypassing the CI quality gate.
+259. Preserved all changes in the feature branch.
+260. Updated the production audit with the new evidence.
