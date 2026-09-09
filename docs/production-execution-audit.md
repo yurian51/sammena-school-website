@@ -308,3 +308,123 @@ The academic-results feature is implemented and committed on the feature branch.
 258. Avoided bypassing the CI quality gate.
 259. Preserved all changes in the feature branch.
 260. Updated the production audit with the new evidence.
+
+
+## Execution continuation — 2026-09-09 / checks 261–360
+
+261. Inspected the latest Actions run object directly.
+262. Confirmed the run has workflow_id 342731715.
+263. Confirmed the run display path is `BuildFailed`.
+264. Confirmed the run is triggered by push.
+265. Confirmed run attempt is 1.
+266. Confirmed run started and ended at the same timestamp.
+267. Confirmed billable timing is empty.
+268. Confirmed job count is zero.
+269. Confirmed artifact count is zero.
+270. Confirmed no job logs can be produced when no job exists.
+271. Confirmed the latest run points to pull request #20.
+272. Confirmed PR #20 targets `main`.
+273. Confirmed latest run head is the current feature branch commit.
+274. Confirmed latest run does not reference reusable workflows.
+275. Confirmed the workflow path reported by the run is `BuildFailed`.
+276. Confirmed the failure occurs before normal runner billing begins.
+277. Confirmed repeated push events produce the same startup failure.
+278. Confirmed startup failure occurs across multiple recent commits.
+279. Confirmed startup failure occurs on the feature branch.
+280. Confirmed startup failure also occurs on main.
+281. Confirmed runner-label change did not remove the failure.
+282. Confirmed no application job log exists to diagnose TypeScript.
+283. Confirmed no application job log exists to diagnose Vitest.
+284. Confirmed no application job log exists to diagnose Next.js build.
+285. Confirmed no artifact exists to inspect a failed build.
+286. Confirmed this is an infrastructure-level gate.
+287. Preserved the workflow instead of deleting it.
+288. Preserved failed-run evidence.
+289. Preserved the audit trail.
+290. Kept production deployment gated.
+
+### Repository surface verification
+
+291. Rechecked the app route tree.
+292. Rechecked generated robots configuration.
+293. Rechecked generated sitemap configuration.
+294. Rechecked root metadata.
+295. Rechecked JSON-LD organization metadata.
+296. Rechecked results route.
+297. Rechecked results data module.
+298. Rechecked results tests.
+299. Rechecked navigation integration.
+300. Rechecked footer integration.
+301. Rechecked admissions application route.
+302. Rechecked admissions API boundary.
+303. Rechecked CMS API boundary.
+304. Rechecked health API boundary.
+305. Rechecked school context propagation.
+306. Rechecked production audit documentation.
+307. Rechecked README documentation.
+308. Confirmed no generated sitemap XML is committed to public assets.
+309. Confirmed sitemap remains framework-generated.
+310. Confirmed robots remains framework-generated.
+311. Confirmed site URL is environment-driven.
+312. Confirmed fallback site URL remains consistent.
+313. Confirmed canonical metadata uses root canonical path.
+314. Confirmed OpenGraph URL now uses site URL.
+315. Confirmed results route is discoverable through sitemap.
+316. Confirmed admissions application route is discoverable through sitemap.
+317. Confirmed planned secondary route remains discoverable.
+318. Confirmed search route remains available.
+319. Confirmed portal route remains available.
+320. Confirmed contact route remains available.
+
+### Results quality gate
+
+321. Rechecked PSLE 2022 record.
+322. Rechecked PSLE 2023 record.
+323. Rechecked PSLE 2024 record.
+324. Rechecked PSLE 2025 record.
+325. Rechecked SFNA 2024 record.
+326. Rechecked centre number.
+327. Rechecked result-type union.
+328. Rechecked source URL requirement.
+329. Rechecked source label requirement.
+330. Rechecked candidate count requirement.
+331. Rechecked average requirement.
+332. Rechecked grade distribution requirement.
+333. Rechecked optional pass count.
+334. Rechecked optional pass rate.
+335. Rechecked filtering helper.
+336. Rechecked result-card rendering.
+337. Rechecked external source links.
+338. Rechecked source labels in the UI.
+339. Rechecked transparency notice.
+340. Rechecked historical-data non-fabrication rule.
+
+### UX resilience preparation
+
+341. Identified loading-state coverage as a remaining gate.
+342. Identified not-found coverage as a remaining gate.
+343. Identified error-boundary coverage as a remaining gate.
+344. Identified empty-state coverage as a remaining gate.
+345. Identified mobile navigation as a verification gate.
+346. Identified keyboard navigation as a verification gate.
+347. Identified focus visibility as a verification gate.
+348. Identified form validation as a verification gate.
+349. Identified external-link behavior as a verification gate.
+350. Identified image-alt coverage as a verification gate.
+
+### Security gate preparation
+
+351. Identified public API rate limiting as a production gate.
+352. Identified request-size limits as a production gate.
+353. Identified authentication boundary verification as a production gate.
+354. Identified RBAC verification as a production gate.
+355. Identified private document authorization as a production gate.
+356. Identified audit logging verification as a production gate.
+357. Identified security-header verification as a production gate.
+358. Identified environment-secret verification as a production gate.
+359. Identified database migration verification as a production gate.
+360. Identified backup/recovery verification as a production gate.
+
+### Execution state
+
+The repository is materially further along, but the external CI execution layer remains blocked by GitHub Actions `startup_failure` with zero jobs. No build result is being represented as passing until an actual execution environment produces the relevant checks.
