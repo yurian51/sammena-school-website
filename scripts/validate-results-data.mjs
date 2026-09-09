@@ -21,3 +21,8 @@ if (registry.centre !== "PS0101160") throw new Error("Unexpected Sammena centre 
 if (registry.verifiedSchoolLevel.psle.join(",") !== "2022,2023,2024,2025") throw new Error("PSLE verification coverage changed unexpectedly");
 if (registry.verifiedSchoolLevel.sfna.join(",") !== "2023,2024,2025") throw new Error("SFNA verification coverage changed unexpectedly");
 if (!Array.isArray(registry.sources) || registry.sources.length < 7) throw new Error("Results provenance registry incomplete");
+
+const sourceUrls = [...file.matchAll(/https:\/\/[^"\` ]+/g)].map(m => m[0]);
+if (sourceUrls.some(url => url.includes("SFNA2018") || url.includes("SFNA2020"))) {
+  throw new Error("Unverified historical SFNA endpoint must not be hard-coded");
+}
