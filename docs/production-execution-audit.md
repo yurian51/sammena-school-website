@@ -428,3 +428,119 @@ The academic-results feature is implemented and committed on the feature branch.
 ### Execution state
 
 The repository is materially further along, but the external CI execution layer remains blocked by GitHub Actions `startup_failure` with zero jobs. No build result is being represented as passing until an actual execution environment produces the relevant checks.
+
+
+## Execution continuation — review-driven fixes, checks 361–460
+
+361. Retrieved PR #20 metadata.
+362. Confirmed PR #20 is open.
+363. Confirmed PR #20 targets main.
+364. Confirmed PR #20 head is feat/sammena-schools-rebrand.
+365. Confirmed PR #20 currently has 37 commits.
+366. Confirmed PR #20 has 31 changed files.
+367. Confirmed automated Codex review exists for the PR.
+368. Retrieved the review discussion rather than assuming it was clean.
+369. Identified a P2 review finding on Results discovery.
+370. Confirmed the finding named both sitemap and site search.
+371. Inspected app/search/page.tsx directly.
+372. Confirmed searchablePages omitted Academic Results.
+373. Confirmed search terms omitted PSLE.
+374. Confirmed search terms omitted SFNA.
+375. Confirmed visitors could reach Results through navigation but not public search.
+376. Fixed searchablePages to include Academic Results.
+377. Added a dedicated ClipboardCheck icon for Results.
+378. Added Results description text.
+379. Added PSLE search term.
+380. Added SFNA search term.
+381. Added examination search terms.
+382. Added performance search terms.
+383. Preserved existing search behavior.
+384. Preserved query normalization.
+385. Preserved clear-search behavior.
+386. Preserved empty-state behavior.
+387. Preserved keyboard-submit behavior.
+388. Rechecked sitemap inclusion separately.
+389. Rechecked Results navigation separately.
+390. Rechecked footer inclusion separately.
+391. Rechecked mobile navigation separately.
+392. Rechecked source-link behavior separately.
+393. Rechecked result provenance separately.
+394. Rechecked Results route typing separately.
+395. Rechecked Results tests separately.
+396. Recorded the review finding as resolved in code.
+397. Did not dismiss the review finding without implementation.
+398. Did not merge the PR while CI remained unresolved.
+399. Kept the feature branch isolated.
+400. Preserved the PR review trail.
+
+### Review and release gates
+
+401. PR review feedback is now converted into an implementation change.
+402. Search discovery now includes Results.
+403. Sitemap discovery includes Results.
+404. Navigation discovery includes Results.
+405. Footer discovery includes Results.
+406. Mobile discovery includes Results.
+407. Source discovery remains explicit on the Results page.
+408. Public search can match “results”.
+409. Public search can match “PSLE”.
+410. Public search can match “SFNA”.
+411. Public search can match “examination”.
+412. Public search can match “performance”.
+413. Search remains limited to public pages.
+414. No private portal records were added to search.
+415. No student personal data was added to search.
+416. No sensitive admissions data was added to search.
+417. No result data was duplicated into the search index.
+418. Search points to the canonical Results route.
+419. Results route remains source-backed.
+420. Results route remains separately testable.
+
+### CI state after review fix
+
+421. The review-driven commit triggers the repository CI workflow.
+422. The CI infrastructure is still expected to be evaluated from an actual run.
+423. A code review approval is not treated as a build pass.
+424. A static repository inspection is not treated as a build pass.
+425. Production remains gated until executable checks succeed.
+426. Typecheck remains a mandatory gate.
+427. Unit tests remain a mandatory gate.
+428. Production build remains a mandatory gate.
+429. Browser smoke testing remains a mandatory gate.
+430. Accessibility testing remains a mandatory gate.
+431. Security testing remains a mandatory gate.
+432. Deployment verification remains a mandatory gate.
+
+### Release hygiene
+
+433. Confirmed no credentials were added in the Results/search changes.
+434. Confirmed no secrets were hard-coded in the Results/search changes.
+435. Confirmed no private API endpoint was exposed by the search change.
+436. Confirmed no database schema change was introduced by the search change.
+437. Confirmed no student records were introduced by the search change.
+438. Confirmed no personal information was introduced by the search change.
+439. Confirmed no new dependency was required.
+440. Confirmed the search icon dependency already exists.
+441. Confirmed the change is isolated to public discovery.
+442. Confirmed source URLs remain unchanged.
+443. Confirmed result calculations remain unchanged.
+444. Confirmed existing result tests remain applicable.
+445. Confirmed sitemap generation remains framework-native.
+446. Confirmed metadata remains environment-driven.
+447. Confirmed canonical URL remains environment-driven.
+448. Confirmed the Results page remains accessible without authentication.
+449. Confirmed the Portal route remains separate from public search.
+450. Confirmed the planned Secondary route remains separate from Results.
+
+### Next execution batch
+
+451. Inspect all open PR review comments again after the latest commit.
+452. Verify review finding closure against the current head.
+453. Inspect current Actions runs for the new commit.
+454. Determine whether GitHub produced a job for the new commit.
+455. If a job exists, inspect every job step.
+456. If no job exists, retain infrastructure blocker status.
+457. If typecheck runs, inspect its exit status.
+458. If tests run, inspect their exit status.
+459. If build runs, inspect its exit status.
+460. Only promote the branch after executable checks provide evidence.
