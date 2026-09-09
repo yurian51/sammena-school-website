@@ -79,7 +79,7 @@ export function Footer() {
 
         <div className="mt-7 flex flex-col gap-2 border-t border-white/10 pt-5 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} SAMMENA SCHOOLS. All rights reserved.</p>
-          <p>Established 2018 · Building Bright Minds. Shaping Better Futures.</p>
+          <p>Official school information · Building Bright Minds. Shaping Better Futures.</p>
         </div>
       </div>
     </footer>
