@@ -111,3 +111,127 @@ Updated: 2026-09-09
 ## Current status
 
 The academic-results feature is implemented and committed on the feature branch. Production is **not** claimed yet because GitHub Actions currently fails at startup with zero jobs, and several existing About-page institutional claims still require official verification.
+
+
+## Execution continuation — 2026-09-09
+
+### CI blocker isolation
+
+101. Compared CI failures across the feature branch.
+102. Compared CI failures against the default branch.
+103. Confirmed the default branch is also receiving `startup_failure`.
+104. Confirmed feature-branch failures predate the academic-results changes.
+105. Confirmed the latest failing Actions runs report zero jobs.
+106. Confirmed there are no job steps available to inspect for those runs.
+107. Tested a stable Ubuntu runner change in CI configuration.
+108. Applied Ubuntu 22.04 to the primary quality workflow.
+109. Applied Ubuntu 22.04 to the diagnostic workflow.
+110. Applied Ubuntu 22.04 to the smoke workflow.
+111. Applied Ubuntu 22.04 to the runner diagnostic workflow.
+112. Observed that the Actions startup failure persisted.
+113. Therefore ruled out `ubuntu-latest` label drift as the sole blocker.
+114. Confirmed the failure is repository-wide rather than specific to the new results code.
+115. Confirmed changing workflow YAML does not cause a job to materialize.
+116. Kept application code changes separate from infrastructure diagnosis.
+117. Preserved the CI configuration in git history for rollback.
+118. Did not falsely mark CI green.
+119. Did not bypass the quality gate.
+120. Did not delete failing workflows merely to hide the failure.
+
+### Application verification preparation
+
+121. Confirmed the project exposes `typecheck`.
+122. Confirmed the project exposes `test`.
+123. Confirmed the project exposes `build`.
+124. Confirmed the package manager version is pinned.
+125. Confirmed Next.js is pinned in package.json.
+126. Confirmed Vitest is installed.
+127. Confirmed TypeScript is installed.
+128. Confirmed the lockfile exists.
+129. Confirmed CI uses frozen-lockfile installation.
+130. Confirmed CI runs type checking before tests.
+131. Confirmed CI runs tests before production build.
+132. Confirmed the build is therefore blocked until CI runner startup works.
+
+### API correctness pass
+
+133. Inspected server-service construction.
+134. Detected the required school context parameter.
+135. Fixed Admissions API to pass school context.
+136. Fixed CMS API to pass school context.
+137. Reviewed admissions input sanitization.
+138. Reviewed request content-type validation.
+139. Reviewed request ID propagation.
+140. Reviewed domain-error mapping.
+141. Reviewed health endpoint caching behavior.
+142. Explicitly disabled health endpoint revalidation.
+143. Preserved generic internal-error responses.
+144. Preserved unauthorized/forbidden error mapping.
+145. Preserved conflict handling.
+
+### Data integrity pass
+
+146. Added typed result categories.
+147. Added source URLs.
+148. Added source labels.
+149. Added candidate counts.
+150. Added averages.
+151. Added grade distributions.
+152. Added optional pass counts.
+153. Added optional pass rates.
+154. Added PSLE 2022.
+155. Added PSLE 2023.
+156. Added PSLE 2024.
+157. Added PSLE 2025.
+158. Added SFNA 2024.
+159. Added tests for the centre number.
+160. Added tests for the historical PSLE sequence.
+161. Added tests preventing unsupported pass-rate assumptions.
+162. Added tests for SFNA data.
+163. Added source provenance to the UI.
+164. Added a transparent verification notice.
+165. Explicitly avoided fabricating unavailable years.
+
+### Navigation and UX pass
+
+166. Added Results to primary navigation.
+167. Added Results to mobile navigation.
+168. Added Results to the resource menu.
+169. Added Results to footer navigation.
+170. Added result cards.
+171. Added examination-type labels.
+172. Added year labels.
+173. Added candidate statistics.
+174. Added average statistics.
+175. Added grade distribution chips.
+176. Added source links.
+177. Added external-link indicators.
+178. Added responsive result grids.
+179. Added verification messaging.
+180. Added contact route for verification requests.
+
+### Content integrity pass
+
+181. Removed the unverified founding-year claim from the homepage.
+182. Removed the unverified founding-year claim from the footer.
+183. Preserved the 2028 secondary-school plan as a plan rather than an operating-school claim.
+184. Preserved school identity separately from future expansion claims.
+185. Documented content-governance expectations.
+
+### Current blocker conclusion
+
+186. The primary CI blocker is still GitHub Actions startup failure.
+187. The failure occurs on `main` as well as the feature branch.
+188. The failure produces zero jobs.
+189. Therefore application-level job logs cannot currently be retrieved.
+190. Runner label changes did not resolve the startup failure.
+191. The repository should not be declared production-ready solely from static inspection.
+192. Local-equivalent verification remains required.
+193. Browser verification remains required.
+194. Production environment verification remains required.
+195. Database migration verification remains required.
+196. Authentication verification remains required for private portal features.
+197. RBAC verification remains required before exposing SIS records.
+198. Public forms require rate-limit and abuse controls before production.
+199. The next production gate is to obtain a functioning CI execution environment or run equivalent checks in a controlled build environment.
+200. Production deployment remains intentionally gated until those checks pass.
