@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/academics", label: "Academics" },
   { href: "/admissions", label: "Admissions" },
   { href: "/gallery", label: "School Life" },
+  { href: "/results", label: "Results" },
   { href: "/contact", label: "Contact" },
 ]
 
@@ -80,6 +81,7 @@ export function Navbar() {
               <div className={cn("absolute right-0 top-full mt-2 w-64 rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl transition-all", resourcesOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0")}>
                 <Link href="/resources" className="block rounded-xl p-3 hover:bg-[#f6f2e8]"><span className="block text-sm font-bold text-[#071d3b]">Resource Centre</span><span className="text-xs text-slate-500">Downloads and school resources</span></Link>
                 <Link href="/news" className="block rounded-xl p-3 hover:bg-[#f6f2e8]"><span className="block text-sm font-bold text-[#071d3b]">News & Events</span><span className="text-xs text-slate-500">Latest school updates</span></Link>
+                <Link href="/results" className="block rounded-xl p-3 hover:bg-[#f6f2e8]"><span className="block text-sm font-bold text-[#071d3b]">Academic Results</span><span className="text-xs text-slate-500">Published examination results</span></Link>
                 <Link href="/calendar" className="block rounded-xl p-3 hover:bg-[#f6f2e8]"><span className="block text-sm font-bold text-[#071d3b]">Academic Calendar</span><span className="text-xs text-slate-500">Key dates and activities</span></Link>
               </div>
             </div>
@@ -97,7 +99,7 @@ export function Navbar() {
           <Link href="/" className="mb-2 block rounded-xl px-4 py-3 text-base font-semibold text-white hover:bg-white/5">Home</Link>
           <div className="rounded-xl border border-white/10 p-2"><p className="px-3 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b55b]">Our Schools</p><Link href="/" className="block rounded-lg px-3 py-3 text-white/90 hover:bg-white/5">Pre & Primary School</Link><Link href="/secondary" className="flex items-center justify-between rounded-lg px-3 py-3 text-white/90 hover:bg-white/5">Secondary School <span className="rounded-full bg-[#d8b55b]/20 px-2 py-0.5 text-[10px] font-bold text-[#d8b55b]">2028</span></Link></div>
           {navLinks.map(link => <Link key={link.href} href={link.href} className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">{link.label}</Link>)}
-          <Link href="/resources" className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">Resources</Link><Link href="/news" className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">News & Events</Link><Link href="/search" className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">Search</Link><Link href="/portal" className="mt-2 block rounded-xl border border-white/10 px-4 py-3 text-base font-semibold text-[#d8b55b]">Parent / Student Portal</Link>
+          <Link href="/resources" className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">Resources</Link><Link href="/news" className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">News & Events</Link><Link href="/results" className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">Academic Results</Link><Link href="/search" className="mt-2 block rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/5">Search</Link><Link href="/portal" className="mt-2 block rounded-xl border border-white/10 px-4 py-3 text-base font-semibold text-[#d8b55b]">Parent / Student Portal</Link>
           <Link href="/admissions" className="mt-6 flex items-center justify-center gap-2 rounded-xl bg-[#c9a24b] px-5 py-4 font-bold text-[#071d3b]">Apply for Admission <ChevronRight className="h-4 w-4" /></Link>
         </div>
       </div>
