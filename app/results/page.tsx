@@ -1,0 +1,79 @@
+import Link from "next/link"
+import { ExternalLink, GraduationCap, ShieldCheck } from "lucide-react"
+import { Footer } from "@/components/footer"
+import { Navbar } from "@/components/navbar"
+import { getResults, schoolIdentity, type ResultType } from "@/lib/academic-results"
+
+function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] }) {
+  return (
+    <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-7">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <span className="rounded-full bg-[#071d3b] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#d8b55b]">{result.type}</span>
+          <h2 className="mt-4 text-2xl font-bold text-[#071d3b]">{result.year}</h2>
+        </div>
+        <div className="text-right">
+          <p className="text-3xl font-extrabold text-[#071d3b]">{result.average.toFixed(2)}</p>
+          <p className="text-xs text-slate-500">School average</p>
+        </div>
+      </div>
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Candidates</p><p className="mt-1 font-bold text-[#071d3b]">{result.candidates}</p></div>
+        <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Overall grade</p><p className="mt-1 font-bold text-[#071d3b]">{result.grade}</p></div>
+        {result.passed !== undefined && <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Passed</p><p className="mt-1 font-bold text-[#071d3b]">{result.passed}</p></div>}
+        {result.passRate !== undefined && <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Pass rate</p><p className="mt-1 font-bold text-[#071d3b]">{result.passRate}%</p></div>}
+      </div>
+      <div className="mt-5 flex flex-wrap gap-2">
+        {Object.entries(result.grades).map(([grade, count]) => <span key={grade} className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600">{grade}: {count}</span>)}
+      </div>
+      <a href={result.sourceUrl} target="_blank" rel="noreferrer" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24] hover:text-[#071d3b]">
+        {result.sourceLabel} <ExternalLink className="h-4 w-4" />
+      </a>
+    </article>
+  )
+}
+
+export default function ResultsPage() {
+  const psle = getResults("PSLE" satisfies ResultType)
+  const sfna = getResults("SFNA" satisfies ResultType)
+
+  return (
+    <main className="min-h-screen bg-[#f8fafc]">
+      <Navbar />
+      <section className="bg-[#071d3b] pb-20 pt-36 text-white">
+        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+          <div className="max-w-3xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#d8b55b]/30 bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#d8b55b]"><GraduationCap className="h-4 w-4" /> Academic Results</span>
+            <h1 className="mt-7 text-4xl font-bold tracking-tight sm:text-5xl">Sammena academic results</h1>
+            <p className="mt-5 text-base leading-8 text-white/70 sm:text-lg">A transparent results archive for {schoolIdentity.name}, using published examination records and clearly identifying the source of each result.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20">
+        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+          <div className="rounded-3xl border border-[#d8b55b]/25 bg-[#f8f4e9] p-6 sm:p-8">
+            <div className="flex gap-4">
+              <ShieldCheck className="mt-1 h-6 w-6 shrink-0 text-[#8a6a24]" />
+              <div>
+                <h2 className="font-bold text-[#071d3b]">Verified public records</h2>
+                <p className="mt-2 text-sm leading-6 text-slate-600">Centre number: <strong>{schoolIdentity.centreNumber}</strong>. Results below are limited to records we could verify from published sources. Earlier years are intentionally not fabricated just to make the timeline look complete.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12">
+            <div className="flex items-end justify-between gap-4"><div><span className="text-sm font-bold uppercase tracking-[0.18em] text-[#9a7628]">Darasa la Saba</span><h2 className="mt-2 text-3xl font-bold text-[#071d3b]">PSLE results</h2></div><Link href="/contact" className="text-sm font-bold text-[#8a6a24]">Request school verification</Link></div>
+            <div className="mt-6 grid gap-5 lg:grid-cols-2">{psle.map(result => <ResultCard key={result.type + result.year} result={result} />)}</div>
+          </div>
+
+          <div className="mt-16">
+            <div><span className="text-sm font-bold uppercase tracking-[0.18em] text-[#9a7628]">Darasa la Nne</span><h2 className="mt-2 text-3xl font-bold text-[#071d3b]">SFNA results</h2></div>
+            <div className="mt-6 grid gap-5 lg:grid-cols-2">{sfna.map(result => <ResultCard key={result.type + result.year} result={result} />)}</div>
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </main>
+  )
+}
