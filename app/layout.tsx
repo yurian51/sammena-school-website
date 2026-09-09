@@ -26,6 +26,7 @@ export const metadata: Metadata = {
   keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'Sammena Secondary School', 'school Tanzania', 'education Tanzania'],
   alternates: { canonical: '/' },
   openGraph: {
+    url: siteUrl,
     title: 'SAMMENA SCHOOLS',
     description: 'Building Bright Minds. Shaping Better Futures.',
     type: 'website',
