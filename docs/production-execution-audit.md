@@ -773,3 +773,119 @@ The repository is materially further along, but the external CI execution layer 
 658. Confirmed Results can be discovered through navigation.
 659. Confirmed Results remains linked from the footer.
 660. Confirmed Results remains behind no authentication requirement because it is intended as public school information.
+
+
+## Execution continuation — conflict resolution and integration, checks 661–760
+
+661. Captured the exact conflict list reported by GitHub.
+662. Confirmed README.md was one of the conflicted files.
+663. Confirmed app/results/page.tsx was one of the conflicted files.
+664. Confirmed app/search/page.tsx was one of the conflicted files.
+665. Confirmed app/sitemap.ts was one of the conflicted files.
+666. Confirmed components/footer.tsx was one of the conflicted files.
+667. Confirmed components/institutional-sections.tsx was one of the conflicted files.
+668. Confirmed components/navbar.tsx was one of the conflicted files.
+669. Compared main against the feature branch for all seven files.
+670. Confirmed the conflict was caused by branch divergence rather than literal conflict markers in the feature files.
+671. Compared main and feature commit ancestry.
+672. Confirmed the feature branch was previously 236 commits behind main.
+673. Confirmed the feature branch contained 42 commits beyond the previous merge base.
+674. Preserved the latest main README structure.
+675. Preserved the Results capability in README documentation.
+676. Preserved the feature Results implementation.
+677. Preserved the feature Results search indexing.
+678. Preserved the feature sitemap improvements.
+679. Preserved the latest main navigation accessibility behavior.
+680. Preserved Results in navigation.
+681. Preserved Results in the footer.
+682. Preserved the latest main footer visual structure.
+683. Preserved the latest main institutional-section structure.
+684. Preserved all non-conflicting feature files from the feature tree.
+685. Built a merged tree from main as the integration base.
+686. Applied feature-tree blobs for non-conflicting changed files.
+687. Created merged blobs for conflicted files.
+688. Created the merged git tree.
+689. Created a two-parent merge commit.
+690. Used main as the first parent.
+691. Used the previous feature head as the second parent.
+692. Updated feat/sammena-schools-rebrand to the merge commit.
+693. Confirmed the ref update succeeded.
+694. Confirmed the new merge commit is 87fb433d.
+695. Confirmed the merge commit has both integration parents.
+696. Re-ran main-versus-feature comparison.
+697. Confirmed comparison status is now ahead.
+698. Confirmed behind_by is now zero.
+699. Confirmed the previous divergence state is resolved.
+700. Confirmed the feature branch now contains main.
+
+### Conflict-specific preservation
+
+701. Verified README keeps the current project architecture description.
+702. Verified README documents public academic results.
+703. Verified Results page remains present.
+704. Verified Results uses the typed academic-results module.
+705. Verified Results keeps PSLE/SFNA separation.
+706. Verified Results keeps source attribution.
+707. Verified search keeps the Results index entry.
+708. Verified search keeps PSLE/SFNA terms.
+709. Verified sitemap keeps /results.
+710. Verified sitemap keeps /admissions/apply.
+711. Verified sitemap keeps the environment-driven site URL.
+712. Verified footer keeps Academic Results.
+713. Verified navbar keeps Results.
+714. Verified navbar keeps mobile navigation.
+715. Verified navbar keeps keyboard focus behavior from main.
+716. Verified navbar keeps Escape handling from main.
+717. Verified navbar keeps focus trapping from main.
+718. Verified institutional sections remain based on main.
+719. Verified no student records were introduced during conflict resolution.
+720. Verified no credentials were introduced during conflict resolution.
+
+### Git integration verification
+
+721. Queried the current branch commit.
+722. Queried the current main commit.
+723. Compared current branch to current main.
+724. Confirmed current branch is not behind main.
+725. Confirmed current branch is ahead by 43 commits.
+726. Confirmed comparison reports no divergence.
+727. Confirmed the merge base is current main.
+728. Confirmed the feature work remains in the branch after integration.
+729. Confirmed the PR head points to the merge commit.
+730. Confirmed PR #20 remains open.
+731. Confirmed PR #20 still targets main.
+732. Confirmed PR #20 is not yet merged.
+733. Confirmed merge_commit_sha is still null because PR is open.
+734. Confirmed GitHub has not yet reported a successful merge.
+735. Confirmed conflict state is no longer represented by the compare endpoint.
+736. Preserved the PR rather than closing/recreating it.
+737. Preserved commit history through a real merge commit.
+738. Did not force-reset the feature branch.
+739. Did not rewrite main.
+740. Did not merge the PR prematurely.
+
+### CI after conflict resolution
+
+741. Queried the latest Actions runs after integration.
+742. Confirmed the latest run remains associated with the prior feature commit until a new workflow event is created.
+743. Confirmed historical startup_failure runs remain startup failures.
+744. Confirmed historical startup_failure runs still have no executable jobs.
+745. Confirmed the conflict-resolution merge itself has not yet produced a successful CI result.
+746. Confirmed absence of CI success is not being treated as a build pass.
+747. Confirmed no test pass is being fabricated.
+748. Confirmed no production-build pass is being fabricated.
+749. Confirmed no browser pass is being fabricated.
+750. Confirmed production remains gated.
+
+### Integration release gate
+
+751. Conflict resolution is complete at the git graph level.
+752. Main is now an ancestor of the feature branch.
+753. The seven reported conflict paths have been reconciled.
+754. The Results implementation is preserved.
+755. Results search discovery is preserved.
+756. Results sitemap discovery is preserved.
+757. Navigation accessibility improvements from main are preserved.
+758. The branch is ready for the next executable verification event.
+759. The remaining blocker is executable CI/runtime verification, not unresolved branch divergence.
+760. Production deployment remains blocked until actual typecheck, test, build and runtime verification succeeds.
