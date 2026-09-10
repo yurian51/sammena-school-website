@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, ExternalLink, Mail, MapPin, Phone } from "lucide-react"
+import { ArrowRight, ExternalLink, Mail, MapPin, Phone, ShieldCheck } from "lucide-react"
 
 const groups = [
   { title: "Explore", links: [["/", "Home"], ["/about", "About Sammena"], ["/academics", "Academics"], ["/secondary", "Secondary School · 2028"]] },
@@ -12,7 +12,7 @@ const partnerLinks = ["School leadership", "Family experience", "Learning pathwa
 
 export function Footer() {
   return (
-    <footer className="bg-school-dark text-white">
+    <footer className="bg-school-dark pb-20 text-white lg:pb-0">
       <div className="border-b border-white/10 bg-white/[0.03]"><div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-7 gap-y-3 px-5 py-4 text-xs text-white/55 sm:px-6 lg:px-8"><span className="font-bold uppercase tracking-[0.18em] text-school-gold">SAMMENA SCHOOLS</span>{partnerLinks.map((label) => <span key={label} className="inline-flex items-center gap-2"><span className="h-1 w-1 rounded-full bg-school-gold/70" />{label}</span>)}</div></div>
       <div className="mx-auto max-w-7xl px-5 pb-8 pt-14 sm:px-6 lg:px-8">
         <div className="grid gap-12 xl:grid-cols-[1.25fr_2fr]">
@@ -24,7 +24,7 @@ export function Footer() {
           <div className="grid gap-8 sm:grid-cols-3">{groups.map(group => <div key={group.title}><h2 className="text-xs font-bold uppercase tracking-[0.18em] text-school-gold">{group.title}</h2><ul className="mt-4 space-y-3">{group.links.map(([href, label]) => <li key={href}><Link href={href} className="group/link inline-flex text-sm text-white/70 transition-all hover:translate-x-1 hover:text-white"><span>{label}</span><ArrowRight className="ml-1 h-3.5 w-3.5 -translate-x-1 opacity-0 transition-all group-hover/link:translate-x-0 group-hover/link:opacity-100" /></Link></li>)}</ul></div>)}</div>
         </div>
         <div className="mt-12 grid gap-4 rounded-sm border border-white/10 bg-white/[0.03] p-5 sm:grid-cols-3"><div className="flex items-start gap-2.5 text-sm text-white/70"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-school-gold" /><span>Tanzania, East Africa</span></div><div className="flex items-center gap-2.5 text-sm text-white/70"><Phone className="h-4 w-4 shrink-0 text-school-gold" /><span>Official school contact</span></div><div className="flex items-center gap-2.5 text-sm text-white/70"><Mail className="h-4 w-4 shrink-0 text-school-gold" /><span>Official email</span></div></div>
-        <div className="mt-7 flex flex-col gap-2 border-t border-white/10 pt-5 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between"><p>© {new Date().getFullYear()} SAMMENA SCHOOLS. All rights reserved.</p><p className="inline-flex items-center gap-1.5">Established 2018 · Building Bright Minds. Shaping Better Futures. <ExternalLink className="h-3 w-3" /></p></div>
+        <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-5 text-xs text-white/40"><p>© {new Date().getFullYear()} SAMMENA SCHOOLS. All rights reserved.</p><nav aria-label="Legal and verification" className="flex flex-wrap items-center gap-4"><Link href="/trust" className="inline-flex items-center gap-1.5 hover:text-white"><ShieldCheck className="h-3.5 w-3.5" /> Trust Centre</Link><Link href="/privacy" className="hover:text-white">Privacy & Data Protection</Link><span className="inline-flex items-center gap-1.5">Established 2018 · Building Bright Minds. Shaping Better Futures. <ExternalLink className="h-3 w-3" /></span></nav></div>
       </div>
     </footer>
   )

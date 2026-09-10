@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Poppins, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { MobileActionBar } from '@/components/mobile-action-bar'
+import { schoolIdentity } from '@/lib/academic-results'
 import './globals.css'
 
 const poppins = Poppins({
@@ -40,10 +42,22 @@ export const metadata: Metadata = {
 const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'EducationalOrganization',
-  name: 'SAMMENA SCHOOLS',
+  name: schoolIdentity.brand,
+  alternateName: schoolIdentity.name,
   url: siteUrl,
   description: 'Educational institution serving learners through Sammena Pre & Primary School and a planned secondary expansion for 2028.',
-  brand: { '@type': 'Brand', name: 'SAMMENA SCHOOLS' },
+  identifier: [
+    { '@type': 'PropertyValue', propertyID: 'NECTA centre number', value: schoolIdentity.centreNumber },
+    { '@type': 'PropertyValue', propertyID: 'Registration number', value: schoolIdentity.registrationNumber },
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Nduruma',
+    addressRegion: 'Arusha',
+    addressCountry: 'TZ',
+  },
+  telephone: schoolIdentity.phone,
+  brand: { '@type': 'Brand', name: schoolIdentity.brand },
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -52,6 +66,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="font-sans antialiased">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         {children}
+        <MobileActionBar />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

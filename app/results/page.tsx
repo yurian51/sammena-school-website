@@ -5,6 +5,8 @@ import { Navbar } from "@/components/navbar"
 import { getResults, schoolIdentity, type ResultType } from "@/lib/academic-results"
 
 function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] }) {
+  const official = result.sourceKind === "official"
+
   return (
     <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-7">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -17,6 +19,15 @@ function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] 
           <p className="text-xs text-slate-500">School average</p>
         </div>
       </div>
+
+      <div className="mt-5 flex flex-wrap items-center gap-2 text-xs font-semibold">
+        <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 ${official ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-800"}`}>
+          <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
+          {official ? "Official school-level source" : "Secondary published source"}
+        </span>
+        {result.officialIndexUrl && <a href={result.officialIndexUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">NECTA index <ExternalLink className="h-3 w-3" /></a>}
+      </div>
+
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Candidates</p><p className="mt-1 font-bold text-[#071d3b]">{result.candidates}</p></div>
         <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Overall grade</p><p className="mt-1 font-bold text-[#071d3b]">{result.grade}</p></div>
@@ -57,7 +68,7 @@ export default function ResultsPage() {
               <ShieldCheck className="mt-1 h-6 w-6 shrink-0 text-[#8a6a24]" />
               <div>
                 <h2 className="font-bold text-[#071d3b]">Verified public records</h2>
-                <p className="mt-2 text-sm leading-6 text-slate-600">Centre number: <strong>{schoolIdentity.centreNumber}</strong>. Results below are limited to records we could verify from published sources. Earlier years are intentionally not fabricated just to make the timeline look complete.</p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">Centre number: <strong>{schoolIdentity.centreNumber}</strong>. Each card now exposes whether its figures come from an official school-level record or a secondary published summary. We do not fill historical gaps with invented numbers.</p>
               </div>
             </div>
           </div>
