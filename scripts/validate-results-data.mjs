@@ -23,6 +23,12 @@ if (!sourceFile.includes('sourceKind: "official"')) throw new Error("Official re
 if (!sourceFile.includes('sourceKind: "secondary"')) throw new Error("Secondary-source provenance missing");
 if (!sourceFile.includes("PS0101160")) throw new Error("Missing Sammena centre number");
 
+const psle2025 = sourceFile.match(/year:\s*2025,[\s\S]*?type:\s*"PSLE"[\s\S]*?sourceKind:\s*"secondary"[\s\S]*?officialIndexUrl:\s*"([^"]+)"/);
+if (!psle2025) throw new Error("PSLE 2025 must retain an official NECTA index link");
+if (!psle2025[1].includes("onlinesys.necta.go.tz/results/2025/psle/results/")) {
+  throw new Error("PSLE 2025 official index link is not a NECTA results URL");
+}
+
 const registryPsle = registry.verifiedSchoolLevel.psle.join(",");
 if (registryPsle !== "2022,2023,2024,2025") throw new Error("PSLE registry verification coverage changed unexpectedly");
 
