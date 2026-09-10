@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ExternalLink, GraduationCap, ShieldCheck } from "lucide-react"
+import { ExternalLink, GraduationCap, ShieldCheck, TrendingUp } from "lucide-react"
 import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
 import { getResults, schoolIdentity, type ResultType } from "@/lib/academic-results"
@@ -25,7 +25,7 @@ function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] 
           <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
           {official ? "Official school-level source" : "Secondary published source"}
         </span>
-        {result.officialIndexUrl && <a href={result.officialIndexUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">NECTA index <ExternalLink className="h-3 w-3" /></a>}
+        {result.officialIndexUrl && <a href={result.officialIndexUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">NECTA index <ExternalLink className="h-3 w-3" /></a>}
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -37,7 +37,7 @@ function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] 
       <div className="mt-5 flex flex-wrap gap-2">
         {Object.entries(result.grades).map(([grade, count]) => <span key={grade} className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600">{grade}: {count}</span>)}
       </div>
-      <a href={result.sourceUrl} target="_blank" rel="noreferrer" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24] hover:text-[#071d3b]">
+      <a href={result.sourceUrl} target="_blank" rel="noreferrer" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24] hover:text-[#071d3b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">
         {result.sourceLabel} <ExternalLink className="h-4 w-4" />
       </a>
     </article>
@@ -47,6 +47,9 @@ function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] 
 export default function ResultsPage() {
   const psle = getResults("PSLE" satisfies ResultType)
   const sfna = getResults("SFNA" satisfies ResultType)
+  const latestPsle = psle[psle.length - 1]
+  const officialCount = getResults().filter((result) => result.sourceKind === "official").length
+  const secondaryCount = getResults().filter((result) => result.sourceKind === "secondary").length
 
   return (
     <main className="min-h-screen bg-[#f8fafc]">
@@ -63,18 +66,24 @@ export default function ResultsPage() {
 
       <section className="py-16 sm:py-20">
         <div className="mx-auto max-w-6xl px-5 sm:px-6">
-          <div className="rounded-3xl border border-[#d8b55b]/25 bg-[#f8f4e9] p-6 sm:p-8">
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Latest PSLE</p><p className="mt-2 text-2xl font-black text-[#071d3b]">{latestPsle.year}</p><p className="mt-1 text-sm text-slate-500">Average {latestPsle.average.toFixed(2)}</p></div>
+            <div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">Official records</p><p className="mt-2 text-2xl font-black text-[#071d3b]">{officialCount}</p><p className="mt-1 text-sm text-slate-600">School-level public sources</p></div>
+            <div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-amber-800">Secondary records</p><p className="mt-2 text-2xl font-black text-[#071d3b]">{secondaryCount}</p><p className="mt-1 text-sm text-slate-600">Clearly labelled summaries</p></div>
+          </div>
+
+          <div className="mt-5 rounded-3xl border border-[#d8b55b]/25 bg-[#f8f4e9] p-6 sm:p-8">
             <div className="flex gap-4">
               <ShieldCheck className="mt-1 h-6 w-6 shrink-0 text-[#8a6a24]" />
               <div>
                 <h2 className="font-bold text-[#071d3b]">Verified public records</h2>
-                <p className="mt-2 text-sm leading-6 text-slate-600">Centre number: <strong>{schoolIdentity.centreNumber}</strong>. Each card now exposes whether its figures come from an official school-level record or a secondary published summary. We do not fill historical gaps with invented numbers.</p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">Centre number: <strong>{schoolIdentity.centreNumber}</strong>. Each card exposes whether its figures come from an official school-level record or a secondary published summary. We do not fill historical gaps with invented numbers.</p>
               </div>
             </div>
           </div>
 
           <div className="mt-12">
-            <div className="flex items-end justify-between gap-4"><div><span className="text-sm font-bold uppercase tracking-[0.18em] text-[#9a7628]">Darasa la Saba</span><h2 className="mt-2 text-3xl font-bold text-[#071d3b]">PSLE results</h2></div><Link href="/contact" className="text-sm font-bold text-[#8a6a24]">Request school verification</Link></div>
+            <div className="flex items-end justify-between gap-4"><div><span className="text-sm font-bold uppercase tracking-[0.18em] text-[#9a7628]">Darasa la Saba</span><h2 className="mt-2 text-3xl font-bold text-[#071d3b]">PSLE results</h2></div><Link href="/trust" className="inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24] hover:underline"><TrendingUp className="h-4 w-4" /> Evidence ledger</Link></div>
             <div className="mt-6 grid gap-5 lg:grid-cols-2">{psle.map(result => <ResultCard key={result.type + result.year} result={result} />)}</div>
           </div>
 
