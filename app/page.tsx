@@ -6,6 +6,7 @@ import { ArrowRight, Bell, BookOpen, CalendarDays, ChevronRight, FileText, Gradu
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { InstitutionalSections } from "@/components/institutional-sections"
+import { SchoolProofStrip } from "@/components/school-proof-strip"
 
 const quickLinks = [
   { href: "/admissions", title: "Admissions", text: "Application information, requirements and guidance.", icon: GraduationCap },
@@ -35,6 +36,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <SchoolProofStrip />
 
       <section className="border-b border-slate-200 bg-[#f7f7f5]">
         <div className="mx-auto max-w-7xl px-5 py-3 sm:px-8">
