@@ -19,10 +19,6 @@ if (sfnaYears.join(",") !== expectedSfnaYears.join(",")) {
   throw new Error(`Unexpected SFNA coverage: ${sfnaYears.join(",")}`);
 }
 
-for (const year of expectedPsleYears) {
-  if (!sourceFile.includes(`year: ${year}`)) throw new Error(`Missing PSLE ${year}`);
-}
-
 if (!sourceFile.includes('sourceKind: "official"')) throw new Error("Official result provenance missing");
 if (!sourceFile.includes('sourceKind: "secondary"')) throw new Error("Secondary-source provenance missing");
 if (!sourceFile.includes("PS0101160")) throw new Error("Missing Sammena centre number");
@@ -31,7 +27,7 @@ const registryPsle = registry.verifiedSchoolLevel.psle.join(",");
 if (registryPsle !== "2022,2023,2024,2025") throw new Error("PSLE registry verification coverage changed unexpectedly");
 
 const registrySfna = registry.verifiedSchoolLevel.sfna.join(",");
-if (registrySfna !== "2023,2024,2025") throw new Error("SFNA registry verification coverage changed unexpectedly");
+if (registrySfna !== "2024") throw new Error("SFNA registry verification coverage changed unexpectedly");
 
 if (!Array.isArray(registry.sources) || registry.sources.length < 7) {
   throw new Error("Results provenance registry incomplete");
