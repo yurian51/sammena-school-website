@@ -5,27 +5,36 @@ import { Navbar } from "@/components/navbar"
 import { getLatestResult, getResults, schoolIdentity, type ResultType } from "@/lib/academic-results"
 
 function OfficialResultFrame({ result }: { result: ReturnType<typeof getResults>[number] }) {
-  if (result.sourceKind !== "official") return null
+  const officialUrl = result.sourceKind === "official" ? result.sourceUrl : result.officialIndexUrl
+  if (!officialUrl) return null
+
+  const isSchoolLevel = result.sourceKind === "official"
 
   return (
     <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-inner">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3 sm:px-5">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a6a24]">Original examination page</p>
-          <p className="mt-1 text-sm font-semibold text-[#071d3b]">NECTA published view, preserved as the source appearance</p>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a6a24]">
+            {isSchoolLevel ? "Original examination page" : "Official NECTA results index"}
+          </p>
+          <p className="mt-1 text-sm font-semibold text-[#071d3b]">
+            {isSchoolLevel
+              ? "NECTA published view, preserved as the source appearance"
+              : "NECTA 2025 Halmashauri ya Arusha published index"}
+          </p>
         </div>
         <a
-          href={result.sourceUrl}
+          href={officialUrl}
           target="_blank"
           rel="noreferrer"
           className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]"
         >
-          Open original <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+          Open NECTA <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
         </a>
       </div>
       <iframe
-        title={`${result.sourceLabel} original NECTA result page`}
-        src={result.sourceUrl}
+        title={`${result.year} ${result.type} official NECTA results source`}
+        src={officialUrl}
         loading="lazy"
         className="block h-[760px] w-full border-0 bg-white sm:h-[900px] lg:h-[1050px]"
         referrerPolicy="no-referrer"
@@ -36,6 +45,7 @@ function OfficialResultFrame({ result }: { result: ReturnType<typeof getResults>
 
 function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] }) {
   const official = result.sourceKind === "official"
+  const hasOfficialIndex = Boolean(result.officialIndexUrl)
 
   return (
     <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-7">
@@ -53,9 +63,9 @@ function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] 
       <div className="mt-5 flex flex-wrap items-center gap-2 text-xs font-semibold">
         <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 ${official ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-800"}`}>
           <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-          {official ? "Official school-level source" : "Secondary published source"}
+          {official ? "Official school-level source" : "Secondary published school summary"}
         </span>
-        {result.officialIndexUrl && <a href={result.officialIndexUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">NECTA index <ExternalLink className="h-3 w-3" /></a>}
+        {hasOfficialIndex && <a href={result.officialIndexUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-emerald-700 hover:bg-emerald-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">Official NECTA index <ExternalLink className="h-3 w-3" /></a>}
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -108,7 +118,7 @@ export default function ResultsPage() {
               <ShieldCheck className="mt-1 h-6 w-6 shrink-0 text-[#8a6a24]" />
               <div>
                 <h2 className="font-bold text-[#071d3b]">Verified public records</h2>
-                <p className="mt-2 text-sm leading-6 text-slate-600">Centre number: <strong>{schoolIdentity.centreNumber}</strong>. Each card exposes whether its figures come from an official school-level record or a secondary published summary. Official records below are displayed directly from their published NECTA pages, preserving the original result-page appearance.</p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">Centre number: <strong>{schoolIdentity.centreNumber}</strong>. Each card exposes whether its figures come from an official school-level record or a secondary published summary. When NECTA provides an official index, the index is embedded directly too, so the archive does not hide the primary source behind a typed number.</p>
               </div>
             </div>
           </div>
