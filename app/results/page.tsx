@@ -107,7 +107,13 @@ function HistoricalArchiveAudit() {
         </table>
       </div>
 
-      <p className="mt-5 text-xs leading-6 text-slate-500">Audit status: {historicalArchiveAudit[0].psle}. The archive can be extended when an authoritative school-level page or named institutional record is located.</p>
+      <div className="mt-5 flex flex-wrap gap-3">
+        <a href="https://onlinesys.necta.go.tz/results/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#c8a64b]/40 bg-[#faf8f1] px-4 py-2 text-xs font-bold text-[#8a6a24] hover:bg-[#f5efdf] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">
+          Browse NECTA results archive <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+        </a>
+      </div>
+
+      <p className="mt-4 text-xs leading-6 text-slate-500">Audit status: {historicalArchiveAudit[0].psle}. The archive can be extended when an authoritative school-level page or named institutional record is located.</p>
     </section>
   )
 }
