@@ -1,6 +1,7 @@
 export * from "./types"
 export * from "./supporting-types"
 export * from "./validation"
+export * from "./authorization"
 export * from "./enrollment-service"
 export * from "./assessment-service"
 export * from "./finance-service"
