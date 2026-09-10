@@ -38,10 +38,32 @@ const expectedInvariants = [
   { label: "PSLE 2024 candidates", pattern: /year:\s*2024,[\s\S]*?type:\s*"PSLE"[\s\S]*?candidates:\s*17/ },
   { label: "PSLE 2025 candidates", pattern: /year:\s*2025,[\s\S]*?type:\s*"PSLE"[\s\S]*?candidates:\s*29/ },
   { label: "SFNA 2024 candidates", pattern: /year:\s*2024,[\s\S]*?type:\s*"SFNA"[\s\S]*?candidates:\s*34/ },
+  { label: "PSLE 2022 average", pattern: /year:\s*2022,[\s\S]*?average:\s*210\.9375/ },
+  { label: "PSLE 2023 average", pattern: /year:\s*2023,[\s\S]*?average:\s*222\.8889/ },
+  { label: "PSLE 2024 average", pattern: /year:\s*2024,[\s\S]*?type:\s*"PSLE"[\s\S]*?average:\s*198\.0588/ },
+  { label: "PSLE 2025 average", pattern: /year:\s*2025,[\s\S]*?average:\s*162\.72/ },
+  { label: "SFNA 2024 average", pattern: /year:\s*2024,[\s\S]*?type:\s*"SFNA"[\s\S]*?average:\s*174\.1176/ },
+  { label: "PSLE 2022 grade", pattern: /year:\s*2022,[\s\S]*?grade:\s*"B"/ },
+  { label: "PSLE 2023 grade", pattern: /year:\s*2023,[\s\S]*?grade:\s*"B"/ },
+  { label: "PSLE 2024 grade", pattern: /year:\s*2024,[\s\S]*?type:\s*"PSLE"[\s\S]*?grade:\s*"B"/ },
+  { label: "PSLE 2025 grade", pattern: /year:\s*2025,[\s\S]*?grade:\s*"B"/ },
+  { label: "SFNA 2024 grade", pattern: /year:\s*2024,[\s\S]*?type:\s*"SFNA"[\s\S]*?grade:\s*"C"/ },
 ];
 
 for (const invariant of expectedInvariants) {
   if (!invariant.pattern.test(sourceFile)) throw new Error(`${invariant.label} invariant failed`);
+}
+
+const provenanceInvariants = [
+  { label: "PSLE 2022 official", pattern: /year:\s*2022,[\s\S]*?type:\s*"PSLE"[\s\S]*?sourceKind:\s*"official"/ },
+  { label: "PSLE 2023 official", pattern: /year:\s*2023,[\s\S]*?type:\s*"PSLE"[\s\S]*?sourceKind:\s*"official"/ },
+  { label: "PSLE 2024 official", pattern: /year:\s*2024,[\s\S]*?type:\s*"PSLE"[\s\S]*?sourceKind:\s*"official"/ },
+  { label: "PSLE 2025 secondary", pattern: /year:\s*2025,[\s\S]*?type:\s*"PSLE"[\s\S]*?sourceKind:\s*"secondary"/ },
+  { label: "SFNA 2024 official", pattern: /year:\s*2024,[\s\S]*?type:\s*"SFNA"[\s\S]*?sourceKind:\s*"official"/ },
+];
+
+for (const invariant of provenanceInvariants) {
+  if (!invariant.pattern.test(sourceFile)) throw new Error(`${invariant.label} provenance invariant failed`);
 }
 
 const psle2025 = sourceFile.match(/year:\s*2025,[\s\S]*?type:\s*"PSLE"[\s\S]*?sourceKind:\s*"secondary"[\s\S]*?officialIndexUrl:\s*"([^"]+)"/);
