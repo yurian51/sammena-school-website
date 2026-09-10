@@ -23,6 +23,13 @@
       "2021": {"status": "not-located-in-current-indexed-necta-search", "searchedCentre": "PS0101160"}
     }
   },
+  "archiveEntryPoints": {
+    "nectaResultsHome": "https://onlinesys.necta.go.tz/results/",
+    "psle2022DistrictIndex": "https://onlinesys.necta.go.tz/results/2022/psle/results/distr_0101.htm",
+    "psle2023DistrictIndex": "https://onlinesys.necta.go.tz/results/2023/psle/results/distr_0101.htm",
+    "psle2024DistrictIndex": "https://onlinesys.necta.go.tz/results/2024/psle/results/distr_0101.htm",
+    "psle2025DistrictIndex": "https://onlinesys.necta.go.tz/results/2025/psle/results/distr_0101.htm"
+  },
   "sourcePolicy": "Publish figures only when the school-level result or a named institutional report supports them. Historical archive-index entries remain explicitly marked as archive-only. Secondary summaries are labelled and linked to an official index where one is available. A failed indexed search is never treated as proof that a historical result did not exist.",
   "sources": [
     {"exam":"PSLE","year":2022,"type":"NECTA","status":"verified","url":"https://onlinesys.necta.go.tz/results/2022/psle/results/shl_ps0101160.htm"},
