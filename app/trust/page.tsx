@@ -17,7 +17,10 @@ function EvidenceRow({ result }: { result: ReturnType<typeof getResults>[number]
         <p className="font-bold">{result.type} {result.year}</p>
         <p className="mt-1 text-sm text-slate-500">Average {result.average.toFixed(2)} · Grade {result.grade} · {result.candidates} candidates</p>
       </div>
-      <a href={result.sourceUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center gap-2 rounded-md border border-slate-200 px-3 text-xs font-bold text-[#0a3158] hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">Open source <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" /></a>
+      <div className="flex flex-wrap gap-2">
+        <a href={result.sourceUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center gap-2 rounded-md border border-slate-200 px-3 text-xs font-bold text-[#0a3158] hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">Open source <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" /></a>
+        {result.officialIndexUrl && <a href={result.officialIndexUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center gap-2 rounded-md border border-[#c8a64b]/40 bg-[#faf8f1] px-3 text-xs font-bold text-[#8a6a24] hover:bg-[#f5efdf] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">Official index <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" /></a>}
+      </div>
     </div>
   )
 }
@@ -41,12 +44,14 @@ export default function TrustPage() {
 
         <article className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
           <div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#9b7728]">Evidence ledger</p><h2 className="mt-2 text-2xl font-extrabold">Official school-level records</h2></div><Link href="/results" className="text-sm font-bold text-[#8a6a24] hover:underline">Full results archive</Link></div>
-          <div className="mt-6 divide-y divide-slate-100">{officialRecords.map((result) => <EvidenceRow key={`${result.type}-${result.year}`} result={result} />)}</div>
+          <p className="mt-3 text-sm leading-6 text-slate-500">These records are published as official school-level examination pages and remain distinct from secondary summaries.</p>
+          <div className="mt-4 divide-y divide-slate-100">{officialRecords.map((result) => <EvidenceRow key={`${result.type}-${result.year}`} result={result} />)}</div>
         </article>
 
         <article className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/60 p-6 shadow-sm sm:p-8">
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-800">Secondary evidence</p>
           <h2 className="mt-2 text-xl font-extrabold">Published summaries are labelled separately</h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700">A secondary source can help expose a result that is publicly reported elsewhere, but it is not silently promoted to an official school-level record.</p>
           <div className="mt-3 divide-y divide-amber-200/70">{secondaryRecords.map((result) => <EvidenceRow key={`${result.type}-${result.year}`} result={result} />)}</div>
           <p className="mt-4 text-sm leading-7 text-slate-700">For PSLE 2025, the published summary is linked to the official NECTA district index as an independent verification path. It is intentionally not relabelled as a school-level NECTA page.</p>
         </article>
