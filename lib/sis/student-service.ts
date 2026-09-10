@@ -15,21 +15,27 @@ export class StudentService {
   constructor(
     private readonly schoolId: string,
     private readonly repository: StudentRepository,
-  ) {}
+  ) {
+    if (repository.schoolId !== schoolId) {
+      throw new Error("SIS_REPOSITORY_SCOPE_MISMATCH")
+    }
+  }
 
   async getById(id: string): Promise<Student | null> {
-    return this.repository.findById(id)
+    const student = await this.repository.findById(id)
+    return student && this.inSchool(student) ? student : null
   }
 
   async getByAdmissionNumber(admissionNumber: string): Promise<Student | null> {
-    return this.repository.findByAdmissionNumber(admissionNumber)
+    const student = await this.repository.findByAdmissionNumber(admissionNumber)
+    return student && this.inSchool(student) ? student : null
   }
 
   async create(student: Student): Promise<Student> {
     this.assertSchoolScope(student.schoolId)
 
     const existing = await this.repository.findByAdmissionNumber(student.admissionNumber)
-    if (existing) {
+    if (existing && this.inSchool(existing)) {
       throw new Error("SIS_ADMISSION_NUMBER_ALREADY_EXISTS")
     }
 
@@ -53,7 +59,12 @@ export class StudentService {
     if (!student) {
       throw new Error("SIS_STUDENT_NOT_FOUND")
     }
+    this.assertSchoolScope(student.schoolId)
     return student
+  }
+
+  private inSchool(student: Student): boolean {
+    return student.schoolId === this.schoolId
   }
 
   private assertSchoolScope(schoolId: string): void {
