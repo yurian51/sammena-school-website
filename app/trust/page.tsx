@@ -10,6 +10,8 @@ export const metadata = {
 const officialRecords = getResults().filter((result) => result.sourceKind === "official")
 const secondaryRecords = getResults().filter((result) => result.sourceKind === "secondary")
 
+const historicalAuditYears = [2018, 2019, 2020, 2021]
+
 function EvidenceRow({ result }: { result: ReturnType<typeof getResults>[number] }) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 py-4">
@@ -54,6 +56,17 @@ export default function TrustPage() {
           <p className="mt-3 text-sm leading-7 text-slate-700">A secondary source can help expose a result that is publicly reported elsewhere, but it is not silently promoted to an official school-level record.</p>
           <div className="mt-3 divide-y divide-amber-200/70">{secondaryRecords.map((result) => <EvidenceRow key={`${result.type}-${result.year}`} result={result} />)}</div>
           <p className="mt-4 text-sm leading-7 text-slate-700">For PSLE 2025, the published summary is linked to the official NECTA district index as an independent verification path. It is intentionally not relabelled as a school-level NECTA page.</p>
+        </article>
+
+        <article className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#9b7728]">Historical archive audit</p><h2 className="mt-2 text-xl font-extrabold">2018–2021 are explicitly disclosed</h2></div>
+            <Link href="/results#historical-archive-title" className="text-sm font-bold text-[#8a6a24] hover:underline">View full audit</Link>
+          </div>
+          <p className="mt-3 text-sm leading-7 text-slate-600">A school-level Sammena page was not located in the current indexed NECTA search for these years. This does not prove that the examinations or results did not exist.</p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            {historicalAuditYears.map((year) => <div key={year} className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"><span className="font-bold">{year}</span><span className="text-xs font-semibold text-slate-500">Not located in indexed archive</span></div>)}
+          </div>
         </article>
 
         <article className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
