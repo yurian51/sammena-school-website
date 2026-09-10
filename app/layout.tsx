@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Poppins, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { MobileActionBar } from '@/components/mobile-action-bar'
 import './globals.css'
 
 const poppins = Poppins({
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="font-sans antialiased">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         {children}
+        <MobileActionBar />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
