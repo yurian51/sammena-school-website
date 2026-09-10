@@ -10,6 +10,7 @@ const expectedPsleYears = [2022, 2023, 2024, 2025];
 const expectedSfnaYears = [2024];
 const historicalYears = [2018, 2019, 2020, 2021];
 const historicalAuditStatus = "not-located-in-current-indexed-necta-search";
+const requiredArchiveEntryPoints = ["nectaResultsHome", "psle2022DistrictIndex", "psle2023DistrictIndex", "psle2024DistrictIndex", "psle2025DistrictIndex"];
 
 const resultBlocks = [...sourceFile.matchAll(/\{\n\s*year:\s*(\d+),[\s\S]*?\n\s*sourceKind:\s*"(official|secondary)",[\s\S]*?\n\s*\},/g)].map((match) => ({
   year: Number(match[1]),
@@ -24,7 +25,6 @@ const sfnaYears = [...sourceFile.matchAll(/year:\s*(\d+),\s*\n\s*type:\s*"SFNA"/
 
 if (psleYears.join(",") !== expectedPsleYears.join(",")) throw new Error(`Unexpected PSLE coverage: ${psleYears.join(",")}`);
 if (sfnaYears.join(",") !== expectedSfnaYears.join(",")) throw new Error(`Unexpected SFNA coverage: ${sfnaYears.join(",")}`);
-
 if (!sourceFile.includes('sourceKind: "official"')) throw new Error("Official result provenance missing");
 if (!sourceFile.includes('sourceKind: "secondary"')) throw new Error("Secondary-source provenance missing");
 if (!sourceFile.includes("PS0101160")) throw new Error("Missing Sammena centre number");
@@ -94,6 +94,12 @@ if (!Array.isArray(registry.sources) || registry.sources.length < 7) throw new E
 const registryUrls = registry.sources.flatMap((source) => [source.url, source.officialIndexUrl].filter(Boolean));
 for (const url of registryUrls) if (!url.startsWith("https://")) throw new Error(`Insecure provenance URL: ${url}`);
 
+for (const key of requiredArchiveEntryPoints) {
+  const url = registry.archiveEntryPoints?.[key];
+  if (!url) throw new Error(`Missing NECTA archive entry point: ${key}`);
+  if (!url.startsWith("https://onlinesys.necta.go.tz/results/")) throw new Error(`Archive entry point is not an official NECTA results URL: ${key}`);
+}
+
 for (const exam of ["psle", "sfna"]) {
   const audit = registry.historicalArchiveAudit?.[exam];
   if (!audit) throw new Error(`Missing historical archive audit for ${exam.toUpperCase()}`);
@@ -117,3 +123,4 @@ if (publishedKeys.size !== resultBlocks.length) throw new Error("Duplicate publi
 
 console.log("Results archive integrity checks passed.");
 console.log(`Historical archive audit passed for ${historicalYears.length * 2} unverified year/exam combinations.`);
+console.log(`NECTA archive entry-point checks passed for ${requiredArchiveEntryPoints.length} official URLs.`);
