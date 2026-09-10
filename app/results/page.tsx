@@ -4,6 +4,13 @@ import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
 import { getLatestResult, getResults, schoolIdentity, type ResultType } from "@/lib/academic-results"
 
+const historicalArchiveAudit = [
+  { year: 2018, psle: "not-located-in-current-indexed-necta-search", sfna: "not-located-in-current-indexed-necta-search" },
+  { year: 2019, psle: "not-located-in-current-indexed-necta-search", sfna: "not-located-in-current-indexed-necta-search" },
+  { year: 2020, psle: "not-located-in-current-indexed-necta-search", sfna: "not-located-in-current-indexed-necta-search" },
+  { year: 2021, psle: "not-located-in-current-indexed-necta-search", sfna: "not-located-in-current-indexed-necta-search" },
+] as const
+
 function OfficialResultFrame({ result }: { result: ReturnType<typeof getResults>[number] }) {
   const officialUrl = result.sourceKind === "official" ? result.sourceUrl : result.officialIndexUrl
   if (!officialUrl) return null
@@ -14,31 +21,16 @@ function OfficialResultFrame({ result }: { result: ReturnType<typeof getResults>
     <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-inner">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3 sm:px-5">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a6a24]">
-            {isSchoolLevel ? "Original examination page" : "Official NECTA results index"}
-          </p>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a6a24]">{isSchoolLevel ? "Original examination page" : "Official NECTA results index"}</p>
           <p className="mt-1 text-sm font-semibold text-[#071d3b]">
-            {isSchoolLevel
-              ? "NECTA published view, preserved as the source appearance"
-              : "NECTA 2025 Halmashauri ya Arusha published index"}
+            {isSchoolLevel ? "NECTA published view, preserved as the source appearance" : "NECTA 2025 Halmashauri ya Arusha published index"}
           </p>
         </div>
-        <a
-          href={officialUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]"
-        >
+        <a href={officialUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">
           Open NECTA <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
         </a>
       </div>
-      <iframe
-        title={`${result.year} ${result.type} official NECTA results source`}
-        src={officialUrl}
-        loading="lazy"
-        className="block h-[760px] w-full border-0 bg-white sm:h-[900px] lg:h-[1050px]"
-        referrerPolicy="no-referrer"
-      />
+      <iframe title={`${result.year} ${result.type} official NECTA results source`} src={officialUrl} loading="lazy" className="block h-[760px] w-full border-0 bg-white sm:h-[900px] lg:h-[1050px]" referrerPolicy="no-referrer" />
     </div>
   )
 }
@@ -82,6 +74,41 @@ function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] 
         {result.sourceLabel} <ExternalLink className="h-4 w-4" />
       </a>
     </article>
+  )
+}
+
+function HistoricalArchiveAudit() {
+  return (
+    <section className="mt-16 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8" aria-labelledby="historical-archive-title">
+      <div className="flex flex-wrap items-start justify-between gap-5">
+        <div className="max-w-3xl">
+          <span className="text-sm font-bold uppercase tracking-[0.18em] text-[#9a7628]">2018–2021 archive audit</span>
+          <h2 id="historical-archive-title" className="mt-2 text-2xl font-bold text-[#071d3b]">Older records are not being guessed</h2>
+          <p className="mt-3 text-sm leading-7 text-slate-600">For these years, a school-level Sammena page was not located in the current indexed NECTA search for centre <strong>{schoolIdentity.centreNumber}</strong>. That is an archive-search result, not proof that the examination never existed.</p>
+        </div>
+        <span className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-800">No invented figures</span>
+      </div>
+
+      <div className="mt-7 overflow-x-auto rounded-2xl border border-slate-200">
+        <table className="min-w-full text-left text-sm">
+          <thead className="bg-slate-50 text-xs uppercase tracking-[0.12em] text-slate-500">
+            <tr><th className="px-4 py-3 font-bold">Year</th><th className="px-4 py-3 font-bold">PSLE</th><th className="px-4 py-3 font-bold">SFNA</th><th className="px-4 py-3 font-bold">Meaning</th></tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {historicalArchiveAudit.map((entry) => (
+              <tr key={entry.year}>
+                <td className="px-4 py-4 font-bold text-[#071d3b]">{entry.year}</td>
+                <td className="px-4 py-4"><span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">Not located in indexed archive</span></td>
+                <td className="px-4 py-4"><span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">Not located in indexed archive</span></td>
+                <td className="px-4 py-4 text-slate-600">Search did not surface a school-level page</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p className="mt-5 text-xs leading-6 text-slate-500">Audit status: {historicalArchiveAudit[0].psle}. The archive can be extended when an authoritative school-level page or named institutional record is located.</p>
+    </section>
   )
 }
 
@@ -132,6 +159,8 @@ export default function ResultsPage() {
             <div><span className="text-sm font-bold uppercase tracking-[0.18em] text-[#9a7628]">Darasa la Nne</span><h2 className="mt-2 text-3xl font-bold text-[#071d3b]">SFNA results</h2></div>
             <div className="mt-6 grid gap-5 lg:grid-cols-2">{sfna.map(result => <ResultCard key={result.type + result.year} result={result} />)}</div>
           </div>
+
+          <HistoricalArchiveAudit />
         </div>
       </section>
       <Footer />
