@@ -4,6 +4,36 @@ import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
 import { getLatestResult, getResults, schoolIdentity, type ResultType } from "@/lib/academic-results"
 
+function OfficialResultFrame({ result }: { result: ReturnType<typeof getResults>[number] }) {
+  if (result.sourceKind !== "official") return null
+
+  return (
+    <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-inner">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3 sm:px-5">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a6a24]">Original examination page</p>
+          <p className="mt-1 text-sm font-semibold text-[#071d3b]">NECTA published view, preserved as the source appearance</p>
+        </div>
+        <a
+          href={result.sourceUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]"
+        >
+          Open original <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+        </a>
+      </div>
+      <iframe
+        title={`${result.sourceLabel} original NECTA result page`}
+        src={result.sourceUrl}
+        loading="lazy"
+        className="block h-[760px] w-full border-0 bg-white sm:h-[900px] lg:h-[1050px]"
+        referrerPolicy="no-referrer"
+      />
+    </div>
+  )
+}
+
 function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] }) {
   const official = result.sourceKind === "official"
 
@@ -37,6 +67,7 @@ function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] 
       <div className="mt-5 flex flex-wrap gap-2">
         {Object.entries(result.grades).map(([grade, count]) => <span key={grade} className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600">{grade}: {count}</span>)}
       </div>
+      <OfficialResultFrame result={result} />
       <a href={result.sourceUrl} target="_blank" rel="noreferrer" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24] hover:text-[#071d3b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">
         {result.sourceLabel} <ExternalLink className="h-4 w-4" />
       </a>
@@ -77,7 +108,7 @@ export default function ResultsPage() {
               <ShieldCheck className="mt-1 h-6 w-6 shrink-0 text-[#8a6a24]" />
               <div>
                 <h2 className="font-bold text-[#071d3b]">Verified public records</h2>
-                <p className="mt-2 text-sm leading-6 text-slate-600">Centre number: <strong>{schoolIdentity.centreNumber}</strong>. Each card exposes whether its figures come from an official school-level record or a secondary published summary. We do not fill historical gaps with invented numbers.</p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">Centre number: <strong>{schoolIdentity.centreNumber}</strong>. Each card exposes whether its figures come from an official school-level record or a secondary published summary. Official records below are displayed directly from their published NECTA pages, preserving the original result-page appearance.</p>
               </div>
             </div>
           </div>
