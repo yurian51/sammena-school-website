@@ -5,10 +5,17 @@ export class GuardianService {
   constructor(
     private readonly schoolId: string,
     private readonly repository: GuardianRepository,
-  ) {}
+  ) {
+    if (repository.schoolId !== schoolId) {
+      throw new Error("SIS_REPOSITORY_SCOPE_MISMATCH")
+    }
+  }
 
   async getById(id: string): Promise<Guardian | null> {
-    return this.repository.findById(id)
+    const guardian = await this.repository.findById(id)
+    if (!guardian) return null
+    this.assertSchoolScope(guardian.schoolId)
+    return guardian
   }
 
   async listForStudent(studentId: string): Promise<StudentGuardian[]> {
@@ -16,9 +23,15 @@ export class GuardianService {
   }
 
   async attach(relationship: StudentGuardian): Promise<StudentGuardian> {
-    if (relationship.studentId.length === 0 || relationship.guardianId.length === 0) {
+    if (relationship.studentId.trim().length === 0 || relationship.guardianId.trim().length === 0) {
       throw new Error("INVALID_GUARDIAN_RELATIONSHIP")
     }
     return this.repository.attachToStudent(relationship)
+  }
+
+  private assertSchoolScope(schoolId: string): void {
+    if (schoolId !== this.schoolId) {
+      throw new Error("SIS_SCHOOL_SCOPE_VIOLATION")
+    }
   }
 }
