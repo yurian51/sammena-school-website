@@ -2,7 +2,7 @@ import Link from "next/link"
 import { ExternalLink, GraduationCap, ShieldCheck, TrendingUp } from "lucide-react"
 import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
-import { getResults, schoolIdentity, type ResultType } from "@/lib/academic-results"
+import { getLatestResult, getResults, schoolIdentity, type ResultType } from "@/lib/academic-results"
 
 function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] }) {
   const official = result.sourceKind === "official"
@@ -47,7 +47,7 @@ function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] 
 export default function ResultsPage() {
   const psle = getResults("PSLE" satisfies ResultType)
   const sfna = getResults("SFNA" satisfies ResultType)
-  const latestPsle = psle[psle.length - 1]
+  const latestPsle = getLatestResult("PSLE")
   const officialCount = getResults().filter((result) => result.sourceKind === "official").length
   const secondaryCount = getResults().filter((result) => result.sourceKind === "secondary").length
 
