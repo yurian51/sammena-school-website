@@ -1,0 +1,50 @@
+{
+  "product": "Sammena Digital School",
+  "status": "foundation-defined",
+  "principle": "One school identity, one connected digital experience, one SIS core.",
+  "layers": [
+    {
+      "id": "discover",
+      "label": "DISCOVER",
+      "modules": ["Website", "Academic Results", "School Information", "News & Events", "Contact & Location"]
+    },
+    {
+      "id": "apply",
+      "label": "APPLY",
+      "modules": ["Admissions", "Online Application", "Document Submission", "Application Tracking", "Admissions Review"]
+    },
+    {
+      "id": "connect",
+      "label": "CONNECT",
+      "modules": ["Parent Hub", "Announcements", "Messages", "Attendance Visibility", "Academic Progress"]
+    },
+    {
+      "id": "school-core",
+      "label": "SCHOOL CORE",
+      "modules": ["Students", "Staff", "Academics", "Attendance", "Fees", "Documents", "Communication"]
+    },
+    {
+      "id": "sis",
+      "label": "SAMMENA SIS",
+      "modules": ["Student Information", "Staff Management", "Academic Records", "Examinations", "Class Management", "Parent Accounts", "Reporting", "Audit Trail", "RBAC"]
+    }
+  ],
+  "integrationRules": [
+    "The public website must never become the source of truth for private student records.",
+    "Admissions creates a controlled applicant record before conversion to a student.",
+    "Parent Hub reads only authorised student information through SIS permissions.",
+    "Academic Results public pages expose only approved aggregate/public records.",
+    "Every sensitive SIS mutation must be attributable to an authenticated actor.",
+    "Student, staff and academic identifiers must remain stable across modules."
+  ],
+  "nextBuildSlice": [
+    "shared school identity and navigation contracts",
+    "SIS domain model skeleton",
+    "admission-to-student conversion boundary",
+    "role and permission matrix",
+    "parent-student relationship model",
+    "academic year, class and subject entities",
+    "attendance and assessment foundations",
+    "audit-event contract"
+  ]
+}
