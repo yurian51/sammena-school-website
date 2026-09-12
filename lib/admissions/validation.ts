@@ -6,6 +6,7 @@ export type ValidationResult =
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
 const ENTRY_LEVELS = new Set([
+  "Baby",
   "Pre-Unity",
   "Class I",
   "Class II",
