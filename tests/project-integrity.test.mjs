@@ -28,6 +28,7 @@ test('production metadata routes are present', () => {
   assert.ok(exists('app/sitemap.ts'))
   assert.ok(exists('app/robots.ts'))
   assert.ok(exists('app/layout.tsx'))
+  assert.ok(exists('app/manifest.ts'))
 })
 
 test('public sitemap contains core institutional routes and excludes private areas', () => {
@@ -81,7 +82,6 @@ test('CI workflow uses the repository package manager', () => {
   assert.match(ci, /pnpm run build/)
 })
 
-
 test('results archive is present and traceable', () => {
   const results = read('app/results/page.tsx')
   for (const year of ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025']) {
@@ -105,26 +105,35 @@ test('production fallback URL is the live Render service', () => {
   assert.match(read('app/robots.ts'), /sammena-school-website\.onrender\.com/)
 })
 
-
 test('institutional pages are not empty shells', () => {
   const routes = [
-    'app/page.tsx',
-    'app/about/page.tsx',
-    'app/academics/page.tsx',
-    'app/admissions/page.tsx',
-    'app/gallery/page.tsx',
-    'app/news/page.tsx',
-    'app/results/page.tsx',
-    'app/contact/page.tsx',
-    'app/calendar/page.tsx',
-    'app/resources/page.tsx',
-    'app/secondary/page.tsx',
-    'app/search/page.tsx',
+    'app/page.tsx', 'app/about/page.tsx', 'app/academics/page.tsx', 'app/admissions/page.tsx',
+    'app/gallery/page.tsx', 'app/news/page.tsx', 'app/results/page.tsx', 'app/contact/page.tsx',
+    'app/calendar/page.tsx', 'app/resources/page.tsx', 'app/secondary/page.tsx', 'app/search/page.tsx',
   ]
   for (const route of routes) {
     const source = read(route)
     assert.ok(source.length > 2500, `Suspiciously small page: ${route}`)
-    assert.match(source, /<main[\\s>]/, `Missing main content root: ${route}`)
-    assert.match(source, /<section[\\s>]/, `Missing section content: ${route}`)
+    assert.match(source, /<main[\s>]/, `Missing main content root: ${route}`)
+    assert.match(source, /<section[\s>]/, `Missing section content: ${route}`)
   }
+})
+
+test('admissions service endpoints are implemented and not mock-only', () => {
+  assert.ok(exists('app/api/admissions/route.ts'))
+  assert.ok(exists('app/api/admissions/track/route.ts'))
+  const intake = read('app/api/admissions/route.ts')
+  const track = read('app/api/admissions/track/route.ts')
+  assert.match(intake, /admissions\.createDraft/) 
+  assert.match(intake, /status: 201/)
+  assert.match(track, /admissions\.getByReference/)
+  assert.match(track, /status: 404/)
+  assert.match(track, /SAM-\[0-9\]/)
+})
+
+test('admissions tracking UI calls the server instead of fabricating a result', () => {
+  const page = read('app/admissions/track/page.tsx')
+  assert.match(page, /fetch\(`\/api\/admissions\/track\?reference=/)
+  assert.doesNotMatch(page, /setSearched\(true\).*setStatus\(/)
+  assert.match(page, /Status retrieved from the admissions service/)
 })
