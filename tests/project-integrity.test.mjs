@@ -118,11 +118,13 @@ test('admissions service endpoints are implemented and not mock-only', () => {
   assert.ok(exists('app/api/admissions/track/route.ts'))
   const intake = read('app/api/admissions/route.ts')
   const track = read('app/api/admissions/track/route.ts')
+  const policy = read('lib/admissions/reference-validation.ts')
   assert.match(intake, /admissions\.createDraft/)
   assert.match(intake, /status: 201/)
   assert.match(track, /admissions\.getByReference/)
   assert.match(track, /status: 404/)
-  assert.match(track, /SAM-\[0-9\]/)
+  assert.match(track, /isValidAdmissionReference/)
+  assert.match(policy, /SAM-\\d\{4\}-\[A-Z0-9\]\{6\}/)
 })
 
 test('admissions tracking UI calls the server instead of fabricating a result', () => {
