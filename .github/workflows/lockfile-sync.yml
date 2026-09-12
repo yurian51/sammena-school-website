@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - 'feat/**'
+      - 'fix/**'
   workflow_dispatch:
 
 permissions:
@@ -51,3 +52,5 @@ jobs:
           git add pnpm-lock.yaml
           git commit -m "chore(deps): synchronize pnpm lockfile"
           git push
+
+# Keep dependency metadata synchronized before Render's frozen-lockfile build.
