@@ -3,6 +3,7 @@ name: Runner Diagnostic
 on:
   push:
     branches:
+      - main
       - 'feat/**'
   workflow_dispatch:
 
