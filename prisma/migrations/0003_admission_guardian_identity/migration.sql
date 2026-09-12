@@ -4,5 +4,3 @@ ALTER TABLE "AdmissionGuardian"
 
 ALTER TABLE "AdmissionGuardian"
   ALTER COLUMN "nidaNumber" DROP DEFAULT;
-
-CREATE INDEX "AdmissionGuardian_nidaNumber_idx" ON "AdmissionGuardian"("nidaNumber");
