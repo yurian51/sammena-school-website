@@ -55,4 +55,13 @@ describe("admission domain validation", () => {
       expect(result.fields).toContain("guardian.relationship")
     }
   })
+
+  it("rejects unsupported entry levels", () => {
+    const result = validateAdmissionsApplication({
+      ...validInput,
+      learner: { ...validInput.learner, entryLevel: "Form I" },
+    })
+    expect(result.ok).toBe(false)
+    if (!result.ok) expect(result.fields).toContain("learner.entryLevel")
+  })
 })
