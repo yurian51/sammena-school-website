@@ -28,6 +28,25 @@ describe("admission domain validation", () => {
     }
   })
 
+  it("accepts every supported guardian relationship", () => {
+    const relationships = ["Father", "Mother", "Aunt", "Uncle", "Brother", "Sister", "Grandfather", "Grandmother", "Guardian", "Other authorized caregiver"]
+    for (const relationship of relationships) {
+      expect(validateAdmissionsApplication({
+        ...validInput,
+        guardian: { ...validInput.guardian, relationship },
+      })).toEqual({ ok: true })
+    }
+  })
+
+  it("rejects an unsupported guardian relationship", () => {
+    const result = validateAdmissionsApplication({
+      ...validInput,
+      guardian: { ...validInput.guardian, relationship: "Neighbor" },
+    })
+    expect(result.ok).toBe(false)
+    if (!result.ok) expect(result.fields).toContain("guardian.relationship")
+  })
+
   it("rejects malformed academic years", () => {
     const result = validateAdmissionsApplication({ ...validInput, academicYear: "26/27" })
     expect(result.ok).toBe(false)
