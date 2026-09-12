@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { admissionEntryLevels, guardianOccupations, guardianRelationships } from "./options"
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Expected YYYY-MM-DD")
 
@@ -7,8 +8,7 @@ const validCalendarDate = (value: string) => {
   return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value
 }
 
-export const guardianRelationships = ["Father", "Mother", "Aunt", "Uncle", "Brother", "Sister", "Grandfather", "Grandmother", "Guardian", "Other authorized caregiver"] as const
-export const guardianOccupations = ["Farmer", "Driver", "Teacher", "Business owner", "Trader", "Civil servant", "Health worker", "Engineer", "Technician", "Police officer", "Military personnel", "Construction worker", "Fisherman", "Pastor", "Imam", "Lawyer", "Accountant", "Banker", "Student", "Self-employed", "Unemployed", "Other"] as const
+export { admissionEntryLevels, guardianRelationships, guardianOccupations }
 
 export const admissionApplicationSchema = z.object({
   guardian: z.string().trim().min(2).max(120),
@@ -32,7 +32,7 @@ export const admissionApplicationSchema = z.object({
   weight: z.string().trim().max(20).optional().default(""),
   religion: z.string().trim().max(80).optional().default(""),
   tribe: z.string().trim().max(80).optional().default(""),
-  entry: z.enum(["Baby", "Pre-Unity", "Class I", "Class II", "Class III", "Class IV", "Class V", "Class VI", "Class VII"]),
+  entry: z.enum(admissionEntryLevels),
   studyType: z.enum(["Day", "Boarding"]),
   academicYear: z.string().trim().regex(/^\d{4}(?:\/\d{4})?$/, "Expected YYYY or YYYY/YYYY"),
   previous: z.string().trim().max(160).optional().default(""),
