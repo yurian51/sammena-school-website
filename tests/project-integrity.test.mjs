@@ -148,7 +148,13 @@ test('admission form submits to the server and never fabricates references', () 
   assert.match(page, /Application submitted/)
   assert.match(page, /Track application/)
   assert.match(page, /disabled=\{submitting\}/)
+  assert.match(page, /consent/)
   assert.doesNotMatch(page, /Math\.random|makeReference/)
+})
+
+test('admission schema requires affirmative consent at the server boundary', () => {
+  const schema = read('lib/admissions/application-schema.ts')
+  assert.match(schema, /consent: z\.literal\(true\)/)
 })
 
 test('admissions tracking UI calls the server instead of fabricating a result', () => {
