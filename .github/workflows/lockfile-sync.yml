@@ -52,3 +52,5 @@ jobs:
           git add pnpm-lock.yaml
           git commit -m "chore(deps): synchronize pnpm lockfile"
           git push
+
+# Automated dependency synchronization for Render's frozen-lockfile builds.
