@@ -22,8 +22,11 @@ export const schoolIdentity = {
   centreNumber: "PS0101160",
   registrationNumber: "EM.17569",
   location: "Nduruma, Arusha, Tanzania",
+  address: "P15336, Nduruma, Arusha, Tanzania",
+  latitude: -3.4958071,
+  longitude: 36.7908905,
   phone: "+255 750 227 073",
-}
+} as const
 
 export const verifiedResults: SchoolResult[] = [
   {
