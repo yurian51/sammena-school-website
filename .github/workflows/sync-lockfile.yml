@@ -3,7 +3,7 @@ name: Sync pnpm lockfile
 on:
   push:
     branches:
-      - feat/sammena-schools-rebrand
+      - 'feat/**'
     paths-ignore:
       - pnpm-lock.yaml
   workflow_dispatch:
