@@ -12,8 +12,6 @@ const routes = [
   '/resources',
   '/news',
   '/calendar',
-  '/search',
-  '/portal',
   '/results',
   '/trust',
   '/privacy',
@@ -26,11 +24,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: now,
-    changeFrequency: route === '' || route === '/news' || route === '/results' ? 'weekly' : 'monthly',
+    changeFrequency:
+      route === '' || route === '/news' || route === '/results' || route === '/calendar' ? 'weekly' : 'monthly',
     priority:
       route === '' ? 1 :
       route === '/admissions' ? 0.95 :
+      route === '/admissions/apply' ? 0.9 :
       route === '/results' ? 0.9 :
+      route === '/academics' ? 0.85 :
+      route === '/news' || route === '/calendar' ? 0.8 :
       route === '/trust' || route === '/privacy' ? 0.75 :
       0.7,
   }))

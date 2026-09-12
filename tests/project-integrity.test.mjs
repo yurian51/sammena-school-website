@@ -14,6 +14,9 @@ test('package scripts use the locked toolchain', () => {
   assert.equal(pkg.scripts.test, 'node --test')
   assert.equal(typeof pkg.devDependencies.vitest, 'string')
   assert.equal(pkg.scripts['test:unit'], 'vitest run')
+  assert.equal(pkg.dependencies.next, '16.3.3')
+  assert.equal(typeof pkg.dependencies.pg, 'string')
+  assert.equal(typeof pkg.devDependencies['@types/pg'], 'string')
 })
 
 test('core institutional routes have page entrypoints', () => {
@@ -28,6 +31,7 @@ test('production metadata routes are present', () => {
   assert.ok(exists('app/sitemap.ts'))
   assert.ok(exists('app/robots.ts'))
   assert.ok(exists('app/layout.tsx'))
+  assert.ok(exists('app/manifest.ts'))
 })
 
 test('public sitemap contains core institutional routes and excludes private areas', () => {
@@ -81,12 +85,18 @@ test('CI workflow uses the repository package manager', () => {
   assert.match(ci, /pnpm run build/)
 })
 
+test('lockfile synchronization is isolated and safe for feature branches', () => {
+  const workflow = read('.github/workflows/sync-lockfile.yml')
+  assert.match(workflow, /branches:\n\s+- 'feat\/\*\*'/)
+  assert.match(workflow, /paths-ignore:\n\s+- pnpm-lock\.yaml/)
+  assert.match(workflow, /pnpm install --lockfile-only --no-frozen-lockfile/)
+  assert.match(workflow, /contents: write/)
+  assert.match(workflow, /sync-pnpm-lockfile-\$\{\{ github\.ref \}\}/)
+})
 
 test('results archive is present and traceable', () => {
   const results = read('app/results/page.tsx')
-  for (const year of ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025']) {
-    assert.match(results, new RegExp(year))
-  }
+  for (const year of ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025']) assert.match(results, new RegExp(year))
   assert.match(results, /PS0101160/)
   assert.match(results, /historicalArchive/)
   assert.match(results, /verified/)
@@ -105,26 +115,114 @@ test('production fallback URL is the live Render service', () => {
   assert.match(read('app/robots.ts'), /sammena-school-website\.onrender\.com/)
 })
 
-
 test('institutional pages are not empty shells', () => {
-  const routes = [
-    'app/page.tsx',
-    'app/about/page.tsx',
-    'app/academics/page.tsx',
-    'app/admissions/page.tsx',
-    'app/gallery/page.tsx',
-    'app/news/page.tsx',
-    'app/results/page.tsx',
-    'app/contact/page.tsx',
-    'app/calendar/page.tsx',
-    'app/resources/page.tsx',
-    'app/secondary/page.tsx',
-    'app/search/page.tsx',
-  ]
+  const routes = ['app/page.tsx', 'app/about/page.tsx', 'app/academics/page.tsx', 'app/admissions/page.tsx', 'app/gallery/page.tsx', 'app/news/page.tsx', 'app/results/page.tsx', 'app/contact/page.tsx', 'app/calendar/page.tsx', 'app/resources/page.tsx', 'app/secondary/page.tsx', 'app/search/page.tsx']
   for (const route of routes) {
     const source = read(route)
     assert.ok(source.length > 2500, `Suspiciously small page: ${route}`)
-    assert.match(source, /<main[\\s>]/, `Missing main content root: ${route}`)
-    assert.match(source, /<section[\\s>]/, `Missing section content: ${route}`)
+    assert.match(source, /<main[\s>]/, `Missing main content root: ${route}`)
+    assert.match(source, /<section[\s>]/, `Missing section content: ${route}`)
   }
+})
+
+test('admissions service endpoints are implemented and not mock-only', () => {
+  assert.ok(exists('app/api/admissions/route.ts'))
+  assert.ok(exists('app/api/admissions/submit/route.ts'))
+  assert.ok(exists('app/api/admissions/track/route.ts'))
+  const intake = read('app/api/admissions/route.ts')
+  const submit = read('app/api/admissions/submit/route.ts')
+  const track = read('app/api/admissions/track/route.ts')
+  const policy = read('lib/admissions/reference-validation.ts')
+  assert.match(intake, /admissions\.createDraft/)
+  assert.match(intake, /status: 201/)
+  assert.match(submit, /admissions\.createDraft/)
+  assert.match(submit, /academicYear: parsed\.data\.academicYear/)
+  assert.match(submit, /studyType: parsed\.data\.studyType/)
+  assert.match(submit, /relationship: parsed\.data\.relationship/)
+  assert.match(submit, /admissions\.updateStatus\(application\.reference, "SUBMITTED"\)/)
+  assert.doesNotMatch(submit, /application-store|Math\.random|createAdmissionReference/)
+  assert.match(submit, /readJson<unknown>/)
+  assert.match(submit, /requestId\(request\)/)
+  assert.match(submit, /status: 201/)
+  assert.match(track, /admissions\.getByReference/)
+  assert.match(track, /status: 404/)
+  assert.match(track, /isValidAdmissionReference/)
+  assert.match(policy, /SAM-\\d\{4\}-\[A-Z0-9\]\{6\}/)
+  assert.ok(!exists('lib/admissions/application-store.ts'))
+  assert.ok(!exists('lib/admissions/application-record.ts'))
+  assert.ok(!exists('lib/admissions/application-reference.ts'))
+})
+
+test('admission form submits to the server and never fabricates references', () => {
+  const page = read('app/admissions/apply/page.tsx')
+  assert.match(page, /fetch\("\/api\/admissions\/submit"/)
+  assert.match(page, /method:"POST"/)
+  assert.match(page, /JSON\.stringify\(form\)/)
+  assert.match(page, /payload\.data\?\.reference/)
+  assert.match(page, /setReference\(payload\.data\.reference\)/)
+  assert.match(page, /Application submitted/)
+  assert.match(page, /Track application/)
+  assert.match(page, /disabled=\{submitting\}/)
+  assert.match(page, /consent/)
+  assert.doesNotMatch(page, /Math\.random|makeReference/)
+})
+
+test('admission schema requires affirmative consent at the server boundary', () => {
+  const schema = read('lib/admissions/application-schema.ts')
+  assert.match(schema, /consent: z\.literal\(true\)/)
+})
+
+test('admission persistence uses the Prisma PostgreSQL schema rather than a legacy applications table', () => {
+  const repository = read('lib/db/repositories/admissions-postgres.ts')
+  const migration = read('prisma/migrations/0002_admission_learner_fields/migration.sql')
+  const schema = read('prisma/schema.prisma')
+  assert.match(repository, /"AdmissionGuardian"/)
+  assert.match(repository, /"AdmissionApplication"/)
+  assert.doesNotMatch(repository, /insert into applications|from applications|update applications/i)
+  assert.match(repository, /learnerFullName/)
+  assert.match(repository, /learnerDateOfBirth/)
+  assert.match(migration, /ADD COLUMN "learnerFullName"/)
+  assert.match(migration, /ADD COLUMN "learnerDateOfBirth"/)
+  assert.match(schema, /learnerFullName\s+String/)
+  assert.match(schema, /learnerDateOfBirth\s+String/)
+})
+
+test('runtime database adapter is environment-driven and connection health is explicit', () => {
+  const client = read('lib/db/client.ts')
+  assert.match(client, /process\.env\.DATABASE_URL/)
+  assert.match(client, /new Pool\(/)
+  assert.match(client, /connectionTimeoutMillis/)
+  assert.match(client, /ssl:/)
+  assert.match(client, /DATABASE_CLIENT_NOT_CONFIGURED/)
+})
+
+test('admissions tracking UI calls the server and maps terminal statuses to the correct stage', () => {
+  const page = read('app/admissions/track/page.tsx')
+  assert.match(page, /fetch\(`\/api\/admissions\/track\?reference=/)
+  assert.match(page, /Status retrieved from the admissions service/)
+  assert.match(page, /ACCEPTED: "DECISION"/)
+  assert.match(page, /REJECTED: "DECISION"/)
+  assert.match(page, /ENROLLED: "ENROLLED"/)
+  assert.match(page, /const activeStatus = status \? \(stageForStatus\[status\] \?\? "SUBMITTED"\)/)
+})
+
+test('database readiness is explicit and never reports a fake healthy database', () => {
+  const route = read('app/api/ready/route.ts')
+  assert.match(route, /getDbClient/)
+  assert.match(route, /select 1 as ok/)
+  assert.match(route, /status: "ready"/)
+  assert.match(route, /status: 503/)
+  assert.match(route, /not_ready/)
+})
+
+test('JSON API boundaries reject malformed and oversized requests', () => {
+  const request = read('lib/api/request.ts')
+  const errors = read('lib/api/errors.ts')
+  assert.match(request, /MAX_JSON_BYTES = 32 \* 1024/)
+  assert.match(request, /request\.text\(\)/)
+  assert.match(request, /JSON\.parse\(raw\)/)
+  assert.match(request, /REQUEST_TOO_LARGE/)
+  assert.match(request, /x-request-id/)
+  assert.match(errors, /REQUEST_TOO_LARGE/)
+  assert.match(errors, /status, 413/)
 })

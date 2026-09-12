@@ -8,22 +8,25 @@ datasource db {
 }
 
 model AdmissionApplication {
-  id                 String   @id @default(uuid())
-  reference          String   @unique
-  status             String   @default("DRAFT")
-  academicYear       String
-  entry              String
-  studyType          String
-  submittedAt        DateTime?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  guardianId         String
-  guardian           AdmissionGuardian @relation(fields: [guardianId], references: [id])
-  documents          AdmissionDocument[]
-  assignments        AdmissionReviewerAssignment[]
-  notes              AdmissionReviewNote[]
-  auditEvents        AdmissionAuditEvent[]
-  notifications      AdmissionNotification[]
+  id                  String   @id @default(uuid())
+  reference           String   @unique
+  status              String   @default("DRAFT")
+  academicYear        String
+  entry               String
+  studyType           String
+  learnerFullName     String
+  learnerDateOfBirth  String
+  learnerPreviousSchool String?
+  submittedAt         DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  guardianId          String
+  guardian            AdmissionGuardian @relation(fields: [guardianId], references: [id])
+  documents           AdmissionDocument[]
+  assignments         AdmissionReviewerAssignment[]
+  notes               AdmissionReviewNote[]
+  auditEvents         AdmissionAuditEvent[]
+  notifications       AdmissionNotification[]
   @@index([status])
   @@index([submittedAt])
 }
@@ -41,11 +44,11 @@ model AdmissionGuardian {
 }
 
 model AdmissionDocument {
-  id            String @id @default(uuid())
+  id            String   @id @default(uuid())
   applicationId String
   key           String
   label         String
-  status        String @default("MISSING")
+  status        String   @default("MISSING")
   objectKey     String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -54,7 +57,7 @@ model AdmissionDocument {
 }
 
 model AdmissionReviewerAssignment {
-  id            String @id @default(uuid())
+  id            String   @id @default(uuid())
   applicationId String
   reviewerId    String
   assignedAt    DateTime @default(now())
@@ -64,7 +67,7 @@ model AdmissionReviewerAssignment {
 }
 
 model AdmissionReviewNote {
-  id            String @id @default(uuid())
+  id            String   @id @default(uuid())
   applicationId String
   authorId      String
   body          String
@@ -74,7 +77,7 @@ model AdmissionReviewNote {
 }
 
 model AdmissionAuditEvent {
-  id            String @id @default(uuid())
+  id            String   @id @default(uuid())
   applicationId String
   action        String
   actorId       String?
@@ -87,11 +90,11 @@ model AdmissionAuditEvent {
 }
 
 model AdmissionNotification {
-  id            String @id @default(uuid())
+  id            String   @id @default(uuid())
   applicationId String
   channel       String
   event         String
-  deliveryState String @default("PENDING")
+  deliveryState String   @default("PENDING")
   createdAt     DateTime @default(now())
   application   AdmissionApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   @@index([deliveryState, createdAt])

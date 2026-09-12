@@ -3,7 +3,27 @@ import type { AdmissionApplication } from "../admissions/types"
 import type { CmsContent } from "../cms/types"
 
 export function mapApplicationRow(row: ApplicationRow): AdmissionApplication {
-  return { reference: row.reference, status: row.status, guardian: { fullName: row.guardian_full_name, phone: row.guardian_phone, email: row.guardian_email ?? undefined }, learner: { fullName: row.learner_full_name, dateOfBirth: row.learner_date_of_birth, entryLevel: row.learner_entry_level, previousSchool: row.learner_previous_school ?? undefined }, createdAt: row.created_at, updatedAt: row.updated_at }
+  return {
+    reference: row.reference,
+    status: row.status,
+    academicYear: row.academic_year,
+    studyType: row.study_type,
+    guardian: {
+      fullName: row.guardian_full_name,
+      phone: row.guardian_phone,
+      email: row.guardian_email ?? undefined,
+      relationship: row.guardian_relationship ?? undefined,
+    },
+    learner: {
+      fullName: row.learner_full_name,
+      dateOfBirth: row.learner_date_of_birth,
+      entryLevel: row.learner_entry_level,
+      previousSchool: row.learner_previous_school ?? undefined,
+    },
+    submittedAt: row.submitted_at ?? undefined,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }
 }
 
 export function mapCmsRow(row: CmsContentRow): CmsContent {

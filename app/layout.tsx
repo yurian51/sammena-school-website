@@ -25,8 +25,11 @@ export const metadata: Metadata = {
     template: '%s | SAMMENA SCHOOLS',
   },
   description: 'The official digital home of Sammena Schools, including Sammena Pre & Primary School and the planned Sammena Secondary School expansion for 2028.',
-  keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'Sammena Secondary School', 'school Tanzania', 'education Tanzania'],
+  keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'Sammena Secondary School', 'primary school Tanzania', 'school Arusha', 'education Tanzania'],
   alternates: { canonical: '/' },
+  category: 'education',
+  applicationName: 'Sammena Schools',
+  referrer: 'strict-origin-when-cross-origin',
   openGraph: {
     url: siteUrl,
     title: 'SAMMENA SCHOOLS',
@@ -57,14 +60,29 @@ const organizationJsonLd = {
     addressCountry: 'TZ',
   },
   telephone: schoolIdentity.phone,
+  areaServed: { '@type': 'AdministrativeArea', name: 'Arusha, Tanzania' },
   brand: { '@type': 'Brand', name: schoolIdentity.brand },
+}
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Sammena Schools',
+  url: siteUrl,
+  inLanguage: 'en-TZ',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${siteUrl}/search?q={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${poppins.variable} ${inter.variable} bg-background`}>
+    <html lang="en-TZ" className={`${poppins.variable} ${inter.variable} bg-background`}>
       <body className="font-sans antialiased">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
         {children}
         <MobileActionBar />
         {process.env.NODE_ENV === 'production' && <Analytics />}

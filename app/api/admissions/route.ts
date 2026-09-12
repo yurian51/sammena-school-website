@@ -9,7 +9,10 @@ export async function POST(request: Request) {
   try {
     const input = sanitizeAdmissionsInput(await readJson<CreateApplicationInput>(request))
     const application = await createServerServices({ schoolId: process.env.SCHOOL_ID ?? "sammena-primary" }).admissions.createDraft(input)
-    return Response.json({ data: application, requestId: id }, { status: 201 })
+    return Response.json(
+      { data: { reference: application.reference, status: application.status, createdAt: application.createdAt }, requestId: id },
+      { status: 201, headers: { "Cache-Control": "no-store" } },
+    )
   } catch (error) {
     return mapDomainError(error, id)
   }
