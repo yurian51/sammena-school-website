@@ -23,13 +23,14 @@ export function SchoolProofStrip() {
             <p className="mt-1 text-lg font-extrabold text-[#0a3158]">{schoolIdentity.centreNumber}</p>
           </div>
         </div>
-        <div className="flex items-center gap-3 px-0 py-5 sm:px-5 lg:px-6">
+        <Link href="/location" className="group flex items-center gap-3 px-0 py-5 sm:px-5 lg:px-6 hover:bg-[#faf8f1]">
           <MapPin className="h-5 w-5 shrink-0 text-[#9b7728]" aria-hidden="true" />
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">Campus</p>
             <p className="mt-1 text-sm font-bold text-[#0a3158]">{schoolIdentity.location}</p>
+            <p className="mt-0.5 text-[11px] font-semibold text-[#9b7728] group-hover:underline">View verified location</p>
           </div>
-        </div>
+        </Link>
         <div className="flex items-center justify-between gap-3 px-0 py-5 sm:px-5 lg:px-6">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">Results archive</p>
