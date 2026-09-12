@@ -6,23 +6,36 @@ export interface DbClient {
   query<T = unknown>(sql: string, params?: readonly unknown[]): Promise<QueryResult<T>>
 }
 
+declare global {
+  // eslint-disable-next-line no-var
+  var __sammenaPgPool: Pool | undefined
+}
+
 let client: DbClient | null = null
 
 export function configureDbClient(nextClient: DbClient) {
   client = nextClient
 }
 
+function envInteger(name: string, fallback: number, minimum: number, maximum: number) {
+  const parsed = Number.parseInt(process.env[name] ?? "", 10)
+  if (!Number.isFinite(parsed)) return fallback
+  return Math.min(maximum, Math.max(minimum, parsed))
+}
+
 function createPostgresClient(): DbClient | null {
   const connectionString = process.env.DATABASE_URL?.trim()
   if (!connectionString) return null
 
-  const pool = new Pool({
+  const pool = globalThis.__sammenaPgPool ?? new Pool({
     connectionString,
-    max: Number(process.env.DB_POOL_MAX ?? 10),
-    idleTimeoutMillis: Number(process.env.DB_IDLE_TIMEOUT_MS ?? 30_000),
-    connectionTimeoutMillis: Number(process.env.DB_CONNECTION_TIMEOUT_MS ?? 5_000),
+    max: envInteger("DB_POOL_MAX", 10, 1, 20),
+    idleTimeoutMillis: envInteger("DB_IDLE_TIMEOUT_MS", 30_000, 1_000, 300_000),
+    connectionTimeoutMillis: envInteger("DB_CONNECTION_TIMEOUT_MS", 5_000, 1_000, 30_000),
     ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : undefined,
   })
+
+  if (process.env.NODE_ENV !== "production") globalThis.__sammenaPgPool = pool
 
   return {
     async query<T = unknown>(sql: string, params?: readonly unknown[]) {
