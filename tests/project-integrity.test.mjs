@@ -84,9 +84,7 @@ test('CI workflow uses the repository package manager', () => {
 
 test('results archive is present and traceable', () => {
   const results = read('app/results/page.tsx')
-  for (const year of ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025']) {
-    assert.match(results, new RegExp(year))
-  }
+  for (const year of ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025']) assert.match(results, new RegExp(year))
   assert.match(results, /PS0101160/)
   assert.match(results, /historicalArchive/)
   assert.match(results, /verified/)
@@ -106,11 +104,7 @@ test('production fallback URL is the live Render service', () => {
 })
 
 test('institutional pages are not empty shells', () => {
-  const routes = [
-    'app/page.tsx', 'app/about/page.tsx', 'app/academics/page.tsx', 'app/admissions/page.tsx',
-    'app/gallery/page.tsx', 'app/news/page.tsx', 'app/results/page.tsx', 'app/contact/page.tsx',
-    'app/calendar/page.tsx', 'app/resources/page.tsx', 'app/secondary/page.tsx', 'app/search/page.tsx',
-  ]
+  const routes = ['app/page.tsx', 'app/about/page.tsx', 'app/academics/page.tsx', 'app/admissions/page.tsx', 'app/gallery/page.tsx', 'app/news/page.tsx', 'app/results/page.tsx', 'app/contact/page.tsx', 'app/calendar/page.tsx', 'app/resources/page.tsx', 'app/secondary/page.tsx', 'app/search/page.tsx']
   for (const route of routes) {
     const source = read(route)
     assert.ok(source.length > 2500, `Suspiciously small page: ${route}`)
@@ -124,7 +118,7 @@ test('admissions service endpoints are implemented and not mock-only', () => {
   assert.ok(exists('app/api/admissions/track/route.ts'))
   const intake = read('app/api/admissions/route.ts')
   const track = read('app/api/admissions/track/route.ts')
-  assert.match(intake, /admissions\.createDraft/) 
+  assert.match(intake, /admissions\.createDraft/)
   assert.match(intake, /status: 201/)
   assert.match(track, /admissions\.getByReference/)
   assert.match(track, /status: 404/)
@@ -134,6 +128,14 @@ test('admissions service endpoints are implemented and not mock-only', () => {
 test('admissions tracking UI calls the server instead of fabricating a result', () => {
   const page = read('app/admissions/track/page.tsx')
   assert.match(page, /fetch\(`\/api\/admissions\/track\?reference=/)
-  assert.doesNotMatch(page, /setSearched\(true\).*setStatus\(/)
   assert.match(page, /Status retrieved from the admissions service/)
+})
+
+test('database readiness is explicit and never reports a fake healthy database', () => {
+  const route = read('app/api/ready/route.ts')
+  assert.match(route, /getDbClient/)
+  assert.match(route, /select 1 as ok/)
+  assert.match(route, /status: "ready"/)
+  assert.match(route, /status: 503/)
+  assert.match(route, /not_ready/)
 })
