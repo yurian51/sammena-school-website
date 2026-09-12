@@ -14,6 +14,9 @@ test('package scripts use the locked toolchain', () => {
   assert.equal(pkg.scripts.test, 'node --test')
   assert.equal(typeof pkg.devDependencies.vitest, 'string')
   assert.equal(pkg.scripts['test:unit'], 'vitest run')
+  assert.equal(pkg.dependencies.next, '16.3.3')
+  assert.equal(typeof pkg.dependencies.pg, 'string')
+  assert.equal(typeof pkg.devDependencies['@types/pg'], 'string')
 })
 
 test('core institutional routes have page entrypoints', () => {
@@ -124,6 +127,9 @@ test('admissions service endpoints are implemented and not mock-only', () => {
   assert.match(intake, /admissions\.createDraft/)
   assert.match(intake, /status: 201/)
   assert.match(submit, /admissions\.createDraft/)
+  assert.match(submit, /academicYear: parsed\.data\.academicYear/)
+  assert.match(submit, /studyType: parsed\.data\.studyType/)
+  assert.match(submit, /relationship: parsed\.data\.relationship/)
   assert.match(submit, /admissions\.updateStatus\(application\.reference, "SUBMITTED"\)/)
   assert.doesNotMatch(submit, /application-store|Math\.random|createAdmissionReference/)
   assert.match(submit, /readJson<unknown>/)
@@ -155,6 +161,30 @@ test('admission form submits to the server and never fabricates references', () 
 test('admission schema requires affirmative consent at the server boundary', () => {
   const schema = read('lib/admissions/application-schema.ts')
   assert.match(schema, /consent: z\.literal\(true\)/)
+})
+
+test('admission persistence uses the Prisma PostgreSQL schema rather than a legacy applications table', () => {
+  const repository = read('lib/db/repositories/admissions-postgres.ts')
+  const migration = read('prisma/migrations/0002_admission_learner_fields/migration.sql')
+  const schema = read('prisma/schema.prisma')
+  assert.match(repository, /"AdmissionGuardian"/)
+  assert.match(repository, /"AdmissionApplication"/)
+  assert.doesNotMatch(repository, /insert into applications|from applications|update applications/i)
+  assert.match(repository, /learnerFullName/)
+  assert.match(repository, /learnerDateOfBirth/)
+  assert.match(migration, /ADD COLUMN "learnerFullName"/)
+  assert.match(migration, /ADD COLUMN "learnerDateOfBirth"/)
+  assert.match(schema, /learnerFullName\s+String/)
+  assert.match(schema, /learnerDateOfBirth\s+String/)
+})
+
+test('runtime database adapter is environment-driven and connection health is explicit', () => {
+  const client = read('lib/db/client.ts')
+  assert.match(client, /process\.env\.DATABASE_URL/)
+  assert.match(client, /new Pool\(/)
+  assert.match(client, /connectionTimeoutMillis/)
+  assert.match(client, /ssl:/)
+  assert.match(client, /DATABASE_CLIENT_NOT_CONFIGURED/)
 })
 
 test('admissions tracking UI calls the server instead of fabricating a result', () => {
