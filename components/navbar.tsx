@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown, ChevronRight, ExternalLink, Menu, X, Search, Phone, Mail } from "lucide-react"
+import { ChevronDown, ChevronRight, ExternalLink, Menu, X, Search, Phone, Mail, MapPin } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const navLinks = [
@@ -14,6 +14,7 @@ const navLinks = [
   { href: "/gallery", label: "School Life" },
   { href: "/news", label: "News & Events" },
   { href: "/results", label: "Results" },
+  { href: "/location", label: "Location" },
   { href: "/contact", label: "Contact" },
 ]
 
@@ -64,7 +65,7 @@ export function Navbar() {
       <div className="hidden bg-[#06203b] text-white/80 md:block">
         <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-4 text-[11px] sm:px-6 lg:px-8">
           <div className="flex items-center gap-5"><a href="tel:+255750227073" className="inline-flex items-center gap-1.5 hover:text-white"><Phone className="h-3 w-3 text-[#e2c46c]" /> +255 750 227 073</a><span className="inline-flex items-center gap-1.5"><Mail className="h-3 w-3 text-[#e2c46c]" /> Official Contact</span></div>
-          <div className="flex items-center gap-4"><Link href="/resources" className="hover:text-white">Resources</Link><Link href="/calendar" className="hover:text-white">Academic Calendar</Link><Link href="/results" className="hover:text-white">Results</Link><Link href="/portal" className="inline-flex items-center gap-1 font-semibold text-[#e2c46c] hover:text-white">Parent / Student Portal <ExternalLink className="h-3 w-3" /></Link></div>
+          <div className="flex items-center gap-4"><Link href="/location" className="inline-flex items-center gap-1.5 font-semibold text-white/75 hover:text-white"><MapPin className="h-3 w-3 text-[#e2c46c]" /> Nduruma, Arusha</Link><Link href="/resources" className="hover:text-white">Resources</Link><Link href="/calendar" className="hover:text-white">Academic Calendar</Link><Link href="/results" className="hover:text-white">Results</Link><Link href="/portal" className="inline-flex items-center gap-1 font-semibold text-[#e2c46c] hover:text-white">Parent / Student Portal <ExternalLink className="h-3 w-3" /></Link></div>
         </div>
       </div>
 
@@ -92,7 +93,7 @@ export function Navbar() {
       <div id="mobile-navigation" data-mobile-nav role="dialog" aria-modal="true" aria-label="Mobile navigation" className={cn("fixed left-3 right-3 top-[88px] z-[70] max-h-[72dvh] overflow-y-auto overscroll-contain rounded-2xl border border-white/20 bg-[#0a3158]/82 p-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-2xl backdrop-blur-xl transition-[opacity,transform,visibility] duration-200 lg:hidden", mobileOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 pointer-events-none opacity-0")}>
         <div className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#e2c46c]">Sammena Schools</div>
         <div className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.035]">
-          {[["/","Home"],["/about","About"],["/academics","Academics"],["/admissions","Admissions"],["/gallery","School Life"],["/news","News & Events"],["/results","Results"],["/resources","Resources"],["/calendar","Academic Calendar"],["/contact","Contact"]].map(([href,label], index) => <Link key={href} onClick={closeMobileMenu} href={href} aria-current={pathname === href ? "page" : undefined} className={cn("block px-4 py-3.5 text-[15px] font-semibold text-white", index < 9 && "border-b border-white/10")}>{label}</Link>)}
+          {[["/","Home"],["/about","About"],["/academics","Academics"],["/admissions","Admissions"],["/gallery","School Life"],["/news","News & Events"],["/results","Results"],["/location","Location"],["/resources","Resources"],["/calendar","Academic Calendar"],["/contact","Contact"]].map(([href,label], index) => <Link key={href} onClick={closeMobileMenu} href={href} aria-current={pathname === href ? "page" : undefined} className={cn("block px-4 py-3.5 text-[15px] font-semibold text-white", index < 10 && "border-b border-white/10")}>{label}</Link>)}
         </div>
         <div className="mt-2 grid gap-2 min-[420px]:grid-cols-2">
           <Link onClick={closeMobileMenu} href="/portal" className="flex min-h-11 items-center justify-center rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-center text-sm font-semibold text-[#e2c46c]">Parent / Student Portal</Link>
