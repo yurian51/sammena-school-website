@@ -85,6 +85,15 @@ test('CI workflow uses the repository package manager', () => {
   assert.match(ci, /pnpm run build/)
 })
 
+test('lockfile synchronization is isolated and safe for feature branches', () => {
+  const workflow = read('.github/workflows/sync-lockfile.yml')
+  assert.match(workflow, /branches:\n\s+- 'feat\/\*\*'/)
+  assert.match(workflow, /paths-ignore:\n\s+- pnpm-lock\.yaml/)
+  assert.match(workflow, /pnpm install --lockfile-only --no-frozen-lockfile/)
+  assert.match(workflow, /contents: write/)
+  assert.match(workflow, /sync-pnpm-lockfile-\$\{\{ github\.ref \}\}/)
+})
+
 test('results archive is present and traceable', () => {
   const results = read('app/results/page.tsx')
   for (const year of ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025']) assert.match(results, new RegExp(year))
@@ -187,10 +196,14 @@ test('runtime database adapter is environment-driven and connection health is ex
   assert.match(client, /DATABASE_CLIENT_NOT_CONFIGURED/)
 })
 
-test('admissions tracking UI calls the server instead of fabricating a result', () => {
+test('admissions tracking UI calls the server and maps terminal statuses to the correct stage', () => {
   const page = read('app/admissions/track/page.tsx')
   assert.match(page, /fetch\(`\/api\/admissions\/track\?reference=/)
   assert.match(page, /Status retrieved from the admissions service/)
+  assert.match(page, /ACCEPTED: "DECISION"/)
+  assert.match(page, /REJECTED: "DECISION"/)
+  assert.match(page, /ENROLLED: "ENROLLED"/)
+  assert.match(page, /const activeStatus = status \? \(stageForStatus\[status\] \?\? "SUBMITTED"\)/)
 })
 
 test('database readiness is explicit and never reports a fake healthy database', () => {
