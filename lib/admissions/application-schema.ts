@@ -29,7 +29,7 @@ export const admissionApplicationSchema = z.object({
   weight: z.string().trim().max(20).optional().default(""),
   religion: z.string().trim().max(80).optional().default(""),
   tribe: z.string().trim().max(80).optional().default(""),
-  entry: z.enum(["Pre-Unity", "Class I", "Class II", "Class III", "Class IV", "Class V", "Class VI", "Class VII"]),
+  entry: z.enum(["Baby", "Pre-Unity", "Class I", "Class II", "Class III", "Class IV", "Class V", "Class VI", "Class VII"]),
   studyType: z.enum(["Day", "Boarding"]),
   academicYear: z.string().trim().regex(/^\d{4}(?:\/\d{4})?$/, "Expected YYYY or YYYY/YYYY"),
   previous: z.string().trim().max(160).optional().default(""),
