@@ -9,6 +9,8 @@ export interface ApplicationRow {
   study_type: "Day" | "Boarding"
   guardian_full_name: string
   guardian_phone: string
+  guardian_secondary_phone: string | null
+  guardian_nida_number: string
   guardian_email: string | null
   guardian_relationship: string | null
   learner_full_name: string

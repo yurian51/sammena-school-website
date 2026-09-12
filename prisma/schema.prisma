@@ -18,8 +18,8 @@ model AdmissionApplication {
   learnerDateOfBirth  String
   learnerPreviousSchool String?
   submittedAt         DateTime?
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
   guardianId          String
   guardian            AdmissionGuardian @relation(fields: [guardianId], references: [id])
   documents           AdmissionDocument[]
@@ -32,14 +32,16 @@ model AdmissionApplication {
 }
 
 model AdmissionGuardian {
-  id           String @id @default(uuid())
-  fullName     String
-  phone        String
-  email        String?
-  relationship String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  applications AdmissionApplication[]
+  id             String @id @default(uuid())
+  fullName       String
+  phone          String
+  secondaryPhone String?
+  nidaNumber     String
+  email          String?
+  relationship   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  applications   AdmissionApplication[]
   @@index([phone])
 }
 

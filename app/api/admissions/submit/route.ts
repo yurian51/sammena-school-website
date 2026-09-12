@@ -27,6 +27,8 @@ export async function POST(request: Request) {
       guardian: {
         fullName: parsed.data.guardian,
         phone: parsed.data.phone,
+        secondaryPhone: parsed.data.secondaryPhone || undefined,
+        nidaNumber: parsed.data.nidaNumber,
         ...(parsed.data.email ? { email: parsed.data.email } : {}),
         relationship: parsed.data.relationship,
       },
