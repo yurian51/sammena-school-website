@@ -8,15 +8,15 @@ export class PostgresAdmissionsRepository implements AdmissionsRepository {
   async createDraft(reference: string, input: DraftInput): Promise<AdmissionApplication> {
     const result = await getDbClient().query<ApplicationRow>(
       `with guardian as (
-         insert into "AdmissionGuardian" ("fullName", "phone", "email", "relationship", "updatedAt")
-         values ($1, $2, $3, $4, now())
+         insert into "AdmissionGuardian" ("fullName", "phone", "secondaryPhone", "nidaNumber", "email", "relationship", "updatedAt")
+         values ($1, $2, $3, $4, $5, $6, now())
          returning "id"
        ), application as (
          insert into "AdmissionApplication" (
            "reference", "status", "academicYear", "entry", "studyType", "guardianId",
            "learnerFullName", "learnerDateOfBirth", "learnerPreviousSchool", "updatedAt"
          )
-         select $5, 'DRAFT', $6, $7, $8, guardian."id", $9, $10, $11, now()
+         select $7, 'DRAFT', $8, $9, $10, guardian."id", $11, $12, $13, now()
          from guardian
          returning *
        )
@@ -35,6 +35,8 @@ export class PostgresAdmissionsRepository implements AdmissionsRepository {
          application."updatedAt" as updated_at,
          guardian."fullName" as guardian_full_name,
          guardian."phone" as guardian_phone,
+         guardian."secondaryPhone" as guardian_secondary_phone,
+         guardian."nidaNumber" as guardian_nida_number,
          guardian."email" as guardian_email,
          guardian."relationship" as guardian_relationship
        from application
@@ -42,6 +44,8 @@ export class PostgresAdmissionsRepository implements AdmissionsRepository {
       [
         input.guardian.fullName,
         input.guardian.phone,
+        input.guardian.secondaryPhone ?? null,
+        input.guardian.nidaNumber,
         input.guardian.email ?? null,
         input.guardian.relationship ?? null,
         reference,
@@ -75,6 +79,8 @@ export class PostgresAdmissionsRepository implements AdmissionsRepository {
          application."updatedAt" as updated_at,
          guardian."fullName" as guardian_full_name,
          guardian."phone" as guardian_phone,
+         guardian."secondaryPhone" as guardian_secondary_phone,
+         guardian."nidaNumber" as guardian_nida_number,
          guardian."email" as guardian_email,
          guardian."relationship" as guardian_relationship
        from "AdmissionApplication" application
@@ -112,6 +118,8 @@ export class PostgresAdmissionsRepository implements AdmissionsRepository {
          application."updatedAt" as updated_at,
          guardian."fullName" as guardian_full_name,
          guardian."phone" as guardian_phone,
+         guardian."secondaryPhone" as guardian_secondary_phone,
+         guardian."nidaNumber" as guardian_nida_number,
          guardian."email" as guardian_email,
          guardian."relationship" as guardian_relationship
        from updated application
