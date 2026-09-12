@@ -1,0 +1,16 @@
+export const schoolLocation = {
+  name: "Sammena Pre & Primary School",
+  address: "P15336, Nduruma, Arusha, Tanzania",
+  locality: "Nduruma",
+  region: "Arusha",
+  country: "Tanzania",
+  latitude: -3.4958071,
+  longitude: 36.7908905,
+  centreNumber: "PS0101160",
+  registrationNumber: "EM.17569",
+  phone: "+255 750 227 073",
+  whatsapp: "+255 750 227 073",
+  mapEmbed: "https://www.google.com/maps?q=-3.4958071,36.7908905&z=17&output=embed",
+  directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-3.4958071,36.7908905",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=-3.4958071,36.7908905",
+} as const
