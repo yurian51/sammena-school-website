@@ -18,6 +18,16 @@ describe("admission domain validation", () => {
     expect(validateAdmissionsApplication(validInput)).toEqual({ ok: true })
   })
 
+  it("accepts every Sammena entry level from Baby through Class VII", () => {
+    const levels = ["Baby", "Pre-Unity", "Class I", "Class II", "Class III", "Class IV", "Class V", "Class VI", "Class VII"]
+    for (const entryLevel of levels) {
+      expect(validateAdmissionsApplication({
+        ...validInput,
+        learner: { ...validInput.learner, entryLevel },
+      })).toEqual({ ok: true })
+    }
+  })
+
   it("rejects malformed academic years", () => {
     const result = validateAdmissionsApplication({ ...validInput, academicYear: "26/27" })
     expect(result.ok).toBe(false)
