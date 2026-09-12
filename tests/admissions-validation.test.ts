@@ -4,7 +4,7 @@ import { validateAdmissionsApplication } from "../lib/admissions/validation"
 const validInput = {
   academicYear: "2026/2027",
   studyType: "Day" as const,
-  guardian: { fullName: "Amina Mwangi", phone: "+255750227073", relationship: "Parent" },
+  guardian: { fullName: "Amina Mwangi", phone: "+255750227073", relationship: "Father" },
   learner: {
     fullName: "Neema Mwangi",
     dateOfBirth: "2015-06-15",
@@ -51,6 +51,16 @@ describe("admission domain validation", () => {
     const result = validateAdmissionsApplication({ ...validInput, academicYear: "26/27" })
     expect(result.ok).toBe(false)
     if (!result.ok) expect(result.fields).toContain("academicYear")
+  })
+
+  it("rejects non-consecutive academic year ranges", () => {
+    const result = validateAdmissionsApplication({ ...validInput, academicYear: "2026/2028" })
+    expect(result.ok).toBe(false)
+    if (!result.ok) expect(result.fields).toContain("academicYear")
+  })
+
+  it("accepts a single academic year", () => {
+    expect(validateAdmissionsApplication({ ...validInput, academicYear: "2026" })).toEqual({ ok: true })
   })
 
   it("rejects impossible calendar dates", () => {
