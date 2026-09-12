@@ -13,7 +13,7 @@ export interface StudentInterventionRecommendation {
 export function recommendStudentInterventions(
   assessment: StudentRiskAssessment,
 ): StudentInterventionRecommendation[] {
-  return assessment.indicators.flatMap(indicator => {
+  return assessment.indicators.flatMap((indicator): StudentInterventionRecommendation[] => {
     if (indicator.code === "ATTENDANCE_RISK") {
       return [{ type: "attendance", priority: "high", title: "Attendance follow-up", action: "Review attendance and contact the guardian", reason: indicator.label }]
     }
