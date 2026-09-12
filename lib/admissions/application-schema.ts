@@ -15,7 +15,7 @@ export const admissionApplicationSchema = z.object({
   phone: z.string().trim().min(7).max(30),
   email: z.string().trim().email().max(160).optional().or(z.literal("")),
   relationship: z.enum(guardianRelationships),
-  occupation: z.enum(guardianOccupations).optional().default("Farmer"),
+  occupation: z.enum(guardianOccupations).optional().or(z.literal("")),
   guardianNationality: z.string().trim().max(80).optional().default(""),
   address: z.string().trim().max(240).optional().default(""),
   learner: z.string().trim().min(2).max(120),
