@@ -5,6 +5,16 @@ export type ValidationResult =
   | { ok: false; code: "VALIDATION_ERROR"; fields: string[] }
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
+const ENTRY_LEVELS = new Set([
+  "Pre-Unity",
+  "Class I",
+  "Class II",
+  "Class III",
+  "Class IV",
+  "Class V",
+  "Class VI",
+  "Class VII",
+])
 
 function isCalendarDate(value: string): boolean {
   if (!ISO_DATE.test(value)) return false
@@ -33,7 +43,7 @@ export function validateAdmissionsApplication(input: Partial<CreateApplicationIn
   if (learner?.dateOfBirth && isCalendarDate(learner.dateOfBirth) && learner.dateOfBirth > new Date().toISOString().slice(0, 10)) {
     fields.push("learner.dateOfBirth")
   }
-  if (!learner?.entryLevel?.trim()) fields.push("learner.entryLevel")
+  if (!learner?.entryLevel?.trim() || !ENTRY_LEVELS.has(learner.entryLevel.trim())) fields.push("learner.entryLevel")
 
   return fields.length ? { ok: false, code: "VALIDATION_ERROR", fields: [...new Set(fields)] } : { ok: true }
 }
