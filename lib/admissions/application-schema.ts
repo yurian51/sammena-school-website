@@ -33,6 +33,7 @@ export const admissionApplicationSchema = z.object({
   preferredStart: z.string().optional().default(""),
   siblings: z.string().trim().max(120).optional().default(""),
   photoReady: z.boolean().default(false),
+  consent: z.literal(true),
 })
 
 export type AdmissionApplicationInput = z.infer<typeof admissionApplicationSchema>
