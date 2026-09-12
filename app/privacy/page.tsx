@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowLeft, ShieldCheck } from "lucide-react"
+import { ArrowLeft, ShieldCheck, HeartHandshake } from "lucide-react"
 import { schoolIdentity } from "@/lib/academic-results"
 
 export const metadata = {
@@ -28,7 +28,7 @@ export default function PrivacyPage() {
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b55b]">Trust & privacy</p>
               <h1 className="mt-3 text-4xl font-black tracking-tight sm:text-6xl">Privacy & Data Protection</h1>
-              <p className="mt-5 max-w-2xl text-base leading-8 text-white/70 sm:text-lg">A plain-language overview of how this website should handle personal information. Human beings have finally invented enough paperwork to make privacy worth explaining clearly.</p>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-white/70 sm:text-lg">A plain-language overview of how the school website should handle personal information and protect learners, families and staff.</p>
             </div>
           </div>
         </div>
@@ -59,6 +59,17 @@ export default function PrivacyPage() {
           <ul className="mt-5 space-y-4">
             {principles.map((principle) => <li key={principle} className="flex gap-3 text-sm leading-7 text-slate-600"><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#c8a64b]" />{principle}</li>)}
           </ul>
+        </article>
+
+        <article className="mt-6 rounded-2xl border border-[#0a3158]/15 bg-[#f2f7fb] p-6 sm:p-8">
+          <div className="flex items-start gap-3">
+            <HeartHandshake className="mt-1 h-6 w-6 shrink-0 text-[#0a3158]" aria-hidden="true" />
+            <div>
+              <h2 className="text-2xl font-extrabold">Learner and child safety</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600">The website should avoid publishing unnecessary learner personal information. Student profiles, contact details, academic records and other sensitive information should only be available through appropriately protected school systems and to authorised users.</p>
+              <p className="mt-3 text-sm leading-7 text-slate-600">School photography and media should be published in accordance with the school's consent, safeguarding and communications procedures. Families should not submit passwords, payment-card details or other secrets through public contact forms.</p>
+            </div>
+          </div>
         </article>
 
         <article className="mt-6 rounded-2xl border border-[#c8a64b]/30 bg-[#faf8f1] p-6 sm:p-8">
