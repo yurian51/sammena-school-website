@@ -5,6 +5,18 @@ export type ValidationResult =
   | { ok: false; code: "VALIDATION_ERROR"; fields: string[] }
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
+const GUARDIAN_RELATIONSHIPS = new Set([
+  "Father",
+  "Mother",
+  "Aunt",
+  "Uncle",
+  "Brother",
+  "Sister",
+  "Grandfather",
+  "Grandmother",
+  "Guardian",
+  "Other authorized caregiver",
+])
 const ENTRY_LEVELS = new Set([
   "Baby",
   "Pre-Unity",
@@ -34,7 +46,7 @@ export function validateAdmissionsApplication(input: Partial<CreateApplicationIn
 
   if (!guardian?.fullName?.trim() || guardian.fullName.trim().length < 2) fields.push("guardian.fullName")
   if (!guardian?.phone?.trim() || guardian.phone.trim().length < 7) fields.push("guardian.phone")
-  if (!guardian?.relationship?.trim()) fields.push("guardian.relationship")
+  if (!guardian?.relationship?.trim() || !GUARDIAN_RELATIONSHIPS.has(guardian.relationship.trim())) fields.push("guardian.relationship")
 
   if (!input.academicYear?.trim() || !isValidAcademicYear(input.academicYear)) fields.push("academicYear")
   if (input.studyType !== "Day" && input.studyType !== "Boarding") fields.push("studyType")
