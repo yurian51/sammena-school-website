@@ -4,6 +4,8 @@ import { admissionApplicationSchema, guardianOccupations, guardianRelationships 
 const validApplication = {
   guardian: "Amina Mwangi",
   phone: "+255750227073",
+  secondaryPhone: "+255713123456",
+  nidaNumber: "19901234567890123456",
   email: "amina@example.com",
   relationship: "Father",
   occupation: "Teacher",
@@ -57,6 +59,19 @@ describe("admission application schema", () => {
   it("rejects unsupported guardian relationship and occupation values", () => {
     expect(admissionApplicationSchema.safeParse({ ...validApplication, relationship: "Neighbor" }).success).toBe(false)
     expect(admissionApplicationSchema.safeParse({ ...validApplication, occupation: "Gamer" }).success).toBe(false)
+  })
+
+  it("requires a valid 20-digit NIDA number", () => {
+    expect(admissionApplicationSchema.safeParse({ ...validApplication, nidaNumber: "" }).success).toBe(false)
+    expect(admissionApplicationSchema.safeParse({ ...validApplication, nidaNumber: "1234567890123456789" }).success).toBe(false)
+    expect(admissionApplicationSchema.safeParse({ ...validApplication, nidaNumber: "123456789012345678901" }).success).toBe(false)
+    expect(admissionApplicationSchema.safeParse({ ...validApplication, nidaNumber: "12345678901234567890" }).success).toBe(true)
+  })
+
+  it("accepts an optional secondary phone and rejects malformed phone numbers", () => {
+    expect(admissionApplicationSchema.safeParse({ ...validApplication, secondaryPhone: "" }).success).toBe(true)
+    expect(admissionApplicationSchema.safeParse({ ...validApplication, secondaryPhone: "123" }).success).toBe(false)
+    expect(admissionApplicationSchema.safeParse({ ...validApplication, phone: "123" }).success).toBe(false)
   })
 
   it("rejects non-consecutive academic year ranges at the API schema boundary", () => {
