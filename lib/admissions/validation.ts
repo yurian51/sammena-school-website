@@ -1,33 +1,13 @@
 import type { CreateApplicationInput } from "./types"
+import { admissionEntryLevels, guardianRelationships } from "./options"
 
 export type ValidationResult =
   | { ok: true }
   | { ok: false; code: "VALIDATION_ERROR"; fields: string[] }
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
-const GUARDIAN_RELATIONSHIPS = new Set([
-  "Father",
-  "Mother",
-  "Aunt",
-  "Uncle",
-  "Brother",
-  "Sister",
-  "Grandfather",
-  "Grandmother",
-  "Guardian",
-  "Other authorized caregiver",
-])
-const ENTRY_LEVELS = new Set([
-  "Baby",
-  "Pre-Unity",
-  "Class I",
-  "Class II",
-  "Class III",
-  "Class IV",
-  "Class V",
-  "Class VI",
-  "Class VII",
-])
+const GUARDIAN_RELATIONSHIPS = new Set<string>(guardianRelationships)
+const ENTRY_LEVELS = new Set<string>(admissionEntryLevels)
 
 function isCalendarDate(value: string): boolean {
   if (!ISO_DATE.test(value)) return false
@@ -36,7 +16,10 @@ function isCalendarDate(value: string): boolean {
 }
 
 function isValidAcademicYear(value: string): boolean {
-  return /^\d{4}(?:\/\d{4})?$/.test(value.trim())
+  const match = value.trim().match(/^(\d{4})(?:\/(\d{4}))?$/)
+  if (!match) return false
+  if (!match[2]) return true
+  return Number(match[2]) === Number(match[1]) + 1
 }
 
 export function validateAdmissionsApplication(input: Partial<CreateApplicationInput>): ValidationResult {
