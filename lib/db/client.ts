@@ -26,8 +26,8 @@ function createPostgresClient(): DbClient | null {
 
   return {
     async query<T = unknown>(sql: string, params?: readonly unknown[]) {
-      const result = await pool.query<T>(sql, params ? [...params] : undefined)
-      return { rows: result.rows }
+      const result = await pool.query(sql, params ? [...params] : undefined)
+      return { rows: result.rows as T[] }
     },
   }
 }
