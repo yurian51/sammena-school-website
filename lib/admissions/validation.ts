@@ -1,10 +1,13 @@
 import type { CreateApplicationInput } from "./types"
+import { admissionEntryLevels, guardianRelationships } from "./options"
 
 export type ValidationResult =
   | { ok: true }
   | { ok: false; code: "VALIDATION_ERROR"; fields: string[] }
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
+const GUARDIAN_RELATIONSHIPS = new Set<string>(guardianRelationships)
+const ENTRY_LEVELS = new Set<string>(admissionEntryLevels)
 
 function isCalendarDate(value: string): boolean {
   if (!ISO_DATE.test(value)) return false
@@ -13,7 +16,10 @@ function isCalendarDate(value: string): boolean {
 }
 
 function isValidAcademicYear(value: string): boolean {
-  return /^\d{4}(?:\/\d{4})?$/.test(value.trim())
+  const match = value.trim().match(/^(\d{4})(?:\/(\d{4}))?$/)
+  if (!match) return false
+  if (!match[2]) return true
+  return Number(match[2]) === Number(match[1]) + 1
 }
 
 export function validateAdmissionsApplication(input: Partial<CreateApplicationInput>): ValidationResult {
@@ -23,7 +29,7 @@ export function validateAdmissionsApplication(input: Partial<CreateApplicationIn
 
   if (!guardian?.fullName?.trim() || guardian.fullName.trim().length < 2) fields.push("guardian.fullName")
   if (!guardian?.phone?.trim() || guardian.phone.trim().length < 7) fields.push("guardian.phone")
-  if (!guardian?.relationship?.trim()) fields.push("guardian.relationship")
+  if (!guardian?.relationship?.trim() || !GUARDIAN_RELATIONSHIPS.has(guardian.relationship.trim())) fields.push("guardian.relationship")
 
   if (!input.academicYear?.trim() || !isValidAcademicYear(input.academicYear)) fields.push("academicYear")
   if (input.studyType !== "Day" && input.studyType !== "Boarding") fields.push("studyType")
@@ -33,7 +39,7 @@ export function validateAdmissionsApplication(input: Partial<CreateApplicationIn
   if (learner?.dateOfBirth && isCalendarDate(learner.dateOfBirth) && learner.dateOfBirth > new Date().toISOString().slice(0, 10)) {
     fields.push("learner.dateOfBirth")
   }
-  if (!learner?.entryLevel?.trim()) fields.push("learner.entryLevel")
+  if (!learner?.entryLevel?.trim() || !ENTRY_LEVELS.has(learner.entryLevel.trim())) fields.push("learner.entryLevel")
 
   return fields.length ? { ok: false, code: "VALIDATION_ERROR", fields: [...new Set(fields)] } : { ok: true }
 }

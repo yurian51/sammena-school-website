@@ -44,8 +44,11 @@ jobs:
       - name: Type check
         run: pnpm run typecheck
 
-      - name: Unit tests
+      - name: Native tests
         run: pnpm test
+
+      - name: TypeScript unit tests
+        run: pnpm run test:unit
 
       - name: Validate academic data
         run: pnpm run test:data
