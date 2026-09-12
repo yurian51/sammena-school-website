@@ -87,9 +87,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en-TZ" className={`${poppins.variable} ${inter.variable} bg-background`}>
       <body className="font-sans antialiased">
+        <a
+          href="#main-content"
+          className="sr-only fixed left-4 top-4 z-[100] rounded-lg bg-school-dark px-4 py-3 text-sm font-semibold text-white shadow-lg focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-school-gold focus:ring-offset-2"
+        >
+          Skip to main content
+        </a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
-        {children}
+        <div id="main-content">{children}</div>
         <MobileActionBar />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
