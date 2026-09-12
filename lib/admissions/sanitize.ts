@@ -7,8 +7,6 @@ export function sanitizeAdmissionsInput(input: CreateApplicationInput): CreateAp
     guardian: {
       fullName: input.guardian.fullName.trim(),
       phone: input.guardian.phone.trim(),
-      secondaryPhone: input.guardian.secondaryPhone?.trim() || undefined,
-      nidaNumber: input.guardian.nidaNumber.trim(),
       email: input.guardian.email?.trim() || undefined,
       relationship: input.guardian.relationship?.trim() || undefined,
     },

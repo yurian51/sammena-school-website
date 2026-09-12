@@ -6,8 +6,6 @@ export type ValidationResult =
   | { ok: false; code: "VALIDATION_ERROR"; fields: string[] }
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
-const PHONE = /^\+?[0-9][0-9\s()-]{6,28}$/
-const NIDA = /^\d{20}$/
 const GUARDIAN_RELATIONSHIPS = new Set<string>(guardianRelationships)
 const ENTRY_LEVELS = new Set<string>(admissionEntryLevels)
 
@@ -30,9 +28,7 @@ export function validateAdmissionsApplication(input: Partial<CreateApplicationIn
   const learner = input.learner
 
   if (!guardian?.fullName?.trim() || guardian.fullName.trim().length < 2) fields.push("guardian.fullName")
-  if (!guardian?.phone?.trim() || !PHONE.test(guardian.phone.trim())) fields.push("guardian.phone")
-  if (guardian?.secondaryPhone?.trim() && !PHONE.test(guardian.secondaryPhone.trim())) fields.push("guardian.secondaryPhone")
-  if (!guardian?.nidaNumber?.trim() || !NIDA.test(guardian.nidaNumber.trim())) fields.push("guardian.nidaNumber")
+  if (!guardian?.phone?.trim() || guardian.phone.trim().length < 7) fields.push("guardian.phone")
   if (!guardian?.relationship?.trim() || !GUARDIAN_RELATIONSHIPS.has(guardian.relationship.trim())) fields.push("guardian.relationship")
 
   if (!input.academicYear?.trim() || !isValidAcademicYear(input.academicYear)) fields.push("academicYear")
