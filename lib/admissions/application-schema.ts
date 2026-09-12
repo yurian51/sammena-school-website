@@ -7,12 +7,15 @@ const validCalendarDate = (value: string) => {
   return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value
 }
 
+export const guardianRelationships = ["Father", "Mother", "Aunt", "Uncle", "Brother", "Sister", "Grandfather", "Grandmother", "Guardian", "Other authorized caregiver"] as const
+export const guardianOccupations = ["Farmer", "Driver", "Teacher", "Business owner", "Trader", "Civil servant", "Health worker", "Engineer", "Technician", "Police officer", "Military personnel", "Construction worker", "Fisherman", "Pastor", "Imam", "Lawyer", "Accountant", "Banker", "Student", "Self-employed", "Unemployed", "Other"] as const
+
 export const admissionApplicationSchema = z.object({
   guardian: z.string().trim().min(2).max(120),
   phone: z.string().trim().min(7).max(30),
   email: z.string().trim().email().max(160).optional().or(z.literal("")),
-  relationship: z.enum(["Parent", "Guardian", "Other authorized caregiver"]),
-  occupation: z.string().trim().max(120).optional().default(""),
+  relationship: z.enum(guardianRelationships),
+  occupation: z.enum(guardianOccupations).optional().default("Farmer"),
   guardianNationality: z.string().trim().max(80).optional().default(""),
   address: z.string().trim().max(240).optional().default(""),
   learner: z.string().trim().min(2).max(120),
