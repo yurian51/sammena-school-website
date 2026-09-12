@@ -21,3 +21,14 @@ jobs:
         run: |
           node --version
           npm --version
+          corepack --version
+      - name: Repository state
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Verify package manager contract
+        run: |
+          test -f package.json
+          test -f pnpm-lock.yaml
+          corepack pnpm --version
+          node -e 'const p=require("./package.json"); if(p.packageManager!=="pnpm@10.15.0") process.exit(1); console.log(`packageManager=${p.packageManager}`)'
