@@ -39,11 +39,21 @@ const locationJsonLd = {
   ],
 }
 
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "/" },
+    { "@type": "ListItem", position: 2, name: "School Location", item: "/location" },
+  ],
+}
+
 export default function LocationPage() {
   return (
     <main className="min-h-screen bg-white text-slate-800">
       <Navbar />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(locationJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <section className="border-b border-slate-200 bg-[#0a3158] pb-16 pt-36 text-white">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#e2c46c]">Visit Sammena</p>
