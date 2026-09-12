@@ -22,10 +22,13 @@ export async function POST(request: Request) {
 
     const services = createServerServices({ schoolId: process.env.SCHOOL_ID ?? "sammena-primary" })
     const application = await services.admissions.createDraft({
+      academicYear: parsed.data.academicYear,
+      studyType: parsed.data.studyType,
       guardian: {
         fullName: parsed.data.guardian,
         phone: parsed.data.phone,
         ...(parsed.data.email ? { email: parsed.data.email } : {}),
+        relationship: parsed.data.relationship,
       },
       learner: {
         fullName: parsed.data.learner,
