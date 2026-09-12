@@ -139,3 +139,15 @@ test('database readiness is explicit and never reports a fake healthy database',
   assert.match(route, /status: 503/)
   assert.match(route, /not_ready/)
 })
+
+test('JSON API boundaries reject malformed and oversized requests', () => {
+  const request = read('lib/api/request.ts')
+  const errors = read('lib/api/errors.ts')
+  assert.match(request, /MAX_JSON_BYTES = 32 \* 1024/)
+  assert.match(request, /request\.text\(\)/)
+  assert.match(request, /JSON\.parse\(raw\)/)
+  assert.match(request, /REQUEST_TOO_LARGE/)
+  assert.match(request, /x-request-id/)
+  assert.match(errors, /REQUEST_TOO_LARGE/)
+  assert.match(errors, /status, 413/)
+})
