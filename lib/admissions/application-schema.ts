@@ -8,6 +8,11 @@ const validCalendarDate = (value: string) => {
   return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value
 }
 
+const academicYear = z.string().trim().regex(/^\d{4}(?:\/\d{4})?$/, "Expected YYYY or YYYY/YYYY").refine((value) => {
+  const match = value.match(/^(\d{4})(?:\/(\d{4}))?$/)
+  return !match?.[2] || Number(match[2]) === Number(match[1]) + 1
+}, "Academic year range must use consecutive years")
+
 export { admissionEntryLevels, guardianRelationships, guardianOccupations }
 
 export const admissionApplicationSchema = z.object({
@@ -34,7 +39,7 @@ export const admissionApplicationSchema = z.object({
   tribe: z.string().trim().max(80).optional().default(""),
   entry: z.enum(admissionEntryLevels),
   studyType: z.enum(["Day", "Boarding"]),
-  academicYear: z.string().trim().regex(/^\d{4}(?:\/\d{4})?$/, "Expected YYYY or YYYY/YYYY"),
+  academicYear,
   previous: z.string().trim().max(160).optional().default(""),
   previousYear: z.string().trim().max(20).optional().default(""),
   medical: z.string().trim().max(1000).optional().default(""),
