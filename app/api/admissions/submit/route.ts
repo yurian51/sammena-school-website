@@ -2,21 +2,21 @@ import { NextResponse } from "next/server"
 import { admissionApplicationSchema } from "@/lib/admissions/application-schema"
 import { createServerServices } from "@/lib/server/repositories"
 import { mapDomainError } from "@/lib/api/errors"
-import { parseJsonBody } from "@/lib/api/request"
+import { readJson, requestId } from "@/lib/api/request"
 
 export const dynamic = "force-dynamic"
 export const revalidate = 0
 
 export async function POST(request: Request) {
-  const requestId = request.headers.get("x-request-id")?.trim() || crypto.randomUUID()
+  const id = requestId(request)
 
   try {
-    const body = await parseJsonBody(request)
+    const body = await readJson<unknown>(request)
     const parsed = admissionApplicationSchema.safeParse(body)
     if (!parsed.success) {
       return NextResponse.json(
-        { ok: false, error: "VALIDATION_ERROR", issues: parsed.error.flatten(), requestId },
-        { status: 400, headers: { "Cache-Control": "no-store", "x-request-id": requestId } },
+        { ok: false, error: "VALIDATION_ERROR", issues: parsed.error.flatten(), requestId: id },
+        { status: 400, headers: { "Cache-Control": "no-store", "x-request-id": id } },
       )
     }
 
@@ -45,11 +45,11 @@ export async function POST(request: Request) {
           createdAt: submitted.createdAt,
           updatedAt: submitted.updatedAt,
         },
-        requestId,
+        requestId: id,
       },
-      { status: 201, headers: { "Cache-Control": "no-store", "x-request-id": requestId } },
+      { status: 201, headers: { "Cache-Control": "no-store", "x-request-id": id } },
     )
   } catch (error) {
-    return mapDomainError(error, requestId)
+    return mapDomainError(error, id)
   }
 }
