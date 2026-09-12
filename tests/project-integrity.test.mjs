@@ -138,6 +138,19 @@ test('admissions service endpoints are implemented and not mock-only', () => {
   assert.ok(!exists('lib/admissions/application-reference.ts'))
 })
 
+test('admission form submits to the server and never fabricates references', () => {
+  const page = read('app/admissions/apply/page.tsx')
+  assert.match(page, /fetch\("\/api\/admissions\/submit"/)
+  assert.match(page, /method:"POST"/)
+  assert.match(page, /JSON\.stringify\(form\)/)
+  assert.match(page, /payload\.data\?\.reference/)
+  assert.match(page, /setReference\(payload\.data\.reference\)/)
+  assert.match(page, /Application submitted/)
+  assert.match(page, /Track application/)
+  assert.match(page, /disabled=\{submitting\}/)
+  assert.doesNotMatch(page, /Math\.random|makeReference/)
+})
+
 test('admissions tracking UI calls the server instead of fabricating a result', () => {
   const page = read('app/admissions/track/page.tsx')
   assert.match(page, /fetch\(`\/api\/admissions\/track\?reference=/)
