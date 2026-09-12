@@ -43,7 +43,6 @@ model AdmissionGuardian {
   updatedAt      DateTime @updatedAt
   applications   AdmissionApplication[]
   @@index([phone])
-  @@index([nidaNumber])
 }
 
 model AdmissionDocument {
