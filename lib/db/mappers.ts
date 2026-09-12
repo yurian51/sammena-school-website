@@ -11,6 +11,8 @@ export function mapApplicationRow(row: ApplicationRow): AdmissionApplication {
     guardian: {
       fullName: row.guardian_full_name,
       phone: row.guardian_phone,
+      secondaryPhone: row.guardian_secondary_phone ?? undefined,
+      nidaNumber: row.guardian_nida_number,
       email: row.guardian_email ?? undefined,
       relationship: row.guardian_relationship ?? undefined,
     },
