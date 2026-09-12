@@ -115,16 +115,27 @@ test('institutional pages are not empty shells', () => {
 
 test('admissions service endpoints are implemented and not mock-only', () => {
   assert.ok(exists('app/api/admissions/route.ts'))
+  assert.ok(exists('app/api/admissions/submit/route.ts'))
   assert.ok(exists('app/api/admissions/track/route.ts'))
   const intake = read('app/api/admissions/route.ts')
+  const submit = read('app/api/admissions/submit/route.ts')
   const track = read('app/api/admissions/track/route.ts')
   const policy = read('lib/admissions/reference-validation.ts')
   assert.match(intake, /admissions\.createDraft/)
   assert.match(intake, /status: 201/)
+  assert.match(submit, /admissions\.createDraft/)
+  assert.match(submit, /admissions\.updateStatus\(application\.reference, "SUBMITTED"\)/)
+  assert.doesNotMatch(submit, /application-store|Math\.random|createAdmissionReference/)
+  assert.match(submit, /readJson<unknown>/)
+  assert.match(submit, /requestId\(request\)/)
+  assert.match(submit, /status: 201/)
   assert.match(track, /admissions\.getByReference/)
   assert.match(track, /status: 404/)
   assert.match(track, /isValidAdmissionReference/)
   assert.match(policy, /SAM-\\d\{4\}-\[A-Z0-9\]\{6\}/)
+  assert.ok(!exists('lib/admissions/application-store.ts'))
+  assert.ok(!exists('lib/admissions/application-record.ts'))
+  assert.ok(!exists('lib/admissions/application-reference.ts'))
 })
 
 test('admissions tracking UI calls the server instead of fabricating a result', () => {
