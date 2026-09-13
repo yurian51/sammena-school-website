@@ -7,9 +7,18 @@ if (registry.centre !== "PS0101160") throw new Error("Unexpected Sammena centre 
 if (registry.school !== "SAMMENA PRIMARY SCHOOL") throw new Error("Unexpected Sammena school name");
 
 const expectedPsleYears = [2022, 2023, 2024, 2025];
-const expectedSfnaYears = [2024];
+const expectedSfnaYears = [2024, 2025];
 const minimumPublishedYear = 2022;
-const requiredArchiveEntryPoints = ["nectaResultsHome", "psle2022DistrictIndex", "psle2023DistrictIndex", "psle2024DistrictIndex", "psle2025DistrictIndex"];
+const requiredArchiveEntryPoints = [
+  "nectaResultsHome",
+  "sfna2022DistrictIndex",
+  "sfna2023DistrictIndex",
+  "sfna2024SchoolResult",
+  "psle2022DistrictIndex",
+  "psle2023DistrictIndex",
+  "psle2024DistrictIndex",
+  "psle2025DistrictIndex",
+];
 
 const resultBlocks = [...sourceFile.matchAll(/\{\n\s*year:\s*(\d+),[\s\S]*?\n\s*sourceKind:\s*"(official|secondary)",[\s\S]*?\n\s*\},/g)].map((match) => ({
   year: Number(match[1]),
@@ -17,7 +26,7 @@ const resultBlocks = [...sourceFile.matchAll(/\{\n\s*year:\s*(\d+),[\s\S]*?\n\s*
   block: match[0],
 }));
 
-if (resultBlocks.length !== 5) throw new Error(`Unexpected published result count: ${resultBlocks.length}`);
+if (resultBlocks.length !== 6) throw new Error(`Unexpected published result count: ${resultBlocks.length}`);
 if (resultBlocks.some(({ year }) => year < minimumPublishedYear)) throw new Error(`Published result is older than the configured archive boundary: ${minimumPublishedYear}`);
 
 const psleYears = [...sourceFile.matchAll(/year:\s*(\d+),\s*\n\s*type:\s*"PSLE"/g)].map((match) => Number(match[1]));
@@ -37,16 +46,19 @@ const expectedInvariants = [
   { label: "PSLE 2024 candidates", pattern: /year:\s*2024,[\s\S]*?type:\s*"PSLE"[\s\S]*?candidates:\s*17/ },
   { label: "PSLE 2025 candidates", pattern: /year:\s*2025,[\s\S]*?type:\s*"PSLE"[\s\S]*?candidates:\s*29/ },
   { label: "SFNA 2024 candidates", pattern: /year:\s*2024,[\s\S]*?type:\s*"SFNA"[\s\S]*?candidates:\s*34/ },
+  { label: "SFNA 2025 candidates", pattern: /year:\s*2025,[\s\S]*?type:\s*"SFNA"[\s\S]*?candidates:\s*28/ },
   { label: "PSLE 2022 average", pattern: /year:\s*2022,[\s\S]*?average:\s*210\.9375/ },
   { label: "PSLE 2023 average", pattern: /year:\s*2023,[\s\S]*?average:\s*222\.8889/ },
   { label: "PSLE 2024 average", pattern: /year:\s*2024,[\s\S]*?type:\s*"PSLE"[\s\S]*?average:\s*198\.0588/ },
-  { label: "PSLE 2025 average", pattern: /year:\s*2025,[\s\S]*?average:\s*162\.72/ },
+  { label: "PSLE 2025 average", pattern: /year:\s*2025,[\s\S]*?type:\s*"PSLE"[\s\S]*?average:\s*162\.72/ },
   { label: "SFNA 2024 average", pattern: /year:\s*2024,[\s\S]*?type:\s*"SFNA"[\s\S]*?average:\s*174\.1176/ },
-  { label: "PSLE 2022 grade", pattern: /year:\s*2022,[\s\S]*?grade:\s*"B"/ },
-  { label: "PSLE 2023 grade", pattern: /year:\s*2023,[\s\S]*?grade:\s*"B"/ },
+  { label: "SFNA 2025 average", pattern: /year:\s*2025,[\s\S]*?type:\s*"SFNA"[\s\S]*?average:\s*192\.04/ },
+  { label: "PSLE 2022 grade", pattern: /year:\s*2022,[\s\S]*?type:\s*"PSLE"[\s\S]*?grade:\s*"B"/ },
+  { label: "PSLE 2023 grade", pattern: /year:\s*2023,[\s\S]*?type:\s*"PSLE"[\s\S]*?grade:\s*"B"/ },
   { label: "PSLE 2024 grade", pattern: /year:\s*2024,[\s\S]*?type:\s*"PSLE"[\s\S]*?grade:\s*"B"/ },
-  { label: "PSLE 2025 grade", pattern: /year:\s*2025,[\s\S]*?grade:\s*"B"/ },
+  { label: "PSLE 2025 grade", pattern: /year:\s*2025,[\s\S]*?type:\s*"PSLE"[\s\S]*?grade:\s*"B"/ },
   { label: "SFNA 2024 grade", pattern: /year:\s*2024,[\s\S]*?type:\s*"SFNA"[\s\S]*?grade:\s*"C"/ },
+  { label: "SFNA 2025 grade", pattern: /year:\s*2025,[\s\S]*?type:\s*"SFNA"[\s\S]*?grade:\s*"A"/ },
 ];
 
 for (const invariant of expectedInvariants) {
@@ -59,6 +71,7 @@ const provenanceInvariants = [
   { label: "PSLE 2024 official", pattern: /year:\s*2024,[\s\S]*?type:\s*"PSLE"[\s\S]*?sourceKind:\s*"official"/ },
   { label: "PSLE 2025 secondary", pattern: /year:\s*2025,[\s\S]*?type:\s*"PSLE"[\s\S]*?sourceKind:\s*"secondary"/ },
   { label: "SFNA 2024 official", pattern: /year:\s*2024,[\s\S]*?type:\s*"SFNA"[\s\S]*?sourceKind:\s*"official"/ },
+  { label: "SFNA 2025 secondary", pattern: /year:\s*2025,[\s\S]*?type:\s*"SFNA"[\s\S]*?sourceKind:\s*"secondary"/ },
 ];
 
 for (const invariant of provenanceInvariants) {
@@ -80,28 +93,42 @@ if (Math.abs((passed / candidateTotal) * 100 - passRate) > 0.2) throw new Error(
 const psle2025GradeCounts = [...gradeText.matchAll(/(A|B|C|D|E):\s*(\d+)/g)].reduce((sum, match) => sum + Number(match[2]), 0);
 if (psle2025GradeCounts !== candidateTotal) throw new Error("PSLE 2025 grade distribution does not match candidates");
 
+const sfna2025Stats = sourceFile.match(/year:\s*2025,[\s\S]*?type:\s*"SFNA"[\s\S]*?candidates:\s*(\d+),[\s\S]*?passed:\s*(\d+),[\s\S]*?passRate:\s*([\d.]+),[\s\S]*?grades:\s*\{([\s\S]*?)\},/);
+if (!sfna2025Stats) throw new Error("SFNA 2025 published statistics are incomplete");
+const [, sfnaCandidateCount, sfnaPassedCount, sfnaPassRateText, sfnaGradeText] = sfna2025Stats;
+const sfnaCandidateTotal = Number(sfnaCandidateCount);
+const sfnaPassed = Number(sfnaPassedCount);
+const sfnaPassRate = Number(sfnaPassRateText);
+if (sfnaPassed > sfnaCandidateTotal) throw new Error("SFNA 2025 passed count exceeds candidates");
+if (Math.abs((sfnaPassed / sfnaCandidateTotal) * 100 - sfnaPassRate) > 0.2) throw new Error("SFNA 2025 pass rate does not match passed/candidates");
+const sfna2025GradeCounts = [...sfnaGradeText.matchAll(/(A|B|C|D|E):\s*(\d+)/g)].reduce((sum, match) => sum + Number(match[2]), 0);
+if (sfna2025GradeCounts !== sfnaCandidateTotal) throw new Error("SFNA 2025 grade distribution does not match candidates");
+
 const officialUrls = [...sourceFile.matchAll(/sourceKind:\s*"official"[\s\S]*?sourceUrl:\s*"(https:\/\/[^" ]+)"/g)].map((match) => match[1]);
 if (officialUrls.length !== 4) throw new Error(`Unexpected official source count: ${officialUrls.length}`);
 if (officialUrls.some((url) => !url.startsWith("https://onlinesys.necta.go.tz/"))) throw new Error("Official result sources must point to NECTA");
 
 const sourceUrls = [...sourceFile.matchAll(/https:\/\/[^"` ]+/g)].map((match) => match[0]);
-if (sourceUrls.some((url) => url.includes("SFNA2018") || url.includes("SFNA2020"))) throw new Error("Unverified historical SFNA endpoint must not be hard-coded");
+if (sourceUrls.some((url) => /SFNA\d{4}/.test(url))) throw new Error("Legacy mirrored SFNA endpoints must not be hard-coded");
 
 const registryPsle = registry.verifiedSchoolLevel.psle.join(",");
 if (registryPsle !== "2022,2023,2024,2025") throw new Error("PSLE registry verification coverage changed unexpectedly");
 const registrySfna = registry.verifiedSchoolLevel.sfna.join(",");
 if (registrySfna !== "2024") throw new Error("SFNA registry verification coverage changed unexpectedly");
 
-if (!Array.isArray(registry.sources) || registry.sources.length < 7) throw new Error("Results provenance registry incomplete");
+if (!Array.isArray(registry.sources) || registry.sources.length < 8) throw new Error("Results provenance registry incomplete");
 const registryUrls = registry.sources.flatMap((source) => [source.url, source.officialIndexUrl].filter(Boolean));
 for (const url of registryUrls) if (!url.startsWith("https://")) throw new Error(`Insecure provenance URL: ${url}`);
 
 for (const key of requiredArchiveEntryPoints) {
   const url = registry.archiveEntryPoints?.[key];
-  if (!url) throw new Error(`Missing NECTA archive entry point: ${key}`);
-  if (!url.startsWith("https://onlinesys.necta.go.tz/results/")) throw new Error(`Archive entry point is not an official NECTA results URL: ${key}`);
+  if (!url) throw new Error(`Missing archive entry point: ${key}`);
+  if (key.startsWith("sfna") && key !== "sfna2025SchoolSummary" && !url.startsWith("https://onlinesys.necta.go.tz/results/")) throw new Error(`SFNA archive entry point is not an official NECTA results URL: ${key}`);
+  if (key.startsWith("psle") && !url.startsWith("https://onlinesys.necta.go.tz/results/")) throw new Error(`PSLE archive entry point is not an official NECTA results URL: ${key}`);
+  if (key === "nectaResultsHome" && !url.startsWith("https://onlinesys.necta.go.tz/results/")) throw new Error("NECTA results home is not an official NECTA results URL");
 }
 
 console.log("Results archive integrity checks passed.");
 console.log(`Published result boundary is ${minimumPublishedYear} and later.`);
+console.log(`Published SFNA coverage: ${sfnaYears.join(", ")}.`);
 console.log(`NECTA archive entry-point checks passed for ${requiredArchiveEntryPoints.length} official URLs.`);
