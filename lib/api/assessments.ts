@@ -1,5 +1,6 @@
 import type { AuthContext } from "@/lib/auth/authorization"
 import { requirePortalPermission } from "@/lib/auth/portal-permissions"
+import { paginate, type PaginationInput } from "@/lib/api/pagination"
 import type { PortalAssessment } from "@/lib/portal/types"
 
 const assessments: PortalAssessment[] = [
@@ -9,7 +10,8 @@ const assessments: PortalAssessment[] = [
   { id: "ASM-004", studentId: "STU-0004", studentName: "Rehema Elias", subject: "Kiswahili", assessment: "Monthly Test", score: 43, maxScore: 50, percentage: 86, term: "Term II", assessedAt: "2026-08-28" },
 ]
 
-export function listPortalAssessments(context: AuthContext | null, studentId?: string) {
+export function listPortalAssessments(context: AuthContext | null, studentId?: string, pagination?: PaginationInput) {
   requirePortalPermission(context, "assessments:read")
-  return studentId ? assessments.filter((item) => item.studentId === studentId) : assessments
+  const filtered = studentId?.trim() ? assessments.filter((item) => item.studentId === studentId.trim()) : assessments
+  return pagination ? paginate(filtered, pagination) : { data: filtered, meta: { page: 1, pageSize: filtered.length || 1, total: filtered.length, totalPages: 1, hasNextPage: false, hasPreviousPage: false } }
 }
