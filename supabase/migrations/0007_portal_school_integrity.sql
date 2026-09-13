@@ -1,6 +1,76 @@
 -- Prevent tenant-crossing relational records in the portal schema.
--- Existing rows are not rewritten here; future writes are rejected when the
--- child's school_id does not match its referenced school-owned record.
+-- Existing rows are checked before the triggers are installed; future writes
+-- are rejected when school_id does not match a referenced school-owned row.
+
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM enrollments e
+    JOIN students s ON s.id = e.student_id
+    WHERE s.school_id <> e.school_id
+  ) THEN
+    RAISE EXCEPTION 'EXISTING_ENROLLMENT_STUDENT_SCHOOL_MISMATCH';
+  END IF;
+
+  IF EXISTS (
+    SELECT 1 FROM enrollments e
+    JOIN academic_years ay ON ay.id = e.academic_year_id
+    WHERE ay.school_id <> e.school_id
+  ) THEN
+    RAISE EXCEPTION 'EXISTING_ENROLLMENT_ACADEMIC_YEAR_SCHOOL_MISMATCH';
+  END IF;
+
+  IF EXISTS (
+    SELECT 1 FROM enrollments e
+    JOIN classes c ON c.id = e.class_id
+    WHERE c.school_id <> e.school_id
+  ) THEN
+    RAISE EXCEPTION 'EXISTING_ENROLLMENT_CLASS_SCHOOL_MISMATCH';
+  END IF;
+
+  IF EXISTS (
+    SELECT 1 FROM attendance_records ar
+    JOIN students s ON s.id = ar.student_id
+    WHERE s.school_id <> ar.school_id
+  ) THEN
+    RAISE EXCEPTION 'EXISTING_ATTENDANCE_SCHOOL_MISMATCH';
+  END IF;
+
+  IF EXISTS (
+    SELECT 1 FROM assessments a
+    JOIN students s ON s.id = a.student_id
+    WHERE s.school_id <> a.school_id
+  ) THEN
+    RAISE EXCEPTION 'EXISTING_ASSESSMENT_SCHOOL_MISMATCH';
+  END IF;
+
+  IF EXISTS (
+    SELECT 1 FROM library_issues li
+    JOIN library_books b ON b.id = li.book_id
+    WHERE b.school_id <> li.school_id
+  ) THEN
+    RAISE EXCEPTION 'EXISTING_LIBRARY_BOOK_SCHOOL_MISMATCH';
+  END IF;
+
+  IF EXISTS (
+    SELECT 1 FROM library_issues li
+    JOIN students s ON s.id = li.student_id
+    WHERE s.school_id <> li.school_id
+  ) THEN
+    RAISE EXCEPTION 'EXISTING_LIBRARY_STUDENT_SCHOOL_MISMATCH';
+  END IF;
+
+  IF EXISTS (
+    SELECT 1
+    FROM quality_evidence qe
+    JOIN quality_indicators qi ON qi.id = qe.indicator_id
+    JOIN quality_domains qd ON qd.id = qi.domain_id
+    WHERE qd.school_id <> qe.school_id
+  ) THEN
+    RAISE EXCEPTION 'EXISTING_QUALITY_INDICATOR_SCHOOL_MISMATCH';
+  END IF;
+END;
+$$;
 
 create or replace function enforce_portal_school_integrity()
 returns trigger
