@@ -1,8 +1,10 @@
 import type { AuthContext } from "@/lib/auth/authorization"
 import { requirePortalPermission } from "@/lib/auth/portal-permissions"
+import { listAssessmentsData } from "@/lib/api/portal-data"
 import type { PaginationInput } from "@/lib/api/pagination"
 
-export function listPortalAssessments(context: AuthContext | null, _studentId?: string, _pagination?: PaginationInput) {
-  requirePortalPermission(context, "assessments:read")
-  throw new Error("PORTAL_DATA_SOURCE_NOT_CONFIGURED")
+export async function listPortalAssessments(context: AuthContext | null, studentId?: string, pagination?: PaginationInput) {
+  const auth = requirePortalPermission(context, "assessments:read")
+  if (!pagination) throw new Error("VALIDATION_ERROR")
+  return listAssessmentsData(auth, studentId, pagination)
 }
