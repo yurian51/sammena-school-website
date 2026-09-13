@@ -2,42 +2,33 @@
   "centre": "PS0101160",
   "school": "SAMMENA PRIMARY SCHOOL",
   "coverage": {
-    "psle": [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
-    "sfna": [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+    "psle": [2022, 2023, 2024, 2025],
+    "sfna": [2022, 2023, 2024, 2025]
   },
   "verifiedSchoolLevel": {
     "psle": [2022, 2023, 2024, 2025],
     "sfna": [2024]
   },
-  "historicalArchiveAudit": {
-    "psle": {
-      "2018": {"status": "not-located-in-current-indexed-necta-search", "searchedCentre": "PS0101160"},
-      "2019": {"status": "not-located-in-current-indexed-necta-search", "searchedCentre": "PS0101160"},
-      "2020": {"status": "not-located-in-current-indexed-necta-search", "searchedCentre": "PS0101160"},
-      "2021": {"status": "not-located-in-current-indexed-necta-search", "searchedCentre": "PS0101160"}
-    },
-    "sfna": {
-      "2018": {"status": "not-located-in-current-indexed-necta-search", "searchedCentre": "PS0101160"},
-      "2019": {"status": "not-located-in-current-indexed-necta-search", "searchedCentre": "PS0101160"},
-      "2020": {"status": "not-located-in-current-indexed-necta-search", "searchedCentre": "PS0101160"},
-      "2021": {"status": "not-located-in-current-indexed-necta-search", "searchedCentre": "PS0101160"}
-    }
-  },
   "archiveEntryPoints": {
     "nectaResultsHome": "https://onlinesys.necta.go.tz/results/",
+    "sfna2022DistrictIndex": "https://onlinesys.necta.go.tz/results/2022/sfna/results/distr_ps0101.htm",
+    "sfna2023DistrictIndex": "https://onlinesys.necta.go.tz/results/2023/sfna/results/distr_ps0101.htm",
+    "sfna2024SchoolResult": "https://onlinesys.necta.go.tz/results/2024/sfna/results/ps0101160.htm",
+    "sfna2025SchoolSummary": "https://shuleyetu.co.tz/shuleni/school/ps0101160-sammena-primary-school-arusha-dc",
     "psle2022DistrictIndex": "https://onlinesys.necta.go.tz/results/2022/psle/results/distr_0101.htm",
     "psle2023DistrictIndex": "https://onlinesys.necta.go.tz/results/2023/psle/results/distr_0101.htm",
     "psle2024DistrictIndex": "https://onlinesys.necta.go.tz/results/2024/psle/results/distr_0101.htm",
     "psle2025DistrictIndex": "https://onlinesys.necta.go.tz/results/2025/psle/results/distr_0101.htm"
   },
-  "sourcePolicy": "Publish figures only when the school-level result or a named institutional report supports them. Historical archive-index entries remain explicitly marked as archive-only. Secondary summaries are labelled and linked to an official index where one is available. A failed indexed search is never treated as proof that a historical result did not exist.",
+  "sourcePolicy": "Publish figures only when the school-level result or a named institutional report supports them. The public Sammena results archive contains only currently published, supported records.",
   "sources": [
     {"exam":"PSLE","year":2022,"type":"NECTA","status":"verified","url":"https://onlinesys.necta.go.tz/results/2022/psle/results/shl_ps0101160.htm"},
     {"exam":"PSLE","year":2023,"type":"NECTA","status":"verified","url":"https://onlinesys.necta.go.tz/results/2023/psle/results/shl_ps0101160.htm"},
     {"exam":"PSLE","year":2024,"type":"NECTA","status":"verified","url":"https://onlinesys.necta.go.tz/results/2024/psle/results/shl_ps0101160.htm"},
     {"exam":"PSLE","year":2025,"type":"School summary","status":"secondary","url":"https://shuleyetu.co.tz/shuleni/school/ps0101160-sammena-primary-school-arusha-dc","officialIndexUrl":"https://onlinesys.necta.go.tz/results/2025/psle/results/distr_0101.htm"},
-    {"exam":"SFNA","year":2023,"type":"Arusha District Council","status":"archive-only","url":"https://arusha.go.tz/storage/app/media/uploaded-files/SAMMENA%20-%20DETAILED.pdf"},
+    {"exam":"SFNA","year":2022,"type":"NECTA district index","status":"archive-only","url":"https://onlinesys.necta.go.tz/results/2022/sfna/results/distr_ps0101.htm"},
+    {"exam":"SFNA","year":2023,"type":"NECTA district index","status":"archive-only","url":"https://onlinesys.necta.go.tz/results/2023/sfna/results/distr_ps0101.htm"},
     {"exam":"SFNA","year":2024,"type":"NECTA","status":"verified","url":"https://onlinesys.necta.go.tz/results/2024/sfna/results/ps0101160.htm"},
-    {"exam":"SFNA","year":2025,"type":"School summary","status":"archive-only","url":"https://shuleyetu.co.tz/shuleni/school/ps0101160-sammena-primary-school-arusha-dc"}
+    {"exam":"SFNA","year":2025,"type":"School summary","status":"secondary","url":"https://shuleyetu.co.tz/shuleni/school/ps0101160-sammena-primary-school-arusha-dc"}
   ]
 }

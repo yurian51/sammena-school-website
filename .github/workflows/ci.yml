@@ -53,5 +53,8 @@ jobs:
       - name: Validate academic data
         run: pnpm run test:data
 
+      - name: Validate portal schema
+        run: pnpm run test:portal-schema
+
       - name: Production build
         run: pnpm run build

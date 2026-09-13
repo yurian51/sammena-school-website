@@ -1,7 +1,14 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowRight, BookOpen, GraduationCap, ShieldCheck, Trophy } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+
+export const metadata: Metadata = {
+  title: "Secondary School | Planned 2028 Expansion",
+  description: "Information about Sammena Schools' planned secondary education expansion, with a current target of 2028. Secondary education is not currently operating.",
+  robots: { index: true, follow: true },
+}
 
 const pillars = [
   { icon: BookOpen, title: "Academic Foundation", text: "A future secondary programme designed to build on the strong learning foundation established in the early years and primary stages." },

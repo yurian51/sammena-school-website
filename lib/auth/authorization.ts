@@ -7,8 +7,13 @@ export interface AuthContext {
   schoolId?: string
 }
 
-export function requirePermission(context: AuthContext | null, permission: Permission): AuthContext {
+export function requireAuthenticatedContext(context: AuthContext | null): AuthContext {
   if (!context) throw new Error("UNAUTHORIZED")
-  if (!hasPermission(context.role, permission)) throw new Error("FORBIDDEN")
   return context
+}
+
+export function requirePermission(context: AuthContext | null, permission: Permission): AuthContext {
+  const auth = requireAuthenticatedContext(context)
+  if (!hasPermission(auth.role, permission)) throw new Error("FORBIDDEN")
+  return auth
 }
