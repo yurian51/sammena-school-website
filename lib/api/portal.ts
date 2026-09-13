@@ -1,5 +1,6 @@
 import type { AuthContext } from "@/lib/auth/authorization"
 import { requirePortalPermission } from "@/lib/auth/portal-permissions"
+import { getPortalSummaryData } from "@/lib/api/portal-data"
 
 export interface PortalSummary {
   schoolId: string
@@ -11,7 +12,7 @@ export interface PortalSummary {
   quality: { overall: number; openActions: number }
 }
 
-export function getPortalSummary(context: AuthContext | null): PortalSummary {
-  requirePortalPermission(context, "portal:read")
-  throw new Error("PORTAL_DATA_SOURCE_NOT_CONFIGURED")
+export async function getPortalSummary(context: AuthContext | null): Promise<PortalSummary> {
+  const auth = requirePortalPermission(context, "portal:read")
+  return getPortalSummaryData(auth)
 }
