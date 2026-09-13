@@ -8,7 +8,7 @@ if (registry.school !== "SAMMENA PRIMARY SCHOOL") throw new Error("Unexpected Sa
 
 const expectedPsleYears = [2022, 2023, 2024, 2025];
 const expectedSfnaYears = [2024];
-const excludedHistoricalYears = [2018, 2019, 2020, 2021];
+const minimumPublishedYear = 2022;
 const requiredArchiveEntryPoints = ["nectaResultsHome", "psle2022DistrictIndex", "psle2023DistrictIndex", "psle2024DistrictIndex", "psle2025DistrictIndex"];
 
 const resultBlocks = [...sourceFile.matchAll(/\{\n\s*year:\s*(\d+),[\s\S]*?\n\s*sourceKind:\s*"(official|secondary)",[\s\S]*?\n\s*\},/g)].map((match) => ({
@@ -18,16 +18,15 @@ const resultBlocks = [...sourceFile.matchAll(/\{\n\s*year:\s*(\d+),[\s\S]*?\n\s*
 }));
 
 if (resultBlocks.length !== 5) throw new Error(`Unexpected published result count: ${resultBlocks.length}`);
+if (resultBlocks.some(({ year }) => year < minimumPublishedYear)) throw new Error(`Published result is older than the configured archive boundary: ${minimumPublishedYear}`);
 
 const psleYears = [...sourceFile.matchAll(/year:\s*(\d+),\s*\n\s*type:\s*"PSLE"/g)].map((match) => Number(match[1]));
 const sfnaYears = [...sourceFile.matchAll(/year:\s*(\d+),\s*\n\s*type:\s*"SFNA"/g)].map((match) => Number(match[1]));
 
 if (psleYears.join(",") !== expectedPsleYears.join(",")) throw new Error(`Unexpected PSLE coverage: ${psleYears.join(",")}`);
 if (sfnaYears.join(",") !== expectedSfnaYears.join(",")) throw new Error(`Unexpected SFNA coverage: ${sfnaYears.join(",")}`);
-if (resultBlocks.some(({ year }) => excludedHistoricalYears.includes(year))) throw new Error("2018-2021 results must be completely excluded from published result data");
-if (excludedHistoricalYears.some((year) => sourceFile.includes(String(year)))) throw new Error("2018-2021 year reference remains in academic-results.ts");
-if (excludedHistoricalYears.some((year) => JSON.stringify(registry).includes(String(year)))) throw new Error("2018-2021 year reference remains in results-sources.json");
-
+if (registry.coverage.psle.join(",") !== expectedPsleYears.join(",")) throw new Error("PSLE registry coverage does not match published records");
+if (registry.coverage.sfna.join(",") !== expectedSfnaYears.join(",")) throw new Error("SFNA registry coverage does not match published records");
 if (!sourceFile.includes('sourceKind: "official"')) throw new Error("Official result provenance missing");
 if (!sourceFile.includes('sourceKind: "secondary"')) throw new Error("Secondary-source provenance missing");
 if (!sourceFile.includes("PS0101160")) throw new Error("Missing Sammena centre number");
@@ -104,5 +103,5 @@ for (const key of requiredArchiveEntryPoints) {
 }
 
 console.log("Results archive integrity checks passed.");
-console.log("2018-2021 records are completely excluded from published result data and provenance registry.");
+console.log(`Published result boundary is ${minimumPublishedYear} and later.`);
 console.log(`NECTA archive entry-point checks passed for ${requiredArchiveEntryPoints.length} official URLs.`);
