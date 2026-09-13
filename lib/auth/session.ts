@@ -6,7 +6,7 @@ export interface SessionProvider {
 
 let provider: SessionProvider | null = null
 
-export function configureSessionProvider(nextProvider: SessionProvider) {
+export function configureSessionProvider(nextProvider: SessionProvider | null) {
   provider = nextProvider
 }
 
