@@ -4,6 +4,13 @@ import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
 import { getLatestResult, getResults, schoolIdentity, type ResultType } from "@/lib/academic-results"
 
+const sfnaArchiveSources = [
+  { year: 2022, label: "NECTA SFNA 2022 Arusha district index", url: "https://onlinesys.necta.go.tz/results/2022/sfna/results/distr_ps0101.htm", level: "District archive index" },
+  { year: 2023, label: "NECTA SFNA 2023 Arusha district index", url: "https://onlinesys.necta.go.tz/results/2023/sfna/results/distr_ps0101.htm", level: "District archive index" },
+  { year: 2024, label: "NECTA SFNA 2024 Sammena result", url: "https://onlinesys.necta.go.tz/results/2024/sfna/results/ps0101160.htm", level: "School-level official record" },
+  { year: 2025, label: "Sammena SFNA 2025 published summary", url: "https://shuleyetu.co.tz/shuleni/school/ps0101160-sammena-primary-school-arusha-dc", level: "Secondary school summary" },
+]
+
 function OfficialResultFrame({ result }: { result: ReturnType<typeof getResults>[number] }) {
   const officialUrl = result.sourceKind === "official" ? result.sourceUrl : result.officialIndexUrl
   if (!officialUrl) return null
@@ -13,11 +20,11 @@ function OfficialResultFrame({ result }: { result: ReturnType<typeof getResults>
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3 sm:px-5">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a6a24]">{isSchoolLevel ? "Original examination page" : "Official NECTA results index"}</p>
-          <p className="mt-1 text-sm font-semibold text-[#071d3b]">{isSchoolLevel ? "NECTA published view, preserved as the source appearance" : "NECTA 2025 Halmashauri ya Arusha published index"}</p>
+          <p className="mt-1 text-sm font-semibold text-[#071d3b]">{isSchoolLevel ? "NECTA published view, preserved as the source appearance" : "Official published index retained for source verification"}</p>
         </div>
-        <a href={officialUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">Open NECTA <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" /></a>
+        <a href={officialUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">Open source <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" /></a>
       </div>
-      <iframe title={`${result.year} ${result.type} official NECTA results source`} src={officialUrl} loading="lazy" className="block h-[760px] w-full border-0 bg-white sm:h-[900px] lg:h-[1050px]" referrerPolicy="no-referrer" />
+      <iframe title={`${result.year} ${result.type} official results source`} src={officialUrl} loading="lazy" className="block h-[760px] w-full border-0 bg-white sm:h-[900px] lg:h-[1050px]" referrerPolicy="no-referrer" />
     </div>
   )
 }
@@ -59,7 +66,7 @@ export default function ResultsPage() {
       <section className="py-16 sm:py-20"><div className="mx-auto max-w-6xl px-5 sm:px-6"><div className="grid gap-4 sm:grid-cols-3"><div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Latest PSLE</p><p className="mt-2 text-2xl font-black text-[#071d3b]">{latestPsle.year}</p><p className="mt-1 text-sm text-slate-500">Average {latestPsle.average.toFixed(2)}</p></div><div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">Official records</p><p className="mt-2 text-2xl font-black text-[#071d3b]">{officialCount}</p><p className="mt-1 text-sm text-slate-600">School-level public sources</p></div><div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-amber-800">Secondary records</p><p className="mt-2 text-2xl font-black text-[#071d3b]">{secondaryCount}</p><p className="mt-1 text-sm text-slate-600">Clearly labelled summaries</p></div></div>
           <div className="mt-5 rounded-3xl border border-[#d8b55b]/25 bg-[#f8f4e9] p-6 sm:p-8"><div className="flex gap-4"><ShieldCheck className="mt-1 h-6 w-6 shrink-0 text-[#8a6a24]" /><div><h2 className="font-bold text-[#071d3b]">Verified public records</h2><p className="mt-2 text-sm leading-6 text-slate-600">Centre number: <strong>{schoolIdentity.centreNumber}</strong>. Each card exposes whether its figures come from an official school-level record or a secondary published summary. When NECTA provides an official index, the index is embedded directly too, so the archive does not hide the primary source behind a typed number.</p></div></div></div>
           <div className="mt-12"><div className="flex items-end justify-between gap-4"><div><span className="text-sm font-bold uppercase tracking-[0.18em] text-[#9a7628]">Darasa la Saba</span><h2 className="mt-2 text-3xl font-bold text-[#071d3b]">PSLE results</h2></div><Link href="/trust" className="inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24] hover:underline"><TrendingUp className="h-4 w-4" /> Evidence ledger</Link></div><div className="mt-6 grid gap-5 lg:grid-cols-2">{psle.map(result => <ResultCard key={result.type + result.year} result={result} />)}</div></div>
-          <div className="mt-16"><div><span className="text-sm font-bold uppercase tracking-[0.18em] text-[#9a7628]">Darasa la Nne</span><h2 className="mt-2 text-3xl font-bold text-[#071d3b]">SFNA results</h2></div><div className="mt-6 grid gap-5 lg:grid-cols-2">{sfna.map(result => <ResultCard key={result.type + result.year} result={result} />)}</div></div>
+          <div className="mt-16"><div><span className="text-sm font-bold uppercase tracking-[0.18em] text-[#9a7628]">Darasa la Nne</span><h2 className="mt-2 text-3xl font-bold text-[#071d3b]">SFNA results</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">SFNA coverage now starts from the 2022 archive. Where a school-level figure is not yet verified, the page links to the official district archive instead of inventing a number. Humanity survives another day without fabricated statistics.</p></div><div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{sfnaArchiveSources.map(source => <a key={source.year} href={source.url} target="_blank" rel="noreferrer" className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]"><div className="flex items-center justify-between gap-2"><span className="text-xl font-black text-[#071d3b]">{source.year}</span><ExternalLink className="h-4 w-4 text-[#8a6a24]" aria-hidden="true" /></div><p className="mt-2 text-xs font-bold uppercase tracking-[0.08em] text-[#8a6a24]">{source.level}</p><p className="mt-2 text-sm font-semibold leading-5 text-slate-700">{source.label}</p></a>)}</div><div className="mt-6 grid gap-5 lg:grid-cols-2">{sfna.map(result => <ResultCard key={result.type + result.year} result={result} />)}</div></div>
         </div></section><Footer /></main>
   )
 }
