@@ -8,6 +8,7 @@ import { InMemoryAdmissionsRepository } from "../admissions/repository"
 import { AdmissionsService } from "../admissions/service"
 import { CmsService } from "../cms/service"
 import { StudentService } from "../sis/student-service"
+import { ensurePostgresDbClient } from "../db/runtime"
 
 export interface ServerServiceContext {
   schoolId: string
@@ -19,12 +20,18 @@ export interface ServerServiceContext {
 const fallbackAdmissionsRepository = new InMemoryAdmissionsRepository()
 
 function createAdmissionsRepository() {
-  if (process.env.DATABASE_URL) return new PostgresAdmissionsRepository()
+  if (process.env.DATABASE_URL) {
+    ensurePostgresDbClient()
+    return new PostgresAdmissionsRepository()
+  }
   if (process.env.NODE_ENV !== "production") return fallbackAdmissionsRepository
   throw new Error("DATABASE_CLIENT_NOT_CONFIGURED")
 }
 
 export function createServerServices(context: ServerServiceContext = { schoolId: process.env.SAMMENA_SCHOOL_ID ?? "public" }) {
+  const hasDatabase = Boolean(process.env.DATABASE_URL?.trim())
+  if (hasDatabase) ensurePostgresDbClient()
+
   const admissionsRepository = createAdmissionsRepository()
   const cmsRepository = new PostgresCmsRepository()
   const studentRepository = new PostgresStudentRepository(context.schoolId)
