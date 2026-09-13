@@ -57,4 +57,21 @@ for (const trigger of requiredIntegrityTriggers) {
   }
 }
 
-console.log(`Portal schema validation passed: ${requiredTables.length} tables, ${requiredConstraints.length} core constraints, and ${requiredIntegrityTriggers.length} school-integrity triggers present.`)
+const requiredExistingDataGuards = [
+  "EXISTING_ENROLLMENT_STUDENT_SCHOOL_MISMATCH",
+  "EXISTING_ENROLLMENT_ACADEMIC_YEAR_SCHOOL_MISMATCH",
+  "EXISTING_ENROLLMENT_CLASS_SCHOOL_MISMATCH",
+  "EXISTING_ATTENDANCE_SCHOOL_MISMATCH",
+  "EXISTING_ASSESSMENT_SCHOOL_MISMATCH",
+  "EXISTING_LIBRARY_BOOK_SCHOOL_MISMATCH",
+  "EXISTING_LIBRARY_STUDENT_SCHOOL_MISMATCH",
+  "EXISTING_QUALITY_INDICATOR_SCHOOL_MISMATCH",
+]
+
+for (const guard of requiredExistingDataGuards) {
+  if (!integritySql.includes(guard)) {
+    throw new Error(`Missing existing-data integrity guard: ${guard}`)
+  }
+}
+
+console.log(`Portal schema validation passed: ${requiredTables.length} tables, ${requiredConstraints.length} core constraints, ${requiredIntegrityTriggers.length} school-integrity triggers, and ${requiredExistingDataGuards.length} existing-data guards present.`)
