@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   try {
     const context = await getAuthContext(request)
     const studentId = request.nextUrl.searchParams.get("studentId") ?? undefined
-    const result = listPortalAssessments(context, studentId, parsePagination(request.nextUrl.searchParams))
+    const result = await listPortalAssessments(context, studentId, parsePagination(request.nextUrl.searchParams))
     return NextResponse.json({ ...result, requestId: id }, { headers: { "Cache-Control": "private, no-store" } })
   } catch (error) {
     return mapDomainError(error, id)
