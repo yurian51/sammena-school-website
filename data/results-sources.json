@@ -16,7 +16,7 @@
     "psle2024DistrictIndex": "https://onlinesys.necta.go.tz/results/2024/psle/results/distr_0101.htm",
     "psle2025DistrictIndex": "https://onlinesys.necta.go.tz/results/2025/psle/results/distr_0101.htm"
   },
-  "sourcePolicy": "Publish figures only when the school-level result or a named institutional report supports them. The public Sammena results page begins with 2022; older 2018–2021 records are intentionally excluded from the published archive.",
+  "sourcePolicy": "Publish figures only when the school-level result or a named institutional report supports them. The public Sammena results archive contains only currently published, supported records.",
   "sources": [
     {"exam":"PSLE","year":2022,"type":"NECTA","status":"verified","url":"https://onlinesys.necta.go.tz/results/2022/psle/results/shl_ps0101160.htm"},
     {"exam":"PSLE","year":2023,"type":"NECTA","status":"verified","url":"https://onlinesys.necta.go.tz/results/2023/psle/results/shl_ps0101160.htm"},
