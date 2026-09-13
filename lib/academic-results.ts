@@ -4,16 +4,17 @@ export type ResultSourceKind = "official" | "secondary"
 export type SchoolResult = {
   year: number
   type: ResultType
-  candidates: number
-  average: number
-  grade: string
+  candidates?: number
+  average?: number
+  grade?: string
   passed?: number
   passRate?: number
-  grades: Record<string, number>
+  grades?: Record<string, number>
   sourceUrl: string
   sourceLabel: string
   sourceKind: ResultSourceKind
   officialIndexUrl?: string
+  sourceOnly?: boolean
 }
 
 export const schoolIdentity = {
@@ -77,6 +78,22 @@ export const verifiedResults: SchoolResult[] = [
     officialIndexUrl: "https://onlinesys.necta.go.tz/results/2025/psle/results/distr_0101.htm",
   },
   {
+    year: 2022,
+    type: "SFNA",
+    sourceUrl: "https://onlinesys.necta.go.tz/results/2022/sfna/results/distr_ps0101.htm",
+    sourceLabel: "NECTA SFNA 2022 Arusha district index",
+    sourceKind: "official",
+    sourceOnly: true,
+  },
+  {
+    year: 2023,
+    type: "SFNA",
+    sourceUrl: "https://onlinesys.necta.go.tz/results/2023/sfna/results/distr_ps0101.htm",
+    sourceLabel: "NECTA SFNA 2023 Arusha district index",
+    sourceKind: "official",
+    sourceOnly: true,
+  },
+  {
     year: 2024,
     type: "SFNA",
     candidates: 34,
@@ -107,5 +124,5 @@ export function getResults(type?: ResultType) {
 }
 
 export function getLatestResult(type: ResultType) {
-  return [...getResults(type)].sort((a, b) => b.year - a.year)[0]
+  return [...getResults(type)].filter((result) => !result.sourceOnly).sort((a, b) => b.year - a.year)[0]
 }
