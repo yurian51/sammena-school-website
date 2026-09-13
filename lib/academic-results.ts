@@ -87,6 +87,19 @@ export const verifiedResults: SchoolResult[] = [
     sourceLabel: "NECTA SFNA 2024",
     sourceKind: "official",
   },
+  {
+    year: 2025,
+    type: "SFNA",
+    candidates: 28,
+    average: 192.04,
+    grade: "A",
+    passed: 28,
+    passRate: 100,
+    grades: { A: 3, B: 14, C: 10, D: 1 },
+    sourceUrl: "https://shuleyetu.co.tz/shuleni/school/ps0101160-sammena-primary-school-arusha-dc",
+    sourceLabel: "SchoolYetu published summary",
+    sourceKind: "secondary",
+  },
 ]
 
 export function getResults(type?: ResultType) {
