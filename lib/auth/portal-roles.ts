@@ -23,5 +23,5 @@ const permissions: Record<PortalRole, readonly PortalPermission[]> = {
 }
 
 export function hasPortalPermission(role: PortalRole, permission: PortalPermission) {
-  return permissions[role].includes(permission)
+  return permissions[role]?.includes(permission) ?? false
 }
