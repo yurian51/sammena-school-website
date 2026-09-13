@@ -14,13 +14,18 @@ export interface ServerServiceContext {
 }
 
 // Keep the development fallback process-local and shared across requests.
-// Production deployments should provide DATABASE_URL and a configured PostgreSQL client.
+// Production deployments must provide DATABASE_URL so admissions data cannot
+// appear to submit successfully and then disappear when the process restarts.
 const fallbackAdmissionsRepository = new InMemoryAdmissionsRepository()
 
+function createAdmissionsRepository() {
+  if (process.env.DATABASE_URL) return new PostgresAdmissionsRepository()
+  if (process.env.NODE_ENV !== "production") return fallbackAdmissionsRepository
+  throw new Error("DATABASE_CLIENT_NOT_CONFIGURED")
+}
+
 export function createServerServices(context: ServerServiceContext = { schoolId: process.env.SAMMENA_SCHOOL_ID ?? "public" }) {
-  const admissionsRepository = process.env.DATABASE_URL
-    ? new PostgresAdmissionsRepository()
-    : fallbackAdmissionsRepository
+  const admissionsRepository = createAdmissionsRepository()
   const cmsRepository = new PostgresCmsRepository()
   const studentRepository = new PostgresStudentRepository(context.schoolId)
   const guardianRepository = new PostgresGuardianRepository(context.schoolId)
