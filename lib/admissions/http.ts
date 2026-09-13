@@ -15,7 +15,7 @@ export async function createAdmissionFromRequest(request: Request): Promise<Resp
 
     if (!validation.ok) {
       return Response.json(
-        { error: { code: validation.code, message: "The submitted information is invalid.", fields: validation.fields, requestId } },
+        { error: { code: "VALIDATION_ERROR", message: "The submitted information is invalid.", fields: validation.fields, requestId } },
         { status: 400 },
       )
     }
