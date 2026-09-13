@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   try {
     const context = await getAuthContext(request)
     const category = request.nextUrl.searchParams.get("category") ?? undefined
-    const result = listPortalLibrary(context, category, parsePagination(request.nextUrl.searchParams))
+    const result = await listPortalLibrary(context, category, parsePagination(request.nextUrl.searchParams))
     return NextResponse.json({ ...result, requestId: id }, { headers: { "Cache-Control": "private, no-store" } })
   } catch (error) {
     return mapDomainError(error, id)
