@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { FormEvent, useState } from "react"
 import { ArrowLeft, ArrowRight, CheckCircle2, ClipboardList, Clock3, FileSearch, HelpCircle, Search, ShieldCheck } from "lucide-react"
+import { isValidAdmissionReference } from "@/lib/admissions/reference-validation"
 
 const stages = ["SUBMITTED", "UNDER_REVIEW", "DECISION", "ENROLLED"]
 const labels: Record<string, string> = { DRAFT: "Draft", SUBMITTED: "Submitted", UNDER_REVIEW: "Under review", MORE_INFORMATION: "More information", ASSESSMENT: "Assessment", DECISION: "Decision", ACCEPTED: "Accepted", REJECTED: "Rejected", WAITLISTED: "Waitlisted", DECLINED: "Declined", ENROLLED: "Enrolled" }
@@ -20,10 +21,22 @@ const stageForStatus: Record<string, string> = {
   ENROLLED: "ENROLLED",
 }
 
+type TrackPayload = {
+  ok?: boolean
+  data?: { status?: string }
+  error?: string | { code?: string; message?: string }
+}
+
 function statusTone(status: string) {
   if (["ACCEPTED", "ENROLLED"].includes(status)) return "border-emerald-200 bg-emerald-50 text-emerald-800"
   if (["REJECTED", "DECLINED"].includes(status)) return "border-rose-200 bg-rose-50 text-rose-800"
   return "border-amber-200 bg-amber-50 text-amber-800"
+}
+
+function payloadError(payload: TrackPayload, fallback: string) {
+  if (typeof payload.error === "string" && payload.error.trim()) return payload.error
+  if (payload.error && typeof payload.error === "object" && typeof payload.error.message === "string" && payload.error.message.trim()) return payload.error.message
+  return fallback
 }
 
 export default function TrackAdmissionPage() {
@@ -36,7 +49,7 @@ export default function TrackAdmissionPage() {
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const value = reference.trim().toUpperCase()
-    if (!/^SAM-[0-9]{4}-[A-Z0-9]{6,12}$/.test(value)) {
+    if (!isValidAdmissionReference(value)) {
       setError("Enter a valid Sammena application reference, for example SAM-2026-7F3K2A.")
       setSearched(false)
       return
@@ -44,8 +57,8 @@ export default function TrackAdmissionPage() {
     setLoading(true); setError(""); setSearched(false)
     try {
       const response = await fetch(`/api/admissions/track?reference=${encodeURIComponent(value)}`, { cache: "no-store" })
-      const payload = await response.json() as { ok?: boolean; data?: { status?: string }; error?: string }
-      if (!response.ok || !payload.ok) throw new Error(payload.error || "Application lookup failed.")
+      const payload = await response.json() as TrackPayload
+      if (!response.ok || !payload.ok) throw new Error(payloadError(payload, "Application lookup failed."))
       setReference(value); setStatus(payload.data?.status ?? "DRAFT"); setSearched(true)
     } catch (lookupError) {
       setError(lookupError instanceof Error ? lookupError.message : "Application lookup failed.")
