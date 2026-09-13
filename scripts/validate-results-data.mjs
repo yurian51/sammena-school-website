@@ -8,8 +8,7 @@ if (registry.school !== "SAMMENA PRIMARY SCHOOL") throw new Error("Unexpected Sa
 
 const expectedPsleYears = [2022, 2023, 2024, 2025];
 const expectedSfnaYears = [2024];
-const historicalYears = [2018, 2019, 2020, 2021];
-const historicalAuditStatus = "not-located-in-current-indexed-necta-search";
+const excludedHistoricalYears = [2018, 2019, 2020, 2021];
 const requiredArchiveEntryPoints = ["nectaResultsHome", "psle2022DistrictIndex", "psle2023DistrictIndex", "psle2024DistrictIndex", "psle2025DistrictIndex"];
 
 const resultBlocks = [...sourceFile.matchAll(/\{\n\s*year:\s*(\d+),[\s\S]*?\n\s*sourceKind:\s*"(official|secondary)",[\s\S]*?\n\s*\},/g)].map((match) => ({
@@ -25,6 +24,10 @@ const sfnaYears = [...sourceFile.matchAll(/year:\s*(\d+),\s*\n\s*type:\s*"SFNA"/
 
 if (psleYears.join(",") !== expectedPsleYears.join(",")) throw new Error(`Unexpected PSLE coverage: ${psleYears.join(",")}`);
 if (sfnaYears.join(",") !== expectedSfnaYears.join(",")) throw new Error(`Unexpected SFNA coverage: ${sfnaYears.join(",")}`);
+if (resultBlocks.some(({ year }) => excludedHistoricalYears.includes(year))) throw new Error("2018-2021 results must be completely excluded from published result data");
+if (excludedHistoricalYears.some((year) => sourceFile.includes(String(year)))) throw new Error("2018-2021 year reference remains in academic-results.ts");
+if (excludedHistoricalYears.some((year) => JSON.stringify(registry).includes(String(year)))) throw new Error("2018-2021 year reference remains in results-sources.json");
+
 if (!sourceFile.includes('sourceKind: "official"')) throw new Error("Official result provenance missing");
 if (!sourceFile.includes('sourceKind: "secondary"')) throw new Error("Secondary-source provenance missing");
 if (!sourceFile.includes("PS0101160")) throw new Error("Missing Sammena centre number");
@@ -100,27 +103,6 @@ for (const key of requiredArchiveEntryPoints) {
   if (!url.startsWith("https://onlinesys.necta.go.tz/results/")) throw new Error(`Archive entry point is not an official NECTA results URL: ${key}`);
 }
 
-for (const exam of ["psle", "sfna"]) {
-  const audit = registry.historicalArchiveAudit?.[exam];
-  if (!audit) throw new Error(`Missing historical archive audit for ${exam.toUpperCase()}`);
-  for (const year of historicalYears) {
-    const entry = audit[String(year)];
-    if (!entry) throw new Error(`Missing ${exam.toUpperCase()} ${year} archive audit entry`);
-    if (entry.status !== historicalAuditStatus) throw new Error(`Unexpected ${exam.toUpperCase()} ${year} archive status: ${entry.status}`);
-    if (entry.searchedCentre !== registry.centre) throw new Error(`Archive audit centre mismatch for ${exam.toUpperCase()} ${year}`);
-  }
-}
-
-const auditedHistoricalYears = new Set([
-  ...historicalYears.map((year) => `PSLE:${year}`),
-  ...historicalYears.map((year) => `SFNA:${year}`),
-]);
-const publishedKeys = new Set(resultBlocks.map(({ year, block }) => `${block.includes('type: "PSLE"') ? "PSLE" : "SFNA"}:${year}`));
-for (const key of auditedHistoricalYears) {
-  if (publishedKeys.has(key)) throw new Error(`Historically unverified result must not be published: ${key}`);
-}
-if (publishedKeys.size !== resultBlocks.length) throw new Error("Duplicate published result detected");
-
 console.log("Results archive integrity checks passed.");
-console.log(`Historical archive audit passed for ${historicalYears.length * 2} unverified year/exam combinations.`);
+console.log("2018-2021 records are completely excluded from published result data and provenance registry.");
 console.log(`NECTA archive entry-point checks passed for ${requiredArchiveEntryPoints.length} official URLs.`);
