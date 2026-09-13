@@ -1,5 +1,6 @@
 import { z } from "zod"
 import { admissionEntryLevels, guardianOccupations, guardianRelationships } from "./options"
+import { nationalityOptions } from "./countries"
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Expected YYYY-MM-DD")
 
@@ -8,7 +9,7 @@ const validCalendarDate = (value: string) => {
   return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value
 }
 
-export { admissionEntryLevels, guardianRelationships, guardianOccupations }
+export { admissionEntryLevels, guardianRelationships, guardianOccupations, nationalityOptions }
 
 export const admissionApplicationSchema = z.object({
   guardian: z.string().trim().min(2).max(120),
@@ -16,13 +17,13 @@ export const admissionApplicationSchema = z.object({
   email: z.string().trim().email().max(160).optional().or(z.literal("")),
   relationship: z.enum(guardianRelationships),
   occupation: z.enum(guardianOccupations).optional().or(z.literal("")),
-  guardianNationality: z.string().trim().max(80).optional().default(""),
+  guardianNationality: z.enum(nationalityOptions).optional().or(z.literal("")),
   address: z.string().trim().max(240).optional().default(""),
   learner: z.string().trim().min(2).max(120),
   dob: isoDate.refine(validCalendarDate, "Invalid calendar date").refine((value) => value <= new Date().toISOString().slice(0, 10), "Date of birth cannot be in the future"),
   age: z.string().max(3).optional().default(""),
   gender: z.enum(["Male", "Female"]),
-  nationality: z.string().trim().max(80).optional().default(""),
+  nationality: z.enum(nationalityOptions).optional().or(z.literal("")),
   homeRegion: z.string().trim().max(100).optional().default(""),
   homeDistrict: z.string().trim().max(100).optional().default(""),
   division: z.string().trim().max(100).optional().default(""),
