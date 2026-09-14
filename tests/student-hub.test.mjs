@@ -1,0 +1,38 @@
+import test from "node:test"
+import assert from "node:assert/strict"
+import fs from "node:fs"
+
+const read = (path) => fs.readFileSync(path, "utf8")
+
+test("student hub migration creates a school-scoped student account boundary", () => {
+  const sql = read("supabase/migrations/0011_student_hub.sql")
+  assert.match(sql, /create table if not exists student_accounts/i)
+  assert.match(sql, /unique \(school_id, user_id\)/i)
+  assert.match(sql, /student_linked_accounts/i)
+  assert.match(sql, /assessments_student_school_date_idx/i)
+  assert.match(sql, /attendance_student_school_date_idx/i)
+})
+
+test("student hub service enforces student role and school scope", () => {
+  const source = read("lib/api/student-hub.ts")
+  assert.match(source, /requireAuthenticatedContext\(context\)/)
+  assert.match(source, /auth\.role !== \"STUDENT\"/)
+  assert.match(source, /!auth\.schoolId/)
+  assert.match(source, /sla\.user_id = \$1/)
+  assert.match(source, /sla\.school_id = \$2/)
+})
+
+test("student hub API is private and no-store", () => {
+  const source = read("app/api/portal/student/route.ts")
+  assert.match(source, /getAuthContext\(request\)/)
+  assert.match(source, /getStudentHubData\(context\)/)
+  assert.match(source, /Cache-Control.*private, no-store/)
+  assert.match(source, /mapDomainError\(error, id\)/)
+})
+
+test("student hub does not depend on school-wide assessment or library counts", () => {
+  const source = read("lib/api/student-hub.ts")
+  assert.doesNotMatch(source, /where a\.school_id = \$2\s+order by/i)
+  assert.match(source, /join student_linked_accounts sla on sla\.student_id = a\.student_id and sla\.school_id = a\.school_id/i)
+  assert.match(source, /sla\.student_id = i\.student_id and sla\.school_id = i\.school_id/i)
+})
