@@ -18,8 +18,8 @@ const permissions: Record<PortalRole, readonly PortalPermission[]> = {
   SUPER_ADMIN: ["portal:read", "students:read", "students:write", "attendance:read", "attendance:write", "assessments:read", "assessments:write", "library:read", "library:write", "quality:read", "quality:write"],
   SCHOOL_ADMIN: ["portal:read", "students:read", "students:write", "attendance:read", "attendance:write", "assessments:read", "assessments:write", "library:read", "library:write", "quality:read", "quality:write"],
   TEACHER: ["portal:read", "students:read", "attendance:read", "attendance:write", "assessments:read", "assessments:write", "library:read", "quality:read"],
-  PARENT: ["portal:read", "students:read", "attendance:read", "assessments:read", "library:read"],
-  STUDENT: ["portal:read", "students:read", "attendance:read", "assessments:read", "library:read"],
+  PARENT: ["library:read"],
+  STUDENT: ["library:read"],
 }
 
 export function hasPortalPermission(role: PortalRole, permission: PortalPermission) {
