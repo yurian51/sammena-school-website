@@ -8,7 +8,11 @@ export async function GET(request: Request) {
   try {
     const context = await getAuthContext(request)
     const auth = requirePortalPermission(context, "portal:read")
-    return Response.json({ data: { status: "ok", schoolId: auth.schoolId ?? "sammena", role: auth.role }, requestId: id }, { status: 200, headers: { "Cache-Control": "private, no-store" } })
+    if (!auth.schoolId) throw new Error("SCHOOL_SCOPE_REQUIRED")
+    return Response.json(
+      { data: { status: "ok", schoolId: auth.schoolId, role: auth.role }, requestId: id },
+      { status: 200, headers: { "Cache-Control": "private, no-store" } },
+    )
   } catch (error) {
     return mapDomainError(error, id)
   }
