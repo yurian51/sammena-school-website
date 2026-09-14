@@ -21,9 +21,9 @@ export async function getPortalSummaryData(context: AuthContext): Promise<Portal
   const db = getDbClient()
   const [students, attendance, academics, library, quality] = await Promise.all([
     db.query<{ total: number; pre_primary: number; standard_one: number }>(
-      `select count(*)::int as total,
-        count(*) filter (where c.name in ('Pre-primary','Awali'))::int as pre_primary,
-        count(*) filter (where c.name in ('Standard I','Darasa la I'))::int as standard_one
+      `select count(distinct s.id)::int as total,
+        count(distinct s.id) filter (where c.name in ('Pre-primary','Awali'))::int as pre_primary,
+        count(distinct s.id) filter (where c.name in ('Standard I','Darasa la I'))::int as standard_one
        from students s
        left join enrollments e on e.student_id = s.id and e.school_id = s.school_id and e.status = 'ACTIVE'
        left join classes c on c.id = e.class_id
@@ -87,7 +87,13 @@ export async function listStudentsData(context: AuthContext, className: string |
   const countResult = await db.query<{ total: number }>(
     `select count(*)::int as total
      from students s
-     left join enrollments e on e.student_id = s.id and e.school_id = s.school_id and e.status = 'ACTIVE'
+     left join lateral (
+       select e.class_id
+       from enrollments e
+       where e.student_id = s.id and e.school_id = s.school_id and e.status = 'ACTIVE'
+       order by e.created_at desc, e.id desc
+       limit 1
+     ) e on true
      left join classes c on c.id = e.class_id
      where s.school_id = $1 and ($2::text is null or lower(c.name) = lower($2))`,
     [schoolId, filter],
@@ -105,7 +111,13 @@ export async function listStudentsData(context: AuthContext, className: string |
       coalesce(round((select count(*) filter (where ar.status in ('PRESENT','LATE')) * 100.0 / nullif(count(*),0) from attendance_records ar where ar.student_id = s.id and ar.school_id = s.school_id)::numeric, 1), 0)::float as "attendanceRate",
       coalesce(round((select avg(a.score / nullif(a.max_score,0) * 100) from assessments a where a.student_id = s.id and a.school_id = s.school_id)::numeric, 1), 0)::float as "academicAverage"
      from students s
-     left join enrollments e on e.student_id = s.id and e.school_id = s.school_id and e.status = 'ACTIVE'
+     left join lateral (
+       select e.class_id
+       from enrollments e
+       where e.student_id = s.id and e.school_id = s.school_id and e.status = 'ACTIVE'
+       order by e.created_at desc, e.id desc
+       limit 1
+     ) e on true
      left join classes c on c.id = e.class_id
      where s.school_id = $1 and ($2::text is null or lower(c.name) = lower($2))
      order by s.last_name, s.first_name, s.admission_number
@@ -158,18 +170,25 @@ export async function listLibraryData(context: AuthContext, category: string | u
   const page = Math.min(pagination.page, Math.max(1, Math.ceil(total / pagination.pageSize)))
   const offset = (page - 1) * pagination.pageSize
   const result = await db.query<PortalLibraryBook>(
-    `select b.id::text,
-      b.accession_number as "accessionNumber",
-      b.title,
-      b.author,
-      b.category,
-      b.quantity,
-      greatest(0, b.quantity - coalesce((select count(*) from library_issues i where i.book_id = b.id and i.school_id = b.school_id and i.returned_at is null),0))::int as available,
-      coalesce((select count(*) from library_issues i where i.book_id = b.id and i.school_id = b.school_id and i.returned_at is null),0)::int as issued
-     from library_books b
-     where b.school_id = $1 and ($2::text is null or lower(b.category) = lower($2))
-     order by b.title, b.accession_number
-     limit $3 offset $4`,
+    `with open_issues as (
+       select school_id, book_id, count(*)::int as issued
+       from library_issues
+       where school_id = $1 and returned_at is null
+       group by school_id, book_id
+     )
+     select b.id::text,
+       b.accession_number as "accessionNumber",
+       b.title,
+       b.author,
+       b.category,
+       b.quantity,
+       greatest(0, b.quantity - coalesce(oi.issued, 0))::int as available,
+       coalesce(oi.issued, 0)::int as issued
+      from library_books b
+      left join open_issues oi on oi.book_id = b.id and oi.school_id = b.school_id
+      where b.school_id = $1 and ($2::text is null or lower(b.category) = lower($2))
+      order by b.title, b.accession_number
+      limit $3 offset $4`,
     [schoolId, filter, pagination.pageSize, offset],
   )
   return { data: result.rows, meta: meta(page, pagination.pageSize, total) }
