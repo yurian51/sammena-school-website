@@ -102,8 +102,8 @@ export async function listStudentsData(context: AuthContext, className: string |
       s.gender,
       coalesce(c.name, 'Unassigned') as "className",
       case when s.is_active then 'ACTIVE' else 'INACTIVE' end as status,
-      coalesce(round((select count(*) filter (where ar.status in ('PRESENT','LATE')) * 100.0 / nullif(count(*),0) from attendance_records ar where ar.student_id = s.id)::numeric, 1), 0)::float as "attendanceRate",
-      coalesce(round((select avg(a.score / nullif(a.max_score,0) * 100) from assessments a where a.student_id = s.id)::numeric, 1), 0)::float as "academicAverage"
+      coalesce(round((select count(*) filter (where ar.status in ('PRESENT','LATE')) * 100.0 / nullif(count(*),0) from attendance_records ar where ar.student_id = s.id and ar.school_id = s.school_id)::numeric, 1), 0)::float as "attendanceRate",
+      coalesce(round((select avg(a.score / nullif(a.max_score,0) * 100) from assessments a where a.student_id = s.id and a.school_id = s.school_id)::numeric, 1), 0)::float as "academicAverage"
      from students s
      left join enrollments e on e.student_id = s.id and e.school_id = s.school_id and e.status = 'ACTIVE'
      left join classes c on c.id = e.class_id
@@ -164,8 +164,8 @@ export async function listLibraryData(context: AuthContext, category: string | u
       b.author,
       b.category,
       b.quantity,
-      greatest(0, b.quantity - coalesce((select count(*) from library_issues i where i.book_id = b.id and i.returned_at is null),0))::int as available,
-      coalesce((select count(*) from library_issues i where i.book_id = b.id and i.returned_at is null),0)::int as issued
+      greatest(0, b.quantity - coalesce((select count(*) from library_issues i where i.book_id = b.id and i.school_id = b.school_id and i.returned_at is null),0))::int as available,
+      coalesce((select count(*) from library_issues i where i.book_id = b.id and i.school_id = b.school_id and i.returned_at is null),0)::int as issued
      from library_books b
      where b.school_id = $1 and ($2::text is null or lower(b.category) = lower($2))
      order by b.title, b.accession_number
