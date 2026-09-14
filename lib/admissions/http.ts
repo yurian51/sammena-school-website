@@ -13,7 +13,7 @@ export async function createAdmissionFromRequest(request: Request): Promise<Resp
     const input = (await request.json()) as Partial<CreateApplicationInput>
     const validation = validateAdmissionsApplication(input)
 
-    if (!validation.ok) {
+    if (validation.ok === false) {
       return Response.json(
         { error: { code: "VALIDATION_ERROR", message: "The submitted information is invalid.", fields: validation.fields, requestId } },
         { status: 400 },
