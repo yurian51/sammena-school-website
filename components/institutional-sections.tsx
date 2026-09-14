@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { ArrowRight, Bell, CalendarDays, ClipboardList, Download, FileText, GraduationCap, Newspaper, Search, ShieldCheck } from "lucide-react"
+import { GlobalSchoolExperience } from "@/components/global-school-experience"
 
 const actions = [
   { icon: ClipboardList, title: "Admissions", text: "Application information, requirements and guidance.", href: "/admissions" },
@@ -18,6 +19,8 @@ const facts = [
 export function InstitutionalSections() {
   return (
     <>
+      <GlobalSchoolExperience />
+
       <section className="border-b border-slate-200 bg-white">
         <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
           <div className="grid gap-px border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-4">
