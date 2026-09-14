@@ -83,10 +83,35 @@ test('CI workflow uses the repository package manager', () => {
   assert.match(ci, /pnpm run build/)
 })
 
-test('lockfile synchronization workflow is isolated and safe for feature branches', () => {
-  const workflow = read('.github/workflows/sync-lockfile.yml')
-  assert.match(workflow, /pnpm install --lockfile-only --no-frozen-lockfile/)
+test('lockfile synchronization workflow is the active workflow and is non-destructive', () => {
+  const workflow = read('.github/workflows/lockfile-sync.yml')
+  assert.ok(!exists('.github/workflows/sync-lockfile.yml'), 'Removed duplicate lockfile workflow must stay removed')
+  assert.match(workflow, /pnpm install --lockfile-only --ignore-scripts/)
   assert.match(workflow, /contents: write/)
+  assert.match(workflow, /github-actions\[bot\]/)
+  assert.match(workflow, /git diff --quiet -- pnpm-lock\.yaml/)
+})
+
+test('portal school-integrity migration is present and fail-closed', () => {
+  const migration = read('supabase/migrations/0007_portal_school_integrity.sql')
+  assert.match(migration, /PORTAL_INTEGRITY/)
+  assert.match(migration, /CREATE OR REPLACE FUNCTION enforce_portal_school_integrity/) 
+  assert.match(migration, /enrollments_school_integrity/)
+  assert.match(migration, /attendance_school_integrity/)
+  assert.match(migration, /assessments_school_integrity/)
+  assert.match(migration, /library_issues_school_integrity/)
+  assert.match(migration, /quality_evidence_school_integrity/)
+  assert.match(migration, /prevent_portal_parent_school_change/)
+})
+
+test('portal read queries enforce school scope at query level', () => {
+  const portalData = read('lib/api/portal-data.ts')
+  assert.match(portalData, /where s\.school_id = \$1/)
+  assert.match(portalData, /ar\.school_id = s\.school_id/)
+  assert.match(portalData, /a\.school_id = s\.school_id/)
+  assert.match(portalData, /i\.school_id = b\.school_id/)
+  assert.match(portalData, /where a\.school_id = \$1/) 
+  assert.match(portalData, /where b\.school_id = \$1/)
 })
 
 test('results archive is present and traceable', () => {
