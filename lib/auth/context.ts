@@ -1,12 +1,9 @@
-export type UserRole = "SUPER_ADMIN" | "SCHOOL_ADMIN" | "EDITOR" | "TEACHER" | "PARENT" | "STUDENT"
+import type { AuthContext as AuthorizationContext } from "./authorization"
+import { requireAuthenticatedContext } from "./authorization"
 
-export interface AuthContext {
-  userId: string
-  role: UserRole
-  schoolId?: string
-}
+export type UserRole = AuthorizationContext["role"]
+export type AuthContext = AuthorizationContext
 
 export function requireAuth(context: AuthContext | null): AuthContext {
-  if (!context) throw new Error("UNAUTHORIZED")
-  return context
+  return requireAuthenticatedContext(context)
 }
