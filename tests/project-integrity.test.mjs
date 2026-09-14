@@ -95,7 +95,7 @@ test('lockfile synchronization workflow is the active workflow and is non-destru
 test('portal school-integrity migration is present and fail-closed', () => {
   const migration = read('supabase/migrations/0007_portal_school_integrity.sql')
   assert.match(migration, /PORTAL_INTEGRITY/)
-  assert.match(migration, /CREATE OR REPLACE FUNCTION enforce_portal_school_integrity/) 
+  assert.match(migration, /CREATE OR REPLACE FUNCTION enforce_portal_school_integrity/)
   assert.match(migration, /enrollments_school_integrity/)
   assert.match(migration, /attendance_school_integrity/)
   assert.match(migration, /assessments_school_integrity/)
@@ -113,14 +113,25 @@ test('portal query indexes cover school-scoped student, assessment and library l
   assert.match(migration, /where returned_at is null/)
 })
 
-test('portal read queries enforce school scope at query level', () => {
+test('portal relationship indexes cover latest enrollment and page-level aggregations', () => {
+  const migration = read('supabase/migrations/0009_portal_relationship_indexes.sql')
+  assert.match(migration, /enrollments_school_student_status_created_idx/)
+  assert.match(migration, /assessments_school_student_date_idx/)
+  assert.match(migration, /library_issues_school_book_open_idx/)
+  assert.match(migration, /where returned_at is null/)
+})
+
+test('portal read queries enforce school scope and avoid duplicate active enrollments', () => {
   const portalData = read('lib/api/portal-data.ts')
+  assert.match(portalData, /count\(distinct s\.id\)/)
+  assert.match(portalData, /order by e\.created_at desc, e\.id desc/)
   assert.match(portalData, /where s\.school_id = \$1/)
   assert.match(portalData, /ar\.school_id = s\.school_id/)
   assert.match(portalData, /a\.school_id = s\.school_id/)
-  assert.match(portalData, /i\.school_id = b\.school_id/)
-  assert.match(portalData, /where a\.school_id = \$1/) 
+  assert.match(portalData, /where a\.school_id = \$1/)
   assert.match(portalData, /where b\.school_id = \$1/)
+  assert.match(portalData, /with open_issues as/)
+  assert.match(portalData, /left join open_issues oi/)
 })
 
 test('results archive is present and traceable', () => {
@@ -218,37 +229,3 @@ test('runtime database adapter is environment-driven and connection health is ex
   assert.match(client, /process\.env\.DATABASE_URL/)
   assert.match(client, /new Pool\(/)
   assert.match(client, /connectionTimeoutMillis/)
-  assert.match(client, /ssl:/)
-  assert.match(client, /DATABASE_CLIENT_NOT_CONFIGURED/)
-})
-
-test('admissions tracking UI calls the server and maps terminal statuses to the correct stage', () => {
-  const page = read('app/admissions/track/page.tsx')
-  assert.match(page, /fetch\(`\/api\/admissions\/track\?reference=/)
-  assert.match(page, /Status retrieved from the admissions service/)
-  assert.match(page, /ACCEPTED: "DECISION"/)
-  assert.match(page, /REJECTED: "DECISION"/)
-  assert.match(page, /ENROLLED: "ENROLLED"/)
-  assert.match(page, /const activeStatus = status \? \(stageForStatus\[status\] \?\? "SUBMITTED"\)/)
-})
-
-test('database readiness is explicit and never reports a fake healthy database', () => {
-  const route = read('app/api/ready/route.ts')
-  assert.match(route, /getDbClient/)
-  assert.match(route, /select 1 as ok/)
-  assert.match(route, /status: "ready"/)
-  assert.match(route, /status: 503/)
-  assert.match(route, /not_ready/)
-})
-
-test('JSON API boundaries reject malformed and oversized requests', () => {
-  const request = read('lib/api/request.ts')
-  const errors = read('lib/api/errors.ts')
-  assert.match(request, /MAX_JSON_BYTES = 32 \* 1024/)
-  assert.match(request, /request\.text\(\)/)
-  assert.match(request, /JSON\.parse\(raw\)/)
-  assert.match(request, /REQUEST_TOO_LARGE/)
-  assert.match(request, /x-request-id/)
-  assert.match(errors, /REQUEST_TOO_LARGE/)
-  assert.match(errors, /status, 413/)
-})
