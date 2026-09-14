@@ -13,11 +13,11 @@ const permissions: Record<Role, readonly Permission[]> = {
   SUPER_ADMIN: ["cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review"],
   SCHOOL_ADMIN: ["cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review"],
   EDITOR: ["cms:read", "cms:write", "cms:publish"],
-  TEACHER: ["cms:read"],
-  PARENT: ["cms:read"],
-  STUDENT: ["cms:read"],
+  TEACHER: [],
+  PARENT: [],
+  STUDENT: [],
 }
 
 export function hasPermission(role: Role, permission: Permission) {
-  return permissions[role].includes(permission)
+  return permissions[role]?.includes(permission) ?? false
 }
