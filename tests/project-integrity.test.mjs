@@ -104,6 +104,15 @@ test('portal school-integrity migration is present and fail-closed', () => {
   assert.match(migration, /prevent_portal_parent_school_change/)
 })
 
+test('portal query indexes cover school-scoped student, assessment and library lookups', () => {
+  const migration = read('supabase/migrations/0008_portal_query_indexes.sql')
+  assert.match(migration, /attendance_student_school_date_idx/)
+  assert.match(migration, /assessments_student_school_date_idx/)
+  assert.match(migration, /library_issues_book_school_open_idx/)
+  assert.match(migration, /library_issues_student_school_open_idx/)
+  assert.match(migration, /where returned_at is null/)
+})
+
 test('portal read queries enforce school scope at query level', () => {
   const portalData = read('lib/api/portal-data.ts')
   assert.match(portalData, /where s\.school_id = \$1/)
