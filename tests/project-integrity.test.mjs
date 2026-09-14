@@ -229,3 +229,37 @@ test('runtime database adapter is environment-driven and connection health is ex
   assert.match(client, /process\.env\.DATABASE_URL/)
   assert.match(client, /new Pool\(/)
   assert.match(client, /connectionTimeoutMillis/)
+  assert.match(client, /ssl:/)
+  assert.match(client, /DATABASE_CLIENT_NOT_CONFIGURED/)
+})
+
+test('admissions tracking UI calls the server and maps terminal statuses to the correct stage', () => {
+  const page = read('app/admissions/track/page.tsx')
+  assert.match(page, /fetch\(`\/api\/admissions\/track\?reference=/)
+  assert.match(page, /Status retrieved from the admissions service/)
+  assert.match(page, /ACCEPTED: "DECISION"/)
+  assert.match(page, /REJECTED: "DECISION"/)
+  assert.match(page, /ENROLLED: "ENROLLED"/)
+  assert.match(page, /const activeStatus = status \? \(stageForStatus\[status\] \?\? "SUBMITTED"\)/)
+})
+
+test('database readiness is explicit and never reports a fake healthy database', () => {
+  const route = read('app/api/ready/route.ts')
+  assert.match(route, /getDbClient/)
+  assert.match(route, /select 1 as ok/)
+  assert.match(route, /status: "ready"/)
+  assert.match(route, /status: 503/)
+  assert.match(route, /not_ready/)
+})
+
+test('JSON API boundaries reject malformed and oversized requests', () => {
+  const request = read('lib/api/request.ts')
+  const errors = read('lib/api/errors.ts')
+  assert.match(request, /MAX_JSON_BYTES = 32 \* 1024/)
+  assert.match(request, /request\.text\(\)/)
+  assert.match(request, /JSON\.parse\(raw\)/)
+  assert.match(request, /REQUEST_TOO_LARGE/)
+  assert.match(request, /x-request-id/)
+  assert.match(errors, /REQUEST_TOO_LARGE/)
+  assert.match(errors, /status, 413/)
+})
