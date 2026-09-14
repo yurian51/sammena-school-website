@@ -12,12 +12,13 @@ export interface PaginationMeta extends PaginationInput {
 
 const DEFAULT_PAGE_SIZE = 25
 const MAX_PAGE_SIZE = 100
+const MAX_PAGE = 1_000_000
 
 export function parsePagination(searchParams: URLSearchParams): PaginationInput {
   const rawPage = Number(searchParams.get("page") ?? "1")
   const rawPageSize = Number(searchParams.get("pageSize") ?? String(DEFAULT_PAGE_SIZE))
-  const page = Number.isInteger(rawPage) && rawPage > 0 ? rawPage : 1
-  const pageSize = Number.isInteger(rawPageSize) && rawPageSize > 0 ? Math.min(rawPageSize, MAX_PAGE_SIZE) : DEFAULT_PAGE_SIZE
+  const page = Number.isSafeInteger(rawPage) && rawPage > 0 ? Math.min(rawPage, MAX_PAGE) : 1
+  const pageSize = Number.isSafeInteger(rawPageSize) && rawPageSize > 0 ? Math.min(rawPageSize, MAX_PAGE_SIZE) : DEFAULT_PAGE_SIZE
   return { page, pageSize }
 }
 
