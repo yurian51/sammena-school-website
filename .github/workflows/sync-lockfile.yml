@@ -1,50 +1,10 @@
-name: Sync pnpm lockfile
+name: Deprecated duplicate lockfile sync
 
 on:
-  push:
-    branches:
-      - main
-      - 'feat/**'
-    paths-ignore:
-      - pnpm-lock.yaml
   workflow_dispatch:
 
-permissions:
-  contents: write
-
-concurrency:
-  group: sync-pnpm-lockfile-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  sync:
+  retired:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.15.0
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - name: Regenerate lockfile
-        run: pnpm install --lockfile-only --no-frozen-lockfile
-
-      - name: Commit lockfile when changed
-        run: |
-          if git diff --quiet -- pnpm-lock.yaml; then
-            echo "Lockfile is already synchronized."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add pnpm-lock.yaml
-          git commit -m "chore: sync pnpm lockfile"
-          git push
+      - run: echo "Use .github/workflows/lockfile-sync.yml"
