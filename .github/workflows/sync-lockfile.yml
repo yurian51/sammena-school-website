@@ -3,6 +3,7 @@ name: Sync pnpm lockfile
 on:
   push:
     branches:
+      - main
       - 'feat/**'
     paths-ignore:
       - pnpm-lock.yaml
