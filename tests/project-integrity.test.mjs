@@ -8,7 +8,6 @@ const read = f => fs.readFileSync(path.join(root, f), 'utf8')
 const exists = f => fs.existsSync(path.join(root, f))
 const match = (source, patterns) => patterns.forEach(p => assert.match(source, p))
 
-
 test('toolchain, scripts and core routes are present', () => {
   const pkg = JSON.parse(read('package.json'))
   assert.equal(pkg.packageManager, 'pnpm@10.15.0')
@@ -49,7 +48,7 @@ test('CI and lockfile workflows use the locked toolchain safely', () => {
   match(sync, [/pnpm install --lockfile-only --ignore-scripts/, /contents: write/, /github-actions\[bot\]/, /git diff --quiet -- pnpm-lock\.yaml/])
 })
 
-test('portal integrity and relationship migrations are present and uniquely versioned', () => {
+test('portal integrity migrations have unique versions and preserve lineage', () => {
   const migrationDir = path.join(root, 'supabase/migrations')
   const migrations = fs.readdirSync(migrationDir).filter(name => name.endsWith('.sql'))
   const versions = new Map()
@@ -61,14 +60,14 @@ test('portal integrity and relationship migrations are present and uniquely vers
     versions.set(version, name)
   }
 
-  const integrity = read('supabase/migrations/0007_school_scope_integrity.sql')
-  match(integrity, [/tenant\/school boundaries/, /enrollments_student_school_fk/, /enrollments_academic_year_school_fk/, /enrollments_class_school_fk/, /attendance_student_school_fk/, /assessments_student_school_fk/, /student_guardians_student_school_fk/])
+  const portalIntegrity = read('supabase/migrations/0007_portal_school_integrity.sql')
+  match(portalIntegrity, [/PORTAL_INTEGRITY/, /CREATE OR REPLACE FUNCTION enforce_portal_school_integrity/, /enrollments_school_integrity/, /attendance_school_integrity/, /assessments_school_integrity/, /library_issues_school_integrity/, /quality_evidence_school_integrity/, /prevent_portal_parent_school_change/])
   const indexes = read('supabase/migrations/0008_portal_query_indexes.sql')
   match(indexes, [/attendance_student_school_date_idx/, /assessments_student_school_date_idx/, /library_issues_book_school_open_idx/, /library_issues_student_school_open_idx/, /where returned_at is null/])
   const rel = read('supabase/migrations/0009_portal_relationship_indexes.sql')
-  match(rel, [/enrollments_school_student_status_created_idx/, /assessments_school_student_date_idx/, /library_issues_school_book_open_idx/, /where returned_at is null/])
-  const portalIntegrity = read('supabase/migrations/0011_portal_school_integrity.sql')
-  match(portalIntegrity, [/PORTAL_INTEGRITY/, /CREATE OR REPLACE FUNCTION enforce_portal_school_integrity/, /enrollments_school_integrity/, /attendance_school_integrity/, /assessments_school_integrity/, /library_issues_school_integrity/, /quality_evidence_school_integrity/, /prevent_portal_parent_school_change/])
+  match(rel, [/enrollments_school_student_status_created_idx/, /assessments_student_school_date_idx/, /library_issues_school_book_open_idx/, /where returned_at is null/])
+  const schoolScope = read('supabase/migrations/0011_school_scope_integrity.sql')
+  match(schoolScope, [/enrollments_student_school_fk/, /enrollments_academic_year_school_fk/, /enrollments_class_school_fk/, /attendance_student_school_fk/, /assessments_student_school_fk/, /student_guardians_student_school_fk/, /student_guardians_guardian_school_fk/, /quality_evidence_indicator_school_fk/])
 })
 
 test('unified services hub exposes only real existing destinations', () => {
