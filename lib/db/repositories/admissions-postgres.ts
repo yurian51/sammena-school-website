@@ -14,9 +14,9 @@ export class PostgresAdmissionsRepository implements AdmissionsRepository {
        ), application as (
          insert into "AdmissionApplication" (
            "reference", "status", "academicYear", "entry", "studyType", "guardianId",
-           "learnerFullName", "learnerDateOfBirth", "learnerPreviousSchool", "updatedAt"
+           "learnerFullName", "learnerDateOfBirth", "learnerPreviousSchool", "applicationData", "updatedAt"
          )
-         select $5, 'DRAFT', $6, $7, $8, guardian."id", $9, $10, $11, now()
+         select $5, 'DRAFT', $6, $7, $8, guardian."id", $9, $10, $11, $12::jsonb, now()
          from guardian
          returning *
        )
@@ -30,6 +30,7 @@ export class PostgresAdmissionsRepository implements AdmissionsRepository {
          application."learnerFullName" as learner_full_name,
          application."learnerDateOfBirth" as learner_date_of_birth,
          application."learnerPreviousSchool" as learner_previous_school,
+         application."applicationData" as application_data,
          application."submittedAt" as submitted_at,
          application."createdAt" as created_at,
          application."updatedAt" as updated_at,
@@ -51,6 +52,7 @@ export class PostgresAdmissionsRepository implements AdmissionsRepository {
         input.learner.fullName,
         input.learner.dateOfBirth,
         input.learner.previousSchool ?? null,
+        JSON.stringify(input.applicationData ?? {}),
       ],
     )
     const row = result.rows[0]
@@ -70,6 +72,7 @@ export class PostgresAdmissionsRepository implements AdmissionsRepository {
          application."learnerFullName" as learner_full_name,
          application."learnerDateOfBirth" as learner_date_of_birth,
          application."learnerPreviousSchool" as learner_previous_school,
+         application."applicationData" as application_data,
          application."submittedAt" as submitted_at,
          application."createdAt" as created_at,
          application."updatedAt" as updated_at,
@@ -107,6 +110,7 @@ export class PostgresAdmissionsRepository implements AdmissionsRepository {
          application."learnerFullName" as learner_full_name,
          application."learnerDateOfBirth" as learner_date_of_birth,
          application."learnerPreviousSchool" as learner_previous_school,
+         application."applicationData" as application_data,
          application."submittedAt" as submitted_at,
          application."createdAt" as created_at,
          application."updatedAt" as updated_at,
