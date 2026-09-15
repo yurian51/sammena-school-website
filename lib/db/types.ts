@@ -15,6 +15,7 @@ export interface ApplicationRow {
   learner_date_of_birth: string
   learner_entry_level: string
   learner_previous_school: string | null
+  application_data: Record<string, unknown> | null
   submitted_at: string | null
   created_at: string
   updated_at: string
