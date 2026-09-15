@@ -7,11 +7,11 @@ import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
 import type { StudentHubData } from "@/lib/api/student-hub"
 
-type StudentPayload = { data?: StudentHubData; error?: string | { message?: string } }
+type StudentPayload = { data?: StudentHubData; error?: unknown }
 
 function getError(payload: StudentPayload) {
   if (typeof payload.error === "string" && payload.error.trim()) return payload.error
-  if (payload.error && typeof payload.error.message === "string" && payload.error.message.trim()) return payload.error.message
+  if (payload.error && typeof payload.error === "object" && "message" in payload.error && typeof payload.error.message === "string" && payload.error.message.trim()) return payload.error.message
   return "Unable to load the student workspace."
 }
 
