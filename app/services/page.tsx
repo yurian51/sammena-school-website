@@ -1,6 +1,6 @@
 import type { ComponentType } from "react"
 import Link from "next/link"
-import { ArrowRight, CalendarDays, ClipboardCheck, FileText, GraduationCap, LibraryBig, Search, ShieldCheck, WalletCards } from "lucide-react"
+import { ArrowRight, CalendarDays, ClipboardCheck, FileText, GraduationCap, LibraryBig, Search, ShieldCheck, Users, WalletCards } from "lucide-react"
 
 type Service = {
   href: string
@@ -19,7 +19,9 @@ const publicServices: Service[] = [
 ]
 
 const protectedServices: Service[] = [
-  { href: "/portal", title: "Parent / Student Portal", description: "Use the authenticated school portal for services that require an account.", icon: ShieldCheck },
+  { href: "/portal/parent", title: "Parent & Family Hub", description: "Open the authenticated family workspace for authorised learners, attendance and academic information.", icon: Users },
+  { href: "/portal/student", title: "Student Hub", description: "Open the authenticated student workspace for the student profile, attendance, assessments and learning information.", icon: GraduationCap },
+  { href: "/portal", title: "School Portal", description: "Use the authenticated operational school workspace when your role is authorised.", icon: ShieldCheck },
   { href: "/portal/library", title: "Digital Library", description: "Open the authenticated learning-resource area when your account is authorized.", icon: LibraryBig },
 ]
 
@@ -47,13 +49,13 @@ export default function ServicesPage() {
         </section>
 
         <section className="mt-8" aria-labelledby="public-services-heading">
-          <div className="flex items-end justify-between gap-4"><div><p className="text-xs font-bold uppercase tracking-[0.2em] text-[#a27b2b]">Public experience</p><h2 id="public-services-heading" className="mt-2 text-2xl font-extrabold text-[#071d3b]">Information & admissions</h2></div></div>
+          <div><p className="text-xs font-bold uppercase tracking-[0.2em] text-[#a27b2b]">Public experience</p><h2 id="public-services-heading" className="mt-2 text-2xl font-extrabold text-[#071d3b]">Information & admissions</h2></div>
           <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{publicServices.map(service => <ServiceCard key={service.href} {...service} />)}</div>
         </section>
 
         <section className="mt-10" aria-labelledby="protected-services-heading">
-          <div><p className="text-xs font-bold uppercase tracking-[0.2em] text-[#a27b2b]">Authenticated experience</p><h2 id="protected-services-heading" className="mt-2 text-2xl font-extrabold text-[#071d3b]">Family & learning services</h2></div>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2">{protectedServices.map(service => <ServiceCard key={service.href} {...service} />)}</div>
+          <div><p className="text-xs font-bold uppercase tracking-[0.2em] text-[#a27b2b]">Authenticated experience</p><h2 id="protected-services-heading" className="mt-2 text-2xl font-extrabold text-[#071d3b]">Family, student & school services</h2></div>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{protectedServices.map(service => <ServiceCard key={service.href} {...service} />)}</div>
         </section>
       </div>
     </main>
