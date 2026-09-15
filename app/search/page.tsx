@@ -1,23 +1,27 @@
 "use client"
 
 import { FormEvent, useMemo, useState, type ReactNode } from "react"
-import { Search, ArrowRight, BookOpen, CalendarDays, GraduationCap, Newspaper, X, ClipboardCheck, MapPin, Phone, Images, ShieldCheck } from "lucide-react"
+import { Search, ArrowRight, BookOpen, CalendarDays, GraduationCap, Newspaper, X, ClipboardCheck, MapPin, Phone, Images, ShieldCheck, Users, FileText } from "lucide-react"
 import Link from "next/link"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const searchablePages = [
+  { title: "School Services", description: "One entry point for admissions, family, student, academic and school information services.", href: "/services", icon: Users, terms: "services parent family student teacher admissions portal calendar resources school information" },
   { title: "Academic Results", description: "PSLE and SFNA results with published source references.", href: "/results", icon: ClipboardCheck, terms: "results PSLE SFNA examination exam grades performance NECTA" },
   { title: "Admissions", description: "Application process, requirements and admissions guidance.", href: "/admissions", icon: GraduationCap, terms: "admission apply requirements enrollment fees joining school" },
-  { title: "Academics", description: "Academic approach, learning journey and school programmes.", href: "/academics", icon: BookOpen, terms: "academics curriculum learning subjects teaching primary education" },
-  { title: "News & Events", description: "Verified school updates, announcements and events.", href: "/news", icon: Newspaper, terms: "news announcement events updates notices" },
-  { title: "Academic Calendar", description: "Official dates and school activities.", href: "/calendar", icon: CalendarDays, terms: "calendar terms examinations dates activities meetings" },
+  { title: "Start Admission Application", description: "Submit a new learner admission application.", href: "/admissions/apply", icon: FileText, terms: "apply application form admission learner documents guardian" },
+  { title: "Track Admission Application", description: "Check the status of an existing admission application.", href: "/admissions/track", icon: ShieldCheck, terms: "track application status admission number progress decision" },
+  { title: "Academics", description: "Academic approach, learning journey and school programmes.", href: "/academics", icon: BookOpen, terms: "academics curriculum learning subjects teaching primary education classes" },
+  { title: "News & Events", description: "Verified school updates, announcements and events.", href: "/news", icon: Newspaper, terms: "news announcement events updates notices stories" },
+  { title: "Academic Calendar", description: "Official dates and school activities.", href: "/calendar", icon: CalendarDays, terms: "calendar terms examinations dates activities meetings holidays" },
   { title: "Resources", description: "Forms, policies, prospectus and official downloads.", href: "/resources", icon: BookOpen, terms: "resources forms policies prospectus downloads documents" },
-  { title: "School Location", description: "Verified Sammena address, map coordinates and directions in Nduruma, Arusha.", href: "/location", icon: MapPin, terms: "location address Nduruma Arusha P15336 map directions GPS coordinates centre number registration" },
+  { title: "School Location", description: "Verified Sammena address, map coordinates and directions in Nduruma, Arusha.", href: "/location", icon: MapPin, terms: "location address Nduruma Arusha map directions GPS coordinates" },
   { title: "School Gallery", description: "Photos and visual stories from Sammena school life.", href: "/gallery", icon: Images, terms: "gallery photos campus students school life images" },
   { title: "Contact Sammena", description: "Official contact details for admissions and general enquiries.", href: "/contact", icon: Phone, terms: "contact phone WhatsApp enquiries admissions visit" },
   { title: "School Trust & Verification", description: "Institutional identity, verification and published school information.", href: "/trust", icon: ShieldCheck, terms: "trust verification official identity centre registration proof" },
+  { title: "Secondary School", description: "Published information about Sammena’s planned secondary-school expansion.", href: "/secondary", icon: GraduationCap, terms: "secondary school 2028 future expansion education pathway" },
 ]
 
 function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
@@ -53,10 +57,10 @@ export default function SearchPage() {
           <div className="relative mx-auto max-w-4xl px-5 text-center sm:px-6">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-school-gold">Search</p>
             <h1 className="mt-3 text-4xl font-bold tracking-tight md:text-6xl">Find information on Sammena</h1>
-            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/65">Search the public website for admissions, academics, resources, news, results and important school information.</p>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/65">Search the public website for admissions, academics, services, resources, news, results and important school information.</p>
             <form onSubmit={submit} role="search" className="mx-auto mt-8 flex max-w-2xl gap-2 rounded-sm border border-white/10 bg-white p-2 shadow-lg">
               <Search className="ml-3 mt-3 h-5 w-5 shrink-0 text-slate-400" aria-hidden="true" />
-              <input aria-label="Search Sammena website" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search admissions, location, results..." className="min-w-0 flex-1 bg-transparent px-2 py-3 text-slate-900 outline-none placeholder:text-slate-400" />
+              <input aria-label="Search Sammena website" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search admissions, services, location, results..." className="min-w-0 flex-1 bg-transparent px-2 py-3 text-slate-900 outline-none placeholder:text-slate-400" />
               {query && <button type="button" onClick={() => setQuery("")} aria-label="Clear search" className="rounded-lg p-2 text-slate-400 hover:bg-slate-100"><X className="h-4 w-4" /></button>}
               <button type="submit" className="rounded-sm bg-school-dark px-5 py-3 font-bold text-white transition hover:-translate-y-0.5">Search</button>
             </form>
@@ -83,7 +87,7 @@ export default function SearchPage() {
             ))}
           </div>
         ) : (
-          <Reveal><div className="rounded-sm border border-dashed border-border bg-school-neutral p-10 text-center"><Search className="mx-auto h-8 w-8 text-school-gold" aria-hidden="true" /><p className="mt-4 font-semibold">No matching public page found.</p><p className="mt-2 text-sm text-muted-foreground">Try a broader term such as admissions, location, academics, calendar or resources.</p></div></Reveal>
+          <Reveal><div className="rounded-sm border border-dashed border-border bg-school-neutral p-10 text-center"><Search className="mx-auto h-8 w-8 text-school-gold" aria-hidden="true" /><p className="mt-4 font-semibold">No matching public page found.</p><p className="mt-2 text-sm text-muted-foreground">Try a broader term such as admissions, services, location, academics, calendar or resources.</p></div></Reveal>
         )}
       </section>
       <Footer />
