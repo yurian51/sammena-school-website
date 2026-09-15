@@ -1,22 +1,27 @@
 "use client"
 
 import { FormEvent, useMemo, useState, type ReactNode } from "react"
-import { Search, ArrowRight, BookOpen, CalendarDays, GraduationCap, Newspaper, X, ClipboardCheck, MapPin, Phone, Images, ShieldCheck } from "lucide-react"
+import { Search, ArrowRight, BookOpen, CalendarDays, GraduationCap, Newspaper, X, ClipboardCheck, MapPin, Phone, Images, ShieldCheck, Users, LibraryBig } from "lucide-react"
 import Link from "next/link"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const searchablePages = [
+  { title: "School Services", description: "Audience-oriented entry point for public, family and student services.", href: "/services", icon: Users, terms: "services parent student family portal school services digital school" },
   { title: "Academic Results", description: "PSLE and SFNA results with published source references.", href: "/results", icon: ClipboardCheck, terms: "results PSLE SFNA examination exam grades performance NECTA" },
   { title: "Admissions", description: "Application process, requirements and admissions guidance.", href: "/admissions", icon: GraduationCap, terms: "admission apply requirements enrollment fees joining school" },
   { title: "Academics", description: "Academic approach, learning journey and school programmes.", href: "/academics", icon: BookOpen, terms: "academics curriculum learning subjects teaching primary education" },
   { title: "News & Events", description: "Verified school updates, announcements and events.", href: "/news", icon: Newspaper, terms: "news announcement events updates notices" },
   { title: "Academic Calendar", description: "Official dates and school activities.", href: "/calendar", icon: CalendarDays, terms: "calendar terms examinations dates activities meetings" },
   { title: "Resources", description: "Forms, policies, prospectus and official downloads.", href: "/resources", icon: BookOpen, terms: "resources forms policies prospectus downloads documents" },
-  { title: "School Location", description: "Verified Sammena address, map coordinates and directions in Nduruma, Arusha.", href: "/location", icon: MapPin, terms: "location address Nduruma Arusha P15336 map directions GPS coordinates centre number registration" },
+  { title: "School Location", description: "Verified Sammena address, map coordinates and directions in Nduruma, Arusha.", href: "/location", icon: MapPin, terms: "location address Nduruma Arusha map directions" },
   { title: "School Gallery", description: "Photos and visual stories from Sammena school life.", href: "/gallery", icon: Images, terms: "gallery photos campus students school life images" },
   { title: "Contact Sammena", description: "Official contact details for admissions and general enquiries.", href: "/contact", icon: Phone, terms: "contact phone WhatsApp enquiries admissions visit" },
+  { title: "Parent Portal", description: "Authenticated family workspace for authorised learner information.", href: "/portal/parent", icon: Users, terms: "parent family children attendance academic assessments private portal" },
+  { title: "Student Hub", description: "Authenticated student workspace for school records and learning information.", href: "/portal/student", icon: GraduationCap, terms: "student hub profile attendance assessments library learning portal" },
+  { title: "School Portal", description: "Authenticated operational school workspace.", href: "/portal", icon: ShieldCheck, terms: "portal dashboard school operations students staff quality" },
+  { title: "Digital Library", description: "Authenticated library and learning-resource area.", href: "/portal/library", icon: LibraryBig, terms: "library books textbooks learning resources issued" },
   { title: "School Trust & Verification", description: "Institutional identity, verification and published school information.", href: "/trust", icon: ShieldCheck, terms: "trust verification official identity centre registration proof" },
 ]
 
