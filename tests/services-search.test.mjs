@@ -16,7 +16,7 @@ test("services hub exposes audience-oriented routes without inventing private da
 test("public search covers the services hub and core institutional journeys", () => {
   const source = read("app/search/page.tsx")
   for (const term of ["School Services", "Admissions", "Academic Results", "Academic Calendar", "Resources", "School Location", "Secondary School"]) {
-    assert.match(source, new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")))
+    assert.ok(source.includes(term), `missing searchable entry: ${term}`)
   }
   assert.match(source, /const tokens = q\.split\(\/\\s\+\//)
 })
