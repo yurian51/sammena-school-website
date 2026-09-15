@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown, ChevronRight, ExternalLink, Menu, X, Search, Phone, Mail, MapPin, FileText, BadgeCheck, ReceiptText, ClipboardCheck, Users, GraduationCap, CalendarDays } from "lucide-react"
+import { ChevronDown, ChevronRight, ExternalLink, Menu, X, Search, Phone, Mail, MapPin, FileText, BadgeCheck, ReceiptText, ClipboardCheck } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const groups = [
