@@ -8,6 +8,7 @@ test("student hub migration creates a school-scoped student account boundary", (
   const sql = read("supabase/migrations/0011_student_hub.sql")
   assert.match(sql, /create table if not exists student_accounts/i)
   assert.match(sql, /unique \(school_id, user_id\)/i)
+  assert.match(sql, /unique \(student_id\)/i)
   assert.match(sql, /student_linked_accounts/i)
   assert.match(sql, /assessments_student_school_date_idx/i)
   assert.match(sql, /attendance_student_school_date_idx/i)
@@ -20,6 +21,14 @@ test("student hub service enforces student role and school scope", () => {
   assert.match(source, /!auth\.schoolId/)
   assert.match(source, /sla\.user_id = \$1/)
   assert.match(source, /sla\.school_id = \$2/)
+})
+
+test("student academic data is scoped to the current academic year when configured", () => {
+  const source = read("lib/api/student-hub.ts")
+  assert.match(source, /from academic_years/i)
+  assert.match(source, /is_current = true/i)
+  assert.match(source, /a\.assessed_at between cy\.starts_on and cy\.ends_on/i)
+  assert.match(source, /avg\(a\.score \/ nullif\(a\.max_score,0\) \* 100\) over \(\)/i)
 })
 
 test("student hub API is private and no-store", () => {
