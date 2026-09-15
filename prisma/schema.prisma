@@ -8,25 +8,26 @@ datasource db {
 }
 
 model AdmissionApplication {
-  id                  String   @id @default(uuid())
-  reference           String   @unique
-  status              String   @default("DRAFT")
-  academicYear        String
-  entry               String
-  studyType           String
-  learnerFullName     String
-  learnerDateOfBirth  String
+  id                    String   @id @default(uuid())
+  reference             String   @unique
+  status                String   @default("DRAFT")
+  academicYear         String
+  entry                 String
+  studyType             String
+  learnerFullName       String
+  learnerDateOfBirth    String
   learnerPreviousSchool String?
-  submittedAt         DateTime?
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-  guardianId          String
-  guardian            AdmissionGuardian @relation(fields: [guardianId], references: [id])
-  documents           AdmissionDocument[]
-  assignments         AdmissionReviewerAssignment[]
-  notes               AdmissionReviewNote[]
-  auditEvents         AdmissionAuditEvent[]
-  notifications       AdmissionNotification[]
+  applicationData       Json?
+  submittedAt           DateTime?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  guardianId            String
+  guardian              AdmissionGuardian @relation(fields: [guardianId], references: [id])
+  documents             AdmissionDocument[]
+  assignments           AdmissionReviewerAssignment[]
+  notes                 AdmissionReviewNote[]
+  auditEvents           AdmissionAuditEvent[]
+  notifications         AdmissionNotification[]
   @@index([status])
   @@index([submittedAt])
 }
