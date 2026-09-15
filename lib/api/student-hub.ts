@@ -22,7 +22,7 @@ export interface StudentHubData {
 export async function getStudentHubData(context: AuthContext | null): Promise<StudentHubData> {
   const auth = requireStudent(context)
   const db = getDbClient()
-  const [student, attendance, assessments, library] = await Promise.all([
+  const [student, attendance, academicYear, assessments, library] = await Promise.all([
     db.query<{ id: string; admissionNumber: string; fullName: string; className: string; gender: "MALE" | "FEMALE" }>(
       `select s.id::text, s.admission_number as "admissionNumber",
         concat_ws(' ', s.first_name, s.middle_name, s.last_name) as "fullName",
@@ -50,6 +50,12 @@ export async function getStudentHubData(context: AuthContext | null): Promise<St
          and ar.attendance_date >= current_date - interval '30 days'`,
       [auth.userId, auth.schoolId],
     ),
+    db.query<{ name: string }>(
+      `select name from academic_years
+       where school_id = $1 and is_current = true
+       order by starts_on desc, id desc limit 1`,
+      [auth.schoolId],
+    ),
     db.query<{
       id: string
       subject: string
@@ -58,10 +64,9 @@ export async function getStudentHubData(context: AuthContext | null): Promise<St
       term: string
       assessedAt: string
       academicAverage: number
-      academicYearName: string
     }>(
       `with current_year as (
-         select name, starts_on, ends_on
+         select starts_on, ends_on
          from academic_years
          where school_id = $2 and is_current = true
          order by starts_on desc, id desc
@@ -70,13 +75,12 @@ export async function getStudentHubData(context: AuthContext | null): Promise<St
        select a.id::text, a.subject, a.assessment_name as assessment,
         round((a.score / nullif(a.max_score,0) * 100)::numeric, 1)::float as percentage,
         a.term, a.assessed_at::text as "assessedAt",
-        round(avg(a.score / nullif(a.max_score,0) * 100) over ()::numeric, 1)::float as "academicAverage",
-        coalesce(cy.name, 'Current academic records') as "academicYearName"
+        round(avg(a.score / nullif(a.max_score,0) * 100) over ()::numeric, 1)::float as "academicAverage"
        from assessments a
        join student_linked_accounts sla on sla.student_id = a.student_id and sla.school_id = a.school_id
        left join current_year cy on true
        where sla.user_id = $1 and sla.school_id = $2
-         and (cy.name is null or a.assessed_at between cy.starts_on and cy.ends_on)
+         and (cy.starts_on is null or a.assessed_at between cy.starts_on and cy.ends_on)
        order by a.assessed_at desc, a.created_at desc limit 8`,
       [auth.userId, auth.schoolId],
     ),
@@ -96,7 +100,7 @@ export async function getStudentHubData(context: AuthContext | null): Promise<St
   const total = (att?.present ?? 0) + (att?.absent ?? 0) + (att?.late ?? 0) + (att?.excused ?? 0)
   const rate = total ? Number((((att?.present ?? 0) + (att?.late ?? 0)) / total * 100).toFixed(1)) : 0
   const academicAverage = assessments.rows[0]?.academicAverage ?? 0
-  const academicYearName = assessments.rows[0]?.academicYearName ?? "Current academic records"
+  const academicYearName = academicYear.rows[0]?.name ?? "Current academic records"
   const lib = library.rows[0]
 
   return {
@@ -105,7 +109,7 @@ export async function getStudentHubData(context: AuthContext | null): Promise<St
     attendance: { present: att?.present ?? 0, absent: att?.absent ?? 0, late: att?.late ?? 0, excused: att?.excused ?? 0, rate },
     academicYearName,
     academicAverage,
-    recentAssessments: assessments.rows.map(({ academicAverage: _average, academicYearName: _year, ...row }) => row),
+    recentAssessments: assessments.rows.map(({ academicAverage: _average, ...row }) => row),
     library: { books: lib?.books ?? 0, issued: lib?.issued ?? 0, outstanding: lib?.issued ?? 0 },
   }
 }
