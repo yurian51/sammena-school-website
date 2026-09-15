@@ -1,6 +1,11 @@
 import type { ApplicationRow, CmsContentRow } from "./types"
-import type { AdmissionApplication } from "../admissions/types"
+import type { AdmissionApplication, AdmissionApplicationData } from "../admissions/types"
 import type { CmsContent } from "../cms/types"
+
+function mapApplicationData(value: Record<string, unknown> | null): AdmissionApplicationData | undefined {
+  if (!value) return undefined
+  return value as AdmissionApplicationData
+}
 
 export function mapApplicationRow(row: ApplicationRow): AdmissionApplication {
   return {
@@ -20,6 +25,7 @@ export function mapApplicationRow(row: ApplicationRow): AdmissionApplication {
       entryLevel: row.learner_entry_level,
       previousSchool: row.learner_previous_school ?? undefined,
     },
+    applicationData: mapApplicationData(row.application_data),
     submittedAt: row.submitted_at ?? undefined,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
