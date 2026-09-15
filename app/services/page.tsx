@@ -1,7 +1,15 @@
+import type { ComponentType } from "react"
 import Link from "next/link"
 import { ArrowRight, CalendarDays, ClipboardCheck, FileText, GraduationCap, LibraryBig, Search, ShieldCheck, WalletCards } from "lucide-react"
 
-const publicServices = [
+type Service = {
+  href: string
+  title: string
+  description: string
+  icon: ComponentType<{ className?: string; "aria-hidden"?: boolean }>
+}
+
+const publicServices: Service[] = [
   { href: "/admissions", title: "Admissions", description: "Understand entry requirements, the application journey and next steps.", icon: ClipboardCheck },
   { href: "/admissions/fees", title: "Fees & Charges", description: "Review the school fee information currently published by Sammena.", icon: WalletCards },
   { href: "/calendar", title: "School Calendar", description: "Find term dates, examinations, meetings and other published school dates.", icon: CalendarDays },
@@ -10,12 +18,12 @@ const publicServices = [
   { href: "/search", title: "Website Search", description: "Search the public Sammena website for information, resources and published content.", icon: Search },
 ]
 
-const protectedServices = [
+const protectedServices: Service[] = [
   { href: "/portal", title: "Parent / Student Portal", description: "Use the authenticated school portal for services that require an account.", icon: ShieldCheck },
   { href: "/portal/library", title: "Digital Library", description: "Open the authenticated learning-resource area when your account is authorized.", icon: LibraryBig },
 ]
 
-function ServiceCard({ href, title, description, icon: Icon }: (typeof publicServices)[number]) {
+function ServiceCard({ href, title, description, icon: Icon }: Service) {
   return (
     <Link href={href} className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[#c8a64b] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#c8a64b] focus:ring-offset-2">
       <div className="flex items-start justify-between gap-4">
@@ -35,7 +43,7 @@ export default function ServicesPage() {
         <section className="rounded-3xl bg-[#071d3b] px-6 py-12 text-white shadow-xl sm:px-10 lg:px-14">
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#e2c46c]">Sammena Digital School</p>
           <h1 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-tight sm:text-4xl">School services in one place</h1>
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-white/75 sm:text-base">A single entry point for the public information and authenticated services that already exist in the Sammena website ecosystem. No decorative buttons pretending to be software. Humanity has enough of those.</p>
+          <p className="mt-4 max-w-2xl text-sm leading-7 text-white/75 sm:text-base">A single entry point for the public information and authenticated services that already exist in the Sammena website ecosystem.</p>
         </section>
 
         <section className="mt-12" aria-labelledby="public-services">
