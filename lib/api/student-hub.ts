@@ -1,6 +1,6 @@
 import type { AuthContext } from "@/lib/auth/authorization"
 import { requireAuthenticatedContext } from "@/lib/auth/authorization"
-import { getDbClient } from "@/lib/db/client"
+import { getRuntimeDbClient } from "@/lib/db/runtime"
 
 function requireStudent(context: AuthContext | null) {
   const auth = requireAuthenticatedContext(context)
@@ -34,7 +34,7 @@ export interface StudentHubData {
 
 export async function getStudentHubData(context: AuthContext | null): Promise<StudentHubData> {
   const auth = requireStudent(context)
-  const db = getDbClient()
+  const db = getRuntimeDbClient()
 
   const [student, attendance, academicYear, assessments, library] = await Promise.all([
     db.query<StudentHubData["student"]>(
