@@ -20,7 +20,7 @@ test('toolchain, scripts and core routes are present', () => {
   assert.equal(typeof pkg.dependencies.pg, 'string')
   assert.equal(typeof pkg.devDependencies['@types/pg'], 'string')
   assert.match(read('pnpm-lock.yaml'), /lockfileVersion:/)
-  for (const route of ['', 'about', 'academics', 'admissions', 'gallery', 'contact', 'secondary', 'resources', 'news', 'calendar', 'search']) {
+  for (const route of ['', 'about', 'academics', 'admissions', 'gallery', 'contact', 'secondary', 'resources', 'news', 'calendar', 'search', 'services']) {
     const file = route ? `app/${route}/page.tsx` : 'app/page.tsx'
     assert.ok(exists(file), `Missing route entrypoint: ${file}`)
   }
@@ -29,7 +29,7 @@ test('toolchain, scripts and core routes are present', () => {
 test('production metadata, sitemap and robots are protected', () => {
   for (const file of ['app/sitemap.ts', 'app/robots.ts', 'app/layout.tsx', 'app/manifest.ts']) assert.ok(exists(file))
   const sitemap = read('app/sitemap.ts')
-  for (const route of ['/about', '/academics', '/admissions', '/gallery', '/contact', '/news', '/calendar', '/resources']) assert.match(sitemap, new RegExp(`['"]${route.replace('/', '\\/')}['"]`))
+  for (const route of ['/about', '/academics', '/admissions', '/gallery', '/contact', '/news', '/calendar', '/resources', '/services']) assert.match(sitemap, new RegExp(`['"]${route.replace('/', '\\/')}['"]`))
   assert.doesNotMatch(sitemap, /['"]\/portal['"]|['"]\/admissions\/admin['"]|['"]\/api(?:\/|['"])/)
   match(read('app/robots.ts'), [/sitemap:/, /sitemap\.xml/, /['"]\/api(?:\/|['"])/, /['"]\/portal(?:\/|['"])/])
 })
@@ -49,13 +49,33 @@ test('CI and lockfile workflows use the locked toolchain safely', () => {
   match(sync, [/pnpm install --lockfile-only --ignore-scripts/, /contents: write/, /github-actions\[bot\]/, /git diff --quiet -- pnpm-lock\.yaml/])
 })
 
-test('portal integrity and relationship migrations are present', () => {
-  const integrity = read('supabase/migrations/0007_portal_school_integrity.sql')
-  match(integrity, [/PORTAL_INTEGRITY/, /CREATE OR REPLACE FUNCTION enforce_portal_school_integrity/, /enrollments_school_integrity/, /attendance_school_integrity/, /assessments_school_integrity/, /library_issues_school_integrity/, /quality_evidence_school_integrity/, /prevent_portal_parent_school_change/])
+test('portal integrity and relationship migrations are present and uniquely versioned', () => {
+  const migrationDir = path.join(root, 'supabase/migrations')
+  const migrations = fs.readdirSync(migrationDir).filter(name => name.endsWith('.sql'))
+  const versions = new Map()
+  for (const name of migrations) {
+    const version = name.match(/^(\d+)_/)?.[1]
+    if (!version) continue
+    const previous = versions.get(version)
+    assert.equal(previous, undefined, `Duplicate Supabase migration version ${version}: ${previous} and ${name}`)
+    versions.set(version, name)
+  }
+
+  const integrity = read('supabase/migrations/0007_school_scope_integrity.sql')
+  match(integrity, [/tenant\/school boundaries/, /enrollments_student_school_fk/, /enrollments_academic_year_school_fk/, /enrollments_class_school_fk/, /attendance_student_school_fk/, /assessments_student_school_fk/, /student_guardians_student_school_fk/])
   const indexes = read('supabase/migrations/0008_portal_query_indexes.sql')
   match(indexes, [/attendance_student_school_date_idx/, /assessments_student_school_date_idx/, /library_issues_book_school_open_idx/, /library_issues_student_school_open_idx/, /where returned_at is null/])
   const rel = read('supabase/migrations/0009_portal_relationship_indexes.sql')
   match(rel, [/enrollments_school_student_status_created_idx/, /assessments_school_student_date_idx/, /library_issues_school_book_open_idx/, /where returned_at is null/])
+  const portalIntegrity = read('supabase/migrations/0011_portal_school_integrity.sql')
+  match(portalIntegrity, [/PORTAL_INTEGRITY/, /CREATE OR REPLACE FUNCTION enforce_portal_school_integrity/, /enrollments_school_integrity/, /attendance_school_integrity/, /assessments_school_integrity/, /library_issues_school_integrity/, /quality_evidence_school_integrity/, /prevent_portal_parent_school_change/])
+})
+
+test('unified services hub exposes only real existing destinations', () => {
+  const page = read('app/services/page.tsx')
+  match(page, [/href: "\/admissions"/, /href: "\/admissions\/fees"/, /href: "\/calendar"/, /href: "\/resources"/, /href: "\/academics"/, /href: "\/search"/, /href: "\/portal"/, /href: "\/portal\/library"/])
+  assert.doesNotMatch(page, /Math\.random|fake|mock/i)
+  match(read('components/navbar.tsx'), [/label: "Services"/, /\/services/])
 })
 
 test('portal reads are school-scoped and duplicate-safe', () => {
@@ -73,7 +93,7 @@ test('public results, contact and deployment metadata remain traceable', () => {
 })
 
 test('institutional pages contain substantive main sections', () => {
-  for (const file of ['app/page.tsx','app/about/page.tsx','app/academics/page.tsx','app/admissions/page.tsx','app/gallery/page.tsx','app/news/page.tsx','app/results/page.tsx','app/contact/page.tsx','app/calendar/page.tsx','app/resources/page.tsx','app/secondary/page.tsx','app/search/page.tsx']) {
+  for (const file of ['app/page.tsx','app/about/page.tsx','app/academics/page.tsx','app/admissions/page.tsx','app/gallery/page.tsx','app/news/page.tsx','app/results/page.tsx','app/contact/page.tsx','app/calendar/page.tsx','app/resources/page.tsx','app/secondary/page.tsx','app/search/page.tsx','app/services/page.tsx']) {
     const source = read(file); assert.ok(source.length > 2500, `Suspiciously small page: ${file}`); match(source, [/<main[\s>]/, /<section[\s>]/])
   }
 })
