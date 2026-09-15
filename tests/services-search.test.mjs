@@ -7,6 +7,8 @@ const read = (path) => fs.readFileSync(path, "utf8")
 test("services directory exposes audience-oriented routes that exist in the application", () => {
   const services = read("app/services/page.tsx")
   assert.match(services, /href: \"\/admissions\"/)
+  assert.match(services, /href: \"\/portal\/parent\"/)
+  assert.match(services, /href: \"\/portal\/student\"/)
   assert.match(services, /href: \"\/portal\"/)
   assert.match(services, /href: \"\/portal\/library\"/)
   assert.match(services, /href: \"\/calendar\"/)
