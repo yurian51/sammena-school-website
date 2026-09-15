@@ -90,7 +90,6 @@ export function Footer() {
           <nav aria-label="Legal and verification" className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <Link href="/trust" className="inline-flex items-center gap-1.5 hover:text-white"><ShieldCheck className="h-3.5 w-3.5" /> Trust Centre</Link>
             <Link href="/privacy" className="hover:text-white">Privacy & Data Protection</Link>
-            <span>Established 2018</span>
           </nav>
         </div>
       </div>
