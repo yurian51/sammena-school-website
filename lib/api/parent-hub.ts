@@ -85,9 +85,14 @@ export async function getParentHubData(context: AuthContext | null): Promise<Par
     ),
     db.query<{ books: number; issued: number }>(
       `select coalesce(sum(b.quantity),0)::int as books,
-        coalesce((select count(*) from library_issues i where i.school_id = $1 and i.returned_at is null),0)::int as issued
+        coalesce((select count(*) from library_issues i
+          where i.school_id = $1 and i.returned_at is null
+          and exists (
+            select 1 from parent_linked_students pls
+            where pls.user_id = $2 and pls.school_id = i.school_id and pls.student_id = i.student_id
+          )),0)::int as issued
        from library_books b where b.school_id = $1`,
-      [auth.schoolId],
+      [auth.schoolId, auth.userId],
     ),
   ])
 
