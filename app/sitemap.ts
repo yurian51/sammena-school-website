@@ -9,6 +9,7 @@ const routes = [
   '/gallery',
   '/contact',
   '/location',
+  '/services',
   '/secondary',
   '/resources',
   '/news',
@@ -33,6 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       route === '/admissions/apply' ? 0.9 :
       route === '/results' ? 0.9 :
       route === '/academics' ? 0.85 :
+      route === '/services' ? 0.85 :
       route === '/news' || route === '/calendar' ? 0.8 :
       route === '/location' ? 0.85 :
       route === '/trust' || route === '/privacy' ? 0.75 :
