@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown, ChevronRight, ExternalLink, Menu, X, Search, Phone, Mail, MapPin, FileText, BadgeCheck, ReceiptText, ClipboardCheck } from "lucide-react"
+import { ChevronDown, ChevronRight, ExternalLink, Menu, X, Search, Phone, Mail, MapPin, FileText, BadgeCheck, ReceiptText, ClipboardCheck, Users, GraduationCap, CalendarDays } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const groups = [
   { label: "School", items: [["/about", "About Us", "School profile, leadership and values"], ["/academics", "Academics", "Learning, curriculum and classes"], ["/gallery", "School Life", "Campus life, activities and gallery"]] },
   { label: "Admissions", items: [["/admissions", "Admissions Overview", "How admission works, entry levels and key guidance"], ["/admissions/apply", "Start Application", "Submit a new learner admission application"], ["/admissions/fees", "Fees & Charges", "Review current admission and school fee information"], ["/admissions/track", "Track Application", "Check the status of an existing application"]] },
+  { label: "Services", items: [["/services", "All School Services", "Choose a pathway for parents, students and visitors"], ["/portal/parent", "Parent & Family", "Protected family services and child information"], ["/portal/student", "Student Hub", "Protected student profile, attendance and academic information"], ["/calendar", "Academic Calendar", "Terms, examinations and school dates"], ["/resources", "Resources", "Useful school documents and resources"]] },
   { label: "Information", items: [["/news", "News & Events", "Announcements and school events"], ["/results", "Results", "Published academic results and sources"], ["/calendar", "Academic Calendar", "Terms, examinations and school dates"], ["/resources", "Resources", "Useful school documents and resources"]] },
   { label: "Connect", items: [["/location", "Location", "Find Sammena School"], ["/contact", "Contact", "Official school contact details"]] },
 ]
