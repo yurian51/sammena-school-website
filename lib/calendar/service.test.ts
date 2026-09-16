@@ -3,14 +3,17 @@ import { validateCreateSchoolEvent, validateEventStatus } from "./service"
 
 describe("calendar validation", () => {
   it("accepts a valid event", () => {
-    expect(validateCreateSchoolEvent({
+    const event = validateCreateSchoolEvent({
       title: "Parent Meeting",
       slug: "parent-meeting",
       category: "MEETING",
       startsAt: "2026-10-10T08:00:00+03:00",
       endsAt: "2026-10-10T10:00:00+03:00",
       location: "Sammena School",
-    })).toMatchObject({ title: "Parent Meeting", category: "MEETING", audience: undefined })
+    })
+    expect(event.title).toBe("Parent Meeting")
+    expect(event.category).toBe("MEETING")
+    expect(event.startsAt).toBe("2026-10-10T08:00:00+03:00")
   })
 
   it("rejects an event whose end precedes its start", () => {
