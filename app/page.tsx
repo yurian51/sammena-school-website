@@ -5,6 +5,7 @@ import Link from "next/link"
 import { ArrowRight, Bell, BookOpen, CalendarDays, ChevronRight, FileText, GraduationCap, Users, Phone, MessageCircle, MapPin } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { AudienceGateway } from "@/components/audience-gateway"
 import { InstitutionalSections } from "@/components/institutional-sections"
 import { SchoolProofStrip } from "@/components/school-proof-strip"
 
@@ -86,11 +87,12 @@ export default function HomePage() {
         </div>
       </section>
 
+      <AudienceGateway />
       <InstitutionalSections />
 
       <section className="border-y border-slate-200 bg-white py-16 motion-safe:animate-in sm:py-20">
         <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
-          <div><p className="text-sm font-bold uppercase tracking-[0.16em] text-[#9b7728]">Welcome to Sammena</p><h2 className="mt-3 text-3xl font-bold leading-tight text-[#0a3158] sm:text-4xl">Education grounded in learning, character and community.</h2><p className="mt-5 leading-8 text-slate-600">Sammena Schools is building a clear education pathway from the early years through primary education, with a long-term vision for secondary education. Our website is designed to give families reliable information about the school, admissions, academics, activities and official resources.</p><Link href="/about" className="link-arrow mt-7 inline-flex items-center gap-2 font-bold text-[#8a6a24] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9b7728]">Read about Sammena <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link></div>
+          <div><p className="text-sm font-bold uppercase tracking-[0.16em] text-[#9b7728]">Welcome to Sammena</p><h2 className="mt-3 text-3xl font-bold leading-tight text-[#0a3158] sm:text-4xl">Education grounded in learning, character and community.</h2><p className="mt-5 leading-8 text-slate-600">Sammena Schools is building a clear education pathway from the early years through primary education, with a long-term vision for secondary education. Our website is designed to give families reliable information about the school, admissions, academics, activities and official resources.</p><Link href="/about" className="link-arrow mt-7 inline-flex items-center gap-2 font-bold text-[#8a6a24] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9b7728]">Read about Sammena <ArrowRight className="h-4 w-4" /></Link></div>
           <div className="media-frame relative aspect-[16/10] overflow-hidden border border-slate-200"><Image src="/images/about-school.jpg" alt="Students at Sammena School" fill className="object-cover" /></div>
         </div>
       </section>
@@ -101,7 +103,7 @@ export default function HomePage() {
           <div className="mt-8 grid gap-6 lg:grid-cols-3">
             <article className="border border-slate-200 bg-white p-6"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#9b7728]">Announcements</p><h3 className="mt-4 text-xl font-bold text-[#0a3158]">Official school notices</h3><p className="mt-3 text-sm leading-7 text-slate-600">Approved announcements and important family information will be published in one place.</p><Link href="/news" className="link-arrow mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24]">View announcements <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link></article>
             <article className="border border-slate-200 bg-white p-6"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#9b7728]">Academic Calendar</p><h3 className="mt-4 text-xl font-bold text-[#0a3158]">Important dates</h3><p className="mt-3 text-sm leading-7 text-slate-600">Term dates, examinations, meetings and school activities can be found in the official calendar.</p><Link href="/calendar" className="link-arrow mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24]">Open calendar <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link></article>
-            <article className="border border-slate-200 bg-white p-6"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#9b7728]">School Life</p><h3 className="mt-4 text-xl font-bold text-[#0a3158]">Learning beyond the classroom</h3><p className="mt-3 text-sm leading-7 text-slate-600">Explore school activities, events, student experiences and the wider Sammena community.</p><Link href="/gallery" className="link-arrow mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24]">View school life <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link></article>
+            <article className="border border-slate-200 bg-white p-6"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#9b7728]">School Life</p><h3 className="mt-4 text-xl font-bold text-[#0a3158]">Learning beyond the classroom</h3><p className="mt-3 text-sm leading-7 text-slate-600">Explore school activities, events, student experiences and the wider Sammena community.</p><Link href="/gallery" className="link-arrow mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24]">View school life <ArrowRight className="h-4 w-4" /></Link></article>
           </div>
         </div>
       </section>
