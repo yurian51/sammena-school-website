@@ -12,7 +12,7 @@ create table if not exists school_events (
   location text,
   status text not null default 'DRAFT' check (status in ('DRAFT','REVIEW','APPROVED','PUBLISHED','ARCHIVED')),
   published_at timestamptz,
-  created_by uuid,
+  created_by text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   unique (school_id, slug),
