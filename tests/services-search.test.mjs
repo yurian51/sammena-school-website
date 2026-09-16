@@ -16,6 +16,18 @@ test("services directory exposes audience-oriented routes that exist in the appl
   assert.match(services, /Each destination below maps to an existing Sammena route\./)
 })
 
+test("homepage exposes the same audience pathways without inventing private records", () => {
+  const gateway = read("components/audience-gateway.tsx")
+  assert.match(gateway, /href: \"\/admissions\"/)
+  assert.match(gateway, /href: \"\/portal\/parent\"/)
+  assert.match(gateway, /href: \"\/portal\/student\"/)
+  assert.match(gateway, /href: \"\/about\"/)
+  assert.match(gateway, /href: \"\/services\"/)
+  assert.match(gateway, /Prospective family/)
+  assert.match(gateway, /Current family/)
+  assert.match(gateway, /Current learner/)
+})
+
 test("public search indexes family and student service entry points", () => {
   const search = read("app/search/page.tsx")
   assert.match(search, /href: \"\/services\"/)
