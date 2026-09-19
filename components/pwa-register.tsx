@@ -7,7 +7,7 @@ export function PwaRegister() {
     if (!("serviceWorker" in navigator)) return
 
     const register = () => {
-      void navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(() => {
+      void navigator.serviceWorker.register("/sw.js", { scope: "/", updateViaCache: "none" }).catch(() => {
         // Offline support is an enhancement. Never block the application if registration fails.
       })
     }
