@@ -1,63 +1,59 @@
-import type { ComponentType } from "react"
+import type { Metadata } from "next"
 import Link from "next/link"
-import { ArrowRight, CalendarDays, ClipboardCheck, FileText, GraduationCap, LibraryBig, Search, ShieldCheck, Users, WalletCards } from "lucide-react"
+import { ArrowRight, BookOpen, CalendarDays, ClipboardCheck, FileText, GraduationCap, ShieldCheck, Users } from "lucide-react"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
 
-type Service = {
-  href: string
-  title: string
-  description: string
-  icon: ComponentType<{ className?: string; "aria-hidden"?: boolean }>
+export const metadata: Metadata = {
+  title: "School Services | Sammena Schools",
+  description: "A single entry point for Sammena admissions, family, student, academic and school information services.",
 }
 
-const publicServices: Service[] = [
-  { href: "/admissions", title: "Admissions", description: "Understand entry requirements, the application journey and next steps.", icon: ClipboardCheck },
-  { href: "/admissions/fees", title: "Fees & Charges", description: "Review the school fee information currently published by Sammena.", icon: WalletCards },
-  { href: "/calendar", title: "School Calendar", description: "Find term dates, examinations, meetings and other published school dates.", icon: CalendarDays },
-  { href: "/resources", title: "Resources & Documents", description: "Access the school resources and documents currently published for families and visitors.", icon: FileText },
-  { href: "/academics", title: "Academics", description: "Explore learning areas, classes and the academic information available on the site.", icon: GraduationCap },
-  { href: "/search", title: "Website Search", description: "Search the public Sammena website for information, resources and published content.", icon: Search },
+const services = [
+  { audience: "I’m new to Sammena", title: "Admissions", text: "Understand entry requirements, fees, the application journey and application tracking.", href: "/admissions", icon: ClipboardCheck },
+  { audience: "I’m a current parent", title: "Parent & Family", text: "Access the protected family experience for children, attendance, academic information and school communication.", href: "/portal/parent", icon: Users },
+  { audience: "I’m a student", title: "Student Hub", text: "Access the protected student workspace for your SIS profile, attendance, assessments and learning links.", href: "/portal/student", icon: GraduationCap },
+  { audience: "I need school dates", title: "Academic Calendar", text: "Find published term dates, examinations, meetings and other school activities.", href: "/calendar", icon: CalendarDays },
+  { audience: "I need a school document", title: "Resources & Documents", text: "Find published forms, policies, prospectus material and official school resources.", href: "/resources", icon: FileText },
+  { audience: "I need school information", title: "School Information", text: "Explore academics, results, school life, location, contact details and institutional information.", href: "/about", icon: BookOpen },
 ]
-
-const protectedServices: Service[] = [
-  { href: "/portal/parent", title: "Parent & Family Hub", description: "Open the authenticated family workspace for authorised learners, attendance and academic information.", icon: Users },
-  { href: "/portal/student", title: "Student Hub", description: "Open the authenticated student workspace for the student profile, attendance, assessments and learning information.", icon: GraduationCap },
-  { href: "/portal", title: "School Portal", description: "Use the authenticated operational school workspace when your role is authorised.", icon: ShieldCheck },
-  { href: "/portal/library", title: "Digital Library", description: "Open the authenticated learning-resource area when your account is authorized.", icon: LibraryBig },
-]
-
-function ServiceCard({ href, title, description, icon: Icon }: Service) {
-  return (
-    <Link href={href} className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[#c8a64b] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#c8a64b] focus:ring-offset-2">
-      <div className="flex items-start justify-between gap-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#071d3b] text-[#e2c46c]"><Icon className="h-5 w-5" aria-hidden={true} /></span>
-        <ArrowRight className="h-4 w-4 text-slate-400 transition group-hover:translate-x-1 group-hover:text-[#c8a64b]" aria-hidden={true} />
-      </div>
-      <h2 className="mt-5 text-lg font-bold text-[#0a3158]">{title}</h2>
-      <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
-    </Link>
-  )
-}
 
 export default function ServicesPage() {
   return (
-    <main className="min-h-screen bg-[#f7f9fc] pt-32 pb-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <section className="rounded-3xl bg-[#071d3b] px-6 py-12 text-white shadow-xl sm:px-10 lg:px-14">
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#e2c46c]">Sammena Digital School</p>
-          <h1 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-tight sm:text-4xl">School services in one place</h1>
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-white/70 sm:text-base">A single service directory for public school information and authenticated family services. Each destination below maps to an existing Sammena route.</p>
-        </section>
+    <main className="min-h-screen bg-background">
+      <Navbar />
+      <section className="bg-[#071d3b] pb-20 pt-36 text-white">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+          <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#e2c46c]">Sammena digital services</p>
+          <h1 className="mt-4 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl">One clear route to the school services you need.</h1>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-white/65 sm:text-lg">Public information stays public. Student and family records stay behind authenticated service boundaries. A surprisingly sensible arrangement, given that children’s data is not decorative website content.</p>
+        </div>
+      </section>
 
-        <section className="mt-8" aria-labelledby="public-services-heading">
-          <div><p className="text-xs font-bold uppercase tracking-[0.2em] text-[#a27b2b]">Public experience</p><h2 id="public-services-heading" className="mt-2 text-2xl font-extrabold text-[#071d3b]">Information & admissions</h2></div>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{publicServices.map(service => <ServiceCard key={service.href} {...service} />)}</div>
-        </section>
+      <section className="mx-auto max-w-6xl px-5 py-14 sm:px-6 lg:py-20">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {services.map(({ audience, title, text, href, icon: Icon }) => (
+            <Link key={href} href={href} className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-[#c8a64b]/60 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#071d3b] text-[#e2c46c]"><Icon className="h-5 w-5" /></div>
+              <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#9b7728]">{audience}</p>
+              <h2 className="mt-2 text-xl font-bold text-[#071d3b]">{title}</h2>
+              <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24]">Open service <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
+            </Link>
+          ))}
+        </div>
 
-        <section className="mt-10" aria-labelledby="protected-services-heading">
-          <div><p className="text-xs font-bold uppercase tracking-[0.2em] text-[#a27b2b]">Authenticated experience</p><h2 id="protected-services-heading" className="mt-2 text-2xl font-extrabold text-[#071d3b]">Family, student & school services</h2></div>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{protectedServices.map(service => <ServiceCard key={service.href} {...service} />)}</div>
-        </section>
-      </div>
+        <div className="mt-10 rounded-2xl border border-[#c8a64b]/30 bg-[#faf7ed] p-6 sm:p-8">
+          <div className="flex items-start gap-4">
+            <ShieldCheck className="mt-0.5 h-6 w-6 shrink-0 text-[#8a6a24]" />
+            <div>
+              <h2 className="font-bold text-[#071d3b]">Data boundary</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">Public pages expose institutional information only. Attendance, results, student identity and family records are intended to be served through authenticated APIs with school and role scope.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <Footer />
     </main>
   )
 }

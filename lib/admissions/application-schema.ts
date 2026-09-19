@@ -34,7 +34,8 @@ export const admissionApplicationSchema = z.object({
   religion: z.string().trim().max(80).optional().default(""),
   tribe: z.string().trim().max(80).optional().default(""),
   entry: z.enum(admissionEntryLevels),
-  studyType: z.enum(["Day", "Boarding"]),
+  // Boarding is intentionally excluded until Sammena confirms it as an approved offering.
+  studyType: z.literal("Day"),
   academicYear: z.string().trim().regex(/^\d{4}(?:\/\d{4})?$/, "Expected YYYY or YYYY/YYYY"),
   previous: z.string().trim().max(160).optional().default(""),
   previousYear: z.string().trim().max(20).optional().default(""),

@@ -21,6 +21,11 @@ test("parent hub service requires a parent role and school scope", () => {
   assert.match(source, /pls\.school_id = \$2/)
 })
 
+test("parent library counts only open issues belonging to linked children", () => {
+  const source = read("lib/api/parent-hub.ts")
+  assert.match(source, /from library_issues i[\s\S]*i\.returned_at is null[\s\S]*exists \([\s\S]*parent_linked_students pls[\s\S]*pls\.user_id = \$2[\s\S]*pls\.student_id = i\.student_id/i)
+})
+
 test("parent hub UI is backed by private API data rather than fixture metrics", () => {
   const page = read("app/portal/parent/page.tsx")
   assert.match(page, /fetch\(\"\/api\/portal\/parent\"/)

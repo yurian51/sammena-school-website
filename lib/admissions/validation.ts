@@ -32,7 +32,7 @@ export function validateAdmissionsApplication(input: Partial<CreateApplicationIn
   if (!guardian?.relationship?.trim() || !GUARDIAN_RELATIONSHIPS.has(guardian.relationship.trim())) fields.push("guardian.relationship")
 
   if (!input.academicYear?.trim() || !isValidAcademicYear(input.academicYear)) fields.push("academicYear")
-  if (input.studyType !== "Day" && input.studyType !== "Boarding") fields.push("studyType")
+  if (input.studyType !== "Day") fields.push("studyType")
 
   if (!learner?.fullName?.trim() || learner.fullName.trim().length < 2) fields.push("learner.fullName")
   if (!learner?.dateOfBirth?.trim() || !isCalendarDate(learner.dateOfBirth)) fields.push("learner.dateOfBirth")
