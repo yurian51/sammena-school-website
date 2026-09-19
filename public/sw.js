@@ -1,10 +1,27 @@
 const CACHE_NAME = "sammena-public-v1";
 const OFFLINE_URL = "/offline";
-
 const PRIVATE_PREFIXES = ["/api/", "/portal", "/admin", "/sis", "/admissions/admin"];
 
 function isPrivatePath(pathname) {
   return PRIVATE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(prefix));
+}
+
+function isCacheableResponse(response) {
+  if (!response.ok) return false;
+  if (response.headers.has("Set-Cookie")) return false;
+
+  const cacheControl = response.headers.get("Cache-Control")?.toLowerCase() ?? "";
+  if (cacheControl.includes("no-store") || cacheControl.includes("private")) return false;
+
+  return true;
+}
+
+async function cacheResponse(request, response) {
+  if (!isCacheableResponse(response)) return response;
+
+  const copy = response.clone();
+  void caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+  return response;
 }
 
 self.addEventListener("install", (event) => {
@@ -37,13 +54,7 @@ self.addEventListener("fetch", (event) => {
   if (request.mode === "navigate") {
     event.respondWith(
       fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            const copy = response.clone();
-            void caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
-          }
-          return response;
-        })
+        .then((response) => cacheResponse(request, response))
         .catch(async () => {
           const cached = await caches.match(request);
           return cached || caches.match(OFFLINE_URL);
@@ -54,13 +65,7 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(
     fetch(request)
-      .then((response) => {
-        if (response.ok) {
-          const copy = response.clone();
-          void caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
-        }
-        return response;
-      })
+      .then((response) => cacheResponse(request, response))
       .catch(() => caches.match(request))
   );
 });
