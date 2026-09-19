@@ -82,7 +82,7 @@ export default function CalendarPage() {
   const firstDay = new Date(year, month, 1).getDay()
   const days = new Date(year, month + 1, 0).getDate()
 
-  const load = async () => {
+  const load = async (): Promise<void> => {
     setLoading(true)
     setError(null)
     try {
