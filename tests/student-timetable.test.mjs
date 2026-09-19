@@ -16,3 +16,10 @@ test("student timetable endpoint is authenticated and private", async () => {
   assert.match(route, /getStudentTimetable/)
   assert.match(route, /private, no-store/)
 })
+
+test("guardian links cannot cross school boundaries", async () => {
+  const sql = await readFile("supabase/migrations/0013_student_guardian_school_integrity.sql", "utf8")
+  assert.match(sql, /EXISTING_STUDENT_GUARDIAN_SCHOOL_MISMATCH/)
+  assert.match(sql, /student_guardians_school_integrity/)
+  assert.match(sql, /STUDENT_GUARDIAN_SCHOOL_MISMATCH/)
+})
