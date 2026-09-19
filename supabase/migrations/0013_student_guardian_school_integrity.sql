@@ -1,5 +1,5 @@
--- Harden tenant boundaries for junction records that do not carry school_id.
--- Both sides of the relationship must belong to the same school.
+-- Enforce tenant boundaries for student/guardian links.
+-- The junction carries school_id and both referenced records must belong to it.
 
 DO $$
 BEGIN
@@ -7,10 +7,18 @@ BEGIN
     SELECT 1
     FROM student_guardians sg
     JOIN students s ON s.id = sg.student_id
-    JOIN guardians g ON g.id = sg.guardian_id
-    WHERE s.school_id <> g.school_id
+    WHERE s.school_id <> sg.school_id
   ) THEN
-    RAISE EXCEPTION 'EXISTING_STUDENT_GUARDIAN_SCHOOL_MISMATCH';
+    RAISE EXCEPTION 'EXISTING_STUDENT_GUARDIAN_STUDENT_SCHOOL_MISMATCH';
+  END IF;
+
+  IF EXISTS (
+    SELECT 1
+    FROM student_guardians sg
+    JOIN guardians g ON g.id = sg.guardian_id
+    WHERE g.school_id <> sg.school_id
+  ) THEN
+    RAISE EXCEPTION 'EXISTING_STUDENT_GUARDIAN_GUARDIAN_SCHOOL_MISMATCH';
   END IF;
 END;
 $$;
@@ -26,8 +34,12 @@ begin
   select school_id into student_school from students where id = new.student_id;
   select school_id into guardian_school from guardians where id = new.guardian_id;
 
-  if student_school is null or guardian_school is null or student_school <> guardian_school then
-    raise exception 'STUDENT_GUARDIAN_SCHOOL_MISMATCH';
+  if student_school is null or student_school <> new.school_id then
+    raise exception 'STUDENT_GUARDIAN_STUDENT_SCHOOL_MISMATCH';
+  end if;
+
+  if guardian_school is null or guardian_school <> new.school_id then
+    raise exception 'STUDENT_GUARDIAN_GUARDIAN_SCHOOL_MISMATCH';
   end if;
 
   return new;
