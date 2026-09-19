@@ -1,7 +1,7 @@
 const CACHE_NAME = "sammena-public-v1";
 const OFFLINE_URL = "/offline";
 
-const PRIVATE_PREFIXES = ["/api/", "/portal", "/admin", "/sis"];
+const PRIVATE_PREFIXES = ["/api/", "/portal", "/admin", "/sis", "/admissions/admin"];
 
 function isPrivatePath(pathname) {
   return PRIVATE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(prefix));
