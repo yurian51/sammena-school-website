@@ -4,9 +4,11 @@ import { resolve } from "node:path"
 const migrationPath = resolve(process.cwd(), "supabase/migrations/0006_portal_data.sql")
 const integrityMigrationPath = resolve(process.cwd(), "supabase/migrations/0007_portal_school_integrity.sql")
 const timetableMigrationPath = resolve(process.cwd(), "supabase/migrations/0012_student_timetable.sql")
+const guardianIntegrityMigrationPath = resolve(process.cwd(), "supabase/migrations/0013_student_guardian_school_integrity.sql")
 const sql = await readFile(migrationPath, "utf8")
 const integritySql = await readFile(integrityMigrationPath, "utf8")
 const timetableSql = await readFile(timetableMigrationPath, "utf8")
+const guardianIntegritySql = await readFile(guardianIntegrityMigrationPath, "utf8")
 
 const requiredTables = [
   "academic_years",
@@ -88,4 +90,15 @@ for (const contract of requiredTimetableContracts) {
   }
 }
 
-console.log(`Portal schema validation passed: ${requiredTables.length} tables, ${requiredConstraints.length} core constraints, ${requiredIntegrityTriggers.length} school-integrity triggers, ${requiredExistingDataGuards.length} existing-data guards, and ${requiredTimetableContracts.length} timetable contracts present.`)
+const requiredGuardianIntegrityContracts = [
+  "EXISTING_STUDENT_GUARDIAN_SCHOOL_MISMATCH",
+  "student_guardians_school_integrity",
+  "STUDENT_GUARDIAN_SCHOOL_MISMATCH",
+]
+for (const contract of requiredGuardianIntegrityContracts) {
+  if (!guardianIntegritySql.includes(contract)) {
+    throw new Error(`Missing guardian school-integrity contract: ${contract}`)
+  }
+}
+
+console.log(`Portal schema validation passed: ${requiredTables.length} tables, ${requiredConstraints.length} core constraints, ${requiredIntegrityTriggers.length} school-integrity triggers, ${requiredExistingDataGuards.length} existing-data guards, and ${requiredTimetableContracts.length} timetable contracts, ${requiredGuardianIntegrityContracts.length} guardian-integrity contracts present.`)
