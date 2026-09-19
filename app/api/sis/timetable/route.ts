@@ -31,6 +31,57 @@ export async function GET(request: NextRequest) {
     const auth = requirePermission(context, "sis:timetable:read")
     if (!auth.schoolId) throw new Error("SCHOOL_SCOPE_REQUIRED")
     const db = getDbClient()
+    const [result, years, classes] = await Promise.all([
+      db.query(
+        `select t.id::text, t.academic_year_id::text as "academicYearId",
+          t.class_id::text as "classId", c.name as "className",
+          t.day_of_week as "dayOfWeek", t.period_number as "periodNumber",
+          t.starts_at::text as "startsAt", t.ends_at::text as "endsAt",
+          t.subject, t.teacher_name as "teacherName", t.room
+         from student_timetable_entries t
+         join classes c on c.id = t.class_id and c.school_id = t.school_id
+         where t.school_id = $1
+         order by t.academic_year_id, c.name, t.day_of_week, t.period_number, t.starts_at`,
+        [auth.schoolId],
+      ),
+      db.query(`select id::text, name from academic_years where school_id = $1 order by starts_on desc, id desc`, [auth.schoolId]),
+      db.query(`select id::text, name from classes where school_id = $1 order by name`, [auth.schoolId]),
+    ])
+    return NextResponse.json(
+      { data: { entries: result.rows, academicYears: years.rows, classes: classes.rows }, requestId: id },
+      { headers: { "Cache-Control": "private, no-store" } },
+    )import { z } from "zod"
+import { getAuthContext } from "@/lib/auth/session"
+import { requirePermission } from "@/lib/auth/authorization"
+import { getDbClient } from "@/lib/db/client"
+import { mapDomainError } from "@/lib/api/errors"
+import { readJson, requestId } from "@/lib/api/request"
+
+const entrySchema = z.object({
+  academicYearId: z.string().uuid(),
+  classId: z.string().uuid(),
+  dayOfWeek: z.number().int().min(1).max(7),
+  periodNumber: z.number().int().min(1).max(12),
+  startsAt: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Invalid start time"),
+  endsAt: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Invalid end time"),
+  subject: z.string().trim().min(1).max(120),
+  teacherName: z.string().trim().max(160).nullable().optional(),
+  room: z.string().trim().max(80).nullable().optional(),
+}).superRefine((value, ctx) => {
+  if (value.endsAt <= value.startsAt) ctx.addIssue({ code: "custom", path: ["endsAt"], message: "End time must be after start time" })
+})
+
+function requireTimetableWrite(context: Awaited<ReturnType<typeof getAuthContext>>) {
+  return requirePermission(context, "sis:timetable:write")
+}
+
+export async function GET(request: NextRequest) {
+  const id = requestId(request)
+  try {
+    const context = await getAuthContext(request)
+    const auth = requirePermission(context, "sis:timetable:read")
+    if (!auth.schoolId) throw new Error("SCHOOL_SCOPE_REQUIRED")
+    const db = getDbClient()
     const result = await db.query(
       `select t.id::text, t.academic_year_id::text as "academicYearId",
         t.class_id::text as "classId", c.name as "className",
