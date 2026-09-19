@@ -35,7 +35,7 @@ export function LoginPortal({ initial = "parent" }: { initial?: LoginAudience })
     event.preventDefault(); setError(null); setSubmitting(true)
     try {
       const response = await fetch("/api/auth/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ audience: active, identifier: identifier.trim(), password, remember }) })
-      const payload = await response.json().catch(() => null)
+      const payload = await response.json().catch((): null => null)
       if (!response.ok) throw new Error(payload?.error?.message ?? "Login could not be completed.")
       window.location.assign(payload?.data?.redirectTo ?? selected.destination)
     } catch (err) { setError(err instanceof Error ? err.message : "Login could not be completed.") } finally { setSubmitting(false) }
