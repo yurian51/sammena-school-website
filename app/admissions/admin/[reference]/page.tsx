@@ -1,11 +1,19 @@
-"use client"
-
 import Link from "next/link"
-import { ArrowLeft, CheckCircle2, FileCheck2, MessageSquare, UserRound, XCircle } from "lucide-react"
 
-export default function ApplicantReviewPage({ params }: { params: { reference: string } }) {
-  const reference = decodeURIComponent(params.reference)
-  return <main className="min-h-screen bg-school-neutral px-4 py-8 md:px-8"><div className="mx-auto max-w-6xl"><Link href="/admissions/admin" className="inline-flex items-center gap-2 text-sm font-semibold text-school-dark"><ArrowLeft className="h-4 w-4"/> Admissions Queue</Link><header className="mt-7 rounded-3xl bg-school-dark p-7 text-white md:p-9"><p className="text-xs font-bold uppercase tracking-[0.2em] text-school-gold">Applicant review</p><div className="mt-2 flex flex-col gap-3 md:flex-row md:items-end md:justify-between"><div><h1 className="text-3xl font-bold">{reference}</h1><p className="mt-2 text-sm text-white/60">Review workspace for an admissions application.</p></div><span className="w-fit rounded-full border border-school-gold/30 bg-school-gold/10 px-3 py-1.5 text-xs font-bold text-school-gold">SUBMITTED</span></div></header><div className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]"><section className="space-y-6"><Panel icon={UserRound} title="Applicant profile"><Info label="Learner" value="Applicant record pending live API connection"/><Info label="Entry level" value="Primary / Pre-Primary"/><Info label="Study type" value="Day / Boarding"/></Panel><Panel icon={FileCheck2} title="Document readiness"><div className="rounded-2xl border border-border p-4"><p className="font-semibold">Document verification</p><p className="mt-1 text-sm text-muted-foreground">Production document metadata and secure uploads will appear here.</p></div></Panel><Panel icon={MessageSquare} title="Internal review note"><textarea placeholder="Add an internal review note..." className="min-h-32 w-full rounded-xl border border-border bg-background p-4 text-sm outline-none focus:ring-2 focus:ring-school-gold"/><button className="mt-3 rounded-xl bg-school-dark px-5 py-3 text-sm font-bold text-white">Save Note</button></Panel></section><aside className="h-fit rounded-3xl border border-border bg-card p-5 shadow-sm"><p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Decision</p><div className="mt-5 grid gap-3"><button className="inline-flex items-center justify-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-bold"><CheckCircle2 className="h-4 w-4"/> Accept</button><button className="inline-flex items-center justify-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-bold"><MessageSquare className="h-4 w-4"/> Request Information</button><button className="inline-flex items-center justify-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-bold"><XCircle className="h-4 w-4"/> Reject</button></div><p className="mt-5 text-xs leading-5 text-muted-foreground">Actions are presentation-only until authenticated staff authorization and persistent backend state transitions are connected.</p></aside></div></div></main>
+export default function ApplicantReviewUnavailablePage() {
+  return (
+    <main className="min-h-screen bg-[#f6f8fb] px-5 py-16 text-[#183252]">
+      <section className="mx-auto max-w-2xl rounded-3xl border border-[#dce4ed] bg-white p-8 shadow-sm sm:p-10">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#9a7628]">Sammena Schools · Staff Portal</p>
+        <h1 className="mt-3 text-3xl font-bold text-[#071d3b]">Applicant review requires staff authentication</h1>
+        <p className="mt-4 leading-7 text-slate-600">
+          Applicant review is fail-closed until a real school identity provider is connected. No applicant record, review action,
+          or internal note is exposed to unauthenticated visitors.
+        </p>
+        <Link href="/admissions/admin" className="mt-7 inline-flex min-h-11 items-center rounded-xl bg-[#071d3b] px-5 py-3 text-sm font-bold text-white">
+          Return to staff portal
+        </Link>
+      </section>
+    </main>
+  )
 }
-function Panel({icon:Icon,title,children}:{icon:typeof UserRound;title:string;children:React.ReactNode}) { return <section className="rounded-3xl border border-border bg-card p-6 shadow-sm"><div className="mb-5 flex items-center gap-3"><Icon className="h-5 w-5 text-school-gold"/><h2 className="font-bold">{title}</h2></div>{children}</section> }
-function Info({label,value}:{label:string;value:string}) { return <div className="flex flex-col gap-1 border-b border-border py-3 last:border-0 sm:flex-row sm:justify-between"><span className="text-sm font-semibold">{label}</span><span className="text-sm text-muted-foreground sm:text-right">{value}</span></div> }
