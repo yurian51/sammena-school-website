@@ -9,8 +9,8 @@ export function mapDomainError(error: unknown, requestId?: string) {
   if (code === "VALIDATION_ERROR") return apiError("VALIDATION_ERROR", "The submitted information is invalid.", 400, requestId)
   if (code === "REQUEST_TOO_LARGE") return apiError("REQUEST_TOO_LARGE", "The submitted request is too large.", 413, requestId)
   if (code === "UNAUTHORIZED") return apiError("UNAUTHORIZED", "Authentication is required.", 401, requestId)
-  if (code === "FORBIDDEN" || code === "SCHOOL_SCOPE_REQUIRED") return apiError("FORBIDDEN", "A valid school-scoped account is required.", 403, requestId)
-  if (code === "APPLICATION_NOT_FOUND" || code === "CALENDAR_EVENT_NOT_FOUND") return apiError("NOT_FOUND", "The requested record could not be found.", 404, requestId)
+  if (code === "FORBIDDEN" || code === "SCHOOL_SCOPE_REQUIRED" || code === "STUDENT_TIMETABLE_ACADEMIC_YEAR_SCHOOL_MISMATCH" || code === "STUDENT_TIMETABLE_CLASS_SCHOOL_MISMATCH") return apiError("FORBIDDEN", "A valid school-scoped account is required.", 403, requestId)
+  if (code === "APPLICATION_NOT_FOUND" || code === "CALENDAR_EVENT_NOT_FOUND" || code === "TIMETABLE_ENTRY_NOT_FOUND") return apiError("NOT_FOUND", "The requested record could not be found.", 404, requestId)
   if (code === "CMS_CONTENT_NOT_FOUND") return apiError("NOT_FOUND", "The requested content could not be found.", 404, requestId)
   if (code === "INVALID_STATUS_TRANSITION") return apiError("CONFLICT", "The application cannot be changed from its current status.", 409, requestId)
   if (code === "AUTH_PROVIDER_NOT_CONFIGURED" || code === "PORTAL_DATA_SOURCE_NOT_CONFIGURED" || code === "DATABASE_CLIENT_NOT_CONFIGURED") {
