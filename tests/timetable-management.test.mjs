@@ -16,3 +16,10 @@ test("timetable writes validate period and clock boundaries", async () => {
   assert.match(route, /periodNumber: z\.number\(\)\.int\(\)\.min\(1\)\.max\(12\)/)
   assert.match(route, /End time must be after start time/)
 })
+
+test("timetable management workspace uses the real SIS API", async () => {
+  const page = await readFile("app/portal/timetable/manage/page.tsx", "utf8")
+  assert.match(page, /\/api\/sis\/timetable/)
+  assert.match(page, /method:"POST"/)
+  assert.match(page, /method:"DELETE"/)
+})
