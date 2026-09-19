@@ -45,3 +45,21 @@ test("student hub does not depend on school-wide assessment or library counts", 
   assert.match(source, /join student_linked_accounts sla on sla\.student_id = a\.student_id and sla\.school_id = a\.school_id/i)
   assert.match(source, /sla\.student_id = i\.student_id and sla\.school_id = i\.school_id/i)
 })
+
+test("student portal exposes identity and guardian data from the authenticated student boundary", () => {
+  const source = read("lib/api/student-hub.ts")
+  assert.match(source, /s\.date_of_birth::text as "dateOfBirth"/)
+  assert.match(source, /join student_guardians sg on sg\.student_id = sla\.student_id and sg\.school_id = sla\.school_id/)
+  assert.match(source, /join guardians g on g\.id = sg\.guardian_id/)
+  assert.match(source, /sla\.user_id = \$1 and sla\.school_id = \$2/)
+})
+
+test("student SIS read permission is restricted to administrative roles", () => {
+  const source = read("lib/auth/roles.ts")
+  assert.match(source, /"sis:students:read"/)
+  assert.match(source, /SUPER_ADMIN:.*sis:students:read/s)
+  assert.match(source, /SCHOOL_ADMIN:.*sis:students:read/s)
+  assert.doesNotMatch(source, /TEACHER: \[[^\]]*"sis:students:read"/)
+  assert.doesNotMatch(source, /PARENT: \[[^\]]*"sis:students:read"/)
+  assert.doesNotMatch(source, /STUDENT: \[[^\]]*"sis:students:read"/)
+})
