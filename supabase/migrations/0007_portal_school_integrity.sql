@@ -1,65 +1,63 @@
--- Enforce tenant/school consistency at the database boundary.
--- Existing rows are checked first so this migration never silently masks
--- historical corruption by installing constraints over inconsistent data.
+-- Prevent tenant-crossing relational records in the portal schema.
+-- Existing rows are checked before the triggers are installed; future writes
+-- are rejected when school_id does not match a referenced school-owned row.
 
 DO $$
 BEGIN
   IF EXISTS (
     SELECT 1 FROM enrollments e
     JOIN students s ON s.id = e.student_id
-    WHERE e.school_id <> s.school_id
+    WHERE s.school_id <> e.school_id
   ) THEN
-    RAISE EXCEPTION 'PORTAL_INTEGRITY: enrollment school does not match student school';
+    RAISE EXCEPTION 'EXISTING_ENROLLMENT_STUDENT_SCHOOL_MISMATCH';
   END IF;
 
   IF EXISTS (
     SELECT 1 FROM enrollments e
     JOIN academic_years ay ON ay.id = e.academic_year_id
-    WHERE e.school_id <> ay.school_id
+    WHERE ay.school_id <> e.school_id
   ) THEN
-    RAISE EXCEPTION 'PORTAL_INTEGRITY: enrollment school does not match academic year school';
+    RAISE EXCEPTION 'EXISTING_ENROLLMENT_ACADEMIC_YEAR_SCHOOL_MISMATCH';
   END IF;
 
   IF EXISTS (
     SELECT 1 FROM enrollments e
     JOIN classes c ON c.id = e.class_id
-    WHERE e.school_id <> c.school_id
+    WHERE c.school_id <> e.school_id
   ) THEN
-    RAISE EXCEPTION 'PORTAL_INTEGRITY: enrollment school does not match class school';
+    RAISE EXCEPTION 'EXISTING_ENROLLMENT_CLASS_SCHOOL_MISMATCH';
   END IF;
 
   IF EXISTS (
     SELECT 1 FROM attendance_records ar
     JOIN students s ON s.id = ar.student_id
-    WHERE ar.school_id <> s.school_id
+    WHERE s.school_id <> ar.school_id
   ) THEN
-    RAISE EXCEPTION 'PORTAL_INTEGRITY: attendance school does not match student school';
+    RAISE EXCEPTION 'EXISTING_ATTENDANCE_SCHOOL_MISMATCH';
   END IF;
 
   IF EXISTS (
     SELECT 1 FROM assessments a
     JOIN students s ON s.id = a.student_id
-    WHERE a.school_id <> s.school_id
+    WHERE s.school_id <> a.school_id
   ) THEN
-    RAISE EXCEPTION 'PORTAL_INTEGRITY: assessment school does not match student school';
+    RAISE EXCEPTION 'EXISTING_ASSESSMENT_SCHOOL_MISMATCH';
   END IF;
 
   IF EXISTS (
-    SELECT 1
-    FROM library_issues i
-    JOIN library_books b ON b.id = i.book_id
-    WHERE i.school_id <> b.school_id
+    SELECT 1 FROM library_issues li
+    JOIN library_books b ON b.id = li.book_id
+    WHERE b.school_id <> li.school_id
   ) THEN
-    RAISE EXCEPTION 'PORTAL_INTEGRITY: library issue school does not match book school';
+    RAISE EXCEPTION 'EXISTING_LIBRARY_BOOK_SCHOOL_MISMATCH';
   END IF;
 
   IF EXISTS (
-    SELECT 1
-    FROM library_issues i
-    JOIN students s ON s.id = i.student_id
-    WHERE i.school_id <> s.school_id
+    SELECT 1 FROM library_issues li
+    JOIN students s ON s.id = li.student_id
+    WHERE s.school_id <> li.school_id
   ) THEN
-    RAISE EXCEPTION 'PORTAL_INTEGRITY: library issue school does not match student school';
+    RAISE EXCEPTION 'EXISTING_LIBRARY_STUDENT_SCHOOL_MISMATCH';
   END IF;
 
   IF EXISTS (
@@ -67,114 +65,82 @@ BEGIN
     FROM quality_evidence qe
     JOIN quality_indicators qi ON qi.id = qe.indicator_id
     JOIN quality_domains qd ON qd.id = qi.domain_id
-    WHERE qe.school_id <> qd.school_id
+    WHERE qd.school_id <> qe.school_id
   ) THEN
-    RAISE EXCEPTION 'PORTAL_INTEGRITY: quality evidence school does not match indicator school';
+    RAISE EXCEPTION 'EXISTING_QUALITY_INDICATOR_SCHOOL_MISMATCH';
   END IF;
-END $$;
-
-CREATE OR REPLACE FUNCTION enforce_portal_school_integrity()
-RETURNS trigger
-LANGUAGE plpgsql
-AS $$
-DECLARE
-  related_school_id uuid;
-BEGIN
-  IF TG_TABLE_NAME = 'enrollments' THEN
-    SELECT school_id INTO related_school_id FROM students WHERE id = NEW.student_id;
-    IF related_school_id IS NULL OR NEW.school_id <> related_school_id THEN
-      RAISE EXCEPTION 'PORTAL_INTEGRITY: enrollment/student school mismatch';
-    END IF;
-    SELECT school_id INTO related_school_id FROM academic_years WHERE id = NEW.academic_year_id;
-    IF related_school_id IS NULL OR NEW.school_id <> related_school_id THEN
-      RAISE EXCEPTION 'PORTAL_INTEGRITY: enrollment/academic-year school mismatch';
-    END IF;
-    SELECT school_id INTO related_school_id FROM classes WHERE id = NEW.class_id;
-    IF related_school_id IS NULL OR NEW.school_id <> related_school_id THEN
-      RAISE EXCEPTION 'PORTAL_INTEGRITY: enrollment/class school mismatch';
-    END IF;
-  ELSIF TG_TABLE_NAME = 'attendance_records' THEN
-    SELECT school_id INTO related_school_id FROM students WHERE id = NEW.student_id;
-    IF related_school_id IS NULL OR NEW.school_id <> related_school_id THEN
-      RAISE EXCEPTION 'PORTAL_INTEGRITY: attendance/student school mismatch';
-    END IF;
-  ELSIF TG_TABLE_NAME = 'assessments' THEN
-    SELECT school_id INTO related_school_id FROM students WHERE id = NEW.student_id;
-    IF related_school_id IS NULL OR NEW.school_id <> related_school_id THEN
-      RAISE EXCEPTION 'PORTAL_INTEGRITY: assessment/student school mismatch';
-    END IF;
-  ELSIF TG_TABLE_NAME = 'library_issues' THEN
-    SELECT school_id INTO related_school_id FROM library_books WHERE id = NEW.book_id;
-    IF related_school_id IS NULL OR NEW.school_id <> related_school_id THEN
-      RAISE EXCEPTION 'PORTAL_INTEGRITY: library issue/book school mismatch';
-    END IF;
-    SELECT school_id INTO related_school_id FROM students WHERE id = NEW.student_id;
-    IF related_school_id IS NULL OR NEW.school_id <> related_school_id THEN
-      RAISE EXCEPTION 'PORTAL_INTEGRITY: library issue/student school mismatch';
-    END IF;
-  ELSIF TG_TABLE_NAME = 'quality_evidence' THEN
-    SELECT qd.school_id INTO related_school_id
-      FROM quality_indicators qi JOIN quality_domains qd ON qd.id = qi.domain_id
-     WHERE qi.id = NEW.indicator_id;
-    IF related_school_id IS NULL OR NEW.school_id <> related_school_id THEN
-      RAISE EXCEPTION 'PORTAL_INTEGRITY: quality evidence/indicator school mismatch';
-    END IF;
-  END IF;
-  RETURN NEW;
 END;
 $$;
 
-DROP TRIGGER IF EXISTS enrollments_school_integrity ON enrollments;
-CREATE TRIGGER enrollments_school_integrity BEFORE INSERT OR UPDATE OF school_id, student_id, academic_year_id, class_id ON enrollments FOR EACH ROW EXECUTE FUNCTION enforce_portal_school_integrity();
-DROP TRIGGER IF EXISTS attendance_school_integrity ON attendance_records;
-CREATE TRIGGER attendance_school_integrity BEFORE INSERT OR UPDATE OF school_id, student_id ON attendance_records FOR EACH ROW EXECUTE FUNCTION enforce_portal_school_integrity();
-DROP TRIGGER IF EXISTS assessments_school_integrity ON assessments;
-CREATE TRIGGER assessments_school_integrity BEFORE INSERT OR UPDATE OF school_id, student_id ON assessments FOR EACH ROW EXECUTE FUNCTION enforce_portal_school_integrity();
-DROP TRIGGER IF EXISTS library_issues_school_integrity ON library_issues;
-CREATE TRIGGER library_issues_school_integrity BEFORE INSERT OR UPDATE OF school_id, book_id, student_id ON library_issues FOR EACH ROW EXECUTE FUNCTION enforce_portal_school_integrity();
-DROP TRIGGER IF EXISTS quality_evidence_school_integrity ON quality_evidence;
-CREATE TRIGGER quality_evidence_school_integrity BEFORE INSERT OR UPDATE OF school_id, indicator_id ON quality_evidence FOR EACH ROW EXECUTE FUNCTION enforce_portal_school_integrity();
+create or replace function enforce_portal_school_integrity()
+returns trigger
+language plpgsql
+as $$
+declare
+  referenced_school uuid;
+begin
+  if tg_table_name = 'enrollments' then
+    select school_id into referenced_school from students where id = new.student_id;
+    if referenced_school is null or referenced_school <> new.school_id then
+      raise exception 'ENROLLMENT_SCHOOL_MISMATCH';
+    end if;
+    select school_id into referenced_school from academic_years where id = new.academic_year_id;
+    if referenced_school is null or referenced_school <> new.school_id then
+      raise exception 'ENROLLMENT_ACADEMIC_YEAR_SCHOOL_MISMATCH';
+    end if;
+    select school_id into referenced_school from classes where id = new.class_id;
+    if referenced_school is null or referenced_school <> new.school_id then
+      raise exception 'ENROLLMENT_CLASS_SCHOOL_MISMATCH';
+    end if;
+  elsif tg_table_name = 'attendance_records' then
+    select school_id into referenced_school from students where id = new.student_id;
+    if referenced_school is null or referenced_school <> new.school_id then
+      raise exception 'ATTENDANCE_SCHOOL_MISMATCH';
+    end if;
+  elsif tg_table_name = 'assessments' then
+    select school_id into referenced_school from students where id = new.student_id;
+    if referenced_school is null or referenced_school <> new.school_id then
+      raise exception 'ASSESSMENT_SCHOOL_MISMATCH';
+    end if;
+  elsif tg_table_name = 'library_issues' then
+    select school_id into referenced_school from library_books where id = new.book_id;
+    if referenced_school is null or referenced_school <> new.school_id then
+      raise exception 'LIBRARY_BOOK_SCHOOL_MISMATCH';
+    end if;
+    select school_id into referenced_school from students where id = new.student_id;
+    if referenced_school is null or referenced_school <> new.school_id then
+      raise exception 'LIBRARY_STUDENT_SCHOOL_MISMATCH';
+    end if;
+  elsif tg_table_name = 'quality_evidence' then
+    select qd.school_id into referenced_school
+    from quality_indicators qi
+    join quality_domains qd on qd.id = qi.domain_id
+    where qi.id = new.indicator_id;
+    if referenced_school is null or referenced_school <> new.school_id then
+      raise exception 'QUALITY_INDICATOR_SCHOOL_MISMATCH';
+    end if;
+  end if;
 
-CREATE OR REPLACE FUNCTION prevent_portal_parent_school_change()
-RETURNS trigger
-LANGUAGE plpgsql
-AS $$
-BEGIN
-  IF TG_TABLE_NAME = 'students' AND NEW.school_id <> OLD.school_id THEN
-    IF EXISTS (SELECT 1 FROM enrollments WHERE student_id = OLD.id)
-       OR EXISTS (SELECT 1 FROM attendance_records WHERE student_id = OLD.id)
-       OR EXISTS (SELECT 1 FROM assessments WHERE student_id = OLD.id)
-       OR EXISTS (SELECT 1 FROM library_issues WHERE student_id = OLD.id) THEN
-      RAISE EXCEPTION 'PORTAL_INTEGRITY: cannot change school of referenced student';
-    END IF;
-  ELSIF TG_TABLE_NAME = 'academic_years' AND NEW.school_id <> OLD.school_id THEN
-    IF EXISTS (SELECT 1 FROM enrollments WHERE academic_year_id = OLD.id) THEN
-      RAISE EXCEPTION 'PORTAL_INTEGRITY: cannot change school of referenced academic year';
-    END IF;
-  ELSIF TG_TABLE_NAME = 'classes' AND NEW.school_id <> OLD.school_id THEN
-    IF EXISTS (SELECT 1 FROM enrollments WHERE class_id = OLD.id) THEN
-      RAISE EXCEPTION 'PORTAL_INTEGRITY: cannot change school of referenced class';
-    END IF;
-  ELSIF TG_TABLE_NAME = 'library_books' AND NEW.school_id <> OLD.school_id THEN
-    IF EXISTS (SELECT 1 FROM library_issues WHERE book_id = OLD.id) THEN
-      RAISE EXCEPTION 'PORTAL_INTEGRITY: cannot change school of referenced book';
-    END IF;
-  ELSIF TG_TABLE_NAME = 'quality_domains' AND NEW.school_id <> OLD.school_id THEN
-    IF EXISTS (SELECT 1 FROM quality_indicators qi JOIN quality_evidence qe ON qe.indicator_id = qi.id WHERE qi.domain_id = OLD.id) THEN
-      RAISE EXCEPTION 'PORTAL_INTEGRITY: cannot change school of referenced quality domain';
-    END IF;
-  END IF;
-  RETURN NEW;
-END;
+  return new;
+end;
 $$;
 
-DROP TRIGGER IF EXISTS students_school_change_guard ON students;
-CREATE TRIGGER students_school_change_guard BEFORE UPDATE OF school_id ON students FOR EACH ROW EXECUTE FUNCTION prevent_portal_parent_school_change();
-DROP TRIGGER IF EXISTS academic_years_school_change_guard ON academic_years;
-CREATE TRIGGER academic_years_school_change_guard BEFORE UPDATE OF school_id ON academic_years FOR EACH ROW EXECUTE FUNCTION prevent_portal_parent_school_change();
-DROP TRIGGER IF EXISTS classes_school_change_guard ON classes;
-CREATE TRIGGER classes_school_change_guard BEFORE UPDATE OF school_id ON classes FOR EACH ROW EXECUTE FUNCTION prevent_portal_parent_school_change();
-DROP TRIGGER IF EXISTS library_books_school_change_guard ON library_books;
-CREATE TRIGGER library_books_school_change_guard BEFORE UPDATE OF school_id ON library_books FOR EACH ROW EXECUTE FUNCTION prevent_portal_parent_school_change();
-DROP TRIGGER IF EXISTS quality_domains_school_change_guard ON quality_domains;
-CREATE TRIGGER quality_domains_school_change_guard BEFORE UPDATE OF school_id ON quality_domains FOR EACH ROW EXECUTE FUNCTION prevent_portal_parent_school_change();
+create or replace trigger enrollments_school_integrity
+before insert or update on enrollments
+for each row execute function enforce_portal_school_integrity();
+
+create or replace trigger attendance_school_integrity
+before insert or update on attendance_records
+for each row execute function enforce_portal_school_integrity();
+
+create or replace trigger assessments_school_integrity
+before insert or update on assessments
+for each row execute function enforce_portal_school_integrity();
+
+create or replace trigger library_issues_school_integrity
+before insert or update on library_issues
+for each row execute function enforce_portal_school_integrity();
+
+create or replace trigger quality_evidence_school_integrity
+before insert or update on quality_evidence
+for each row execute function enforce_portal_school_integrity();
