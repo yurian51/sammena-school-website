@@ -3,8 +3,10 @@ import { resolve } from "node:path"
 
 const migrationPath = resolve(process.cwd(), "supabase/migrations/0006_portal_data.sql")
 const integrityMigrationPath = resolve(process.cwd(), "supabase/migrations/0007_portal_school_integrity.sql")
+const timetableMigrationPath = resolve(process.cwd(), "supabase/migrations/0012_student_timetable.sql")
 const sql = await readFile(migrationPath, "utf8")
 const integritySql = await readFile(integrityMigrationPath, "utf8")
+const timetableSql = await readFile(timetableMigrationPath, "utf8")
 
 const requiredTables = [
   "academic_years",
@@ -74,4 +76,16 @@ for (const guard of requiredExistingDataGuards) {
   }
 }
 
-console.log(`Portal schema validation passed: ${requiredTables.length} tables, ${requiredConstraints.length} core constraints, ${requiredIntegrityTriggers.length} school-integrity triggers, and ${requiredExistingDataGuards.length} existing-data guards present.`)
+const requiredTimetableContracts = [
+  "create table if not exists student_timetable_entries",
+  "unique (school_id, academic_year_id, class_id, day_of_week, period_number)",
+  "student_timetable_school_integrity",
+  "STUDENT_TIMETABLE_CLASS_SCHOOL_MISMATCH",
+]
+for (const contract of requiredTimetableContracts) {
+  if (!timetableSql.toLowerCase().includes(contract.toLowerCase())) {
+    throw new Error(`Missing student timetable schema contract: ${contract}`)
+  }
+}
+
+console.log(`Portal schema validation passed: ${requiredTables.length} tables, ${requiredConstraints.length} core constraints, ${requiredIntegrityTriggers.length} school-integrity triggers, ${requiredExistingDataGuards.length} existing-data guards, and ${requiredTimetableContracts.length} timetable contracts present.`)
