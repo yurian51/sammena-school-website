@@ -12,6 +12,7 @@ test("PWA public cache never targets private application routes", () => {
   assert.ok(serviceWorker.includes('"/portal"'))
   assert.ok(serviceWorker.includes('"/admin"'))
   assert.ok(serviceWorker.includes('"/sis"'))
+  assert.ok(serviceWorker.includes('"/admissions/admin"'))
   assert.ok(serviceWorker.includes("isPrivatePath(url.pathname)"))
 })
 
