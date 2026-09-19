@@ -91,9 +91,11 @@ for (const contract of requiredTimetableContracts) {
 }
 
 const requiredGuardianIntegrityContracts = [
-  "EXISTING_STUDENT_GUARDIAN_SCHOOL_MISMATCH",
+  "EXISTING_STUDENT_GUARDIAN_STUDENT_SCHOOL_MISMATCH",
+  "EXISTING_STUDENT_GUARDIAN_GUARDIAN_SCHOOL_MISMATCH",
   "student_guardians_school_integrity",
-  "STUDENT_GUARDIAN_SCHOOL_MISMATCH",
+  "STUDENT_GUARDIAN_STUDENT_SCHOOL_MISMATCH",
+  "STUDENT_GUARDIAN_GUARDIAN_SCHOOL_MISMATCH",
 ]
 for (const contract of requiredGuardianIntegrityContracts) {
   if (!guardianIntegritySql.includes(contract)) {
