@@ -2,7 +2,7 @@ import { z } from "zod"
 import { EVENT_AUDIENCES, EVENT_CATEGORIES, EVENT_STATUSES, type CreateSchoolEventInput, type EventStatus } from "./types"
 import { PostgresCalendarRepository } from "../db/repositories/calendar-postgres"
 
-const createSchema: z.ZodType<CreateSchoolEventInput> = z.object({
+const createSchema = z.object({
   title: z.string().trim().min(3).max(180),
   slug: z.string().trim().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).max(180),
   description: z.string().max(5000).optional(),
@@ -20,7 +20,7 @@ export function validateCreateSchoolEvent(input: unknown): CreateSchoolEventInpu
   if (parsed.data.endsAt && new Date(parsed.data.endsAt).getTime() < new Date(parsed.data.startsAt).getTime()) {
     throw new Error("VALIDATION_ERROR")
   }
-  return parsed.data
+  return parsed.data as CreateSchoolEventInput
 }
 
 export function validateEventStatus(input: unknown): EventStatus {
