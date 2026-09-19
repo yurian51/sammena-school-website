@@ -86,7 +86,7 @@ export async function DELETE(request: NextRequest) {
       "delete from student_timetable_entries where id = $1 and school_id = $2 returning id::text",
       [entryId, auth.schoolId],
     )
-    if (!result.rows[0]) throw new Error("CALENDAR_EVENT_NOT_FOUND")
+    if (!result.rows[0]) throw new Error("TIMETABLE_ENTRY_NOT_FOUND")
     return NextResponse.json({ data: { deleted: true, id: entryId }, requestId: id })
   } catch (error) {
     return mapDomainError(error, id)
