@@ -11,7 +11,17 @@ function requireStudent(context: AuthContext | null) {
 
 export interface StudentHubData {
   schoolId: string
-  student: { id: string; admissionNumber: string; fullName: string; className: string; gender: "MALE" | "FEMALE"; dateOfBirth: string | null; phone: string | null; email: string | null }\n  guardian: { name: string; phone: string | null; email: string | null; relationship: string | null } | null
+  student: {
+    id: string
+    admissionNumber: string
+    fullName: string
+    className: string
+    gender: "MALE" | "FEMALE"
+    dateOfBirth: string | null
+    phone: string | null
+    email: string | null
+  }
+  guardian: { name: string; phone: string | null; email: string | null; relationship: string | null } | null
   attendance: { present: number; absent: number; late: number; excused: number; rate: number }
   academicYearName: string
   academicAverage: number
@@ -23,10 +33,11 @@ export async function getStudentHubData(context: AuthContext | null): Promise<St
   const auth = requireStudent(context)
   const db = getDbClient()
   const [student, guardian, attendance, academicYear, assessments, library] = await Promise.all([
-    db.query<{ id: string; admissionNumber: string; fullName: string; className: string; gender: "MALE" | "FEMALE" }>(
+    db.query<StudentHubData["student"]>(
       `select s.id::text, s.admission_number as "admissionNumber",
         concat_ws(' ', s.first_name, s.middle_name, s.last_name) as "fullName",
-        coalesce(c.name, 'Unassigned') as "className", s.gender
+        coalesce(c.name, 'Unassigned') as "className", s.gender,
+        s.date_of_birth::text as "dateOfBirth", s.phone, s.email
        from student_linked_accounts sla
        join students s on s.id = sla.student_id and s.school_id = sla.school_id
        left join lateral (
@@ -39,7 +50,17 @@ export async function getStudentHubData(context: AuthContext | null): Promise<St
        limit 1`,
       [auth.userId, auth.schoolId],
     ),
-    db.query<{ name: string; phone: string | null; email: string | null; relationship: string | null }>(\n      `select g.full_name as name, g.phone, g.email, sg.relationship\n       from student_linked_accounts sla\n       join student_guardians sg on sg.student_id = sla.student_id and sg.school_id = sla.school_id\n       join guardians g on g.id = sg.guardian_id\n       where sla.user_id = $1 and sla.school_id = $2\n       order by sg.is_primary desc nulls last, sg.created_at asc, g.id\n       limit 1`,\n      [auth.userId, auth.schoolId],\n    ),\n    db.query<{ present: number; absent: number; late: number; excused: number }>(
+    db.query<StudentHubData["guardian"]>(
+      `select g.full_name as name, g.phone, g.email, sg.relationship
+       from student_linked_accounts sla
+       join student_guardians sg on sg.student_id = sla.student_id and sg.school_id = sla.school_id
+       join guardians g on g.id = sg.guardian_id
+       where sla.user_id = $1 and sla.school_id = $2
+       order by sg.is_primary desc nulls last, sg.created_at asc, g.id
+       limit 1`,
+      [auth.userId, auth.schoolId],
+    ),
+    db.query<{ present: number; absent: number; late: number; excused: number }>(
       `select count(*) filter (where ar.status = 'PRESENT')::int as present,
         count(*) filter (where ar.status = 'ABSENT')::int as absent,
         count(*) filter (where ar.status = 'LATE')::int as late,
@@ -106,6 +127,7 @@ export async function getStudentHubData(context: AuthContext | null): Promise<St
   return {
     schoolId: auth.schoolId,
     student: studentRow,
+    guardian: guardian.rows[0] ?? null,
     attendance: { present: att?.present ?? 0, absent: att?.absent ?? 0, late: att?.late ?? 0, excused: att?.excused ?? 0, rate },
     academicYearName,
     academicAverage,
