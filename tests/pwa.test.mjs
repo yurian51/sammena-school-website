@@ -5,6 +5,7 @@ import fs from "node:fs"
 const serviceWorker = fs.readFileSync("public/sw.js", "utf8")
 const manifest = fs.readFileSync("app/manifest.ts", "utf8")
 const offlinePage = fs.readFileSync("app/offline/page.tsx", "utf8")
+const layout = fs.readFileSync("app/layout.tsx", "utf8")
 
 test("PWA public cache never targets private application routes", () => {
   assert.ok(serviceWorker.includes('"/api/"'))
@@ -18,6 +19,11 @@ test("PWA manifest is configured as a standalone school web app", () => {
   assert.ok(manifest.includes('display: "standalone"'))
   assert.ok(manifest.includes('start_url: "/"'))
   assert.ok(manifest.includes('lang: "en-TZ"'))
+})
+
+test("root layout registers the offline capability", () => {
+  assert.ok(layout.includes("import { PwaRegister } from '@/components/pwa-register'"))
+  assert.ok(layout.includes("<PwaRegister />"))
 })
 
 test("offline fallback explicitly excludes private SIS data", () => {
