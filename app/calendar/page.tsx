@@ -88,7 +88,7 @@ export default function CalendarPage() {
     try {
       const window = monthWindow(year, month)
       const response = await fetch(`/api/calendar?from=${encodeURIComponent(window.from)}&to=${encodeURIComponent(window.to)}`, { cache: "no-store" })
-      const payload = await response.json().catch(() => null)
+      const payload = await response.json().catch((): null => null)
       if (!response.ok) throw new Error(payload?.error?.message ?? "The school calendar could not be loaded.")
       setEvents(payload.data ?? [])
     } catch (err) {
