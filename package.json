@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test": "node --test",
     "test:unit": "vitest run",
-    "test:data": "node scripts/validate-results-data.mjs"
+    "test:data": "node scripts/validate-results-data.mjs",
+    "test:portal-schema": "node scripts/validate-portal-schema.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
