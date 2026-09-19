@@ -14,6 +14,9 @@ test("PWA public cache never targets private application routes", () => {
   assert.ok(serviceWorker.includes('"/sis"'))
   assert.ok(serviceWorker.includes('"/admissions/admin"'))
   assert.ok(serviceWorker.includes("isPrivatePath(url.pathname)"))
+  assert.ok(serviceWorker.includes("Set-Cookie"))
+  assert.ok(serviceWorker.includes("no-store"))
+  assert.ok(serviceWorker.includes("private"))
 })
 
 test("PWA manifest is configured as a standalone school web app", () => {
