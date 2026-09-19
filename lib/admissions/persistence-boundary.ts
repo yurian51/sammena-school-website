@@ -1,6 +1,19 @@
 import type { AdmissionApplicationInput } from "./application-schema"
 import type { AdmissionApplicationRecord } from "./application-record"
-import { submitApplication } from "./application-store"
+import { getApplication, listApplications, submitApplication } from "./application-store"
+
+function toRecord(input: AdmissionApplicationInput) {
+  const { consent: _consent, ...data } = input
+  const stored = submitApplication(data)
+  return {
+    reference: stored.reference,
+    status: stored.status,
+    data,
+    submittedAt: stored.submittedAt,
+    createdAt: stored.createdAt,
+    updatedAt: stored.updatedAt,
+  } satisfies AdmissionApplicationRecord
+}
 
 /** Development repository boundary. Replace implementation with a transactional DB repository in production. */
 export interface AdmissionsRepository {
@@ -10,15 +23,25 @@ export interface AdmissionsRepository {
 }
 
 export const developmentAdmissionsRepository: AdmissionsRepository = {
-  create: submitApplication,
-  findByReference: reference => requireApplication(reference),
-  list: status => {
-    const { listApplications } = require("./application-store") as typeof import("./application-store")
-    return listApplications(status as Parameters<typeof listApplications>[0])
+  create: toRecord,
+  findByReference: reference => {
+    const stored = getApplication(reference)
+    if (!stored) return undefined
+    return {
+      reference: stored.reference,
+      status: stored.status,
+      data: stored,
+      submittedAt: stored.submittedAt,
+      createdAt: stored.createdAt,
+      updatedAt: stored.updatedAt,
+    }
   },
-}
-
-function requireApplication(reference: string) {
-  const { getApplication } = require("./application-store") as typeof import("./application-store")
-  return getApplication(reference)
+  list: status => listApplications(status as Parameters<typeof listApplications>[0]).map(stored => ({
+    reference: stored.reference,
+    status: stored.status,
+    data: stored,
+    submittedAt: stored.submittedAt,
+    createdAt: stored.createdAt,
+    updatedAt: stored.updatedAt,
+  })),
 }
