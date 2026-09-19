@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Poppins, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { MobileActionBar } from '@/components/mobile-action-bar'
+import { PwaRegister } from '@/components/pwa-register'
 import { schoolIdentity } from '@/lib/academic-results'
 import './globals.css'
 
