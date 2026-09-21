@@ -1,6 +1,18 @@
 -- Production integrity hardening for the existing SIS tables.
 -- This migration is additive and does not rewrite historical data.
 
+do $
+begin
+  if exists (
+    select 1
+    from assessments
+    group by student_id, school_id, subject, assessment_name, term, assessed_at
+    having count(*) > 1
+  ) then
+    raise exception 'ASSESSMENT_DUPLICATES_EXIST: reconcile duplicate assessment rows before applying 0015_school_core_integrity';
+  end if;
+end $;
+
 create unique index if not exists assessments_duplicate_guard_idx
   on assessments(student_id, school_id, subject, assessment_name, term, assessed_at);
 
@@ -50,6 +62,19 @@ drop trigger if exists enrollment_school_integrity on enrollments;
 create trigger enrollment_school_integrity
 before insert or update on enrollments
 for each row execute function enforce_enrollment_school_integrity();
+
+do $
+begin
+  if exists (
+    select 1
+    from enrollments
+    where status = 'ACTIVE'
+    group by student_id, academic_year_id
+    having count(*) > 1
+  ) then
+    raise exception 'ACTIVE_ENROLLMENT_DUPLICATES_EXIST: reconcile duplicate active enrollments before applying 0015_school_core_integrity';
+  end if;
+end $;
 
 create unique index if not exists active_enrollment_per_student_year_idx
   on enrollments(student_id, academic_year_id)
