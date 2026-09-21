@@ -122,6 +122,8 @@ export async function authenticateUser(
   )
 
   return {
+    userId: user.id,
+    schoolId: user.school_id,
     cookie: `${SESSION_COOKIE}=${encodeURIComponent(sessionId)}; Path=/; HttpOnly; SameSite=Lax; Secure; Max-Age=${remember ? REMEMBERED_SESSION_TTL_SECONDS : SESSION_TTL_SECONDS}`,
     redirectTo: user.role === "PARENT" ? "/portal/parent" : user.role === "STUDENT" ? "/portal/student" : "/portal",
   }
