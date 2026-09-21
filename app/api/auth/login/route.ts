@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { apiError } from "@/lib/api/errors"
 import { requestId } from "@/lib/api/request"
 import { authenticateUser } from "@/lib/auth/database-session-provider"
+import { PostgresAuditRepository } from "@/lib/db/repositories/audit-postgres"
 
 const audiences = new Set(["parent", "staff", "email", "admin"])
 
@@ -27,6 +28,16 @@ export async function POST(request: Request) {
       { ok: true, data: { redirectTo: result.redirectTo }, requestId: id },
       { status: 200, headers: { "Cache-Control": "no-store", "x-request-id": id } },
     )
+    try {
+      await new PostgresAuditRepository().record({
+        actorUserId: result.userId,
+        action: "LOGIN_SUCCESS",
+        entityType: "AUTH_SESSION",
+        requestId: id,
+      })
+    } catch {
+      // Authentication succeeded; audit failure must not turn a successful login into a false failure.
+    }
     response.headers.set("Set-Cookie", result.cookie)
     return response
   } catch (error) {
