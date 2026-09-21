@@ -159,10 +159,14 @@ export async function getDatabaseAuthContext(request: Request): Promise<AuthCont
   return { userId: row.user_id, role: row.role, schoolId: row.school_id }
 }
 
-export async function revokeDatabaseSession(request: Request) {
+export async function revokeDatabaseSession(request: Request): Promise<string | null> {
   const token = parseCookies(request.headers.get("cookie")).get(SESSION_COOKIE)
-  if (!token) return
-  await getDbClient().query("update app_sessions set revoked_at = now() where id = $1::uuid", [token])
+  if (!token) return null
+  const result = await getDbClient().query<{ user_id: string }>(
+    "update app_sessions set revoked_at = now() where id = $1::uuid and revoked_at is null returning user_id::text",
+    [token],
+  )
+  return result.rows[0]?.user_id ?? null
 }
 
 export function clearSessionCookie() {
