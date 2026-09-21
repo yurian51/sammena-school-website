@@ -6,7 +6,6 @@ import { verifyPassword } from "./password"
 export const SESSION_COOKIE = "sammena_session"
 const SESSION_TTL_SECONDS = 8 * 60 * 60
 const REMEMBERED_SESSION_TTL_SECONDS = 30 * 24 * 60 * 60
-const LOGIN_WINDOW_MS = 15 * 60 * 1000
 const LOGIN_MAX_FAILURES = 5
 
 function parseCookies(header: string | null) {
@@ -29,7 +28,7 @@ function hashIp(ip: string | null) {
 }
 
 function loginThrottleKey(identifier: string, ip: string | null) {
-  return createHash("sha256").update(`${identifier}|\${ip ?? "unknown"}`).digest("hex")
+  return createHash("sha256").update(`${identifier}|${ip ?? "unknown"}`).digest("hex")
 }
 
 async function assertLoginAllowed(db: ReturnType<typeof getDbClient>, key: string) {
