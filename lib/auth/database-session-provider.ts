@@ -76,21 +76,6 @@ export async function authenticateUser(
   }
 }
 
-function randomUuidFromToken(token: string) {
-  const bytes = Buffer.from(token, "base64url")
-  const uuid = Buffer.alloc(16)
-  bytes.copy(uuid, 0, 0, Math.min(bytes.length, 16))
-  uuid[6] = (uuid[6] & 0x0f) | 0x40
-  uuid[8] = (uuid[8] & 0x3f) | 0x80
-  return [
-    uuid.toString("hex", 0, 4),
-    uuid.toString("hex", 4, 6),
-    uuid.toString("hex", 6, 8),
-    uuid.toString("hex", 8, 10),
-    uuid.toString("hex", 10, 16),
-  ].join("-")
-}
-
 export async function getDatabaseAuthContext(request: Request): Promise<AuthContext | null> {
   const token = parseCookies(request.headers.get("cookie")).get(SESSION_COOKIE)
   if (!token) return null
@@ -116,7 +101,7 @@ export async function getDatabaseAuthContext(request: Request): Promise<AuthCont
 
   await getDbClient().query(
     "update app_sessions set last_seen_at = now() where id = $1::uuid",
-    [sessionUuid],
+    [sessionId],
   )
   return { userId: row.user_id, role: row.role, schoolId: row.school_id }
 }
