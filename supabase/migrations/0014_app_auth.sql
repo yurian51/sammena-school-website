@@ -30,3 +30,18 @@ create table if not exists app_sessions (
 create index if not exists app_sessions_active_idx
   on app_sessions(user_id, school_id, expires_at)
   where revoked_at is null;
+
+create unique index if not exists app_users_school_identifier_lower_uidx
+  on app_users(school_id, lower(identifier));
+
+create table if not exists auth_login_throttles (
+  key text primary key,
+  failures integer not null default 0,
+  first_failed_at timestamptz not null default now(),
+  last_failed_at timestamptz not null default now(),
+  blocked_until timestamptz
+);
+
+create index if not exists auth_login_throttles_blocked_idx
+  on auth_login_throttles(blocked_until)
+  where blocked_until is not null;
