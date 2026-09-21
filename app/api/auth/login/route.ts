@@ -33,6 +33,12 @@ export async function POST(request: Request) {
     if (error instanceof Error && error.message === "INVALID_CREDENTIALS") {
       return apiError("UNAUTHORIZED", "Invalid credentials.", 401, id)
     }
+    if (error instanceof Error && error.message === "LOGIN_RATE_LIMITED") {
+      return Response.json(
+        { error: { code: "RATE_LIMITED", message: "Too many failed login attempts. Try again later.", requestId: id } },
+        { status: 429, headers: { "Retry-After": "900", "Cache-Control": "no-store", "x-request-id": id } },
+      )
+    }
     if (error instanceof Error && error.message === "EMAIL_PROVIDER_NOT_CONFIGURED") {
       return apiError("SERVICE_UNAVAILABLE", "School email authentication is not configured.", 503, id)
     }
