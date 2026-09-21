@@ -30,11 +30,3 @@ create table if not exists app_sessions (
 create index if not exists app_sessions_active_idx
   on app_sessions(user_id, school_id, expires_at)
   where revoked_at is null;
-
-alter table guardian_accounts
-  add constraint guardian_accounts_user_school_fk
-  foreign key (user_id, school_id) references app_users(id, school_id);
-
-alter table student_accounts
-  add constraint student_accounts_user_school_fk
-  foreign key (user_id, school_id) references app_users(id, school_id);
