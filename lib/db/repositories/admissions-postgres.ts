@@ -14,9 +14,9 @@ export class PostgresAdmissionsRepository implements AdmissionsRepository {
        ), application as (
          insert into "AdmissionApplication" (
            "reference", "status", "academicYear", "entry", "studyType", "guardianId",
-           "learnerFullName", "learnerDateOfBirth", "learnerPreviousSchool", "applicationData", "updatedAt"
+           "learnerFullName", "learnerDateOfBirth", "learnerPreviousSchool", "applicationData", "idempotencyKey", "submissionFingerprint", "updatedAt"
          )
-         select $5, 'DRAFT', $6, $7, $8, guardian."id", $9, $10, $11, $12::jsonb, now()
+         select $5, 'DRAFT', $6, $7, $8, guardian."id", $9, $10, $11, $12::jsonb, $13, $14, now()
          from guardian
          returning *
        )
@@ -53,11 +53,51 @@ export class PostgresAdmissionsRepository implements AdmissionsRepository {
         input.learner.dateOfBirth,
         input.learner.previousSchool ?? null,
         JSON.stringify(input.applicationData ?? {}),
+        input.idempotencyKey ?? null,
+        input.submissionFingerprint ?? null,
       ],
     )
     const row = result.rows[0]
     if (!row) throw new Error("DATABASE_INSERT_FAILED")
     return mapApplicationRow(row)
+  }
+
+  async findByIdempotencyKey(key: string) {
+    const result = await getDbClient().query<ApplicationRow>(
+      `select
+         application."id"::text as id, application."reference" as reference, application."status" as status,
+         application."academicYear" as academic_year, application."studyType" as study_type,
+         application."entry" as learner_entry_level, application."learnerFullName" as learner_full_name,
+         application."learnerDateOfBirth" as learner_date_of_birth, application."learnerPreviousSchool" as learner_previous_school,
+         application."applicationData" as application_data, application."submittedAt" as submitted_at,
+         application."createdAt" as created_at, application."updatedAt" as updated_at,
+         guardian."fullName" as guardian_full_name, guardian."phone" as guardian_phone,
+         guardian."email" as guardian_email, guardian."relationship" as guardian_relationship
+       from "AdmissionApplication" application
+       join "AdmissionGuardian" guardian on guardian."id" = application."guardianId"
+       where application."idempotencyKey" = $1 limit 1`,
+      [key],
+    )
+    return result.rows[0] ? mapApplicationRow(result.rows[0]) : null
+  }
+
+  async findByFingerprint(fingerprint: string) {
+    const result = await getDbClient().query<ApplicationRow>(
+      `select
+         application."id"::text as id, application."reference" as reference, application."status" as status,
+         application."academicYear" as academic_year, application."studyType" as study_type,
+         application."entry" as learner_entry_level, application."learnerFullName" as learner_full_name,
+         application."learnerDateOfBirth" as learner_date_of_birth, application."learnerPreviousSchool" as learner_previous_school,
+         application."applicationData" as application_data, application."submittedAt" as submitted_at,
+         application."createdAt" as created_at, application."updatedAt" as updated_at,
+         guardian."fullName" as guardian_full_name, guardian."phone" as guardian_phone,
+         guardian."email" as guardian_email, guardian."relationship" as guardian_relationship
+       from "AdmissionApplication" application
+       join "AdmissionGuardian" guardian on guardian."id" = application."guardianId"
+       where application."submissionFingerprint" = $1 limit 1`,
+      [fingerprint],
+    )
+    return result.rows[0] ? mapApplicationRow(result.rows[0]) : null
   }
 
   async findByReference(reference: string) {
