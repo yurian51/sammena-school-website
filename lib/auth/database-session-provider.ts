@@ -1,4 +1,4 @@
-import { createHash, randomBytes } from "node:crypto"
+import { createHash, randomUUID } from "node:crypto"
 import { getDbClient } from "@/lib/db/client"
 import type { AuthContext } from "./authorization"
 import { verifyPassword } from "./password"
@@ -60,14 +60,14 @@ export async function authenticateUser(
   if (!allowed) throw new Error("INVALID_CREDENTIALS")
   if (audience === "email") throw new Error("EMAIL_PROVIDER_NOT_CONFIGURED")
 
-  const sessionId = randomBytes(32).toString("base64url")
+  const sessionId = randomUUID()
   const expiresAt = new Date(Date.now() + (remember ? REMEMBERED_SESSION_TTL_SECONDS : SESSION_TTL_SECONDS) * 1000)
   const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null
 
   await db.query(
     `insert into app_sessions (id, user_id, school_id, expires_at, user_agent, ip_hash)
      values ($1::uuid, $2::uuid, $3::uuid, $4, $5, $6)`,
-    [randomUuidFromToken(sessionId), user.id, user.school_id, expiresAt, request.headers.get("user-agent"), hashIp(forwarded)],
+    [sessionId, user.id, user.school_id, expiresAt, request.headers.get("user-agent"), hashIp(forwarded)],
   )
 
   return {
@@ -95,7 +95,7 @@ export async function getDatabaseAuthContext(request: Request): Promise<AuthCont
   const token = parseCookies(request.headers.get("cookie")).get(SESSION_COOKIE)
   if (!token) return null
 
-  const sessionUuid = randomUuidFromToken(token)
+  const sessionId = token
   const result = await getDbClient().query<{
     user_id: string
     school_id: string
@@ -109,7 +109,7 @@ export async function getDatabaseAuthContext(request: Request): Promise<AuthCont
        and s.expires_at > now()
        and u.is_active = true
      limit 1`,
-    [sessionUuid],
+    [sessionId],
   )
   const row = result.rows[0]
   if (!row) return null
@@ -124,7 +124,7 @@ export async function getDatabaseAuthContext(request: Request): Promise<AuthCont
 export async function revokeDatabaseSession(request: Request) {
   const token = parseCookies(request.headers.get("cookie")).get(SESSION_COOKIE)
   if (!token) return
-  await getDbClient().query("update app_sessions set revoked_at = now() where id = $1::uuid", [randomUuidFromToken(token)])
+  await getDbClient().query("update app_sessions set revoked_at = now() where id = $1::uuid", [token])
 }
 
 export function clearSessionCookie() {
