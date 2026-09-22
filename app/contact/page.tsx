@@ -21,7 +21,8 @@ function Reveal({ children, className, delay = 0 }: { children: React.ReactNode;
 export default function ContactPage() {
   const [formState, setFormState] = useState({ name: "", email: "", phone: "", subject: "", message: "" })
   const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)\n  const [deliveryError, setDeliveryError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [deliveryError, setDeliveryError] = useState<string | null>(null)
   const whatsappUrl = `https://wa.me/${schoolLocation.whatsapp.replace(/\D/g, "")}`
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
