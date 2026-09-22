@@ -40,6 +40,14 @@ describe("contact form validation", () => {
     })
   })
 
+  it("rejects phone numbers without enough digits", () => {
+    const result = validateContactForm({ ...valid, phone: "abc123" })
+    expect(result).toEqual({
+      valid: false,
+      error: "Please provide a valid phone number.",
+    })
+  })
+
   it("rejects oversized fields", () => {
     const result = validateContactForm({ ...valid, message: "x".repeat(2001) })
     expect(result).toEqual({
