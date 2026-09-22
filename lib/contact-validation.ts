@@ -26,6 +26,7 @@ export function validateContactForm(input: ContactFormInput): ContactFormValidat
   const phoneDigits = value.phone.replace(/\D/g, "")
   if (phoneDigits.length < 7 || phoneDigits.length > 15) {
     return { valid: false, error: "Please provide a valid phone number." }
+  }
   if (value.subject.length < 2) return { valid: false, error: "Please select a subject." }
   if (value.message.length < 10) return { valid: false, error: "Please provide a message of at least 10 characters." }
   if (value.name.length > 100 || value.phone.length > 100 || value.subject.length > 100 || value.message.length > 2000) {
