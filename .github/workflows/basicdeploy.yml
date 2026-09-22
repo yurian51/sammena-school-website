@@ -1,0 +1,16 @@
+name: BasicDeploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to BasicDeploy
+        uses: AkaciaNL/basicdeploy-action@v1
+        with:
+          api-key: ${{ secrets.BASICDEPLOY_API_KEY }}
+          container-id: 83e26e2c-ba18-4591-ad4a-ce82d92df3da
