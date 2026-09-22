@@ -6,6 +6,7 @@ import { Phone, MapPin, Send, CheckCircle, ArrowRight, MessageCircle } from "luc
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 import { schoolLocation } from "@/lib/school-location"
 import { cn } from "@/lib/utils"
+import { validateContactForm } from "@/lib/contact-validation"
 
 const contactInfo = [
   { icon: Phone, label: "Phone", lines: [schoolLocation.phone, "Direct school enquiries"], href: `tel:${schoolLocation.phone.replace(/\s/g, "")}` },
@@ -32,20 +33,14 @@ export default function ContactPage() {
     setLoading(true)
     setDeliveryError(null)
 
-    const normalized = {
-      name: formState.name.trim(),
-      email: formState.email.trim().toLowerCase(),
-      phone: formState.phone.trim(),
-      subject: formState.subject.trim(),
-      message: formState.message.trim(),
-    }
-
-    if (normalized.name.length < 2 || normalized.email.length < 5 || normalized.phone.length < 7 || normalized.subject.length < 2 || normalized.message.length < 10) {
-      setDeliveryError("Please provide complete contact details and a message of at least 10 characters.")
+    const validation = validateContactForm(formState)
+    if (!validation.valid) {
+      setDeliveryError(validation.error)
       setLoading(false)
       return
     }
 
+    const normalized = validation.value
     const text = [
       "Sammena School enquiry",
       "",
