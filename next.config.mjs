@@ -8,9 +8,8 @@ const securityHeaders = [
 ]
 
 const nextConfig = {
-  images: {
-    unoptimized: true,
-  },
+  poweredByHeader: false,
+  compress: true,
   async headers() {
     return [
       {
