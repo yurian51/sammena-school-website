@@ -9,15 +9,21 @@ function OfficialResultFrame({ result }: { result: ReturnType<typeof getResults>
   if (!officialUrl) return null
   const isSchoolLevel = result.sourceKind === "official" && !result.sourceOnly
   return (
-    <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-inner">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3 sm:px-5">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a6a24]">{isSchoolLevel ? "Original examination page" : "Official NECTA archive index"}</p>
-          <p className="mt-1 text-sm font-semibold text-[#071d3b]">{isSchoolLevel ? "NECTA published school-level result" : "NECTA published Arusha district result index"}</p>
-        </div>
-        <a href={officialUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">Open source <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" /></a>
-      </div>
-      <iframe title={`${result.year} ${result.type} official results source`} src={officialUrl} loading="lazy" className="block h-[760px] w-full border-0 bg-white sm:h-[900px] lg:h-[1050px]" referrerPolicy="no-referrer" />
+    <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+      <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a6a24]">
+        {isSchoolLevel ? "Official examination source" : "Official NECTA archive index"}
+      </p>
+      <p className="mt-2 text-sm leading-6 text-slate-600">
+        The public Sammena site displays aggregate school-level information only. Individual candidate records are not embedded or reproduced here.
+      </p>
+      <a
+        href={officialUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]"
+      >
+        Open official source <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+      </a>
     </div>
   )
 }
