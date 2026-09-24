@@ -5,27 +5,37 @@ export type DraftInput = Omit<AdmissionApplication, "reference" | "status" | "cr
 export interface AdmissionsRepository {
   createDraft(reference: string, input: DraftInput): Promise<AdmissionApplication>
   findByReference(reference: string): Promise<AdmissionApplication | null>
+  findByIdempotencyKey(key: string): Promise<AdmissionApplication | null>
+  findByFingerprint(fingerprint: string): Promise<AdmissionApplication | null>
   updateStatus(reference: string, status: ApplicationStatus): Promise<AdmissionApplication>
 }
 
 export class InMemoryAdmissionsRepository implements AdmissionsRepository {
   private readonly records = new Map<string, AdmissionApplication>()
+  private readonly idempotency = new Map<string, string>()
+  private readonly fingerprints = new Map<string, string>()
 
   async createDraft(reference: string, input: DraftInput) {
     const now = new Date().toISOString()
-    const application: AdmissionApplication = {
-      ...input,
-      reference,
-      status: "DRAFT",
-      createdAt: now,
-      updatedAt: now,
-    }
+    const application: AdmissionApplication = { ...input, reference, status: "DRAFT", createdAt: now, updatedAt: now }
     this.records.set(reference, application)
+    if (input.idempotencyKey) this.idempotency.set(input.idempotencyKey, reference)
+    if (input.submissionFingerprint) this.fingerprints.set(input.submissionFingerprint, reference)
     return application
   }
 
   async findByReference(reference: string) {
     return this.records.get(reference) ?? null
+  }
+
+  async findByIdempotencyKey(key: string) {
+    const reference = this.idempotency.get(key)
+    return reference ? this.findByReference(reference) : null
+  }
+
+  async findByFingerprint(fingerprint: string) {
+    const reference = this.fingerprints.get(fingerprint)
+    return reference ? this.findByReference(reference) : null
   }
 
   async updateStatus(reference: string, status: ApplicationStatus) {
