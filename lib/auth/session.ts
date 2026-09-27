@@ -1,4 +1,5 @@
 import type { AuthContext } from "./authorization"
+import { getDatabaseAuthContext } from "./database-session-provider"
 
 export interface SessionProvider {
   getContext(request: Request): Promise<AuthContext | null>
@@ -11,6 +12,6 @@ export function configureSessionProvider(nextProvider: SessionProvider | null) {
 }
 
 export async function getAuthContext(request: Request): Promise<AuthContext | null> {
-  if (!provider) throw new Error("AUTH_PROVIDER_NOT_CONFIGURED")
-  return provider.getContext(request)
+  if (provider) return provider.getContext(request)
+  return getDatabaseAuthContext(request)
 }

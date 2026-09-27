@@ -18,6 +18,8 @@ model AdmissionApplication {
   learnerDateOfBirth    String
   learnerPreviousSchool String?
   applicationData       Json?
+  idempotencyKey        String?  @unique
+  submissionFingerprint String?  @unique
   submittedAt           DateTime?
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt

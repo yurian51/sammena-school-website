@@ -11,7 +11,8 @@
     "test": "node --test",
     "test:unit": "vitest run",
     "test:data": "node scripts/validate-results-data.mjs",
-    "test:portal-schema": "node scripts/validate-portal-schema.mjs"
+    "test:portal-schema": "node scripts/validate-portal-schema.mjs",
+    "auth:create-user": "node scripts/create-app-user.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

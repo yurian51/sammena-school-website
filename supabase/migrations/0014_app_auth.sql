@@ -1,0 +1,47 @@
+create table if not exists app_users (
+  id uuid primary key default gen_random_uuid(),
+  school_id uuid not null references schools(id) on delete cascade,
+  identifier text not null,
+  password_hash text not null,
+  role text not null check (role in ('SUPER_ADMIN','SCHOOL_ADMIN','EDITOR','TEACHER','PARENT','STUDENT')),
+  is_active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (school_id, identifier),
+  unique (id, school_id)
+);
+
+create index if not exists app_users_school_role_idx on app_users(school_id, role, is_active);
+create index if not exists app_users_identifier_idx on app_users(lower(identifier));
+
+create table if not exists app_sessions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references app_users(id) on delete cascade,
+  school_id uuid not null references schools(id) on delete cascade,
+  expires_at timestamptz not null,
+  revoked_at timestamptz,
+  last_seen_at timestamptz not null default now(),
+  user_agent text,
+  ip_hash text,
+  created_at timestamptz not null default now(),
+  unique (id, user_id, school_id)
+);
+
+create index if not exists app_sessions_active_idx
+  on app_sessions(user_id, school_id, expires_at)
+  where revoked_at is null;
+
+create unique index if not exists app_users_school_identifier_lower_uidx
+  on app_users(school_id, lower(identifier));
+
+create table if not exists auth_login_throttles (
+  key text primary key,
+  failures integer not null default 0,
+  first_failed_at timestamptz not null default now(),
+  last_failed_at timestamptz not null default now(),
+  blocked_until timestamptz
+);
+
+create index if not exists auth_login_throttles_blocked_idx
+  on auth_login_throttles(blocked_until)
+  where blocked_until is not null;
