@@ -88,6 +88,9 @@ const websiteJsonLd = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-TZ" className={`${poppins.variable} ${inter.variable} bg-background`}>
+      <head>
+        <link rel="preload" as="image" href="/images/Sammena_Pre_Primary_School_Logo_Clean.svg" type="image/svg+xml" fetchPriority="high" />
+      </head>
       <body className="font-sans antialiased">
         <a
           href="#main-content"
