@@ -20,7 +20,7 @@ test("PWA public cache never targets private application routes", () => {
 })
 
 test("PWA manifest is configured as a standalone school web app", () => {
-  assert.ok(manifest.includes('display: "standalone"'))
+  assert.ok(manifest.includes("display: 'standalone'"))
   assert.ok(manifest.includes('start_url: "/"'))
   assert.ok(manifest.includes('lang: "en-TZ"'))
   assert.ok(manifest.includes("/icon.svg"))
