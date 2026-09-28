@@ -25,7 +25,7 @@ export default function PortalPage() {
     try {
       const response = await fetch("/api/portal/summary", { cache: "no-store" })
       const payload = await response.json()
-      if (!response.ok) throw new Error(payload?.error?.message ?? "Unable to load the school portal.")
+      if (!response.ok) { if (response.status === 401 || response.status === 503) { window.location.assign("/login?type=staff&returnTo=/portal"); return } throw new Error(payload?.error?.message ?? "Unable to load the school portal.") }
       setSummary(payload.data)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to load the school portal.")
