@@ -24,7 +24,7 @@ test("PWA manifest is configured as a standalone school web app", () => {
   assert.ok(manifest.includes('start_url: "/"'))
   assert.ok(manifest.includes('lang: "en-TZ"'))
   assert.ok(manifest.includes("/icon.svg"))
-  assert.ok(manifest.includes("/apple-icon.png"))
+  assert.ok(manifest.includes("/icon.svg"))
 })
 
 test("root layout registers the offline capability", () => {
