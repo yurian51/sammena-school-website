@@ -19,6 +19,7 @@ const routes = [
   '/events',
   '/results',
   '/history',
+  '/leadership',
   '/policies',
   '/sponsorship',
   '/trust',
