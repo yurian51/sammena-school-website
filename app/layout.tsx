@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     default: 'SAMMENA SCHOOLS | Building Bright Minds. Shaping Better Futures.',
     template: '%s | SAMMENA SCHOOLS',
   },
-  description: 'The official digital home of Sammena Schools, including Sammena Pre & Primary School and the planned Sammena Secondary School expansion for 2028.',
+  description: 'The official digital home of Sammena Schools, including Sammena Pre & Primary School and verified information about the school’s future development.',
   keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'Sammena Secondary School', 'primary school Tanzania', 'school Arusha', 'education Tanzania', 'Sammena Nduruma', 'P15336 Nduruma'],
   alternates: { canonical: '/' },
   category: 'education',
@@ -49,7 +49,7 @@ const organizationJsonLd = {
   name: schoolIdentity.brand,
   alternateName: schoolIdentity.name,
   url: siteUrl,
-  description: 'Educational institution serving learners through Sammena Pre & Primary School and a planned secondary expansion for 2028.',
+  description: 'Educational institution serving learners through Sammena Pre & Primary School, with future development information published only when confirmed.',
   identifier: [
     { '@type': 'PropertyValue', propertyID: 'NECTA centre number', value: schoolIdentity.centreNumber },
     { '@type': 'PropertyValue', propertyID: 'Registration number', value: schoolIdentity.registrationNumber },
