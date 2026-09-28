@@ -5,13 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node scripts/migrate.mjs && next start",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "test": "node --test",
     "test:unit": "vitest run",
     "test:data": "node scripts/validate-results-data.mjs",
-    "test:portal-schema": "node scripts/validate-portal-schema.mjs"
+    "test:portal-schema": "node scripts/validate-portal-schema.mjs",
+    "db:migrate": "node scripts/migrate.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
