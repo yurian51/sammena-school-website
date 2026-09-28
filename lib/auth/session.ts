@@ -1,4 +1,4 @@
-import { createHmac, scryptSync, timingSafeEqual } from "node:crypto"
+import { createHmac, pbkdf2Sync, scryptSync, timingSafeEqual } from "node:crypto"
 import type { AuthContext } from "./authorization"
 
 export interface SessionProvider {
@@ -39,14 +39,27 @@ function parseCookie(request: Request) {
 }
 
 function verifyPassword(password: string, encoded: string) {
-  const [scheme, nRaw, rRaw, pRaw, saltRaw, hashRaw] = encoded.split("$")
-  if (scheme !== "scrypt" || !nRaw || !rRaw || !pRaw || !saltRaw || !hashRaw) return false
+  const parts = encoded.split("$")
+  if (parts[0] === "pbkdf2-sha256") {
+    const [, iterationsRaw, saltRaw, hashRaw] = parts
+    const iterations = Number(iterationsRaw)
+    if (!Number.isInteger(iterations) || iterations < 100000 || !saltRaw || !hashRaw) return false
+    try {
+      const salt = Buffer.from(saltRaw, "base64url")
+      const expected = Buffer.from(hashRaw, "base64url")
+      const actual = pbkdf2Sync(password, salt, iterations, expected.length, "sha256")
+      return expected.length === actual.length && timingSafeEqual(expected, actual)
+    } catch {
+      return false
+    }
+  }
 
+  const [scheme, nRaw, rRaw, pRaw, saltRaw, hashRaw] = parts
+  if (scheme !== "scrypt" || !nRaw || !rRaw || !pRaw || !saltRaw || !hashRaw) return false
   const n = Number(nRaw)
   const r = Number(rRaw)
   const p = Number(pRaw)
   if (!Number.isInteger(n) || !Number.isInteger(r) || !Number.isInteger(p) || n <= 1 || r <= 0 || p <= 0) return false
-
   try {
     const salt = Buffer.from(saltRaw, "base64url")
     const expected = Buffer.from(hashRaw, "base64url")
