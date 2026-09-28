@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       if (error instanceof Error && error.message === "AUTH_PROVIDER_NOT_CONFIGURED") {
         return apiError("SERVICE_UNAVAILABLE", "Sammena administrator authentication is not configured on the server.", 503, id)
       }
-      return apiError("INVALID_CREDENTIALS", "The administrator credentials are not valid.", 401, id)
+      return apiError("UNAUTHORIZED", "The administrator credentials are not valid.", 401, id)
     }
 
     const cookie = createAdminSessionCookie({ email: identifier, remember })
