@@ -24,11 +24,8 @@ const routes = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena-school-website.onrender.com'
-  const now = new Date()
-
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: now,
     changeFrequency:
       route === '' || route === '/news' || route === '/results' || route === '/calendar' ? 'weekly' : 'monthly',
     priority:
