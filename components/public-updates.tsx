@@ -39,7 +39,7 @@ export function PublicUpdates() {
   }
 
   if (!visible.length) {
-    return <div className="border border-slate-200 bg-[#faf8f1] p-7"><div className="flex items-start gap-3"><Bell className="mt-0.5 h-5 w-5 shrink-0 text-[#9b7728]" /><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#9b7728]">Official publishing desk</p><h3 className="mt-2 text-lg font-bold text-[#0a3158]">No public notices have been published yet.</h3><p className="mt-2 max-w-xl text-sm leading-6 text-slate-600">The website only displays announcements and news after they are approved and published by Sammena administration.</p><Link href="/contact" className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-[#8a6a24]">Contact Sammena <ArrowRight className="h-4 w-4" /></Link></div></div>
+    return <div className="border border-slate-200 bg-[#faf8f1] p-7"><div className="flex items-start gap-3"><Bell className="mt-0.5 h-5 w-5 shrink-0 text-[#9b7728]" /><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#9b7728]">Official publishing desk</p><h3 className="mt-2 text-lg font-bold text-[#0a3158]">No public notices have been published yet.</h3><p className="mt-2 max-w-xl text-sm leading-6 text-slate-600">The website only displays announcements and news after they are approved and published by Sammena administration.</p><Link href="/contact" className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-[#8a6a24]">Contact Sammena <ArrowRight className="h-4 w-4" /></Link></div></div></div>
   }
 
   return <div className="grid gap-4 sm:grid-cols-3">{visible.map(item => {
