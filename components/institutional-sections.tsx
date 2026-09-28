@@ -43,7 +43,7 @@ export function InstitutionalSections() {
               <Bell className="mt-0.5 h-5 w-5 shrink-0 text-[#9b7728]" aria-hidden="true" />
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#8a6a24]">Future development notice</p>
-                <p className="mt-1 text-sm leading-6 text-slate-700"><span className="font-semibold text-[#0a3158]">Secondary education is a planned future expansion.</span> Sammena currently operates as a Pre & Primary School; the secondary pathway is being considered for a future launch target of 2028.</p>
+                <p className="mt-1 text-sm leading-6 text-slate-700"><span className="font-semibold text-[#0a3158]">Secondary education is a planned future expansion.</span> Sammena currently operates as a Pre & Primary School; the secondary pathway is a future development area, with official launch information to be published only when confirmed.</p>
               </div>
             </div>
             <Link href="/secondary" className="inline-flex shrink-0 items-center gap-2 text-sm font-bold text-[#8a6a24] hover:text-[#0a3158] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9b7728]">Future pathway <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
