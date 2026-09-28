@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import { ArrowRight, Bell, CalendarDays, Newspaper, RefreshCw } from "lucide-react"
+import { ArrowRight, Bell, Newspaper, RefreshCw } from "lucide-react"
 
 type CmsItem =
   | { id: string; type: "NEWS"; title: string; slug: string; excerpt: string; body: string; category: string; publishedAt?: string }
