@@ -10,10 +10,10 @@ const actions = [
 ]
 
 const facts = [
-  ["2018", "School journey began"],
-  ["Pre & Primary", "Current school community"],
-  ["2028", "Future secondary expansion"],
-  ["Tanzania", "East Africa"],
+  ["PS0101160", "NECTA centre number"],
+  ["EM.17569", "School registration"],
+  ["Nduruma", "Arusha campus"],
+  ["Pre & Primary", "Current education level"],
 ]
 
 export function InstitutionalSections() {
@@ -56,7 +56,7 @@ export function InstitutionalSections() {
           <div className="max-w-3xl">
             <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#9b7728]">Sammena Schools at a glance</span>
             <h2 className="mt-3 text-3xl font-bold text-[#0a3158] sm:text-4xl">A clear education pathway for every stage of growth.</h2>
-            <p className="mt-4 leading-7 text-slate-600">Explore the school community, official information and resources in one institutional space.</p>
+            <p className="mt-4 leading-7 text-slate-600">Explore the school community, published records and official resources in one institutional space. Where a fact is not yet verified, the site does not present it as established.</p>
           </div>
           <div className="mt-8 grid gap-px border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-4">
             {facts.map(([value, label]) => <div key={label} className="bg-white p-6"><div className="text-2xl font-bold text-[#0a3158]">{value}</div><div className="mt-2 text-sm text-slate-500">{label}</div></div>)}
