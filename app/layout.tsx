@@ -17,7 +17,7 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena-school-website.onrender.com'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena-school-website-8ry2.onrender.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
