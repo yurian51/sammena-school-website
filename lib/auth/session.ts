@@ -109,7 +109,7 @@ function getConfiguredProvider(): SessionProvider {
         return {
           userId: "admin",
           role: "SUPER_ADMIN",
-          ...(parsed.schoolId ? { schoolId: parsed.schoolId } : {}),
+          ...(parsed.schoolId || config.schoolId ? { schoolId: parsed.schoolId ?? config.schoolId } : {}),
         }
       } catch {
         return null
