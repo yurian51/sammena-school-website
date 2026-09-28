@@ -18,7 +18,7 @@ export default function ParentPortalPage() {
     try {
       const response = await fetch("/api/portal/parent", { cache: "no-store" })
       const payload = await response.json()
-      if (!response.ok) throw new Error(payload?.error?.message ?? "Unable to load your family account.")
+      if (!response.ok) { if (response.status === 401 || response.status === 503) { window.location.assign("/login?type=parent&returnTo=/portal/parent"); return } throw new Error(payload?.error?.message ?? "Unable to load your family account.") }
       setData(payload.data)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to load your family account.")
