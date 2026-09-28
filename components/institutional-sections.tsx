@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ArrowRight, Bell, CalendarDays, ClipboardList, Download, FileText, GraduationCap, Newspaper, Search, ShieldCheck } from "lucide-react"
 import { GlobalSchoolExperience } from "@/components/global-school-experience"
+import { PublicUpdates } from "@/components/public-updates"
 
 const actions = [
   { icon: ClipboardList, title: "Admissions", text: "Application information, requirements and guidance.", href: "/admissions" },
@@ -68,16 +69,11 @@ export function InstitutionalSections() {
         <div className="mx-auto grid max-w-7xl gap-8 px-5 sm:px-8 lg:grid-cols-[1.15fr_.85fr]">
           <div>
             <div className="flex items-end justify-between gap-4 border-b border-slate-300 pb-5">
-              <div><span className="text-xs font-bold uppercase tracking-[0.18em] text-[#9b7728]">Official information</span><h2 className="mt-2 text-2xl font-bold text-[#0a3158] sm:text-3xl">Notices, dates and updates</h2></div>
+              <div><span className="text-xs font-bold uppercase tracking-[0.18em] text-[#9b7728]">Official information</span><h2 className="mt-2 text-2xl font-bold text-[#0a3158] sm:text-3xl">Published notices and school updates</h2></div>
               <Link href="/news" className="hidden items-center gap-1 text-sm font-bold text-[#8a6a24] sm:inline-flex">All updates <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
             </div>
-            <div className="mt-6 grid gap-4 sm:grid-cols-3">
-              <Link href="/news" className="border border-slate-200 bg-white p-5 transition-colors hover:bg-[#faf8f1]"><Bell className="h-5 w-5 text-[#9b7728]" aria-hidden="true" /><p className="mt-4 text-xs font-bold uppercase tracking-[0.14em] text-[#9b7728]">Announcements</p><h3 className="mt-2 font-bold text-[#0a3158]">Official school notices</h3><span className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-[#8a6a24]">View <ArrowRight className="h-3 w-3" aria-hidden="true" /></span></Link>
-              <Link href="/calendar" className="border border-slate-200 bg-white p-5 transition-colors hover:bg-[#faf8f1]"><CalendarDays className="h-5 w-5 text-[#0a3158]" aria-hidden="true" /><p className="mt-4 text-xs font-bold uppercase tracking-[0.14em] text-[#9b7728]">Calendar</p><h3 className="mt-2 font-bold text-[#0a3158]">Important dates</h3><span className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-[#8a6a24]">Open <ArrowRight className="h-3 w-3" aria-hidden="true" /></span></Link>
-              <Link href="/news" className="border border-slate-200 bg-white p-5 transition-colors hover:bg-[#faf8f1]"><Newspaper className="h-5 w-5 text-[#9b7728]" aria-hidden="true" /><p className="mt-4 text-xs font-bold uppercase tracking-[0.14em] text-[#9b7728]">News & Events</p><h3 className="mt-2 font-bold text-[#0a3158]">School community</h3><span className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-[#8a6a24]">Explore <ArrowRight className="h-3 w-3" aria-hidden="true" /></span></Link>
-            </div>
+            <div className="mt-6"><PublicUpdates /></div>
           </div>
-
           <aside className="border border-slate-200 bg-[#0a3158] p-7 text-white">
             <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#e2c46c]">Resource centre</span>
             <h2 className="mt-3 text-2xl font-bold">Documents, forms and policies</h2>
