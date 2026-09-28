@@ -35,7 +35,7 @@ export default function ContactPage() {
 
     const validation = validateContactForm(formState)
     if (!validation.valid) {
-      setDeliveryError(validation.error)
+      setDeliveryError("error" in validation ? validation.error : "Please check your contact details and try again.")
       setLoading(false)
       return
     }
