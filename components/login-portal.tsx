@@ -43,14 +43,14 @@ export function LoginPortal({ initial = "parent" }: { initial?: LoginAudience })
   return (
     <div className="mx-auto max-w-6xl">
       <div className="grid overflow-hidden border border-slate-200 bg-white shadow-sm lg:grid-cols-[.8fr_1.2fr]">
-        <aside className="bg-[#071d3b] p-7 text-white sm:p-9">
+        <aside className="bg-[#071d3b] p-7 text-white sm:p-9 fade-in-up">
           <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-[#e2c46c]"><ShieldCheck className="h-6 w-6" aria-hidden="true" /></span>
           <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-[#e2c46c]">Sammena Digital School</p><h2 className="mt-2 text-2xl font-bold sm:text-3xl">One secure entry point.</h2>
           <p className="mt-4 text-sm leading-7 text-white/70">Choose the account type issued to you by Sammena. Private school records remain behind authenticated access.</p>
           <ul className="mt-7 space-y-3">{["Parent and child services", "Teaching and staff services", "School email access", "Restricted administration"].map(item => <li key={item} className="flex items-start gap-3 text-sm text-white/80"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#e2c46c]" aria-hidden="true" />{item}</li>)}</ul>
           <div className="mt-9 border-t border-white/10 pt-5 text-xs leading-5 text-white/50">Access is role-based. Never share your password or use another person's account.</div>
         </aside>
-        <section className="p-5 sm:p-8">
+        <section className="p-5 sm:p-8 fade-in-up">
           <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4" role="tablist" aria-label="Sammena login types">
             {options.map(option => { const Icon = option.icon; const selectedTab = active === option.id; return <button key={option.id} type="button" role="tab" aria-selected={selectedTab} onClick={() => changeAudience(option.id)} className={`flex min-h-[84px] items-center gap-3 border p-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9b7728] ${selectedTab ? "border-[#9b7728] bg-[#faf8f1]" : "border-slate-200 bg-white hover:bg-slate-50"}`}><span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${option.accent}`}><Icon className="h-5 w-5" aria-hidden="true" /></span><span><span className="block text-sm font-bold text-[#0a3158]">{option.label}</span><span className="mt-1 block text-[10px] leading-4 text-slate-500">{option.description}</span></span></button> })}
           </div>
