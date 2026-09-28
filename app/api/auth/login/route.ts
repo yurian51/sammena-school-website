@@ -1,7 +1,7 @@
 import { apiError } from "@/lib/api/errors"
 import { requestId } from "@/lib/api/request"
 
-const audiences = new Set(["parent", "staff", "email", "admin"])
+const audiences = new Set(["parent", "student", "staff", "email", "admin"])
 
 export async function POST(request: Request) {
   const id = requestId(request)
