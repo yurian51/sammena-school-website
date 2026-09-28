@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: sammena-school-website
+    runtime: node
+    plan: free
+    region: singapore
+    repo: https://github.com/yurian51/sammena-school-website
+    branch: main
+    buildCommand: pnpm install --frozen-lockfile && pnpm build
+    startCommand: pnpm start
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: sammena-school-production-db
+          property: connectionString
+      - key: SAMMENA_SCHOOL_ID
+        value: 4453b19d-62d7-44df-8502-2e69cfb905ed
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD_HASH
+        sync: false
+      - key: ADMIN_SESSION_SECRET
+        generateValue: true
