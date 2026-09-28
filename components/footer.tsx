@@ -3,7 +3,7 @@ import Link from "next/link"
 import { ArrowRight, Mail, MapPin, Phone, ShieldCheck } from "lucide-react"
 
 const groups = [
-  { title: "Explore", links: [["/", "Home"], ["/about", "About Sammena"], ["/history", "School History"], ["/leadership", "Leadership & Governance"], ["/academics", "Academics"], ["/secondary", "Secondary School · 2028"]] },
+  { title: "Explore", links: [["/", "Home"], ["/about", "About Sammena"], ["/history", "School History"], ["/leadership", "Leadership & Governance"], ["/academics", "Academics"], ["/secondary", "Secondary School"]] },
   { title: "Admissions & Services", links: [["/admissions", "Admissions"], ["/admissions/fees", "Fees & Payment Guide"], ["/resources", "Resource Centre"], ["/calendar", "Academic Calendar"], ["/portal", "Parent / Student Portal"]] },
   { title: "Community", links: [["/gallery", "School Life"], ["/news", "News & Events"], ["/results", "Academic Results"], ["/sponsorship", "Support Sammena"], ["/policies", "Policies & Guidelines"], ["/location", "School Location"], ["/search", "Search Website"], ["/contact", "Contact Sammena"]] },
 ]
@@ -34,7 +34,7 @@ export function Footer() {
         <div className="grid gap-8 xl:grid-cols-[1.05fr_2fr] xl:gap-14">
           <div>
             <Link href="/" className="group inline-flex items-center gap-3" aria-label="SAMMENA SCHOOLS home">
-              <Image src="/images/sammena-logo.png" alt="Sammena Pre & Primary School logo" width={44} height={44} className="h-11 w-11 rounded-sm bg-white object-cover shadow-sm ring-1 ring-[#d8b55b]/70 transition-all duration-300 group-hover:scale-105" />
+              <Image src="/images/Sammena_Pre_Primary_School_Logo_Clean.svg" alt="Sammena Pre & Primary School logo" width={44} height={44} className="h-11 w-11 rounded-sm bg-white object-cover shadow-sm ring-1 ring-[#d8b55b]/70 transition-all duration-300 group-hover:scale-105" />
               <span className="leading-none">
                 <span className="block text-lg font-extrabold tracking-[0.08em] group-hover:text-school-gold">SAMMENA</span>
                 <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.3em] text-school-gold">Schools</span>
