@@ -3,9 +3,9 @@ import Link from "next/link"
 import { ArrowRight, Mail, MapPin, Phone, ShieldCheck } from "lucide-react"
 
 const groups = [
-  { title: "Explore", links: [["/", "Home"], ["/about", "About Sammena"], ["/academics", "Academics"], ["/secondary", "Secondary School · 2028"]] },
+  { title: "Explore", links: [["/", "Home"], ["/about", "About Sammena"], ["/history", "School History"], ["/leadership", "Leadership & Governance"], ["/academics", "Academics"], ["/secondary", "Secondary School · 2028"]] },
   { title: "Admissions & Services", links: [["/admissions", "Admissions"], ["/admissions/fees", "Fees & Payment Guide"], ["/resources", "Resource Centre"], ["/calendar", "Academic Calendar"], ["/portal", "Parent / Student Portal"]] },
-  { title: "Community", links: [["/gallery", "School Life"], ["/news", "News & Events"], ["/results", "Academic Results"], ["/location", "School Location"], ["/search", "Search Website"], ["/contact", "Contact Sammena"]] },
+  { title: "Community", links: [["/gallery", "School Life"], ["/news", "News & Events"], ["/results", "Academic Results"], ["/sponsorship", "Support Sammena"], ["/policies", "Policies & Guidelines"], ["/location", "School Location"], ["/search", "Search Website"], ["/contact", "Contact Sammena"]] },
 ]
 
 const quickServices = [
