@@ -76,7 +76,11 @@ function getConfiguredProvider(): SessionProvider {
       if (!raw) return null
 
       const [payload, signature] = raw.split(".")
-      if (!payload || !signature || !timingSafeEqual(Buffer.from(signature), Buffer.from(sign(payload, config.secret)))) return null
+      if (!payload || !signature) return null
+      const expectedSignature = sign(payload, config.secret)
+      const receivedSignature = Buffer.from(signature)
+      const expected = Buffer.from(expectedSignature)
+      if (receivedSignature.length !== expected.length || !timingSafeEqual(receivedSignature, expected)) return null
 
       try {
         const parsed = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as {
