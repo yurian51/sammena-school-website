@@ -18,6 +18,9 @@ const routes = [
   '/calendar',
   '/events',
   '/results',
+  '/history',
+  '/policies',
+  '/sponsorship',
   '/trust',
   '/privacy',
 ]
