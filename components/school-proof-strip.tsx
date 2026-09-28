@@ -13,7 +13,8 @@ export function SchoolProofStrip() {
           <BadgeCheck className="h-5 w-5 shrink-0 text-[#9b7728]" aria-hidden="true" />
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">PSLE {psle.year}</p>
-            <p className="mt-1 text-lg font-extrabold text-[#0a3158]">{psle.passRate ?? "—"}% pass rate</p>
+            <p className="mt-1 text-lg font-extrabold text-[#0a3158]">{psle.passRate != null ? `${psle.passRate}% pass rate` : "Result record"}</p>
+            <p className="mt-0.5 text-[10px] text-slate-500">{psle.sourceKind === "official" ? "NECTA official source" : "Published secondary source"}</p>
           </div>
         </div>
         <div className="flex items-center gap-3 px-0 py-5 sm:px-5 lg:px-6">
@@ -41,7 +42,7 @@ export function SchoolProofStrip() {
           </Link>
         </div>
       </div>
-      <p className="sr-only">Latest SFNA result: {sfna.year}, school average {sfna.average.toFixed(2)}, grade {sfna.grade}.</p>
+      <p className="sr-only">Latest SFNA result: {sfna.year}. Source: {sfna.sourceKind === "official" ? "NECTA official source" : "published secondary source"}.</p>
     </section>
   )
 }
