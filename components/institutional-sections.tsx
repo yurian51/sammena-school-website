@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowRight, Bell, CalendarDays, ClipboardList, Download, FileText, GraduationCap, Newspaper, Search, ShieldCheck } from "lucide-react"
+import { ArrowRight, Bell, CalendarDays, ClipboardList, Download, FileText, GraduationCap, Search, ShieldCheck } from "lucide-react"
 import { GlobalSchoolExperience } from "@/components/global-school-experience"
 import { PublicUpdates } from "@/components/public-updates"
 
