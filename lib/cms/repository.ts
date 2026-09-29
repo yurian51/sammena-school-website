@@ -2,7 +2,6 @@ import type { CmsContent, CmsContentStatus } from "./types"
 
 export interface CmsRepository {
   listPublished(contentType?: CmsContent["type"]): Promise<CmsContent[]>
-  listAll(): Promise<CmsContent[]>
   findById(id: string): Promise<CmsContent | null>
   save(content: CmsContent): Promise<CmsContent>
   updateStatus(id: string, status: CmsContentStatus): Promise<CmsContent>
