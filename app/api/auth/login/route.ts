@@ -24,8 +24,8 @@ export async function POST(request: Request) {
     try {
       authenticateAdmin(identifier, password)
     } catch (error) {
-      if (error instanceof Error && error.message === "AUTH_PROVIDER_NOT_CONFIGURED") {
-        return apiError("SERVICE_UNAVAILABLE", "Sammena administrator authentication is not configured on the server.", 503, id)
+      if (error instanceof Error && (error.message === "AUTH_PROVIDER_NOT_CONFIGURED" || error.message === "AUTH_ROLE_NOT_CONFIGURED")) {
+        return apiError("SERVICE_UNAVAILABLE", "Sammena administrator authentication is not configured correctly on the server.", 503, id)
       }
       return apiError("UNAUTHORIZED", "The administrator credentials are not valid.", 401, id)
     }
