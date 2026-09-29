@@ -1,19 +1,19 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { ArrowLeft, BookOpen, Download, ExternalLink, FileText, Filter, GraduationCap, Search, ShieldCheck, Sparkles } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 
-type ResourceKind = "Textbook" | "Supplementary" | "Curriculum & guide"
+type ResourceKind = "Textbook" | "Supplementary" | "Curriculum & guide" | "Teacher resource"
 type Resource = {
   id: string
   title: string
   kind: ResourceKind
   level: string
   subject: string
-  language: "English" | "Kiswahili"
+  language: "English" | "Kiswahili" | "Bilingual"
   source: string
   sourceUrl: string
   readerUrl: string
@@ -21,55 +21,41 @@ type Resource = {
   description: string
 }
 
-const resources: Resource[] = [
-  {
-    id: "tie-std4-english",
-    title: "English Language, Standard Four",
-    kind: "Textbook",
-    level: "Primary • Standard IV",
-    subject: "English",
-    language: "English",
-    source: "Tanzania Institute of Education",
-    sourceUrl: "https://ol.tie.go.tz/",
-    readerUrl: "https://ol.tie.go.tz/uploaded_files/books/primary/Eng/Std4/English/English_Std_4.html",
-    description: "Curriculum-aligned primary textbook available through the official TIE digital library.",
-  },
-  {
-    id: "tie-std4-hisabati",
-    title: "Hisabati, Standard Four",
-    kind: "Textbook",
-    level: "Primary • Standard IV",
-    subject: "Mathematics",
-    language: "Kiswahili",
-    source: "Tanzania Institute of Education",
-    sourceUrl: "https://ol.tie.go.tz/",
-    readerUrl: "https://ol.tie.go.tz/uploaded_files/books/primary/Eng/Std4/Hisabati/Hisabati_Std_4.html",
-    description: "Primary mathematics learning resource linked directly to the official TIE repository.",
-  },
-  {
-    id: "tie-primary-curriculum",
-    title: "Curriculum for Primary Education, Standard I–VII",
-    kind: "Curriculum & guide",
-    level: "Primary • Standards I–VII",
-    subject: "Curriculum",
-    language: "English",
-    source: "Tanzania Institute of Education",
-    sourceUrl: "https://www.tie.go.tz/",
-    readerUrl: "https://www.tie.go.tz/uploads/files/Curriculum%20for%20Primary%20Education%20STD%20I-VII%20English%20Medium%20Schools.pdf",
-    downloadUrl: "https://www.tie.go.tz/uploads/files/Curriculum%20for%20Primary%20Education%20STD%20I-VII%20English%20Medium%20Schools.pdf",
-    description: "Official national primary education curriculum reference for English-medium schools.",
-  },
-]
-
-const filters = ["All", "Textbook", "Supplementary", "Curriculum & guide"] as const
+const filters = ["All", "Textbook", "Supplementary", "Curriculum & guide", "Teacher resource"] as const
 
 export default function LibraryPage() {
+  const [resources, setResources] = useState<Resource[]>([])
   const [query, setQuery] = useState("")
   const [kind, setKind] = useState<(typeof filters)[number]>("All")
   const [level, setLevel] = useState("All")
-  const [selected, setSelected] = useState<Resource>(resources[0])
+  const [selected, setSelected] = useState<Resource | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
+  const [meta, setMeta] = useState({ total: 0, textbooks: 0, supplementary: 0, curriculumGuides: 0 })
 
-  const levels = useMemo(() => ["All", ...Array.from(new Set(resources.map(resource => resource.level)))], [])
+  useEffect(() => {
+    let active = true
+    fetch("/api/library", { headers: { Accept: "application/json" } })
+      .then(response => {
+        if (!response.ok) throw new Error("LIBRARY_REQUEST_FAILED")
+        return response.json()
+      })
+      .then(data => {
+        if (!active) return
+        setResources(Array.isArray(data.resources) ? data.resources : [])
+        setMeta(data.meta ?? { total: 0, textbooks: 0, supplementary: 0, curriculumGuides: 0 })
+        setSelected(Array.isArray(data.resources) && data.resources.length ? data.resources[0] : null)
+      })
+      .catch(() => {
+        if (active) setLoadError(true)
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+    return () => { active = false }
+  }, [])
+
+  const levels = useMemo(() => ["All", ...Array.from(new Set(resources.map(resource => resource.level)))], [resources])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -98,9 +84,9 @@ export default function LibraryPage() {
 
       <section className="border-b border-slate-200 bg-white">
         <div className="mx-auto grid max-w-7xl gap-px border-x border-slate-200 sm:grid-cols-3">
-          <div className="p-5"><p className="text-2xl font-bold text-school-dark">3</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Verified resources</p></div>
-          <div className="p-5"><p className="text-2xl font-bold text-school-dark">2</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Textbooks</p></div>
-          <div className="p-5"><p className="text-2xl font-bold text-school-dark">1</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Curriculum guide</p></div>
+          <div className="p-5"><p className="text-2xl font-bold text-school-dark">{meta.total}</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Verified resources</p></div>
+          <div className="p-5"><p className="text-2xl font-bold text-school-dark">{meta.textbooks}</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Textbooks</p></div>
+          <div className="p-5"><p className="text-2xl font-bold text-school-dark">{meta.curriculumGuides}</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Curriculum guide</p></div>
         </div>
       </section>
 
@@ -157,24 +143,24 @@ export default function LibraryPage() {
               <section className="mt-8 border border-slate-200 bg-white">
                 <div className="border-b border-slate-200 bg-[#f7f7f5] p-5">
                   <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#9b7728]">Selected resource</p>
-                  <h2 className="mt-2 text-2xl font-bold text-school-dark">{selected.title}</h2>
-                  <p className="mt-2 text-sm text-slate-500">{selected.level} • {selected.subject} • {selected.source}</p>
+                  <h2 className="mt-2 text-2xl font-bold text-school-dark">{selected?.title ?? "Select a resource"}</h2>
+                  <p className="mt-2 text-sm text-slate-500">{selected ? `${selected.level} • ${selected.subject} • ${selected.source}` : "Choose a published resource from the catalogue."}</p>
                 </div>
                 <div className="p-5 sm:p-7">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                    <p className="max-w-2xl text-sm leading-7 text-slate-600">{selected.description}</p>
+                    <p className="max-w-2xl text-sm leading-7 text-slate-600">{selected?.description ?? "Published resources will appear here when the library catalogue is available."}</p>
                     <div className="flex shrink-0 flex-wrap gap-2">
-                      <a href={selected.readerUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-school-dark px-4 py-3 text-sm font-bold text-white"><ExternalLink className="h-4 w-4" /> Open reader</a>
-                      {selected.downloadUrl && <a href={selected.downloadUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-school-dark"><Download className="h-4 w-4" /> Download</a>}
+                      <a href={selected?.readerUrl ?? "#"} aria-disabled={!selected} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-school-dark px-4 py-3 text-sm font-bold text-white"><ExternalLink className="h-4 w-4" /> Open reader</a>
+                      {selected?.downloadUrl && <a href={selected.downloadUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-school-dark"><Download className="h-4 w-4" /> Download</a>}
                     </div>
                   </div>
                   <div className="mt-6 overflow-hidden border border-slate-200 bg-slate-100">
                     <div className="flex items-center gap-2 border-b border-slate-200 bg-white px-4 py-3 text-xs font-bold uppercase tracking-[0.14em] text-slate-500"><FileText className="h-4 w-4 text-school-gold" /> Reader preview</div>
-                    <iframe key={selected.id} src={selected.readerUrl} title={"Reading " + selected.title} className="h-[70vh] min-h-[560px] w-full bg-white" loading="lazy" />
+                    <iframe key={selected?.id ?? "empty"} src={selected?.readerUrl ?? "about:blank"} title={"Reading " + selected.title} className="h-[70vh] min-h-[560px] w-full bg-white" loading="lazy" />
                   </div>
                   <div className="mt-5 flex items-start gap-3 border-t border-slate-200 pt-5">
                     <ExternalLink className="mt-0.5 h-4 w-4 shrink-0 text-school-gold" />
-                    <p className="text-sm leading-6 text-slate-600">Publisher: <a href={selected.sourceUrl} target="_blank" rel="noreferrer" className="font-bold text-[#8a6a24]">{selected.source}</a>. Sammena links to the source of record for externally hosted books.</p>
+                    <p className="text-sm leading-6 text-slate-600">Publisher: {selected && <a href={selected.sourceUrl} target="_blank" rel="noreferrer" className="font-bold text-[#8a6a24]">{selected.source}</a>} {selected ? "Sammena links to the source of record for externally hosted books." : "Select a resource to view its verified source."}</p>
                   </div>
                 </div>
               </section>
