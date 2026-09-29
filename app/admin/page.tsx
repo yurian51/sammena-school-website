@@ -66,8 +66,8 @@ export default function AdminDashboardPage() {
   if (error || !data) return <main className="min-h-screen bg-[#f6f4ef] p-6 text-[#172033]"><div className="mx-auto flex min-h-[80vh] max-w-xl items-center justify-center"><section className="w-full border border-slate-200 bg-white p-8 text-center shadow-sm"><ShieldCheck className="mx-auto h-8 w-8 text-[#b9964f]" /><h1 className="mt-4 text-2xl font-bold">Administration unavailable</h1><p className="mt-3 text-sm leading-6 text-slate-600">{error ?? "The secure administration workspace could not be loaded."}</p><button onClick={() => void load()} className="mt-6 inline-flex items-center gap-2 bg-[#17365d] px-5 py-3 text-sm font-bold text-white"><RefreshCw className="h-4 w-4" /> Retry</button></section></div></main>
 
   const attention = [
-    data.pendingApplications > 0 ? { label: \`${data.pendingApplications.toLocaleString()} admissions application${data.pendingApplications === 1 ? "" : "s"} awaiting review\`, href: "/admin/admissions" } : null,
-    data.draftContent > 0 ? { label: \`${data.draftContent.toLocaleString()} publication item${data.draftContent === 1 ? "" : "s"} still in workflow\`, href: "/admin/content" } : null,
+    data.pendingApplications > 0 ? { label: data.pendingApplications.toLocaleString() + " admissions application" + (data.pendingApplications === 1 ? "" : "s") + " awaiting review", href: "/admin/admissions" } : null,
+    data.draftContent > 0 ? { label: data.draftContent.toLocaleString() + " publication item" + (data.draftContent === 1 ? "" : "s") + " still in workflow", href: "/admin/content" } : null,
   ].filter((item): item is { label: string; href: string } => Boolean(item))
 
   return (
