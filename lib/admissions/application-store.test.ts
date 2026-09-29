@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { clearApplicationStore, getApplication, listApplications, submitApplication } from "./application-store"
+import { clearApplicationStore, getApplication, listApplications, submitApplication, type StoredApplicationInput } from "./application-store"
 
-const sample = {
+const sample: StoredApplicationInput = {
   guardian: "Test Parent", phone: "0712345678", email: "", relationship: "Parent" as const,
   occupation: "", guardianNationality: "", address: "Arusha", learner: "Test Learner", dob: "2018-01-01", age: "8",
   gender: "Male" as const, nationality: "Tanzanian", homeRegion: "Arusha", homeDistrict: "Arumeru", division: "Nduruma", village: "Nduruma",
