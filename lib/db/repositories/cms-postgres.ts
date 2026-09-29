@@ -5,6 +5,7 @@ import type { CmsContentRow } from "../types"
 import { mapCmsRow } from "../mappers"
 
 export class PostgresCmsRepository implements CmsRepository {
+  // Administrative CMS collection access.
   async listPublished(type?: CmsContent["type"]) {
     const result = await getDbClient().query<CmsContentRow>(`select * from cms_content where status='PUBLISHED' and (published_at is null or published_at <= now()) and (expires_at is null or expires_at > now()) and ($1::text is null or type=$1) order by published_at desc nulls last, created_at desc`, [type ?? null])
     return result.rows.map(mapCmsRow)
