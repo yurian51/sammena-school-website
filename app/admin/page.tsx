@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import {
   Activity, CalendarDays, FileText, LogOut, Megaphone, RefreshCw,
-  Settings, ShieldCheck, Users, ArrowRight, ClipboardList
+  Settings, ShieldCheck, ArrowRight, ClipboardList
 } from "lucide-react"
 
 type Overview = {
