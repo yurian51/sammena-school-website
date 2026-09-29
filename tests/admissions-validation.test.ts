@@ -44,19 +44,19 @@ describe("admission domain validation", () => {
       guardian: { ...validInput.guardian, relationship: "Neighbor" },
     })
     expect(result.ok).toBe(false)
-    if (result.ok === false) expect(result.fields).toContain("guardian.relationship")
+    if ("fields" in result) expect(result.fields).toContain("guardian.relationship")
   })
 
   it("rejects malformed academic years", () => {
     const result = validateAdmissionsApplication({ ...validInput, academicYear: "26/27" })
     expect(result.ok).toBe(false)
-    if (result.ok === false) expect(result.fields).toContain("academicYear")
+    if ("fields" in result) expect(result.fields).toContain("academicYear")
   })
 
   it("rejects non-consecutive academic year ranges", () => {
     const result = validateAdmissionsApplication({ ...validInput, academicYear: "2026/2028" })
     expect(result.ok).toBe(false)
-    if (result.ok === false) expect(result.fields).toContain("academicYear")
+    if ("fields" in result) expect(result.fields).toContain("academicYear")
   })
 
   it("accepts a single academic year", () => {
@@ -69,7 +69,7 @@ describe("admission domain validation", () => {
       learner: { ...validInput.learner, dateOfBirth: "2015-02-30" },
     })
     expect(result.ok).toBe(false)
-    if (result.ok === false) expect(result.fields).toContain("learner.dateOfBirth")
+    if ("fields" in result) expect(result.fields).toContain("learner.dateOfBirth")
   })
 
   it("rejects future dates of birth", () => {
@@ -79,7 +79,7 @@ describe("admission domain validation", () => {
       learner: { ...validInput.learner, dateOfBirth: future },
     })
     expect(result.ok).toBe(false)
-    if (result.ok === false) expect(result.fields).toContain("learner.dateOfBirth")
+    if ("fields" in result) expect(result.fields).toContain("learner.dateOfBirth")
   })
 
   it("requires a recognized study type and guardian relationship", () => {
@@ -89,7 +89,7 @@ describe("admission domain validation", () => {
       guardian: { ...validInput.guardian, relationship: "" },
     })
     expect(result.ok).toBe(false)
-    if (result.ok === false) {
+    if ("fields" in result) {
       expect(result.fields).toContain("studyType")
       expect(result.fields).toContain("guardian.relationship")
     }
@@ -101,6 +101,6 @@ describe("admission domain validation", () => {
       learner: { ...validInput.learner, entryLevel: "Form I" },
     })
     expect(result.ok).toBe(false)
-    if (result.ok === false) expect(result.fields).toContain("learner.entryLevel")
+    if ("fields" in result) expect(result.fields).toContain("learner.entryLevel")
   })
 })
