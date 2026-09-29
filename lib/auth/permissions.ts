@@ -5,7 +5,7 @@ export type Permission = "cms:read" | "cms:write" | "cms:publish" | "admissions:
 const rolePermissions: Record<UserRole, readonly Permission[]> = {
   SUPER_ADMIN: ["cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review"],
   SCHOOL_ADMIN: ["cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review"],
-  EDITOR: ["cms:read", "cms:write", "cms:publish"],
+  EDITOR: ["cms:read", "cms:write"],
   TEACHER: ["admissions:read"],
   PARENT: [],
   STUDENT: [],
