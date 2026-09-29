@@ -20,6 +20,7 @@ type Overview = {
 
 const modules = [
   { label: "Admissions", description: "Review applications and decisions.", href: "/admissions/admin", icon: ClipboardList },
+  { label: "News & publishing", description: "Create, review and publish official school posts.", href: "/admin/content", icon: Megaphone },
   { label: "Admissions reports", description: "Review operational admissions reporting.", href: "/admissions/admin/reports", icon: FileText },
   { label: "Events & calendar", description: "Review the school calendar and events.", href: "/calendar", icon: CalendarDays },
   { label: "School portal", description: "Open operational student services.", href: "/portal", icon: Users },
