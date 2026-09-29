@@ -60,6 +60,18 @@ export class PostgresCalendarRepository {
     return result.rows.map(mapEvent)
   }
 
+  async listAll() {
+    const result = await getDbClient().query<EventRow>(
+      `select id::text, school_id::text, title, slug, description, category, audience,
+        starts_at::text, ends_at::text, all_day, location, status,
+        published_at::text, created_at::text, updated_at::text
+       from school_events where school_id = $1
+       order by starts_at asc, created_at desc`,
+      [this.schoolId],
+    )
+    return result.rows.map(mapEvent)
+  }
+
   async findById(id: string) {
     const result = await getDbClient().query<EventRow>(
       `select id::text, school_id::text, title, slug, description, category, audience,
