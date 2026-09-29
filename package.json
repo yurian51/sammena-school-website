@@ -74,7 +74,7 @@
     "postcss": "^8.5",
     "tailwindcss": "^4.3.3",
     "tw-animate-css": "1.3.3",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "vitest": "^3.2.7",
     "@types/pg": "^8.15.5"
   },
