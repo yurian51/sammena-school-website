@@ -1,30 +1,167 @@
-"use client"
-
+import type { Metadata } from "next"
+import Link from "next/link"
+import { ArrowRight, BookOpen, CalendarDays, CheckCircle2, ExternalLink, FileCheck2, GraduationCap, HeartHandshake, Languages, ShieldCheck } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
-import Link from "next/link"
-import { BookOpen, Calculator, Globe, Languages, Microscope, Palette, Users, Clock, ArrowRight, GraduationCap } from "lucide-react"
-import { useScrollAnimation } from "@/hooks/use-scroll-animation"
-import { cn } from "@/lib/utils"
 
-const preSchoolSubjects = [{ icon: BookOpen, name: "English Language", desc: "Basic reading, phonics, writing, and oral communication." }, { icon: Calculator, name: "Mathematics", desc: "Numbers, counting, shapes, and early arithmetic." }, { icon: Languages, name: "Kiswahili", desc: "Introduction to the national language." }, { icon: Palette, name: "Creative Arts", desc: "Drawing, coloring, crafts, and creative play." }, { icon: Users, name: "Social Skills", desc: "Cooperation, sharing, and basic life skills." }, { icon: Microscope, name: "Environmental Studies", desc: "Learning about nature, plants, and animals." }]
-const primarySubjects = [{ icon: BookOpen, name: "English Language", desc: "Reading comprehension, grammar, writing, and oral skills." }, { icon: Calculator, name: "Mathematics", desc: "Arithmetic, geometry, algebra fundamentals for strong numeracy." }, { icon: Globe, name: "Social Studies", desc: "History, geography, civics, and Tanzanian culture." }, { icon: Languages, name: "Kiswahili", desc: "National language proficiency — spoken and written." }, { icon: Microscope, name: "Science & Technology", desc: "Basic science concepts, experiments, and environmental awareness." }, { icon: Palette, name: "Creative Arts", desc: "Drawing, crafts, music, and creative self-expression." }]
-const approaches = [{ title: "English-Medium Instruction", description: "Unlike most government schools that use Kiswahili, we teach in English from an early age, preparing pupils for secondary education where English is the language of instruction." }, { title: "Character & Moral Guidance", description: "Beyond academics, we nurture discipline, respect, and moral values to help every child grow into a responsible citizen." }, { title: "Individual Attention", description: "With dedicated teachers, we ensure every pupil receives the support they need, especially those from vulnerable backgrounds." }, { title: "Holistic Development", description: "Sports, games, creative activities, and social skills are integrated into our curriculum to develop the whole child." }]
-const schoolStats = [{ value: "Pre-Primary", label: "Early Years" }, { value: "Std 1–7", label: "Primary School" }, { value: "English", label: "Medium of Instruction" }]
-const dailySchedule = [{ time: "07:00 – 07:30", activity: "Arrival & Assembly" }, { time: "07:30 – 10:00", activity: "Morning Lessons" }, { time: "10:00 – 10:30", activity: "Break & Snacks" }, { time: "10:30 – 12:30", activity: "Mid-Day Lessons" }, { time: "12:30 – 14:00", activity: "Lunch & Rest" }, { time: "14:00 – 15:30", activity: "Afternoon Lessons" }, { time: "15:30 – 16:00", activity: "Sports & Activities" }]
+export const metadata: Metadata = {
+  title: "Academics",
+  description: "Academic information for Sammena Pre & Primary School, with clear separation between school-specific information and the national curriculum framework.",
+  alternates: { canonical: "/academics" },
+}
 
-function Reveal({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) { const { ref, isVisible } = useScrollAnimation(); return <div ref={ref} data-motion="section" data-visible={isVisible ? "true" : "false"} className={cn(className)} style={{ transitionDelay: `${delay}ms` }}>{children}</div> }
-function SubjectGrid({ subjects }: { subjects: typeof preSchoolSubjects }) { return <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{subjects.map(({ icon: Icon, name, desc }, i) => <Reveal key={name} delay={i * 60}><div data-motion="card" className="group flex h-full gap-4 rounded-sm border border-border bg-white p-5"><div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#0a3158]/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-[#0a3158]"><Icon className="h-5 w-5 text-[#9b7728] transition-colors duration-300 group-hover:text-white"/></div><div><h3 className="mb-1 text-sm font-semibold text-foreground">{name}</h3><p className="text-xs leading-relaxed text-muted-foreground">{desc}</p></div></div></Reveal>)}</div> }
+const stages = [
+  {
+    title: "Pre-Primary",
+    eyebrow: "Early years",
+    icon: HeartHandshake,
+    text: "Early learning at Sammena is presented as the foundation stage of the school journey. Current class-specific timetables and detailed subject allocations are published only when confirmed by the school.",
+  },
+  {
+    title: "Primary School",
+    eyebrow: "Standards I–VII",
+    icon: GraduationCap,
+    text: "Samena Pre & Primary School provides primary education. The national curriculum framework for English-medium primary schools provides the reference point for curriculum planning and learner development.",
+  },
+]
+
+const principles = [
+  "Learner-centred teaching and learning",
+  "Development of knowledge, competencies, values and life skills",
+  "Academic learning alongside social, ethical and physical development",
+  "Assessment and feedback used to support learner progress",
+]
+
+const subjectAreas = [
+  { icon: Languages, title: "Languages", text: "Language learning is part of the national primary curriculum framework, including English and Kiswahili pathways." },
+  { icon: BookOpen, title: "Mathematics & sciences", text: "The national framework provides structured learning in mathematics, science and related areas across primary stages." },
+  { icon: CheckCircle2, title: "Social, ethical & cultural learning", text: "The curriculum framework includes learning that develops social, ethical, cultural and civic understanding." },
+  { icon: HeartHandshake, title: "Arts, sport & life skills", text: "Creative, physical and life-skill development form part of the broader learner-development approach." },
+]
 
 export default function AcademicsPage() {
-  return <main className="min-h-screen overflow-x-hidden"><Navbar />
-    <section className="relative isolate overflow-hidden bg-school-dark pb-20 pt-36 text-white"><div className="relative mx-auto max-w-7xl px-5 text-center sm:px-6 lg:px-8"><Reveal><span className="text-[#9b7728] font-semibold text-sm uppercase tracking-[0.2em]">Our Curriculum</span><h1 className="mt-3 text-4xl font-bold tracking-tight md:text-6xl">Academic Programs</h1><p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/75">Quality English-medium education from Pre-Primary through Standard 7, building strong foundations for secondary school and beyond.</p></Reveal></div></section>
-    <section className="bg-[#0a3158] py-10"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><div className="grid grid-cols-2 gap-y-7 md:grid-cols-4 md:divide-x md:divide-white/20">{schoolStats.map((stat, i) => <Reveal key={stat.label} delay={i * 70} className="text-center"><div className="text-2xl font-bold text-white md:text-3xl">{stat.value}</div><div className="mt-1 text-sm text-white/80">{stat.label}</div></Reveal>)}</div></div></section>
-    <section className="bg-white py-20 lg:py-24"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><Reveal><div className="flex items-center gap-3"><div className="h-0.5 w-8 bg-[#0a3158]"/><span className="text-[#9b7728] font-semibold text-sm uppercase tracking-[0.2em]">Nursery & Kindergarten</span></div><h2 className="mt-3 text-3xl font-bold text-foreground md:text-5xl">Pre-Primary School</h2><p className="mt-4 mb-10 max-w-2xl leading-7 text-muted-foreground">Our pre-primary program introduces young children to the joy of learning through play-based activities, early literacy, and social development in a nurturing English-medium environment.</p></Reveal><SubjectGrid subjects={preSchoolSubjects}/></div></section>
-    <section className="bg-[#f7f7f5] py-20 lg:py-24"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><Reveal><div className="flex items-center gap-3"><div className="h-0.5 w-8 bg-[#0a3158]"/><span className="text-[#9b7728] font-semibold text-sm uppercase tracking-[0.2em]">Standards 1–7</span></div><h2 className="mt-3 text-3xl font-bold text-foreground md:text-5xl">Primary School</h2><p className="mt-4 mb-10 max-w-2xl leading-7 text-muted-foreground">Our primary curriculum follows the national syllabus while delivering instruction in English, giving pupils a significant advantage when they transition to secondary education.</p></Reveal><SubjectGrid subjects={primarySubjects}/></div></section>
-    <section className="bg-white py-20 lg:py-24"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><Reveal className="mb-12 text-center"><span className="text-[#9b7728] font-semibold text-sm uppercase tracking-[0.2em]">Our Approach</span><h2 className="mt-3 text-3xl font-bold text-foreground md:text-5xl">How We Teach</h2></Reveal><div className="grid gap-6 md:grid-cols-2">{approaches.map((a, idx) => <Reveal key={a.title} delay={idx * 90}><div data-motion="card" className="group flex h-full gap-4 rounded-sm border border-border bg-white p-6"><div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border-2 border-school-orange/20 bg-[#0a3158]/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-[#0a3158]"><span className="text-sm font-bold text-[#9b7728] group-hover:text-white">{idx + 1}</span></div><div><h3 className="font-semibold text-foreground">{a.title}</h3><p className="mt-2 text-sm leading-7 text-muted-foreground">{a.description}</p></div></div></Reveal>)}</div></div></section>
-    <section className="bg-school-dark py-20 text-white lg:py-24"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><Reveal><div className="flex items-center gap-3"><Clock className="h-5 w-5 text-[#9b7728]"/><span className="text-[#9b7728] font-semibold text-sm uppercase tracking-[0.2em]">School Day</span></div><h2 className="mt-3 text-3xl font-bold md:text-4xl">Daily schedule information</h2><p className="mt-5 max-w-2xl leading-7 text-white/70">Daily start times, breaks, meals and activity schedules are maintained by the school administration. This public site does not publish an unverified timetable.</p><Link href="/contact" className="group mt-7 inline-flex items-center gap-2 rounded-sm bg-white px-6 py-3 font-semibold text-[#0a3158] transition hover:bg-[#f7f7f5]">Confirm the current schedule <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1"/></Link></Reveal></div></section>
-    <section className="bg-[#0a3158] py-16"><Reveal className="mx-auto max-w-4xl px-5 text-center sm:px-6"><div className="inline-flex items-center gap-2 rounded-sm bg-white/20 px-4 py-1.5"><GraduationCap className="h-4 w-4 text-white"/><span className="text-sm font-medium text-white">Future Development</span></div><h2 className="mt-4 text-2xl font-bold text-white md:text-4xl">Sammena Secondary School</h2><p className="mx-auto mt-4 max-w-2xl leading-7 text-white/85">One of our major future plans is to establish Sammena Secondary School. This will allow pupils — especially orphans and children from difficult backgrounds — to continue their education in a familiar, caring environment.</p><Link href="/contact" className="group mt-7 inline-flex items-center gap-2 rounded-sm bg-white px-6 py-3 font-semibold text-[#9b7728] shadow-lg transition-all duration-300 hover:-translate-y-0.5">Support This Vision <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"/></Link></Reveal></section>
-    <Footer />
-  </main>
+  return (
+    <main className="min-h-screen bg-white">
+      <Navbar />
+
+      <section className="bg-school-dark pb-20 pt-36 text-white">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-school-gold">Academic programme</p>
+          <h1 className="mt-3 max-w-4xl text-4xl font-bold tracking-tight md:text-6xl">Learning with a clear academic foundation.</h1>
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-white/75">
+            This page separates what is documented about Sammena from the national curriculum framework. It does not invent a timetable, subject allocation or examination promise simply to make the page look full.
+          </p>
+        </div>
+      </section>
+
+      <section className="border-b border-slate-200 bg-[#f7f7f5] py-8">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-4 border border-[#c8a64b]/30 bg-[#fffdf6] p-5 sm:flex-row sm:items-start">
+            <FileCheck2 className="mt-0.5 h-5 w-5 shrink-0 text-[#9b7728]" aria-hidden="true" />
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#8a6a24]">Evidence status</p>
+              <p className="mt-1 max-w-4xl text-sm leading-6 text-slate-700">
+                Sammena-specific timetable, current class-by-class subject allocation, teaching staff assignments and internal assessment schedules are operational records. They are not published here unless approved by the school.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <div className="grid gap-5 md:grid-cols-2">
+            {stages.map(({ title, eyebrow, icon: Icon, text }) => (
+              <article key={title} className="border border-slate-200 bg-white p-7 shadow-sm sm:p-9">
+                <span className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#0a3158]/5 text-[#9b7728]">
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <p className="mt-6 text-xs font-bold uppercase tracking-[0.18em] text-[#9b7728]">{eyebrow}</p>
+                <h2 className="mt-2 text-2xl font-bold text-school-dark">{title}</h2>
+                <p className="mt-4 text-sm leading-7 text-slate-600">{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f7f7f5] py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#9b7728]">National curriculum reference</p>
+              <h2 className="mt-3 text-3xl font-bold text-school-dark md:text-4xl">The framework behind primary learning.</h2>
+              <p className="mt-4 text-sm leading-7 text-slate-600">
+                Tanzania Institute of Education publishes the national curriculum and syllabi used as reference material for primary education. The official English-medium Standard I–VII curriculum describes learner-centred education and development across academic, ethical, physical and social domains.
+              </p>
+              <a
+                href="https://www.tie.go.tz/uploads/files/Curriculum%20for%20Primary%20Education%20STD%20I-VII%20English%20Medium%20Schools.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-flex items-center gap-2 bg-school-dark px-5 py-3 text-sm font-bold text-white"
+              >
+                Open official curriculum <ExternalLink className="h-4 w-4" />
+              </a>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {subjectAreas.map(({ icon: Icon, title, text }) => (
+                <article key={title} className="border border-slate-200 bg-white p-6">
+                  <Icon className="h-5 w-5 text-[#9b7728]" aria-hidden="true" />
+                  <h3 className="mt-4 font-bold text-school-dark">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[1fr_.8fr]">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#9b7728]">Learning approach</p>
+              <h2 className="mt-3 text-3xl font-bold text-school-dark md:text-4xl">The learner is more than a mark.</h2>
+              <div className="mt-7 grid gap-3">
+                {principles.map(principle => (
+                  <div key={principle} className="flex items-start gap-3 border border-slate-200 bg-white p-4">
+                    <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#9b7728]" aria-hidden="true" />
+                    <p className="text-sm leading-6 text-slate-700">{principle}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <aside className="bg-school-dark p-7 text-white sm:p-9">
+              <CalendarDays className="h-6 w-6 text-school-gold" aria-hidden="true" />
+              <p className="mt-5 text-xs font-bold uppercase tracking-[0.18em] text-school-gold">School timetable</p>
+              <h2 className="mt-2 text-2xl font-bold">Current schedule is controlled by the school.</h2>
+              <p className="mt-3 text-sm leading-7 text-white/70">
+                Daily start times, lesson periods, breaks, examinations and activity schedules can change by term. The public site will publish an approved calendar or timetable record rather than displaying a hard-coded schedule.
+              </p>
+              <Link href="/calendar" className="mt-6 inline-flex items-center gap-2 bg-school-gold px-5 py-3 text-sm font-bold text-school-dark">
+                View school calendar <ArrowRight className="h-4 w-4" />
+              </Link>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-slate-200 bg-[#fffdf6] py-14">
+        <div className="mx-auto max-w-5xl px-5 text-center sm:px-6">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#9b7728]">Academic information</p>
+          <h2 className="mt-3 text-3xl font-bold text-school-dark">Need the current class or subject information?</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-600">
+            For current class allocations, approved timetables, school assessment arrangements or academic enquiries, use the school&apos;s official contact channel.
+          </p>
+          <Link href="/contact" className="mt-7 inline-flex items-center gap-2 bg-school-dark px-6 py-3 text-sm font-bold text-white">
+            Contact Sammena <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
+
+      <Footer />
+    </main>
+  )
 }
