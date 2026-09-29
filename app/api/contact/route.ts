@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     const body = await readJson<unknown>(request)
     const parsed = schema.safeParse(body)
     if (!parsed.success) {
-      return NextResponse.json({ error: { code: "VALIDATION_ERROR", message: "Please check the enquiry details and try again." }, id }, { status: 400 })
+      return NextResponse.json({ error: { code: "VALIDATION_ERROR", message: "Please check the enquiry details and try again." }, requestId: id }, { status: 400 })
     }
 
     const db = getRuntimeDbClient()
@@ -55,10 +55,10 @@ export async function POST(request: Request) {
     )
 
     if (!result.rows[0]?.accepted) {
-      return NextResponse.json({ error: { code: "RATE_LIMITED", message: "Too many enquiries were submitted recently. Please try again later." }, id }, { status: 429 })
+      return NextResponse.json({ error: { code: "RATE_LIMITED", message: "Too many enquiries were submitted recently. Please try again later." }, requestId: id }, { status: 429 })
     }
 
-    return NextResponse.json({ data: { accepted: true }, requestId }, { status: 201 })
+    return NextResponse.json({ data: { accepted: true }, requestId: id }, { status: 201 })
   } catch (error) {
     if (error instanceof Error && error.message === "REQUEST_TOO_LARGE") return NextResponse.json({ error: { code: "REQUEST_TOO_LARGE", message: "The enquiry is too large to submit." }, requestId }, { status: 413 })
     if (error instanceof Error && error.message === "VALIDATION_ERROR") return NextResponse.json({ error: { code: "VALIDATION_ERROR", message: "Please check the enquiry details and try again." }, requestId }, { status: 400 })
