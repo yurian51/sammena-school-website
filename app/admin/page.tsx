@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import { Activity, ArrowRight, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert } from "lucide-react"
+import { Activity, ArrowRight, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users } from "lucide-react"
 
 type Overview = {
   role: string
@@ -12,10 +12,12 @@ type Overview = {
   draftContent: number
   publishedContent: number
   upcomingEvents: number
+  activeStudents: number
   auditEvents30d: number
 }
 
 const modules = [
+  { label: "Students", description: "Search the live student register and 360° profiles.", href: "/admin/students", icon: Users },
   { label: "Admissions", description: "Review applications and decisions.", href: "/admin/admissions", icon: ClipboardList },
   { label: "News & publishing", description: "Create, edit and publish official posts.", href: "/admin/content", icon: Megaphone },
   { label: "Events & calendar", description: "Manage the public school calendar.", href: "/admin/events", icon: CalendarDays },
@@ -89,11 +91,11 @@ export default function AdminDashboardPage() {
 
         <section className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
           {[
+            { label: "Students", value: data.activeStudents, Icon: Users, href: "/admin/students" },
             { label: "Applications", value: data.applications, Icon: ClipboardList, href: "/admin/admissions" },
             { label: "Awaiting review", value: data.pendingApplications, Icon: Activity, href: "/admin/admissions" },
             { label: "In workflow", value: data.draftContent, Icon: FileText, href: "/admin/content" },
             { label: "Published posts", value: data.publishedContent, Icon: Megaphone, href: "/admin/content" },
-            { label: "Upcoming events", value: data.upcomingEvents, Icon: CalendarDays, href: "/admin/events" },
           ].map(({ label, value, Icon, href }) => <Link key={label} href={href} className="group border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[#b9964f]"><div className="grid h-10 w-10 place-items-center bg-[#f3ead5] text-[#8c6c28]"><Icon className="h-5 w-5" /></div><p className="mt-5 text-sm font-semibold text-slate-500">{label}</p><p className="mt-1 text-3xl font-bold text-[#17365d]">{value.toLocaleString()}</p></Link>)}
         </section>
 
