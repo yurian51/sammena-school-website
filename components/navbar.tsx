@@ -76,10 +76,15 @@ export function Navbar() {
 
       <div className={cn("border-b border-white/10 bg-[#17365d]/95 backdrop-blur-md transition-all duration-300", scrolled && "shadow-[0_12px_40px_rgba(16,40,70,.16)]")}>
         <nav className="mx-auto flex h-[74px] max-w-7xl items-center justify-between gap-4 px-5 sm:px-6 lg:px-8" aria-label="Primary navigation">
-          <Link href="/" className="group flex min-w-0 items-center gap-3" aria-label="Sammena Schools home">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white p-1 shadow-sm ring-1 ring-white/15">
-              <Image src="/images/Sammena_Pre_Primary_School_Logo_Clean.svg" alt="Sammena logo" width={44} height={44} className="h-full w-full object-contain" />
-            </span>
+          <Link href="/" className="group flex min-w-0 items-center gap-3" aria-label="Sammena Pre & Primary School home">
+            <Image
+              src="/images/Sammena_Pre_Primary_School_Logo_Clean.svg"
+              alt="Sammena Pre & Primary School official logo"
+              width={58}
+              height={60}
+              priority
+              className="h-[52px] w-[50px] shrink-0 object-contain"
+            />
             <span className="min-w-0 leading-none">
               <span className="block text-[17px] font-extrabold tracking-[0.13em] text-white">SAMMENA</span>
               <span className="mt-1.5 block text-[9px] font-semibold uppercase tracking-[0.34em] text-[#d7c28e]">Pre & Primary School</span>
