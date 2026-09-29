@@ -3,6 +3,8 @@ import { getDbClient } from "@/lib/db/client"
 
 const RESOURCE_KINDS = new Set(["TEXTBOOK", "SUPPLEMENTARY", "CURRICULUM_GUIDE", "TEACHER_RESOURCE"])
 
+type LibraryResourceRow = { id: string; title: string; kind: string; education_level: string; subject: string; language: "English" | "Kiswahili" | "Bilingual"; source_name: string; source_url: string; reader_url: string; download_url: string | null; description: string }
+
 export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams.get("q")?.trim() ?? ""
   const kind = request.nextUrl.searchParams.get("kind")?.trim() ?? ""
@@ -12,7 +14,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "INVALID_KIND" }, { status: 400 })
   }
 
-  const result = await getDbClient().query(`
+  const result = await getDbClient().query<LibraryResourceRow>(`
     select
       r.id,
       r.slug,
