@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest"
-import { calculateStudentRisk } from "./student-risk-engine"\nimport type { StudentProfileHealth } from "./student-profile-features"
+import { calculateStudentRisk } from "./student-risk-engine"
+import type { StudentProfileHealth } from "./student-profile-features"
 
 const completeHealth: StudentProfileHealth = {
   score: 100,
