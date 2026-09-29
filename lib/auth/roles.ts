@@ -23,7 +23,7 @@ export type Permission =
 const permissions: Record<Role, readonly Permission[]> = {
   SUPER_ADMIN: ["dashboard.view", "cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:timetable:read", "sis:timetable:write", "users:read", "users:write", "settings:read", "settings:write", "audit:read", "messages:read", "messages:write"],
   SCHOOL_ADMIN: ["dashboard.view", "cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:timetable:read", "sis:timetable:write", "users:read", "settings:read", "audit:read", "messages:read"],
-  ADMIN: ["dashboard.view", "cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:timetable:read", "sis:timetable:write", "settings:read", "audit:read"],
+  ADMIN: ["dashboard.view", "cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:timetable:read", "sis:timetable:write", "settings:read", "audit:read", "messages:read"],
   EDITOR: ["dashboard.view", "cms:read", "cms:write", "admissions:read"],
   VIEWER: ["dashboard.view", "cms:read", "admissions:read", "sis:students:read", "audit:read"],
   TEACHER: ["dashboard.view", "sis:timetable:read", "sis:timetable:write", "sis:students:read"],
