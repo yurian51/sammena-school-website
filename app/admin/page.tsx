@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import { Activity, ArrowRight, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users } from "lucide-react"
+import { hasPermission, type Permission } from "@/lib/auth/roles"
+import { Activity, ArrowRight, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Mail, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users } from "lucide-react"
 
 type Overview = {
   role: string
@@ -14,15 +15,17 @@ type Overview = {
   upcomingEvents: number
   activeStudents: number
   auditEvents30d: number
+  recentActivity: Array<{ id: string; action: string; entity_type: string; entity_id: string | null; created_at: string }>
+  unreadMessages: number
 }
 
 const modules = [
-  { label: "Students", description: "Search the live student register and 360° profiles.", href: "/admin/students", icon: Users },
-  { label: "Admissions", description: "Review applications and decisions.", href: "/admin/admissions", icon: ClipboardList },
-  { label: "News & publishing", description: "Create, edit and publish official posts.", href: "/admin/content", icon: Megaphone },
-  { label: "Events & calendar", description: "Manage the public school calendar.", href: "/admin/events", icon: CalendarDays },
-  { label: "Audit & security", description: "Inspect privileged administrative activity.", href: "/admin/audit", icon: ShieldCheck },
-  { label: "System settings", description: "Check production integrations and runtime security.", href: "/admin/settings", icon: Settings },
+  { label: "Students", description: "Search the live student register and 360° profiles.", href: "/admin/students", icon: Users, permission: "sis:students:read" as Permission },
+  { label: "Admissions", description: "Review applications and decisions.", href: "/admin/admissions", icon: ClipboardList, permission: "admissions:read" as Permission },
+  { label: "News & publishing", description: "Create, edit and publish official posts.", href: "/admin/content", icon: Megaphone, permission: "cms:read" as Permission },
+  { label: "Events & calendar", description: "Manage the public school calendar.", href: "/admin/events", icon: CalendarDays, permission: "cms:read" as Permission },
+  { label: "Audit & security", description: "Inspect privileged administrative activity.", href: "/admin/audit", icon: ShieldCheck, permission: "audit:read" as Permission },
+  { label: "System settings", description: "Check production integrations and runtime security.", href: "/admin/settings", icon: Settings, permission: "settings:read" as Permission },
 ]
 
 export default function AdminDashboardPage() {
@@ -59,15 +62,17 @@ export default function AdminDashboardPage() {
 
   const filteredModules = useMemo(() => {
     const value = query.trim().toLowerCase()
-    if (!value) return modules
-    return modules.filter((item) => (item.label + " " + item.description).toLowerCase().includes(value))
-  }, [query])
+    const permitted = modules.filter((item) => hasPermission(data?.role as import("@/lib/auth/roles").Role, item.permission))
+    if (!value) return permitted
+    return permitted.filter((item) => (item.label + " " + item.description).toLowerCase().includes(value))
+  }, [query, data?.role])
 
   if (loading) return <main className="min-h-screen bg-[#f6f4ef] p-6 text-[#172033]"><div className="mx-auto flex min-h-[80vh] max-w-6xl items-center justify-center"><div className="text-center"><RefreshCw className="mx-auto h-7 w-7 animate-spin text-[#b9964f]" /><p className="mt-4 text-sm font-semibold">Opening secure administration…</p></div></div></main>
 
   if (error || !data) return <main className="min-h-screen bg-[#f6f4ef] p-6 text-[#172033]"><div className="mx-auto flex min-h-[80vh] max-w-xl items-center justify-center"><section className="w-full border border-slate-200 bg-white p-8 text-center shadow-sm"><ShieldCheck className="mx-auto h-8 w-8 text-[#b9964f]" /><h1 className="mt-4 text-2xl font-bold">Administration unavailable</h1><p className="mt-3 text-sm leading-6 text-slate-600">{error ?? "The secure administration workspace could not be loaded."}</p><button onClick={() => void load()} className="mt-6 inline-flex items-center gap-2 bg-[#17365d] px-5 py-3 text-sm font-bold text-white"><RefreshCw className="h-4 w-4" /> Retry</button></section></div></main>
 
   const attention = [
+    data.unreadMessages > 0 ? { label: data.unreadMessages.toLocaleString() + " unread contact message" + (data.unreadMessages === 1 ? "" : "s"), href: "/admin/messages" } : null,
     data.pendingApplications > 0 ? { label: data.pendingApplications.toLocaleString() + " admissions application" + (data.pendingApplications === 1 ? "" : "s") + " awaiting review", href: "/admin/admissions" } : null,
     data.draftContent > 0 ? { label: data.draftContent.toLocaleString() + " publication item" + (data.draftContent === 1 ? "" : "s") + " still in workflow", href: "/admin/content" } : null,
   ].filter((item): item is { label: string; href: string } => Boolean(item))
@@ -96,6 +101,8 @@ export default function AdminDashboardPage() {
             { label: "Awaiting review", value: data.pendingApplications, Icon: Activity, href: "/admin/admissions" },
             { label: "In workflow", value: data.draftContent, Icon: FileText, href: "/admin/content" },
             { label: "Published posts", value: data.publishedContent, Icon: Megaphone, href: "/admin/content" },
+            { label: "Upcoming events", value: data.upcomingEvents, Icon: CalendarDays, href: "/admin/events" },
+            { label: "Unread messages", value: data.unreadMessages, Icon: Mail, href: "/admin/messages" },
           ].map(({ label, value, Icon, href }) => <Link key={label} href={href} className="group border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[#b9964f]"><div className="grid h-10 w-10 place-items-center bg-[#f3ead5] text-[#8c6c28]"><Icon className="h-5 w-5" /></div><p className="mt-5 text-sm font-semibold text-slate-500">{label}</p><p className="mt-1 text-3xl font-bold text-[#17365d]">{value.toLocaleString()}</p></Link>)}
         </section>
 
@@ -103,6 +110,14 @@ export default function AdminDashboardPage() {
           <article className="border border-slate-200 bg-white p-6 shadow-sm sm:p-7"><div className="flex items-start justify-between gap-5"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Needs attention</p><h2 className="mt-2 text-xl font-bold text-[#17365d]">Operational queue</h2></div><TriangleAlert className="h-5 w-5 text-[#b9964f]" /></div>{attention.length ? <div className="mt-6 divide-y divide-slate-100 border border-slate-100">{attention.map((item) => <Link key={item.href} href={item.href} className="flex items-center justify-between gap-4 p-4 hover:bg-[#fbfaf7]"><span className="text-sm font-semibold">{item.label}</span><ArrowRight className="h-4 w-4 shrink-0 text-[#a27e35]" /></Link>)}</div> : <div className="mt-6 border border-dashed border-slate-200 p-8 text-center"><ShieldCheck className="mx-auto h-6 w-6 text-emerald-600" /><p className="mt-3 text-sm font-semibold text-slate-700">No outstanding items are currently reported.</p><p className="mt-1 text-xs text-slate-500">This panel only reflects live records available to the current administrator.</p></div>}</article>
 
           <article className="border border-slate-200 bg-white p-6 shadow-sm sm:p-7"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Security signal</p><h2 className="mt-2 text-xl font-bold text-[#17365d]">Privileged activity</h2><p className="mt-3 text-sm leading-6 text-slate-600">Server-recorded audit activity during the last 30 days.</p><p className="mt-6 text-4xl font-bold text-[#17365d]">{data.auditEvents30d.toLocaleString()}</p><Link href="/admin/audit" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#17365d]">Open audit log <ArrowRight className="h-4 w-4" /></Link></article>
+        </section>
+
+        <section className="mt-7 grid gap-6 xl:grid-cols-[1.15fr_.85fr]">
+          <article className="border border-slate-200 bg-white p-6 shadow-sm sm:p-7">
+            <div className="flex items-end justify-between border-b border-slate-200 pb-5"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Recent activity</p><h2 className="mt-2 text-xl font-bold text-[#17365d]">What changed</h2></div><Link href="/admin/audit" className="text-xs font-bold text-[#17365d]">Full audit log</Link></div>
+            {data.recentActivity.length ? <div className="mt-2 divide-y divide-slate-100">{data.recentActivity.map((item) => <div key={item.id} className="py-4"><p className="text-sm font-semibold text-[#17365d]">{item.action.replaceAll("_", " ")}</p><p className="mt-1 text-xs text-slate-500">{item.entity_type}{item.entity_id ? ` · ${item.entity_id}` : ""} · {new Date(item.created_at).toLocaleString("en-TZ", { timeZone: "Africa/Dar_es_Salaam" })}</p></div>)}</div> : <div className="mt-6 border border-dashed border-slate-200 p-7 text-center text-sm text-slate-500">No administrative activity has been recorded yet.</div>}
+          </article>
+          <article className="border border-slate-200 bg-white p-6 shadow-sm sm:p-7"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Publishing status</p><h2 className="mt-2 text-xl font-bold text-[#17365d]">Public website content</h2><dl className="mt-6 space-y-4">{[["Published posts",data.publishedContent],["Upcoming events",data.upcomingEvents],["Draft workflow",data.draftContent]].map(([label,value])=><div key={String(label)} className="flex items-center justify-between border-b border-slate-100 pb-4"><dt className="text-sm text-slate-600">{label}</dt><dd className="text-lg font-bold text-[#17365d]">{Number(value).toLocaleString()}</dd></div>)}</dl><p className="mt-5 text-xs leading-5 text-slate-500">These values are queried from production storage. A zero means there are currently no records, not that the system is hiding them.</p></article>
         </section>
 
         <section className="mt-7 border border-slate-200 bg-white p-6 shadow-sm sm:p-7"><div className="flex flex-col gap-3 border-b border-slate-200 pb-5 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Live modules</p><h2 className="mt-2 text-xl font-bold text-[#17365d]">School administration</h2></div><p className="text-xs text-slate-500">Only connected production workflows are shown as actionable.</p></div><div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">{filteredModules.map(({ label, description, href, icon: Icon }) => <Link key={label} href={href} className="group border border-slate-200 p-5 hover:border-[#b9964f] hover:bg-[#fbfaf7]"><div className="flex items-center justify-between"><span className="grid h-9 w-9 place-items-center bg-[#f3ead5] text-[#8c6c28]"><Icon className="h-4 w-4" /></span><ArrowRight className="h-4 w-4 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#a27e35]" /></div><h3 className="mt-5 font-bold text-[#17365d]">{label}</h3><p className="mt-1 text-xs leading-5 text-slate-500">{description}</p></Link>)}</div></section>

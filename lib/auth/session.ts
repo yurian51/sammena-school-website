@@ -1,5 +1,6 @@
 import { createHmac, pbkdf2Sync, scryptSync, timingSafeEqual } from "node:crypto"
 import type { AuthContext } from "./authorization"
+import { ROLES, type Role } from "./roles"
 
 export interface SessionProvider {
   getContext(request: Request): Promise<AuthContext | null>
@@ -24,12 +25,15 @@ function getConfig() {
   const passwordHash = process.env.ADMIN_PASSWORD_HASH?.trim()
   const secret = process.env.ADMIN_SESSION_SECRET?.trim()
   const schoolId = process.env.SAMMENA_SCHOOL_ID?.trim()
+  const configuredRole = process.env.ADMIN_ROLE?.trim().toUpperCase() || "SUPER_ADMIN"
 
   if (!email || !passwordHash || !secret) {
     throw new Error("AUTH_PROVIDER_NOT_CONFIGURED")
   }
 
-  return { email, passwordHash, secret, schoolId }
+  if (!ROLES.includes(configuredRole as Role)) throw new Error("AUTH_ROLE_NOT_CONFIGURED")
+
+  return { email, passwordHash, secret, schoolId, role: configuredRole as Role, userId: process.env.ADMIN_USER_ID?.trim() || "admin" }
 }
 
 function parseCookie(request: Request) {
@@ -75,7 +79,7 @@ export function createAdminSessionCookie(options: { email: string; remember: boo
   if (options.email.trim().toLowerCase() !== config.email) throw new Error("INVALID_CREDENTIALS")
 
   const expiresAt = Math.floor(Date.now() / 1000) + (options.remember ? REMEMBERED_SESSION_SECONDS : DEFAULT_SESSION_SECONDS)
-  const payload = base64Url(JSON.stringify({ sub: "admin", role: "SUPER_ADMIN", email: config.email, schoolId: config.schoolId ?? null, exp: expiresAt }))
+  const payload = base64Url(JSON.stringify({ sub: config.userId, role: config.role, email: config.email, schoolId: config.schoolId ?? null, exp: expiresAt }))
   const value = `${payload}.${sign(payload, config.secret)}`
   const maxAge = options.remember ? REMEMBERED_SESSION_SECONDS : DEFAULT_SESSION_SECONDS
   return `${COOKIE_NAME}=${encodeURIComponent(value)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`
@@ -104,11 +108,12 @@ function getConfiguredProvider(): SessionProvider {
           exp?: number
         }
 
-        if (parsed.sub !== "admin" || parsed.role !== "SUPER_ADMIN" || parsed.email !== config.email || !parsed.exp || parsed.exp <= Math.floor(Date.now() / 1000)) return null
+        if (parsed.sub !== config.userId || parsed.role !== config.role || parsed.email !== config.email || !parsed.exp || parsed.exp <= Math.floor(Date.now() / 1000)) return null
+        if (!ROLES.includes(parsed.role as Role)) return null
 
         return {
-          userId: "admin",
-          role: "SUPER_ADMIN",
+          userId: config.userId,
+          role: config.role,
           ...(parsed.schoolId || config.schoolId ? { schoolId: parsed.schoolId ?? config.schoolId } : {}),
         }
       } catch {
