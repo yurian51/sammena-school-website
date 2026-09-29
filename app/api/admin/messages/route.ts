@@ -8,7 +8,7 @@ import { auditAction } from "@/lib/api/admin-audit"
 export async function GET(request: Request) {
   const id = requestId(request)
   try {
-    const context = requireAuthorized(await getAuthContext(request), "admissions:read")
+    const context = requireAuthorized(await getAuthContext(request), "messages:read")
     if (!context.schoolId) throw new Error("SCHOOL_SCOPE_REQUIRED")
     const url = new URL(request.url)
     const status = url.searchParams.get("status")
@@ -27,7 +27,7 @@ export async function GET(request: Request) {
 export async function PATCH(request: Request) {
   const id = requestId(request)
   try {
-    const context = requireAuthorized(await getAuthContext(request), "admissions:write")
+    const context = requireAuthorized(await getAuthContext(request), "messages:write")
     if (!context.schoolId) throw new Error("SCHOOL_SCOPE_REQUIRED")
     const body = await request.json()
     const messageId = typeof body?.id === "string" ? body.id : ""
