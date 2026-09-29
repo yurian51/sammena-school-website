@@ -4,7 +4,6 @@ import { FormEvent, useEffect, useState } from "react"
 import Link from "next/link"
 import { ArrowLeft, CalendarPlus, CheckCircle2, RefreshCw, Send, ShieldCheck } from "lucide-react"
 const cats=["ACADEMIC","EXAMINATION","ACTIVITY","MEETING","ADMISSIONS","HOLIDAY","CEREMONY","OTHER"] as const
-const statuses=["DRAFT","REVIEW","APPROVED","PUBLISHED","ARCHIVED"] as const
 type Event={id:string;title:string;category:string;audience:string;startsAt:string;endsAt?:string;location?:string;status:string}
 function slugify(v:string){return v.toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")}
 export default function AdminEvents(){
