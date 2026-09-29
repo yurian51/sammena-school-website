@@ -1,6 +1,7 @@
 export const AUDIT_ACTIONS = {
   APPLICATION_CREATED: "admissions.application.created",
   APPLICATION_STATUS_CHANGED: "admissions.application.status_changed",
+  CMS_CREATED: "cms.content.created",
   CMS_PUBLISHED: "cms.content.published",
 } as const
 
