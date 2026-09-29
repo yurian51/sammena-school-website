@@ -1,7 +1,7 @@
 import type { CmsContent, CmsContentStatus } from "./types"
 import type { CmsRepository } from "./repository"
 
-const publishableRoles = new Set(["SUPER_ADMIN", "SCHOOL_ADMIN", "EDITOR"])
+const publishableRoles = new Set(["SUPER_ADMIN", "SCHOOL_ADMIN"])
 const publishableFrom = new Set<CmsContentStatus>(["APPROVED", "PUBLISHED"])
 
 export class CmsService {
