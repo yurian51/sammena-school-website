@@ -41,6 +41,19 @@ export default function ContactPage() {
     }
 
     const normalized = validation.value
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(normalized),
+      })
+      if (!response.ok) throw new Error("The enquiry could not be recorded.")
+    } catch {
+      setLoading(false)
+      setDeliveryError("The enquiry could not be recorded. Please use the direct WhatsApp or phone link below.")
+      return
+    }
+
     const text = [
       "Sammena School enquiry",
       "",
