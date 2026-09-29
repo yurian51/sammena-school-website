@@ -89,12 +89,12 @@ export default function AdminDashboardPage() {
 
         <section className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
           {[
-            ["Applications", data.applications, ClipboardList, "/admin/admissions"],
-            ["Awaiting review", data.pendingApplications, Activity, "/admin/admissions"],
-            ["In workflow", data.draftContent, FileText, "/admin/content"],
-            ["Published posts", data.publishedContent, Megaphone, "/admin/content"],
-            ["Upcoming events", data.upcomingEvents, CalendarDays, "/admin/events"],
-          ].map(([label, value, Icon, href]) => <Link key={String(label)} href={String(href)} className="group border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[#b9964f]"><div className="grid h-10 w-10 place-items-center bg-[#f3ead5] text-[#8c6c28]"><Icon className="h-5 w-5" /></div><p className="mt-5 text-sm font-semibold text-slate-500">{String(label)}</p><p className="mt-1 text-3xl font-bold text-[#17365d]">{Number(value).toLocaleString()}</p></Link>)}
+            { label: "Applications", value: data.applications, Icon: ClipboardList, href: "/admin/admissions" },
+            { label: "Awaiting review", value: data.pendingApplications, Icon: Activity, href: "/admin/admissions" },
+            { label: "In workflow", value: data.draftContent, Icon: FileText, href: "/admin/content" },
+            { label: "Published posts", value: data.publishedContent, Icon: Megaphone, href: "/admin/content" },
+            { label: "Upcoming events", value: data.upcomingEvents, Icon: CalendarDays, href: "/admin/events" },
+          ].map(({ label, value, Icon, href }) => <Link key={label} href={href} className="group border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[#b9964f]"><div className="grid h-10 w-10 place-items-center bg-[#f3ead5] text-[#8c6c28]"><Icon className="h-5 w-5" /></div><p className="mt-5 text-sm font-semibold text-slate-500">{label}</p><p className="mt-1 text-3xl font-bold text-[#17365d]">{value.toLocaleString()}</p></Link>)}
         </section>
 
         <section className="mt-7 grid gap-6 xl:grid-cols-[1.25fr_.75fr]">
