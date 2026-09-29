@@ -28,7 +28,7 @@ export default function ContactPage() {
   const [deliveryError, setDeliveryError] = useState<string | null>(null)
   const whatsappUrl = `https://wa.me/${schoolLocation.whatsapp.replace(/\D/g, "")}`
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     setDeliveryError(null)
