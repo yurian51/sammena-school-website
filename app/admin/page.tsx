@@ -1,11 +1,8 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import {
-  Activity, CalendarDays, FileText, LogOut, Megaphone, RefreshCw,
-  Settings, ShieldCheck, ArrowRight, ClipboardList
-} from "lucide-react"
+import { Activity, ArrowRight, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert } from "lucide-react"
 
 type Overview = {
   role: string
@@ -20,17 +17,17 @@ type Overview = {
 
 const modules = [
   { label: "Admissions", description: "Review applications and decisions.", href: "/admin/admissions", icon: ClipboardList },
-  { label: "Events & calendar", description: "Create and publish official school events.", href: "/admin/events", icon: CalendarDays },
-  { label: "News & publishing", description: "Create, review and publish official school posts.", href: "/admin/content", icon: Megaphone },
-  
-  { label: "System settings", description: "Review production integrations and security state.", href: "/admin/settings", icon: Settings },
-  { label: "Audit & security", description: "Review privileged activity.", href: "/admin/audit", icon: ShieldCheck },
+  { label: "News & publishing", description: "Create, edit and publish official posts.", href: "/admin/content", icon: Megaphone },
+  { label: "Events & calendar", description: "Manage the public school calendar.", href: "/admin/events", icon: CalendarDays },
+  { label: "Audit & security", description: "Inspect privileged administrative activity.", href: "/admin/audit", icon: ShieldCheck },
+  { label: "System settings", description: "Check production integrations and runtime security.", href: "/admin/settings", icon: Settings },
 ]
 
 export default function AdminDashboardPage() {
   const [data, setData] = useState<Overview | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [query, setQuery] = useState("")
 
   const load = async (): Promise<void> => {
     setLoading(true)
@@ -42,10 +39,10 @@ export default function AdminDashboardPage() {
         window.location.assign("/login?type=admin&returnTo=/admin")
         return
       }
-      if (!response.ok) throw new Error(payload?.error?.message ?? "Admin workspace could not be loaded.")
+      if (!response.ok) throw new Error(payload?.error?.message ?? "Administration workspace could not be loaded.")
       setData(payload.data)
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Admin workspace could not be loaded.")
+      setError(e instanceof Error ? e.message : "Administration workspace could not be loaded.")
     } finally {
       setLoading(false)
     }
@@ -58,31 +55,56 @@ export default function AdminDashboardPage() {
     window.location.assign("/login?type=admin")
   }
 
+  const filteredModules = useMemo(() => {
+    const value = query.trim().toLowerCase()
+    if (!value) return modules
+    return modules.filter((item) => \`${item.label} ${item.description}\`.toLowerCase().includes(value))
+  }, [query])
+
   if (loading) return <main className="min-h-screen bg-[#f6f4ef] p-6 text-[#172033]"><div className="mx-auto flex min-h-[80vh] max-w-6xl items-center justify-center"><div className="text-center"><RefreshCw className="mx-auto h-7 w-7 animate-spin text-[#b9964f]" /><p className="mt-4 text-sm font-semibold">Opening secure administration…</p></div></div></main>
 
   if (error || !data) return <main className="min-h-screen bg-[#f6f4ef] p-6 text-[#172033]"><div className="mx-auto flex min-h-[80vh] max-w-xl items-center justify-center"><section className="w-full border border-slate-200 bg-white p-8 text-center shadow-sm"><ShieldCheck className="mx-auto h-8 w-8 text-[#b9964f]" /><h1 className="mt-4 text-2xl font-bold">Administration unavailable</h1><p className="mt-3 text-sm leading-6 text-slate-600">{error ?? "The secure administration workspace could not be loaded."}</p><button onClick={() => void load()} className="mt-6 inline-flex items-center gap-2 bg-[#17365d] px-5 py-3 text-sm font-bold text-white"><RefreshCw className="h-4 w-4" /> Retry</button></section></div></main>
 
-  const cards = [
-    { label: "All applications", value: data.applications, icon: ClipboardList },
-    { label: "Awaiting review", value: data.pendingApplications, icon: Activity },
-    { label: "Content in workflow", value: data.draftContent, icon: FileText },
-    { label: "Upcoming events", value: data.upcomingEvents, icon: CalendarDays },
-  ]
+  const attention = [
+    data.pendingApplications > 0 ? { label: \`${data.pendingApplications.toLocaleString()} admissions application${data.pendingApplications === 1 ? "" : "s"} awaiting review\`, href: "/admin/admissions" } : null,
+    data.draftContent > 0 ? { label: \`${data.draftContent.toLocaleString()} publication item${data.draftContent === 1 ? "" : "s"} still in workflow\`, href: "/admin/content" } : null,
+  ].filter((item): item is { label: string; href: string } => Boolean(item))
 
-  return <main className="min-h-screen bg-[#f6f4ef] text-[#172033]">
-    <header className="bg-[#102846] text-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-5 py-5 sm:px-8">
-        <div className="flex items-center gap-3"><div className="grid h-11 w-11 place-items-center rounded-full bg-white/10 ring-1 ring-white/15"><ShieldCheck className="h-5 w-5 text-[#d7c28e]" /></div><div><p className="text-[10px] font-bold uppercase tracking-[.22em] text-[#d7c28e]">Sammena</p><h1 className="text-lg font-bold">Website Administration</h1></div></div>
-        <div className="flex items-center gap-3"><Link href="/" className="hidden text-sm font-semibold text-white/70 hover:text-white sm:block">View website</Link><button onClick={() => void logout()} className="inline-flex items-center gap-2 border border-white/15 px-3 py-2 text-sm font-semibold hover:bg-white/10"><LogOut className="h-4 w-4" /> Sign out</button></div>
+  return (
+    <main className="min-h-screen bg-[#f6f4ef] text-[#172033]">
+      <header className="border-b border-white/10 bg-[#102846] text-white">
+        <div className="mx-auto flex max-w-[1500px] items-center gap-5 px-5 py-4 sm:px-8">
+          <Link href="/admin" className="flex min-w-0 items-center gap-3"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 ring-1 ring-white/15"><LayoutDashboard className="h-5 w-5 text-[#d7c28e]" /></span><span className="min-w-0"><span className="block text-[10px] font-bold uppercase tracking-[.2em] text-[#d7c28e]">Sammena</span><span className="block truncate text-base font-bold">Administration</span></span></Link>
+          <label className="relative ml-auto hidden w-full max-w-xl md:block"><Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-white/40" /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search administration modules…" className="w-full border border-white/10 bg-white/10 py-2.5 pl-10 pr-4 text-sm text-white outline-none placeholder:text-white/45 focus:border-[#d7c28e]" /></label>
+          <Link href="/" className="hidden text-sm font-semibold text-white/70 hover:text-white lg:block">Website</Link>
+          <button onClick={() => void logout()} aria-label="Sign out" className="inline-flex items-center gap-2 border border-white/15 px-3 py-2 text-sm font-semibold hover:bg-white/10"><LogOut className="h-4 w-4" /><span className="hidden sm:inline">Sign out</span></button>
+        </div>
+      </header>
+
+      <div className="mx-auto max-w-[1500px] px-5 py-7 sm:px-8 lg:py-9">
+        <section className="flex flex-col gap-5 border-b border-slate-200 pb-7 lg:flex-row lg:items-end lg:justify-between">
+          <div><p className="text-xs font-bold uppercase tracking-[.18em] text-[#a27e35]">School operations · {data.role.replaceAll("_", " ")}</p><h1 className="mt-2 text-3xl font-bold tracking-tight text-[#17365d] sm:text-4xl">Administration command centre</h1><p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">Live operational information from the Sammena production system. Empty states are reported honestly rather than filled with invented figures.</p></div>
+          <button onClick={() => void load()} className="inline-flex items-center justify-center gap-2 border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-[#17365d] shadow-sm"><RefreshCw className="h-4 w-4" /> Refresh data</button>
+        </section>
+
+        <section className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+          {[
+            ["Applications", data.applications, ClipboardList, "/admin/admissions"],
+            ["Awaiting review", data.pendingApplications, Activity, "/admin/admissions"],
+            ["In workflow", data.draftContent, FileText, "/admin/content"],
+            ["Published posts", data.publishedContent, Megaphone, "/admin/content"],
+            ["Upcoming events", data.upcomingEvents, CalendarDays, "/admin/events"],
+          ].map(([label, value, Icon, href]) => <Link key={String(label)} href={String(href)} className="group border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[#b9964f]"><div className="grid h-10 w-10 place-items-center bg-[#f3ead5] text-[#8c6c28]"><Icon className="h-5 w-5" /></div><p className="mt-5 text-sm font-semibold text-slate-500">{String(label)}</p><p className="mt-1 text-3xl font-bold text-[#17365d]">{Number(value).toLocaleString()}</p></Link>)}
+        </section>
+
+        <section className="mt-7 grid gap-6 xl:grid-cols-[1.25fr_.75fr]">
+          <article className="border border-slate-200 bg-white p-6 shadow-sm sm:p-7"><div className="flex items-start justify-between gap-5"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Needs attention</p><h2 className="mt-2 text-xl font-bold text-[#17365d]">Operational queue</h2></div><TriangleAlert className="h-5 w-5 text-[#b9964f]" /></div>{attention.length ? <div className="mt-6 divide-y divide-slate-100 border border-slate-100">{attention.map((item) => <Link key={item.href} href={item.href} className="flex items-center justify-between gap-4 p-4 hover:bg-[#fbfaf7]"><span className="text-sm font-semibold">{item.label}</span><ArrowRight className="h-4 w-4 shrink-0 text-[#a27e35]" /></Link>)}</div> : <div className="mt-6 border border-dashed border-slate-200 p-8 text-center"><ShieldCheck className="mx-auto h-6 w-6 text-emerald-600" /><p className="mt-3 text-sm font-semibold text-slate-700">No outstanding items are currently reported.</p><p className="mt-1 text-xs text-slate-500">This panel only reflects live records available to the current administrator.</p></div>}</article>
+
+          <article className="border border-slate-200 bg-white p-6 shadow-sm sm:p-7"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Security signal</p><h2 className="mt-2 text-xl font-bold text-[#17365d]">Privileged activity</h2><p className="mt-3 text-sm leading-6 text-slate-600">Server-recorded audit activity during the last 30 days.</p><p className="mt-6 text-4xl font-bold text-[#17365d]">{data.auditEvents30d.toLocaleString()}</p><Link href="/admin/audit" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#17365d]">Open audit log <ArrowRight className="h-4 w-4" /></Link></article>
+        </section>
+
+        <section className="mt-7 border border-slate-200 bg-white p-6 shadow-sm sm:p-7"><div className="flex flex-col gap-3 border-b border-slate-200 pb-5 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Live modules</p><h2 className="mt-2 text-xl font-bold text-[#17365d]">School administration</h2></div><p className="text-xs text-slate-500">Only connected production workflows are shown as actionable.</p></div><div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">{filteredModules.map(({ label, description, href, icon: Icon }) => <Link key={label} href={href} className="group border border-slate-200 p-5 hover:border-[#b9964f] hover:bg-[#fbfaf7]"><div className="flex items-center justify-between"><span className="grid h-9 w-9 place-items-center bg-[#f3ead5] text-[#8c6c28]"><Icon className="h-4 w-4" /></span><ArrowRight className="h-4 w-4 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#a27e35]" /></div><h3 className="mt-5 font-bold text-[#17365d]">{label}</h3><p className="mt-1 text-xs leading-5 text-slate-500">{description}</p></Link>)}</div></section>
       </div>
-    </header>
-    <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:py-10">
-      <div className="flex flex-col gap-4 border-b border-slate-200 pb-7 lg:flex-row lg:items-end lg:justify-between"><div><p className="text-xs font-bold uppercase tracking-[.18em] text-[#a27e35]">Private workspace · {data.role.replaceAll("_", " ")}</p><h2 className="mt-2 text-3xl font-bold tracking-tight text-[#17365d] sm:text-4xl">School administration</h2><p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">A single control centre for public publishing, admissions and operational administration. Every privileged action remains behind server-side authorization.</p></div><button onClick={() => void load()} className="inline-flex items-center justify-center gap-2 border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-[#17365d]"><RefreshCw className="h-4 w-4" /> Refresh</button></div>
-      <section className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{cards.map(({label,value,icon:Icon}) => <article key={label} className="border border-slate-200 bg-white p-5 shadow-sm"><div className="grid h-10 w-10 place-items-center bg-[#f3ead5] text-[#8c6c28]"><Icon className="h-5 w-5" /></div><p className="mt-5 text-sm font-semibold text-slate-500">{label}</p><p className="mt-1 text-3xl font-bold text-[#17365d]">{value.toLocaleString()}</p></article>)}</section>
-      <section className="mt-7 grid gap-6 lg:grid-cols-[1.2fr_.8fr]">
-        <article className="border border-slate-200 bg-white p-6 sm:p-7"><div className="flex items-start justify-between"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Administration modules</p><h3 className="mt-2 text-xl font-bold text-[#17365d]">Manage the school website</h3></div><Settings className="h-5 w-5 text-[#b9964f]" /></div><div className="mt-6 grid gap-3 sm:grid-cols-2">{modules.map(({label,description,href,icon:Icon}) => <Link key={label} href={href} className="group border border-slate-200 p-4 hover:border-[#b9964f] hover:bg-[#fbfaf7]"><div className="flex items-start justify-between gap-4"><span className="grid h-9 w-9 place-items-center bg-[#f5f1e6] text-[#8c6c28]"><Icon className="h-4 w-4" /></span><ArrowRight className="h-4 w-4 text-slate-300 transition-transform group-hover:translate-x-1 group-hover:text-[#8c6c28]" /></div><h4 className="mt-4 text-sm font-bold text-[#17365d]">{label}</h4><p className="mt-1 text-xs leading-5 text-slate-500">{description}</p></Link>)}</div></article>
-        <aside className="border border-[#d9c28a] bg-[#fffdf6] p-6"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#8c6c28]">System activity</p><div className="mt-6 space-y-5"><div className="flex items-center justify-between"><span className="text-sm text-slate-600">Published content</span><strong className="text-xl text-[#17365d]">{data.publishedContent}</strong></div><div className="flex items-center justify-between"><span className="text-sm text-slate-600">Audit events · 30 days</span><strong className="text-xl text-[#17365d]">{data.auditEvents30d}</strong></div><div className="border-t border-[#eadfbf] pt-5"><div className="flex items-start gap-3"><Megaphone className="mt-0.5 h-4 w-4 shrink-0 text-[#8c6c28]" /><p className="text-xs leading-5 text-slate-600">Counts shown here are queried from production persistence. No dashboard fixture data is used.</p></div></div></div></aside>
-      </section>
-    </div>
-  </main>
+    </main>
+  )
 }
