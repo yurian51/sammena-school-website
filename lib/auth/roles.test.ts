@@ -30,3 +30,13 @@ describe("admin role matrix", () => {
     expect(hasPermission("TEACHER", "messages:write")).toBe(false)
   })
 })
+
+
+describe("environment-backed admin identity", () => {
+  it("keeps the permission matrix explicit for all supported roles", () => {
+    expect(hasPermission("SUPER_ADMIN", "settings:write")).toBe(true)
+    expect(hasPermission("ADMIN", "settings:write")).toBe(false)
+    expect(hasPermission("EDITOR", "settings:write")).toBe(false)
+    expect(hasPermission("VIEWER", "settings:write")).toBe(false)
+  })
+})
