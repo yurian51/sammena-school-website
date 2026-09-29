@@ -36,7 +36,7 @@ export default function AdminDashboardPage() {
     setError(null)
     try {
       const response = await fetch("/api/admin/overview", { cache: "no-store" })
-      const payload = await response.json().catch(() => null)
+      const payload = await response.json().catch((): null => null)
       if (response.status === 401 || response.status === 403 || response.status === 503) {
         window.location.assign("/login?type=admin&returnTo=/admin")
         return
