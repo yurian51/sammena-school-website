@@ -41,7 +41,8 @@ export async function POST(request: Request) {
              submission_count = case
                when contact_message_rate_limits.window_started_at <= now() - interval '15 minutes' then 1
                else contact_message_rate_limits.submission_count + 1
-             end
+             end,
+             updated_at = now()
          returning submission_count, window_started_at
        ), inserted as (
          insert into contact_messages (school_id, sender_name, sender_email, sender_phone, subject, message)
@@ -60,8 +61,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ data: { accepted: true }, requestId: id }, { status: 201 })
   } catch (error) {
-    if (error instanceof Error && error.message === "REQUEST_TOO_LARGE") return NextResponse.json({ error: { code: "REQUEST_TOO_LARGE", message: "The enquiry is too large to submit." }, requestId }, { status: 413 })
-    if (error instanceof Error && error.message === "VALIDATION_ERROR") return NextResponse.json({ error: { code: "VALIDATION_ERROR", message: "Please check the enquiry details and try again." }, requestId }, { status: 400 })
-    return NextResponse.json({ error: { code: "SERVICE_UNAVAILABLE", message: "The school contact service is temporarily unavailable." }, requestId }, { status: 503 })
+    if (error instanceof Error && error.message === "REQUEST_TOO_LARGE") return NextResponse.json({ error: { code: "REQUEST_TOO_LARGE", message: "The enquiry is too large to submit." }, requestId: id }, { status: 413 })
+    if (error instanceof Error && error.message === "VALIDATION_ERROR") return NextResponse.json({ error: { code: "VALIDATION_ERROR", message: "Please check the enquiry details and try again." }, requestId: id }, { status: 400 })
+    return NextResponse.json({ error: { code: "SERVICE_UNAVAILABLE", message: "The school contact service is temporarily unavailable." }, requestId: id }, { status: 503 })
   }
 }
