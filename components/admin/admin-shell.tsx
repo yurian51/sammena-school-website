@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Megaphone, Settings, ShieldCheck, Users, X } from "lucide-react"
+import { CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Mail, Megaphone, Settings, ShieldCheck, Users, X } from "lucide-react"
 import { useState } from "react"
 
 type Props = { children: React.ReactNode; role: string }
@@ -13,6 +13,7 @@ const nav = [
   { label: "Notices & News", href: "/admin/content", icon: Megaphone },
   { label: "Events & Calendar", href: "/admin/events", icon: CalendarDays },
   { label: "Admissions", href: "/admin/admissions", icon: ClipboardList },
+  { label: "Messages", href: "/admin/messages", icon: Mail },
   { label: "Students", href: "/admin/students", icon: Users },
   { label: "Audit Log", href: "/admin/audit", icon: ShieldCheck },
   { label: "Settings", href: "/admin/settings", icon: Settings },
