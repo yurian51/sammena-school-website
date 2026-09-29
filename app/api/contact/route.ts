@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 import { getRuntimeDbClient } from "@/lib/db/runtime"
-import { schoolIdentity } from "@/lib/academic-results"
 
 const schema = z.object({
   name: z.string().trim().min(2).max(120),
