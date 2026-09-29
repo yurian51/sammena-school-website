@@ -30,7 +30,10 @@ export class CmsService {
 
   async publish(content: CmsContent, role: string) {
     if (!publishableRoles.has(role)) throw new Error("FORBIDDEN")
-    if (!publishableFrom.has(content.status)) throw new Error("INVALID_CMS_STATUS_TRANSITION")
+    const canPublishDraft = role === "SUPER_ADMIN" || role === "SCHOOL_ADMIN"
+    if (!publishableFrom.has(content.status) && !(canPublishDraft && content.status === "DRAFT")) {
+      throw new Error("INVALID_CMS_STATUS_TRANSITION")
+    }
     return this.repository.updateStatus(content.id, "PUBLISHED")
   }
 }
