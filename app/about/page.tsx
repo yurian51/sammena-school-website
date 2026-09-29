@@ -1,49 +1,191 @@
-"use client"
-
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
+import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import { BookOpen, Users, Building, Eye, Target, Heart, GraduationCap, UserCheck, TreePine, ArrowRight, MapPin, ShieldCheck } from "lucide-react"
-import { useScrollAnimation } from "@/hooks/use-scroll-animation"
-import { cn } from "@/lib/utils"
+import { ArrowRight, BookOpen, Heart, ShieldCheck, Target, Eye, GraduationCap, FileCheck2, CalendarDays } from "lucide-react"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
 
-const infrastructure = [
-  { icon: Building, name: "Classrooms", description: "The school campus includes classrooms used for pre-primary and primary learning." },
-  { icon: Users, name: "Learning Community", description: "A school community serving children in Nduruma, Arusha." },
-  { icon: GraduationCap, name: "Pre & Primary Education", description: "The current school offering is focused on pre-primary and primary education." },
-  { icon: ShieldCheck, name: "Registered School", description: "School registration number: EM.17569." },
-  { icon: MapPin, name: "Nduruma Campus", description: "Located in Nduruma, Arusha, Tanzania." },
-  { icon: TreePine, name: "School Development", description: "Campus and learning facilities continue to develop with the needs of the school community." },
-]
-const coreValues = [
-  { icon: Eye, title: "Vision", description: "To be a leading center of quality education in Tanzania, producing well-rounded graduates who drive positive change and break the cycle of poverty." },
-  { icon: Target, title: "Mission", description: "To provide quality education, care, and moral guidance to children — with special focus on orphans and children from vulnerable and disadvantaged backgrounds." },
-  { icon: Heart, title: "Our Values", description: "Compassion for the vulnerable, excellence in education, integrity in all we do, and a commitment to transforming lives through learning." },
-]
-const keyFacts = [{ value: "PS0101160", label: "NECTA Centre Number" }, { value: "EM.17569", label: "School Registration" }, { value: "29", label: "PSLE 2025 Candidates" }, { value: "27", label: "PSLE 2025 Passed" }, { value: "28", label: "SFNA 2025 Candidates" }, { value: "Nduruma", label: "Campus Location" }]
-const boardResponsibilities = ["Guiding school policies and development plans", "Overseeing transparency and proper use of resources", "Supporting school leadership and management", "Safeguarding the welfare and safety of pupils"]
-
-function Reveal({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
-  const { ref, isVisible } = useScrollAnimation()
-  return <div ref={ref} data-motion="section" data-visible={isVisible ? "true" : "false"} className={cn(className)} style={{ transitionDelay: `${delay}ms` }}>{children}</div>
+export const metadata: Metadata = {
+  title: "About Sammena Schools",
+  description: "Learn about Sammena Schools, its current educational focus, values and public information standards.",
+  alternates: { canonical: "/about" },
 }
 
+const principles = [
+  {
+    icon: Eye,
+    title: "Vision",
+    text: "To be a leading centre of quality education in Tanzania, producing well-rounded graduates who contribute positively to society.",
+  },
+  {
+    icon: Target,
+    title: "Mission",
+    text: "To provide quality education, care and moral guidance to children, with particular attention to vulnerable and disadvantaged learners.",
+  },
+  {
+    icon: Heart,
+    title: "Values",
+    text: "Compassion, integrity, educational excellence, respect and a commitment to helping children grow through learning.",
+  },
+]
+
+const currentFocus = [
+  "Pre-primary and primary education",
+  "Academic learning and future readiness",
+  "Character, wellbeing and responsible citizenship",
+  "Sport and co-curricular development",
+]
+
 export default function AboutPage() {
-  return <main className="min-h-screen overflow-x-hidden"><Navbar />
-    <section className="relative isolate overflow-hidden bg-school-dark pb-20 pt-36 text-white"><div className="relative mx-auto max-w-7xl px-5 text-center sm:px-6 lg:px-8"><Reveal><span className="text-[#9b7728] font-semibold text-sm uppercase tracking-[0.2em]">Our Story</span><h1 className="mt-3 text-4xl font-bold tracking-tight md:text-6xl">About Sammena School</h1><p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/75">Founded with a vision to change lives through education, especially for orphans and vulnerable children in Tanzania.</p></Reveal></div></section>
+  return (
+    <main className="min-h-screen overflow-x-hidden bg-white">
+      <Navbar />
 
-    <section className="bg-white py-20 lg:py-28"><div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8"><Reveal><span className="text-[#9b7728] font-semibold text-sm uppercase tracking-[0.2em]">The Founder</span><h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground md:text-5xl">A Vision Born from Compassion</h2><p className="mt-6 leading-8 text-muted-foreground">My name is <strong className="text-foreground">Samwel Langdare Menavi</strong>, the Founder and Director of Sammena Pre & Primary School. The school was established in 2009 with the main purpose of providing quality education, care, and moral guidance to children.</p><p className="mt-4 leading-8 text-muted-foreground">The idea of starting this school came from witnessing many children in the community failing to access education due to poverty, orphan hood, and unstable family situations. I strongly believe that <strong className="text-foreground">education is the most powerful tool to change lives</strong> and secure a better future for children.</p><p className="mt-4 leading-8 text-muted-foreground">In 2018, Sammena Pre & Primary School was officially registered by the government, strengthening its management, academic standards, and long-term sustainability.</p><div data-motion="card" className="mt-7 flex items-center gap-3 rounded-sm border border-school-orange/20 bg-[#0a3158]/10 p-5"><GraduationCap className="h-8 w-8 shrink-0 text-[#9b7728]"/><div><div className="font-semibold text-foreground">English-Medium Instruction</div><p className="mt-1 text-xs leading-5 text-muted-foreground">Unlike most government schools, we teach in English from an early age, preparing pupils for secondary education.</p></div></div></Reveal><Reveal delay={120}><div data-motion="card" className="group relative aspect-[4/3] overflow-hidden rounded-sm shadow-lg"><Image src="/images/about-school.jpg" alt="Students at Sammena School" fill className="object-cover transition duration-1000 group-hover:scale-105"/></div></Reveal></div></section>
+      <section className="bg-school-dark pb-20 pt-36 text-white">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-school-gold">About Sammena Schools</p>
+          <h1 className="mt-3 max-w-4xl text-4xl font-bold tracking-tight md:text-6xl">Education with a clear purpose.</h1>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-white/75">
+            Sammena Schools is building an education environment centred on learning, character, wellbeing, sport and future readiness.
+          </p>
+        </div>
+      </section>
 
-    <section className="bg-[#0a3158] py-14"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><div className="mb-8 text-center text-xs text-white/60">Public school facts shown here are drawn from the site's evidence ledger and published school records.</div><div className="grid grid-cols-2 gap-y-8 md:grid-cols-3 lg:grid-cols-6">{keyFacts.map((fact, i) => <Reveal key={fact.label} delay={i * 60} className="text-center"><div className="text-3xl font-bold text-white md:text-4xl">{fact.value}</div><div className="mt-1 text-sm text-white/80">{fact.label}</div></Reveal>)}</div></div></section>
+      <section className="border-b border-slate-200 bg-[#f7f7f5] py-8">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-4 border border-[#c8a64b]/30 bg-[#fffdf6] p-5 sm:flex-row sm:items-start">
+            <FileCheck2 className="mt-0.5 h-5 w-5 shrink-0 text-[#9b7728]" aria-hidden="true" />
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#8a6a24]">Institutional information standard</p>
+              <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-700">
+                Public information is published only when it can be supported by an approved school record or official source. Unverified figures, testimonials, rankings and operational claims are not presented as facts.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <section className="bg-[#f7f7f5] py-20 lg:py-28"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><Reveal className="mb-12 text-center"><span className="text-[#9b7728] font-semibold text-sm uppercase tracking-[0.2em]">Our Foundation</span><h2 className="mt-3 text-3xl font-bold text-foreground md:text-5xl">Mission, Vision & Values</h2></Reveal><div className="grid gap-6 md:grid-cols-3">{coreValues.map(({ icon: Icon, title, description }, i) => <Reveal key={title} delay={i * 100}><div data-motion="card" className="group h-full rounded-sm border border-border bg-white p-8 shadow-sm"><div className="flex h-12 w-12 items-center justify-center rounded-sm bg-[#0a3158]/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-[#0a3158]"><Icon className="h-6 w-6 text-[#9b7728] transition-colors duration-300 group-hover:text-white"/></div><h3 className="mt-6 text-xl font-bold text-foreground">{title}</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{description}</p></div></Reveal>)}</div></div></section>
+      <section className="py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:px-8">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#9b7728]">The school today</p>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-school-dark md:text-5xl">Sammena Pre & Primary School</h2>
+            <p className="mt-5 text-base leading-8 text-slate-600">
+              The current Sammena school is focused on pre-primary and primary education. Its public positioning combines academic learning with character, wellbeing, sport and co-curricular growth.
+            </p>
+            <p className="mt-4 text-base leading-8 text-slate-600">
+              The school was established in 2018, subject to the official source record used for institutional publication. The public website keeps historical and operational claims separate from verified current information.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link href="/academics" className="inline-flex items-center gap-2 bg-school-dark px-5 py-3 text-sm font-bold text-white">
+                Explore academics <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link href="/admissions" className="inline-flex items-center gap-2 border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-school-dark">
+                Admissions <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
 
-    <section className="bg-white py-20 lg:py-28"><div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"><Reveal className="mx-auto mb-12 max-w-2xl text-center"><span className="text-[#9b7728] font-semibold text-sm uppercase tracking-[0.2em]">Our Facilities</span><h2 className="mt-3 text-3xl font-bold text-foreground md:text-5xl">School Infrastructure</h2><p className="mt-4 leading-7 text-muted-foreground">This section intentionally describes only facilities and school facts that can be supported by the current school record. Detailed facility claims will be added as they are verified and documented.</p></Reveal><div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{infrastructure.map(({ icon: Icon, name, description }, i) => <Reveal key={name} delay={i * 70}><div data-motion="card" className="group flex h-full gap-4 rounded-sm border border-border bg-white p-5"><div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#0a3158]/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-[#0a3158]"><Icon className="h-5 w-5 text-[#9b7728] group-hover:text-white"/></div><div><h3 className="mb-1 text-sm font-semibold text-foreground">{name}</h3><p className="text-xs leading-6 text-muted-foreground">{description}</p></div></div></Reveal>)}</div></div></section>
+          <div className="relative overflow-hidden border border-slate-200 bg-slate-100">
+            <Image
+              src="/images/about-school.jpg"
+              alt="Sammena school"
+              width={1200}
+              height={900}
+              className="h-auto w-full object-cover"
+              priority
+            />
+          </div>
+        </div>
+      </section>
 
-    <section className="bg-[#f7f7f5] py-20 lg:py-28"><div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8"><Reveal><span className="text-[#9b7728] font-semibold text-sm uppercase tracking-[0.2em]">Governance</span><h2 className="mt-3 text-3xl font-bold text-foreground md:text-5xl">School Board & Leadership</h2><p className="mt-6 leading-8 text-muted-foreground">The school is governed by a School Board, mainly composed of parents with children enrolled at the school. In the future, the school plans to invite trusted friends and partners to become part of the Board, bringing diverse ideas and international perspectives.</p><h3 className="mt-7 font-semibold text-foreground">Board Responsibilities:</h3><ul className="mt-4 space-y-3">{boardResponsibilities.map(item => <li key={item} className="flex items-start gap-2.5"><UserCheck className="mt-1 h-4 w-4 shrink-0 text-[#9b7728]"/><span className="text-sm leading-6 text-muted-foreground">{item}</span></li>)}</ul><div className="mt-7 rounded-sm border border-border bg-white p-5"><h4 className="font-semibold text-foreground">Leadership Continuity</h4><p className="mt-2 text-xs leading-6 text-muted-foreground">The school has a clear management structure in place. Senior teachers and the school management team continue daily operations under the guidance of the School Board, ensuring uninterrupted learning and accountability.</p></div></Reveal><Reveal delay={140}><div data-motion="card" className="rounded-sm border border-border bg-white p-8 shadow-sm"><h3 className="text-lg font-bold text-foreground">Pupils & Staff</h3><div className="mt-6 space-y-5">{[[Users,"259","Total Pupils"],[Heart,"34","Orphans & Vulnerable Children"],[BookOpen,"10","Teachers"],[UserCheck,"3","Non-Teaching Staff"]].map(([Icon,value,label]) => { const C = Icon as typeof Users; return <div key={label as string} className="group flex items-center gap-4"><div className="flex h-14 w-14 items-center justify-center rounded-sm bg-[#0a3158]/10 transition-transform duration-300 group-hover:scale-105"><C className="h-7 w-7 text-[#9b7728]"/></div><div><div className="text-2xl font-bold text-foreground">{value as string}</div><div className="text-sm text-muted-foreground">{label as string}</div></div></div>})}</div><p className="mt-6 text-xs leading-6 text-muted-foreground">Orphans and children from very poor families receive special support including reduced or waived fees, school uniforms, learning materials, and basic needs.</p></div></Reveal></div></section>
+      <section className="bg-[#0a3158] py-14 text-white">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <div className="grid gap-8 md:grid-cols-2">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#e2c46c]">Current focus</p>
+              <h2 className="mt-2 text-2xl font-bold md:text-3xl">What Sammena is building around</h2>
+            </div>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {currentFocus.map(item => (
+                <li key={item} className="flex items-start gap-3 border border-white/10 bg-white/5 p-4">
+                  <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#e2c46c]" aria-hidden="true" />
+                  <span className="text-sm leading-6 text-white/80">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
 
-    <section className="bg-school-dark py-20 text-white"><div className="mx-auto max-w-4xl px-5 text-center sm:px-6"><Reveal><span className="text-[#9b7728] font-semibold text-sm uppercase tracking-[0.2em]">Our Supporters</span><h2 className="mt-3 text-3xl font-bold md:text-4xl">Growing Together</h2><p className="mt-5 leading-8 text-white/70">Both before and after registration, the school has received valuable support from friends and well-wishers, including Tim&apos;s family, Tim&apos;s friends, Dominique&apos;s friends, and committed volunteers, whose support has played a key role in the growth of the school.</p><Link href="/contact" className="group mt-8 inline-flex items-center gap-2 rounded-sm bg-[#0a3158] px-7 py-3.5 font-semibold shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#0a3158]">Become a Supporter <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"/></Link></Reveal></div></section>
-    <Footer />
-  </main>
+      <section className="py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <div className="mx-auto mb-12 max-w-2xl text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#9b7728]">Our foundation</p>
+            <h2 className="mt-3 text-3xl font-bold text-school-dark md:text-5xl">Mission, vision & values</h2>
+          </div>
+          <div className="grid gap-5 md:grid-cols-3">
+            {principles.map(({ icon: Icon, title, text }) => (
+              <article key={title} className="border border-slate-200 bg-white p-7 shadow-sm">
+                <span className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#0a3158]/5 text-[#9b7728]">
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <h3 className="mt-5 text-xl font-bold text-school-dark">{title}</h3>
+                <p className="mt-3 text-sm leading-7 text-slate-600">{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f7f7f5] py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <div className="grid gap-6 lg:grid-cols-2">
+            <article className="border border-slate-200 bg-white p-7 sm:p-9">
+              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#0a3158]/5 text-[#9b7728]">
+                <GraduationCap className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <p className="mt-5 text-xs font-bold uppercase tracking-[0.18em] text-[#9b7728]">Education</p>
+              <h2 className="mt-2 text-2xl font-bold text-school-dark">A school journey that stays child-centred.</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600">
+                The public academic pages explain the learning programmes and the school&apos;s educational approach without inventing class sizes, staff ratios or examination claims that have not been formally published.
+              </p>
+              <Link href="/academics" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24]">
+                View academic programmes <ArrowRight className="h-4 w-4" />
+              </Link>
+            </article>
+
+            <article className="border border-slate-200 bg-white p-7 sm:p-9">
+              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#0a3158]/5 text-[#9b7728]">
+                <CalendarDays className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <p className="mt-5 text-xs font-bold uppercase tracking-[0.18em] text-[#9b7728]">Looking ahead</p>
+              <h2 className="mt-2 text-2xl font-bold text-school-dark">Planned secondary expansion.</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600">
+                Sammena Schools has a planned Sammena Secondary School expansion with a target of 2028. It is presented as a plan, not as an already operating secondary campus.
+              </p>
+              <Link href="/contact" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24]">
+                Contact the school <ArrowRight className="h-4 w-4" />
+              </Link>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-school-dark py-16 text-white">
+        <div className="mx-auto max-w-4xl px-5 text-center sm:px-6">
+          <p className="text-sm font-bold uppercase tracking-[0.18em] text-school-gold">Public information</p>
+          <h2 className="mt-3 text-3xl font-bold md:text-4xl">Evidence before promotion.</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/70">
+            Official documents, notices, calendar records and published results belong in their respective evidence-backed sections. The About page explains the institution, not claims that belong in an unverified marketing catalogue.
+          </p>
+          <Link href="/resources" className="mt-7 inline-flex items-center gap-2 bg-school-gold px-6 py-3 text-sm font-bold text-school-dark">
+            Visit Resource Centre <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
+
+      <Footer />
+    </main>
+  )
 }
