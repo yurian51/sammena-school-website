@@ -65,7 +65,7 @@ export default function AdminDashboardPage() {
     const permitted = modules.filter((item) => hasPermission(data?.role as import("@/lib/auth/roles").Role, item.permission))
     if (!value) return permitted
     return permitted.filter((item) => (item.label + " " + item.description).toLowerCase().includes(value))
-  }, [query])
+  }, [query, data?.role])
 
   if (loading) return <main className="min-h-screen bg-[#f6f4ef] p-6 text-[#172033]"><div className="mx-auto flex min-h-[80vh] max-w-6xl items-center justify-center"><div className="text-center"><RefreshCw className="mx-auto h-7 w-7 animate-spin text-[#b9964f]" /><p className="mt-4 text-sm font-semibold">Opening secure administration…</p></div></div></main>
 
