@@ -2,7 +2,8 @@ import { getAuthContext } from "@/lib/auth/session"
 import { requireAuthorized } from "@/lib/auth/guards"
 import { getRuntimeDbClient } from "@/lib/db/runtime"
 import { mapDomainError } from "@/lib/api/errors"
-import { requestId } from "@/lib/api/request"
+import { readJson, requestId } from "@/lib/api/request"
+import { z } from "zod"
 
 export async function GET(request: Request) {
   const id = requestId(request)
@@ -28,10 +29,14 @@ export async function PATCH(request: Request) {
   try {
     const context = requireAuthorized(await getAuthContext(request), "messages:write")
     if (!context.schoolId) throw new Error("SCHOOL_SCOPE_REQUIRED")
-    const body = await request.json()
-    const messageId = typeof body?.id === "string" ? body.id : ""
-    const status = typeof body?.status === "string" ? body.status : ""
-    if (!messageId || !["UNREAD","READ","REPLIED","ARCHIVED"].includes(status)) throw new Error("VALIDATION_ERROR")
+    const body = await readJson<unknown>(request)
+    const parsed = z.object({
+      id: z.string().uuid(),
+      status: z.enum(["UNREAD", "READ", "REPLIED", "ARCHIVED"]),
+    }).safeParse(body)
+    if (!parsed.success) throw new Error("VALIDATION_ERROR")
+    const messageId = parsed.data.id
+    const status = parsed.data.status
     const db = getRuntimeDbClient()
     const result = await db.query<{ id: string; status: string }>(
       `with updated as (
