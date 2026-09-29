@@ -124,8 +124,10 @@ export default function LibraryPage() {
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                {filtered.map(resource => (
-                  <button key={resource.id} onClick={() => setSelected(resource)} className={"border p-5 text-left transition-shadow hover:shadow-md " + (selected.id === resource.id ? "border-school-gold bg-[#fffaf4] shadow-sm" : "border-slate-200 bg-white")}>
+                {loading && <div className="sm:col-span-2 border border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Loading the published library catalogue…</div>}
+                {!loading && loadError && <div className="sm:col-span-2 border border-red-200 bg-red-50 p-8 text-center"><p className="font-bold text-school-dark">Library catalogue temporarily unavailable.</p><p className="mt-2 text-sm text-slate-600">No substitute or invented catalogue data is shown.</p></div>}
+                {!loading && !loadError && filtered.map(resource => (
+                  <button key={resource.id} onClick={() => setSelected(resource)} className={"border p-5 text-left transition-shadow hover:shadow-md " + (selected?.id === resource.id ? "border-school-gold bg-[#fffaf4] shadow-sm" : "border-slate-200 bg-white")}>
                     <div className="flex items-start justify-between gap-4">
                       <span className="flex h-11 w-11 items-center justify-center bg-school-dark/5 text-school-gold"><BookOpen className="h-5 w-5" /></span>
                       <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#8a6a24]">{resource.kind}</span>
@@ -156,7 +158,7 @@ export default function LibraryPage() {
                   </div>
                   <div className="mt-6 overflow-hidden border border-slate-200 bg-slate-100">
                     <div className="flex items-center gap-2 border-b border-slate-200 bg-white px-4 py-3 text-xs font-bold uppercase tracking-[0.14em] text-slate-500"><FileText className="h-4 w-4 text-school-gold" /> Reader preview</div>
-                    <iframe key={selected?.id ?? "empty"} src={selected?.readerUrl ?? "about:blank"} title={"Reading " + selected.title} className="h-[70vh] min-h-[560px] w-full bg-white" loading="lazy" />
+                    <iframe key={selected?.id ?? "empty"} src={selected?.readerUrl ?? "about:blank"} title={"Reading " + (selected?.title ?? "resource")} className="h-[70vh] min-h-[560px] w-full bg-white" loading="lazy" />
                   </div>
                   <div className="mt-5 flex items-start gap-3 border-t border-slate-200 pt-5">
                     <ExternalLink className="mt-0.5 h-4 w-4 shrink-0 text-school-gold" />
