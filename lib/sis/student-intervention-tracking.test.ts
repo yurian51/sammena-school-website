@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest"
-import { isInterventionOverdue, recordInterventionStatusChange } from "./student-intervention-tracking"
+import { isInterventionOverdue, recordInterventionStatusChange } from "./student-intervention-tracking"\nimport type { StudentInterventionPlan } from "./student-intervention-plan"
 
-const plan = {
+const plan: StudentInterventionPlan = {
   id: "p1",
   studentId: "s1",
   type: "attendance" as const,
