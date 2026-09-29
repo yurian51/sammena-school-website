@@ -4,6 +4,16 @@ import { createCalendarRepository, validateCreateSchoolEvent } from "@/lib/calen
 import { apiError, mapDomainError } from "@/lib/api/errors"
 import { requestId } from "@/lib/api/request"
 
+export async function GET(request: Request) {
+  const id = requestId(request)
+  try {
+    const context = requireAuthorized(await getAuthContext(request), "cms:read")
+    if (!context.schoolId) throw new Error("SCHOOL_SCOPE_REQUIRED")
+    const data = await createCalendarRepository(context.schoolId).listAll()
+    return Response.json({ data, requestId: id }, { headers: { "Cache-Control": "private, no-store" } })
+  } catch (error) { return mapDomainError(error, id) }
+}
+
 export async function POST(request: Request) {
   const id = requestId(request)
   try {
