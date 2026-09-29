@@ -10,10 +10,10 @@ export async function GET(request: Request) {
     const context = requireAuthorized(await getAuthContext(request), "cms:read")
     const db = getRuntimeDbClient()
     const checks = await Promise.all([
-      db.query("select 1 as ok"),
-      db.query("select to_regclass('public.cms_content') is not null as ok"),
-      db.query("select to_regclass('public.school_events') is not null as ok"),
-      db.query("select to_regclass('public.audit_events') is not null as ok"),
+      db.query<{ ok: number }>("select 1 as ok"),
+      db.query<{ ok: boolean }>("select to_regclass('public.cms_content') is not null as ok"),
+      db.query<{ ok: boolean }>("select to_regclass('public.school_events') is not null as ok"),
+      db.query<{ ok: boolean }>("select to_regclass('public.audit_events') is not null as ok"),
     ])
     return Response.json({ data: {
       role: context.role,
