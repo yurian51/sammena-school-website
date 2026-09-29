@@ -12,7 +12,8 @@
     "test:unit": "vitest run",
     "test:data": "node scripts/validate-results-data.mjs",
     "test:portal-schema": "node scripts/validate-portal-schema.mjs",
-    "db:migrate": "node scripts/migrate.mjs"
+    "db:migrate": "node scripts/migrate.mjs",
+    "test:production-contracts": "node scripts/validate-production-contracts.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
