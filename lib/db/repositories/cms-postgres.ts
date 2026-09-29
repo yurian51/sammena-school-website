@@ -10,6 +10,11 @@ export class PostgresCmsRepository implements CmsRepository {
     return result.rows.map(mapCmsRow)
   }
 
+  async listAll() {
+    const result = await getDbClient().query<CmsContentRow>(`select * from cms_content order by updated_at desc, created_at desc`)
+    return result.rows.map(mapCmsRow)
+  }
+
   async findById(id: string) {
     const result = await getDbClient().query<CmsContentRow>(`select * from cms_content where id=$1 limit 1`, [id])
     return result.rows[0] ? mapCmsRow(result.rows[0]) : null
