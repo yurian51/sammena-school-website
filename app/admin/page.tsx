@@ -31,7 +31,7 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const load = async () => {
+  const load = async (): Promise<void> => {
     setLoading(true)
     setError(null)
     try {
@@ -52,7 +52,7 @@ export default function AdminDashboardPage() {
 
   useEffect(() => { void load() }, [])
 
-  const logout = async () => {
+  const logout = async (): Promise<void> => {
     await fetch("/api/auth/logout", { method: "POST" })
     window.location.assign("/login?type=admin")
   }
