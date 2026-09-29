@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
+import { hasPermission, type Permission } from "@/lib/auth/roles"
 import { Activity, ArrowRight, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Mail, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users } from "lucide-react"
 
 type Overview = {
@@ -19,12 +20,12 @@ type Overview = {
 }
 
 const modules = [
-  { label: "Students", description: "Search the live student register and 360° profiles.", href: "/admin/students", icon: Users },
-  { label: "Admissions", description: "Review applications and decisions.", href: "/admin/admissions", icon: ClipboardList },
-  { label: "News & publishing", description: "Create, edit and publish official posts.", href: "/admin/content", icon: Megaphone },
-  { label: "Events & calendar", description: "Manage the public school calendar.", href: "/admin/events", icon: CalendarDays },
-  { label: "Audit & security", description: "Inspect privileged administrative activity.", href: "/admin/audit", icon: ShieldCheck },
-  { label: "System settings", description: "Check production integrations and runtime security.", href: "/admin/settings", icon: Settings },
+  { label: "Students", description: "Search the live student register and 360° profiles.", href: "/admin/students", icon: Users, permission: "sis:students:read" as Permission },
+  { label: "Admissions", description: "Review applications and decisions.", href: "/admin/admissions", icon: ClipboardList, permission: "admissions:read" as Permission },
+  { label: "News & publishing", description: "Create, edit and publish official posts.", href: "/admin/content", icon: Megaphone, permission: "cms:read" as Permission },
+  { label: "Events & calendar", description: "Manage the public school calendar.", href: "/admin/events", icon: CalendarDays, permission: "cms:read" as Permission },
+  { label: "Audit & security", description: "Inspect privileged administrative activity.", href: "/admin/audit", icon: ShieldCheck, permission: "audit:read" as Permission },
+  { label: "System settings", description: "Check production integrations and runtime security.", href: "/admin/settings", icon: Settings, permission: "settings:read" as Permission },
 ]
 
 export default function AdminDashboardPage() {
@@ -61,8 +62,9 @@ export default function AdminDashboardPage() {
 
   const filteredModules = useMemo(() => {
     const value = query.trim().toLowerCase()
-    if (!value) return modules
-    return modules.filter((item) => (item.label + " " + item.description).toLowerCase().includes(value))
+    const permitted = modules.filter((item) => hasPermission(data?.role as import("@/lib/auth/roles").Role, item.permission))
+    if (!value) return permitted
+    return permitted.filter((item) => (item.label + " " + item.description).toLowerCase().includes(value))
   }, [query])
 
   if (loading) return <main className="min-h-screen bg-[#f6f4ef] p-6 text-[#172033]"><div className="mx-auto flex min-h-[80vh] max-w-6xl items-center justify-center"><div className="text-center"><RefreshCw className="mx-auto h-7 w-7 animate-spin text-[#b9964f]" /><p className="mt-4 text-sm font-semibold">Opening secure administration…</p></div></div></main>
