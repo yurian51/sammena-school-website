@@ -2,97 +2,30 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Mail, MapPin, Phone, ShieldCheck } from "lucide-react"
 
-const groups = [
-  { title: "Explore", links: [["/", "Home"], ["/about", "About Sammena"], ["/history", "School History"], ["/leadership", "Leadership & Governance"], ["/academics", "Academics"], ["/secondary", "Secondary School"]] },
-  { title: "Admissions & Services", links: [["/admissions", "Admissions"], ["/admissions/fees", "Fees & Payment Guide"], ["/resources", "Resource Centre"], ["/calendar", "Academic Calendar"], ["/portal", "Parent / Student Portal"]] },
-  { title: "Community", links: [["/gallery", "School Life"], ["/news", "News & Events"], ["/results", "Academic Results"], ["/sponsorship", "Support Sammena"], ["/policies", "Policies & Guidelines"], ["/location", "School Location"], ["/search", "Search Website"], ["/contact", "Contact Sammena"]] },
+const groups=[
+  {title:"Explore",links:[[ "/", "Home" ],[ "/about","About Sammena" ],[ "/history","Our Story" ],[ "/leadership","Leadership" ],[ "/academics","Academics" ],[ "/library","Digital Library" ]]},
+  {title:"Admissions",links:[[ "/admissions","Admissions" ],[ "/admissions/fees","Fees & Payment" ],[ "/calendar","Academic Calendar" ],[ "/resources","Resource Centre" ],[ "/portal","Family Portal" ]]},
+  {title:"Community",links:[[ "/gallery","School Life" ],[ "/news","News & Events" ],[ "/results","Academic Results" ],[ "/policies","Policies" ],[ "/location","Location" ],[ "/contact","Contact" ]]},
 ]
 
-const quickServices = [
-  ["/admissions", "Admissions"],
-  ["/portal", "Family Portal"],
-  ["/calendar", "Calendar"],
-  ["/resources", "Resources"],
-]
-
-export function Footer() {
-  return (
-    <footer className="bg-school-dark pb-[5.25rem] text-white lg:pb-0">
-      <div className="border-b border-white/10 bg-white/[0.03]">
-        <div className="mx-auto flex max-w-7xl items-center gap-3 overflow-x-auto px-5 py-3 text-[11px] text-white/55 scrollbar-none sm:px-6 lg:px-8">
-          <span className="shrink-0 font-bold uppercase tracking-[0.16em] text-school-gold">SAMMENA DIGITAL SCHOOL</span>
-          <span className="h-1 w-1 shrink-0 rounded-full bg-school-gold/70" />
-          <span className="shrink-0">Admissions</span>
-          <span className="h-1 w-1 shrink-0 rounded-full bg-white/20" />
-          <span className="shrink-0">Family Services</span>
-          <span className="h-1 w-1 shrink-0 rounded-full bg-white/20" />
-          <span className="shrink-0">Learning Resources</span>
+export function Footer(){
+  return <footer className="bg-[#102846] pb-[5.25rem] text-white lg:pb-0">
+    <div className="border-b border-white/10"><div className="mx-auto flex max-w-7xl items-center gap-4 px-5 py-3 text-[10px] uppercase tracking-[0.16em] text-white/45 sm:px-6 lg:px-8"><span className="font-bold text-[#d7c28e]">SAMMENA SCHOOLS</span><span className="h-px w-8 bg-[#b9964f]/60"/><span>Official School Information</span></div></div>
+    <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div className="grid gap-10 xl:grid-cols-[1.1fr_2fr] xl:gap-20">
+        <div>
+          <Link href="/" className="group inline-flex items-center gap-3" aria-label="Sammena Schools home"><span className="grid h-12 w-12 place-items-center bg-white p-1 ring-1 ring-[#d7c28e]/60"><Image src="/images/Sammena_Pre_Primary_School_Logo_Clean.svg" alt="Sammena logo" width={48} height={48} className="h-full w-full object-contain"/></span><span className="leading-none"><span className="block text-lg font-extrabold tracking-[0.13em]">SAMMENA</span><span className="mt-1.5 block text-[9px] font-semibold uppercase tracking-[0.34em] text-[#d7c28e]">Pre & Primary School</span></span></Link>
+          <p className="mt-5 max-w-md text-sm leading-7 text-white/58">A considered digital home for families, learners, educators and the Sammena community.</p>
+          <div className="mt-6 flex flex-wrap gap-2">{[[ "/admissions","Admissions" ],[ "/library","Digital Library" ],[ "/portal","Family Portal" ],[ "/contact","Contact" ]].map(([href,label])=><Link key={href} href={href} className="inline-flex items-center gap-2 border border-white/10 px-3.5 py-2.5 text-xs font-semibold text-white/75 hover:border-[#b9964f]/60 hover:text-white">{label}<ArrowRight className="h-3.5 w-3.5 text-[#b9964f]"/></Link>)}</div>
         </div>
+        <div className="grid gap-8 sm:grid-cols-3">{groups.map(group=><div key={group.title}><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d7c28e]">{group.title}</p><ul className="mt-4 space-y-3">{group.links.map(([href,label])=><li key={href}><Link href={href} className="group/link inline-flex items-center text-sm text-white/58 hover:text-white"><span>{label}</span><ArrowRight className="ml-1 h-3.5 w-3.5 -translate-x-1 opacity-0 transition-all group-hover/link:translate-x-0 group-hover/link:opacity-100"/></Link></li>)}</ul></div>)}</div>
       </div>
-
-      <div className="mx-auto max-w-7xl px-5 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
-        <div className="grid gap-8 xl:grid-cols-[1.05fr_2fr] xl:gap-14">
-          <div>
-            <Link href="/" className="group inline-flex items-center gap-3" aria-label="SAMMENA SCHOOLS home">
-              <Image src="/images/Sammena_Pre_Primary_School_Logo_Clean.svg" alt="Sammena Pre & Primary School logo" width={44} height={44} className="h-11 w-11 rounded-sm bg-white object-cover shadow-sm ring-1 ring-[#d8b55b]/70 transition-all duration-300 group-hover:scale-105" />
-              <span className="leading-none">
-                <span className="block text-lg font-extrabold tracking-[0.08em] group-hover:text-school-gold">SAMMENA</span>
-                <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.3em] text-school-gold">Schools</span>
-              </span>
-            </Link>
-            <p className="mt-4 max-w-md text-sm leading-6 text-white/65">Building bright minds and shaping better futures through learning, character, wellbeing and meaningful school experiences.</p>
-
-            <div className="mt-5 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
-              {quickServices.map(([href, label]) => (
-                <Link key={href} href={href} className="inline-flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2.5 text-xs font-semibold text-white/80 transition hover:border-school-gold/40 hover:bg-school-gold/10 hover:text-white">
-                  <span>{label}</span><ArrowRight className="h-3.5 w-3.5 text-school-gold" />
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid gap-2 sm:grid-cols-3 sm:gap-8">
-            {groups.map((group) => (
-              <details key={group.title} className="group border-b border-white/10 last:border-0 sm:border-0">
-                <summary className="flex cursor-pointer list-none items-center justify-between py-3 text-xs font-bold uppercase tracking-[0.16em] text-school-gold [&::-webkit-details-marker]:hidden sm:cursor-default sm:py-0">
-                  {group.title}
-                  <span className="text-lg font-light text-white/40 transition-transform group-open:rotate-45 sm:hidden">+</span>
-                </summary>
-                <ul className="space-y-2 pb-3 sm:mt-4 sm:space-y-3 sm:pb-0">
-                  {group.links.map(([href, label]) => (
-                    <li key={href}>
-                      <Link href={href} className="group/link inline-flex text-sm text-white/65 transition-colors hover:text-white">
-                        <span>{label}</span><ArrowRight className="ml-1 h-3.5 w-3.5 -translate-x-1 opacity-0 transition-all group-hover/link:translate-x-0 group-hover/link:opacity-100" />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-8 grid overflow-hidden rounded-xl border border-white/10 bg-white/[0.035] sm:grid-cols-3 sm:divide-x sm:divide-white/10">
-          <Link href="/location" className="flex items-center gap-3 px-4 py-3.5 text-sm text-white/70 transition hover:bg-white/[0.04] hover:text-white">
-            <MapPin className="h-4 w-4 shrink-0 text-school-gold" />
-            <span><strong className="block text-xs text-white">P15336, Nduruma</strong><span className="text-xs text-white/50">Arusha, Tanzania</span></span>
-          </Link>
-          <a href="tel:+255750227073" className="flex items-center gap-3 border-t border-white/10 px-4 py-3.5 text-sm text-white/70 transition hover:bg-white/[0.04] hover:text-white sm:border-t-0">
-            <Phone className="h-4 w-4 shrink-0 text-school-gold" /><span>+255 750 227 073</span>
-          </a>
-          <Link href="/contact" className="flex items-center gap-3 border-t border-white/10 px-4 py-3.5 text-sm text-white/70 transition hover:bg-white/[0.04] hover:text-white sm:border-t-0">
-            <Mail className="h-4 w-4 shrink-0 text-school-gold" /><span>School Office & Contact</span>
-          </Link>
-        </div>
-
-        <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-4 text-[11px] text-white/40 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} SAMMENA SCHOOLS. All rights reserved.</p>
-          <nav aria-label="Legal and verification" className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <Link href="/trust" className="inline-flex items-center gap-1.5 hover:text-white"><ShieldCheck className="h-3.5 w-3.5" /> Trust Centre</Link>
-            <Link href="/privacy" className="hover:text-white">Privacy & Data Protection</Link>
-          </nav>
-        </div>
+      <div className="mt-10 grid border border-white/10 sm:grid-cols-3 sm:divide-x sm:divide-white/10">
+        <Link href="/location" className="flex items-center gap-3 px-4 py-4 text-sm text-white/65 hover:bg-white/[.03] hover:text-white"><MapPin className="h-4 w-4 shrink-0 text-[#b9964f]"/><span><strong className="block text-xs text-white">P15336, Nduruma</strong><span className="text-xs text-white/45">Arusha, Tanzania</span></span></Link>
+        <a href="tel:+255750227073" className="flex items-center gap-3 border-t border-white/10 px-4 py-4 text-sm text-white/65 hover:bg-white/[.03] hover:text-white sm:border-t-0"><Phone className="h-4 w-4 shrink-0 text-[#b9964f]"/>+255 750 227 073</a>
+        <Link href="/contact" className="flex items-center gap-3 border-t border-white/10 px-4 py-4 text-sm text-white/65 hover:bg-white/[.03] hover:text-white sm:border-t-0"><Mail className="h-4 w-4 shrink-0 text-[#b9964f]"/>School Office & Contact</Link>
       </div>
-    </footer>
-  )
+      <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-5 text-[10px] uppercase tracking-[0.08em] text-white/35 sm:flex-row sm:items-center sm:justify-between"><p>© {new Date().getFullYear()} SAMMENA SCHOOLS. All rights reserved.</p><nav aria-label="Legal and verification" className="flex flex-wrap gap-x-5 gap-y-2"><Link href="/trust" className="inline-flex items-center gap-1.5 hover:text-white"><ShieldCheck className="h-3.5 w-3.5"/>Trust Centre</Link><Link href="/privacy" className="hover:text-white">Privacy & Data Protection</Link></nav></div>
+    </div>
+  </footer>
 }
