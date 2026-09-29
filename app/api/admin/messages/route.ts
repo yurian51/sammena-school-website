@@ -3,7 +3,6 @@ import { requireAuthorized } from "@/lib/auth/guards"
 import { getRuntimeDbClient } from "@/lib/db/runtime"
 import { mapDomainError } from "@/lib/api/errors"
 import { requestId } from "@/lib/api/request"
-import { auditAction } from "@/lib/api/admin-audit"
 
 export async function GET(request: Request) {
   const id = requestId(request)
@@ -34,12 +33,22 @@ export async function PATCH(request: Request) {
     const status = typeof body?.status === "string" ? body.status : ""
     if (!messageId || !["UNREAD","READ","REPLIED","ARCHIVED"].includes(status)) throw new Error("VALIDATION_ERROR")
     const db = getRuntimeDbClient()
-    const result = await db.query(
-      "update contact_messages set status=$1, updated_at=now() where id=$2 and school_id=$3 returning id, status",
-      [status, messageId, context.schoolId],
+    const result = await db.query<{ id: string; status: string }>(
+      `with updated as (
+         update contact_messages
+         set status=$1, updated_at=now()
+         where id=$2 and school_id=$3
+         returning id, status
+       ), audited as (
+         insert into audit_events (actor_user_id, action, entity_type, entity_id, request_id)
+         select $4, 'CONTACT_MESSAGE_STATUS_UPDATED', 'contact_message', id, $5
+         from updated
+         returning entity_id
+       )
+       select id, status from updated`,
+      [status, messageId, context.schoolId, context.userId, id],
     )
-    if (!result.rowCount) throw new Error("NOT_FOUND")
-    await auditAction(context, "CONTACT_MESSAGE_STATUS_UPDATED", "contact_message", messageId, id)
+    if (!result.rows.length) throw new Error("NOT_FOUND")
     return Response.json({ data: result.rows[0], requestId: id })
   } catch (error) {
     return mapDomainError(error, id)
