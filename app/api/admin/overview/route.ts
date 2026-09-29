@@ -13,8 +13,8 @@ export async function GET(request: Request) {
     const schoolId = context.schoolId
 
     const [applications, pendingApplications, cmsDrafts, cmsPublished, upcomingEvents, audit] = await Promise.all([
-      db.query<{ count: number }>("select count(*)::int as count from applications"),
-      db.query<{ count: number }>("select count(*)::int as count from applications where status in ('SUBMITTED','UNDER_REVIEW','ASSESSMENT')"),
+      db.query<{ count: number }>('select count(*)::int as count from "AdmissionApplication"'),
+      db.query<{ count: number }>('select count(*)::int as count from "AdmissionApplication" where "status" in (\'SUBMITTED\',\'UNDER_REVIEW\',\'ASSESSMENT\')'),
       db.query<{ count: number }>("select count(*)::int as count from cms_content where status in ('DRAFT','REVIEW','APPROVED')"),
       db.query<{ count: number }>("select count(*)::int as count from cms_content where status = 'PUBLISHED'"),
       db.query<{ count: number }>("select count(*)::int as count from school_events where school_id = $1 and status = 'PUBLISHED' and starts_at >= now()", [schoolId]),
