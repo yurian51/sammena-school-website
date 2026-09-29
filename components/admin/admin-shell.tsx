@@ -5,18 +5,19 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Mail, Megaphone, Settings, ShieldCheck, Users, X } from "lucide-react"
 import { useState } from "react"
+import { hasPermission, type Permission, type Role } from "@/lib/auth/roles"
 
 type Props = { children: React.ReactNode; role: string }
 
-const nav = [
-  { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { label: "Notices & News", href: "/admin/content", icon: Megaphone },
-  { label: "Events & Calendar", href: "/admin/events", icon: CalendarDays },
-  { label: "Admissions", href: "/admin/admissions", icon: ClipboardList },
-  { label: "Messages", href: "/admin/messages", icon: Mail },
-  { label: "Students", href: "/admin/students", icon: Users },
-  { label: "Audit Log", href: "/admin/audit", icon: ShieldCheck },
-  { label: "Settings", href: "/admin/settings", icon: Settings },
+const nav: Array<{ label: string; href: string; icon: typeof LayoutDashboard; permission: Permission }> = [
+  { label: "Dashboard", href: "/admin", icon: LayoutDashboard, permission: "dashboard.view" },
+  { label: "Notices & News", href: "/admin/content", icon: Megaphone, permission: "cms:read" },
+  { label: "Events & Calendar", href: "/admin/events", icon: CalendarDays, permission: "cms:read" },
+  { label: "Admissions", href: "/admin/admissions", icon: ClipboardList, permission: "admissions:read" },
+  { label: "Messages", href: "/admin/messages", icon: Mail, permission: "messages:read" },
+  { label: "Students", href: "/admin/students", icon: Users, permission: "sis:students:read" },
+  { label: "Audit Log", href: "/admin/audit", icon: ShieldCheck, permission: "audit:read" },
+  { label: "Settings", href: "/admin/settings", icon: Settings, permission: "settings:read" },
 ]
 
 export function AdminShell({ children, role }: Props) {
@@ -30,7 +31,7 @@ export function AdminShell({ children, role }: Props) {
 
   const Navigation = () => (
     <nav className="space-y-1" aria-label="Administration">
-      {nav.map(({ label, href, icon: Icon }) => {
+      {nav.filter((item) => hasPermission(role as Role, item.permission)).map(({ label, href, icon: Icon }) => {
         const active = href === "/admin" ? pathname === href : pathname.startsWith(href)
         return (
           <Link
