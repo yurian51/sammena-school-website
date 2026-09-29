@@ -51,7 +51,7 @@ for (const script of requiredScripts) {
 
 const env = read(".env.example");
 for (const key of ["DATABASE_URL", "SAMMENA_SCHOOL_ID"]) {
-  if (new RegExp(`^\\s*${key}=\`, "m").test(env)) ok(`.env.example declares ${key}`);
+  if (new RegExp(`^\\s*${key}=`, "m").test(env)) ok(`.env.example declares ${key}`);
   else fail(`.env.example is missing ${key}`);
 }
 
