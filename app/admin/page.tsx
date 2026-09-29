@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import { Activity, ArrowRight, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users } from "lucide-react"
+import { Activity, ArrowRight, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Mail, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users } from "lucide-react"
 
 type Overview = {
   role: string
@@ -15,6 +15,7 @@ type Overview = {
   activeStudents: number
   auditEvents30d: number
   recentActivity: Array<{ id: string; action: string; entity_type: string; entity_id: string | null; created_at: string }>
+  unreadMessages: number
 }
 
 const modules = [
@@ -69,6 +70,7 @@ export default function AdminDashboardPage() {
   if (error || !data) return <main className="min-h-screen bg-[#f6f4ef] p-6 text-[#172033]"><div className="mx-auto flex min-h-[80vh] max-w-xl items-center justify-center"><section className="w-full border border-slate-200 bg-white p-8 text-center shadow-sm"><ShieldCheck className="mx-auto h-8 w-8 text-[#b9964f]" /><h1 className="mt-4 text-2xl font-bold">Administration unavailable</h1><p className="mt-3 text-sm leading-6 text-slate-600">{error ?? "The secure administration workspace could not be loaded."}</p><button onClick={() => void load()} className="mt-6 inline-flex items-center gap-2 bg-[#17365d] px-5 py-3 text-sm font-bold text-white"><RefreshCw className="h-4 w-4" /> Retry</button></section></div></main>
 
   const attention = [
+    data.unreadMessages > 0 ? { label: data.unreadMessages.toLocaleString() + " unread contact message" + (data.unreadMessages === 1 ? "" : "s"), href: "/admin/messages" } : null,
     data.pendingApplications > 0 ? { label: data.pendingApplications.toLocaleString() + " admissions application" + (data.pendingApplications === 1 ? "" : "s") + " awaiting review", href: "/admin/admissions" } : null,
     data.draftContent > 0 ? { label: data.draftContent.toLocaleString() + " publication item" + (data.draftContent === 1 ? "" : "s") + " still in workflow", href: "/admin/content" } : null,
   ].filter((item): item is { label: string; href: string } => Boolean(item))
@@ -98,6 +100,7 @@ export default function AdminDashboardPage() {
             { label: "In workflow", value: data.draftContent, Icon: FileText, href: "/admin/content" },
             { label: "Published posts", value: data.publishedContent, Icon: Megaphone, href: "/admin/content" },
             { label: "Upcoming events", value: data.upcomingEvents, Icon: CalendarDays, href: "/admin/events" },
+            { label: "Unread messages", value: data.unreadMessages, Icon: Mail, href: "/admin/messages" },
           ].map(({ label, value, Icon, href }) => <Link key={label} href={href} className="group border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[#b9964f]"><div className="grid h-10 w-10 place-items-center bg-[#f3ead5] text-[#8c6c28]"><Icon className="h-5 w-5" /></div><p className="mt-5 text-sm font-semibold text-slate-500">{label}</p><p className="mt-1 text-3xl font-bold text-[#17365d]">{value.toLocaleString()}</p></Link>)}
         </section>
 
