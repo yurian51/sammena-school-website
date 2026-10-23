@@ -42,6 +42,7 @@ export const metadata: Metadata = {
   },
   twitter: { card: 'summary_large_image', title: 'SAMMENA SCHOOLS', description: 'Building Bright Minds. Shaping Better Futures.' },
   robots: { index: true, follow: true },
+  verification: { google: 'Dbh3-iBTUs9yIuC3Cvx2vZxnby09xfJhK3U-x6CchpQ' },
   icons: { icon: '/icon.svg', shortcut: '/icon.svg' },
 }
 
