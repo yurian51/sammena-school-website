@@ -38,8 +38,14 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'SAMMENA SCHOOLS',
     locale: 'en_TZ',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Sammena Pre & Primary School official logo and website' }],
   },
-  twitter: { card: 'summary_large_image', title: 'SAMMENA SCHOOLS', description: 'Building Bright Minds. Shaping Better Futures.' },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SAMMENA SCHOOLS',
+    description: 'Building Bright Minds. Shaping Better Futures.',
+    images: [{ url: '/opengraph-image', alt: 'Sammena Pre & Primary School official logo and website' }],
+  },
   robots: { index: true, follow: true },
   verification: { google: 'lELeRRdvUGwwD4L0nTHtxNSQeIWl9tp4eoKKjgqa7Fs' },
   icons: {
