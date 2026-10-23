@@ -1,9 +1,17 @@
+"use client"
+
+import { usePathname } from "next/navigation"
 import Link from "next/link"
 import { GraduationCap, MessageCircle, Phone } from "lucide-react"
 
 export function MobileActionBar() {
+  const pathname = usePathname()
+  const isPrivateArea = pathname === "/login" || pathname.startsWith("/login/") || pathname === "/admin" || pathname.startsWith("/admin/") || pathname === "/portal" || pathname.startsWith("/portal/")
+
+  if (isPrivateArea) return null
+
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 p-2 shadow-[0_-8px_30px_rgba(7,29,59,0.10)] backdrop-blur lg:hidden" style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}>
+    <nav aria-label="Quick actions" className="mobile-action-bar fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 p-2 shadow-[0_-8px_30px_rgba(7,29,59,0.10)] backdrop-blur lg:hidden" style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}>
       <div className="mx-auto grid max-w-2xl grid-cols-3 gap-2">
         <a href="tel:+255750227073" className="flex min-h-11 items-center justify-center gap-1.5 rounded-md border border-[#0a3158]/15 text-xs font-bold text-[#0a3158] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">
           <Phone className="h-4 w-4" aria-hidden="true" />
@@ -18,6 +26,6 @@ export function MobileActionBar() {
           Apply
         </Link>
       </div>
-    </div>
+    </nav>
   )
 }
