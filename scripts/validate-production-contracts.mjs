@@ -97,6 +97,30 @@ const sitemap = read("app/sitemap.ts");
 if (sitemap.includes("https://sammena.altavox.space")) ok("sitemap has the canonical Sammena domain fallback");
 else fail("sitemap is missing the canonical domain fallback");
 
+const sponsorship = read("app/sponsorship/page.tsx");
+for (const fragment of [
+  "https://www.doneeractie.nl/charity-sammena-school-arusha-tanzania/-2021",
+  "Campaign closed",
+  "€5,804",
+  "€4,650",
+  "87",
+  "current balance",
+  "historical",
+]) {
+  if (sponsorship.toLowerCase().includes(fragment.toLowerCase())) ok(`sponsorship source contract: ${fragment}`);
+  else fail(`sponsorship page missing sourced detail: ${fragment}`);
+}
+
+const history = read("app/history/page.tsx");
+for (const fragment of [
+  "Founding history requires confirmation",
+  "Samwel Menavi and Mosses Mollel",
+  "https://www.doneeractie.nl/charity-sammena-school-arusha-tanzania/-2021",
+]) {
+  if (history.includes(fragment)) ok(`history source contract: ${fragment}`);
+  else fail(`history page missing provenance note: ${fragment}`);
+}
+
 const page = read("app/page.tsx");
 for (const route of ["/admissions", "/academics", "/calendar", "/library", "/contact", "/location"]) {
   if (page.includes(`href="${route}"`)) ok(`home navigation contract: ${route}`);
