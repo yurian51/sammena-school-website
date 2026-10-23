@@ -111,6 +111,20 @@ for (const fragment of [
   else fail(`sponsorship page missing sourced detail: ${fragment}`);
 }
 
+const supportFeatures = read("app/sponsorship/page.tsx");
+for (const fragment of [
+  "Feature 1 · Donor & partner centre",
+  "Feature 2 · School development projects",
+  "Feature 3 · Donations and financial transparency",
+  "Feature 4 · Volunteer and sponsorship programme",
+  "Feature 5 · Reports and evidence library",
+  "Dominique Swinkels",
+  "does not provide a portrait that can be confidently verified",
+]) {
+  if (supportFeatures.toLowerCase().includes(fragment.toLowerCase())) ok(`support feature contract: ${fragment}`);
+  else fail(`support page missing feature or attribution safeguard: ${fragment}`);
+}
+
 const history = read("app/history/page.tsx");
 for (const fragment of [
   "Founding history requires confirmation",
