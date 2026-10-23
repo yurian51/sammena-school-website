@@ -63,6 +63,13 @@ export default function HomePage(){
 
     <InstitutionalSections/>
 
+    <section className="border-y border-[#e6e1d7] bg-[#f8f5ed] py-14 sm:py-16">
+      <div className="mx-auto grid max-w-7xl gap-6 px-5 sm:px-8 md:grid-cols-[1fr_auto] md:items-center">
+        <div><p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#8d713b]">Community partnerships</p><h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] text-[#17365d]">Support Sammena’s next chapter.</h2><p className="mt-3 max-w-2xl text-sm leading-7 text-[#687184]">Explore verified support priorities, school development projects, volunteer enquiries, historical fundraising records and published evidence.</p></div>
+        <Link href="/sponsorship" className="inline-flex min-h-12 items-center justify-center gap-2 bg-[#b9964f] px-6 py-3 text-sm font-bold text-[#102846] transition hover:bg-[#d7c28e]">Support & Partnerships <ArrowRight className="h-4 w-4"/></Link>
+      </div>
+    </section>
+
     <section className="border-t border-[#e6e1d7] bg-[#102846] py-16 text-white sm:py-20">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[1.15fr_.85fr] lg:items-center">
         <div><p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#d7c28e]">Our community</p><h2 className="mt-4 max-w-2xl text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">A school is built by its people.</h2><p className="mt-5 max-w-2xl text-sm leading-7 text-white/62">Students, teachers, families and the wider community each contribute to a respectful and purposeful learning environment.</p></div>
