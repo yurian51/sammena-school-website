@@ -1,5 +1,3 @@
-"use client"
-
 import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowRight, HeartHandshake, GraduationCap, BookOpen, Users, ShieldCheck, ExternalLink, Landmark, Clock3 } from "lucide-react"
