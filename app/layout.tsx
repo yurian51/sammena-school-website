@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Poppins, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { MobileActionBar } from '@/components/mobile-action-bar'
 import { PwaRegister } from '@/components/pwa-register'
 import { schoolIdentity } from '@/lib/academic-results'
@@ -104,6 +105,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <MobileActionBar />
         <PwaRegister />
         {process.env.NODE_ENV === 'production' && <Analytics />}
+        <SpeedInsights />
       </body>
     </html>
   )
