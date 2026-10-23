@@ -27,3 +27,11 @@ create table if not exists app_auth_audit (
 );
 
 create index if not exists app_auth_audit_school_created_idx on app_auth_audit(school_id, created_at desc);
+
+-- These tables are accessed by the trusted server-side PostgreSQL connection only.
+-- Do not expose account hashes or audit records through the public Supabase Data API.
+alter table app_users enable row level security;
+alter table app_auth_audit enable row level security;
+revoke all on table app_users from anon, authenticated;
+revoke all on table app_auth_audit from anon, authenticated;
+revoke all on sequence app_auth_audit_id_seq from anon, authenticated;
