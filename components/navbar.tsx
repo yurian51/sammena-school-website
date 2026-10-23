@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown, ChevronRight, ExternalLink, Menu, X, Search, Phone, Mail, MapPin } from "lucide-react"
+import { ChevronDown, ChevronRight, ExternalLink, Menu, X, Search, Phone, Mail, MapPin, HeartHandshake } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const groups = [
@@ -115,6 +115,7 @@ export function Navbar() {
               )
             })}
             <Link href="/search" className="ml-1 p-3 text-white/70 hover:text-white" aria-label="Search Sammena website"><Search className="h-4 w-4" /></Link>
+            <Link href="/sponsorship" className="ml-1 inline-flex items-center gap-1.5 border border-white/25 px-3 py-2.5 text-[12px] font-bold text-white transition hover:bg-white/10">Support <HeartHandshake className="h-3.5 w-3.5" /></Link>
             <Link href="/admissions/apply" className="ml-2 inline-flex items-center gap-2 bg-[#b9964f] px-4 py-2.5 text-[12px] font-bold text-[#102846] transition hover:bg-[#d7c28e]">Apply Now <ChevronRight className="h-3.5 w-3.5" /></Link>
           </div>
 
@@ -148,9 +149,10 @@ export function Navbar() {
             </div>
           )
         })}
-        <div className="mt-2 grid gap-2 min-[420px]:grid-cols-2">
-          <Link onClick={() => setMobileOpen(false)} href="/portal" className="flex min-h-11 items-center justify-center border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-[#d7c28e]">Parent / Student Portal</Link>
-          <Link onClick={() => setMobileOpen(false)} href="/admissions/apply" className="flex min-h-11 items-center justify-center gap-2 bg-[#b9964f] px-4 py-3 text-sm font-bold text-[#102846]">Apply <ChevronRight className="h-4 w-4" /></Link>
+        <div className="mt-2 grid gap-2 min-[420px]:grid-cols-3">
+          <Link onClick={() => setMobileOpen(false)} href="/portal" className="flex min-h-11 items-center justify-center border border-white/15 bg-white/5 px-3 py-3 text-xs font-semibold text-[#d7c28e]">Family Portal</Link>
+          <Link onClick={() => setMobileOpen(false)} href="/sponsorship" className="flex min-h-11 items-center justify-center gap-2 border border-white/20 px-3 py-3 text-xs font-bold text-white"><HeartHandshake className="h-4 w-4" />Support</Link>
+          <Link onClick={() => setMobileOpen(false)} href="/admissions/apply" className="flex min-h-11 items-center justify-center gap-2 bg-[#b9964f] px-3 py-3 text-xs font-bold text-[#102846]">Apply <ChevronRight className="h-4 w-4" /></Link>
         </div>
       </div>
     </header>
