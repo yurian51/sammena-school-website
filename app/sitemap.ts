@@ -18,7 +18,6 @@ const routes = [
   '/documents',
   '/facilities',
   '/news',
-  '/news?type=ANNOUNCEMENT',
   '/calendar',
   '/events',
   '/results',
