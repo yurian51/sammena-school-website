@@ -24,7 +24,7 @@ export async function POST(request: Request) {
         authenticateAdmin(identifier, password)
         const cookie = createAdminSessionCookie({ email: identifier, remember })
         return Response.json(
-          { data: { redirectTo: "/portal" }, requestId: id },
+          { data: { redirectTo: "/admin" }, requestId: id },
           { status: 200, headers: { "Cache-Control": "no-store", "Set-Cookie": cookie } },
         )
       } catch (error) {
