@@ -19,6 +19,8 @@ const requiredFiles = [
   "app/layout.tsx",
   "app/page.tsx",
   "app/api/health/route.ts",
+  "app/robots.ts",
+  "app/sitemap.ts",
 ];
 
 for (const file of requiredFiles) {
@@ -78,6 +80,22 @@ else fail("health endpoint must return HTTP 503 when backend health is not ok");
 const layout = read("app/layout.tsx");
 if (layout.includes("metadataBase: new URL(siteUrl)")) ok("metadataBase is configured");
 else fail("metadataBase is not configured");
+
+const robots = read("app/robots.ts");
+for (const fragment of [
+  "userAgent: 'Googlebot'",
+  "userAgent: 'Bingbot'",
+  "allow: ['/', '/api/cms']",
+  "disallow: ['/api/*', '/admin/', '/portal/', '/login']",
+  "${siteUrl}/sitemap.xml",
+]) {
+  if (robots.includes(fragment)) ok(`crawler policy: ${fragment}`);
+  else fail(`crawler policy missing: ${fragment}`);
+}
+
+const sitemap = read("app/sitemap.ts");
+if (sitemap.includes("https://sammena.altavox.space")) ok("sitemap has the canonical Sammena domain fallback");
+else fail("sitemap is missing the canonical domain fallback");
 
 const page = read("app/page.tsx");
 for (const route of ["/admissions", "/academics", "/calendar", "/library", "/contact", "/location"]) {
