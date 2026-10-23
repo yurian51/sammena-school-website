@@ -101,7 +101,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
-        <div id="main-content">{children}</div>
+        <div id="main-content" className="pb-20 lg:pb-0">{children}</div>
         <MobileActionBar />
         <PwaRegister />
         {process.env.NODE_ENV === 'production' && <Analytics />}
