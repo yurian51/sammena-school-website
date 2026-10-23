@@ -1,8 +1,15 @@
+import type { Metadata } from "next"
 import { AlertCircle, Bell, Newspaper } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { createServerServices } from "@/lib/server/repositories"
 import type { CmsContent } from "@/lib/cms/types"
+
+export const metadata: Metadata = {
+  title: "News & Announcements",
+  description: "Read officially published news and announcements from Sammena Pre & Primary School in Arusha, Tanzania.",
+  alternates: { canonical: "/news" },
+}
 
 export const dynamic = "force-dynamic"
 export const revalidate = 0
