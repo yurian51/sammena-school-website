@@ -69,6 +69,43 @@ export default function SponsorshipPage() {
       </div>
     </section>
 
+    <section className="border-y border-slate-200 bg-white py-14 sm:py-18">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+        <div className="grid gap-8 lg:grid-cols-[.8fr_1.2fr] lg:items-start">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#9b7728]">Community campaign archive</p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-[#0a3158] md:text-4xl">The story recorded by Dominique</h2>
+            <p className="mt-4 leading-7 text-slate-600">Dominique Swinkels’ original public account described her experience volunteering at Sammena through IVHQ and explained why she asked friends and family to support the school expansion. Her account is preserved here as a third-party historical source, not as an official statement from today’s school leadership.</p>
+            <p className="mt-3 leading-7 text-slate-600">The campaign page said that two offices and one classroom were ready at the time, while three classrooms and toilets were still under construction. It mentioned flooring, roofing and toilet materials as priorities then. This website does not assume that those works remain unfinished or that those materials are still needed.</p>
+            <a href={campaignUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24] hover:underline">Read the full original account <ExternalLink className="h-4 w-4" /></a>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <article className="border border-slate-200 bg-[#faf8f1] p-5">
+              <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#8a6a24]">01 · Volunteer experience</span>
+              <h3 className="mt-3 text-lg font-bold text-[#0a3158]">First-hand observations</h3>
+              <p className="mt-2 text-sm leading-7 text-slate-600">The organiser described four weeks volunteering, with three more planned at the time. This is a historical statement, not confirmation of an active volunteer placement today.</p>
+            </article>
+            <article className="border border-slate-200 bg-[#faf8f1] p-5">
+              <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#8a6a24]">02 · Fundraising activity</span>
+              <h3 className="mt-3 text-lg font-bold text-[#0a3158]">87 recorded donations</h3>
+              <p className="mt-2 text-sm leading-7 text-slate-600">The closed campaign page reported 87 donations. Individual donor names and comments are not copied into this school website; consult the original source for its public record.</p>
+            </article>
+            <article className="border border-slate-200 bg-[#faf8f1] p-5">
+              <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#8a6a24]">03 · Construction notes</span>
+              <h3 className="mt-3 text-lg font-bold text-[#0a3158]">Historical project context</h3>
+              <p className="mt-2 text-sm leading-7 text-slate-600">Classroom and sanitation construction were described in the past. Completion status and any present-day needs require confirmation from Sammena leadership.</p>
+            </article>
+            <article className="border border-slate-200 bg-[#faf8f1] p-5">
+              <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#8a6a24]">04 · Current next step</span>
+              <h3 className="mt-3 text-lg font-bold text-[#0a3158]">Verify before supporting</h3>
+              <p className="mt-2 text-sm leading-7 text-slate-600">Anyone considering support should contact the school directly to confirm approved priorities, the authorised recipient and the correct way to record any contribution.</p>
+              <Link href="/contact" className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24]">Official school contact <ArrowRight className="h-4 w-4" /></Link>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section className="border-b border-slate-200 bg-white py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[1.1fr_.9fr] lg:items-center">
