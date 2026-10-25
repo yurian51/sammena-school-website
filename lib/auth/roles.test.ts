@@ -11,6 +11,14 @@ describe("generic authorization", () => {
     expect(hasPermission("STUDENT", "cms:read")).toBe(false)
   })
 
+  it("allows school administrators to register students but keeps parent and student roles read-denied", () => {
+    expect(hasPermission("SUPER_ADMIN", "sis:students:write")).toBe(true)
+    expect(hasPermission("SCHOOL_ADMIN", "sis:students:write")).toBe(true)
+    expect(hasPermission("EDITOR", "sis:students:write")).toBe(false)
+    expect(hasPermission("PARENT", "sis:students:write")).toBe(false)
+    expect(hasPermission("STUDENT", "sis:students:write")).toBe(false)
+  })
+
   it("fails closed for an unsupported runtime role value", () => {
     expect(hasPermission("UNKNOWN" as never, "cms:read")).toBe(false)
   })
