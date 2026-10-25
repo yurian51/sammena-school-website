@@ -48,10 +48,17 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   verification: { google: 'lELeRRdvUGwwD4L0nTHtxNSQeIWl9tp4eoKKjgqa7Fs' },
+  manifest: '/images/site.webmanifest',
   icons: {
-    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
-    shortcut: ['/icon.svg'],
-    apple: [{ url: '/apple-icon.svg', type: 'image/svg+xml' }],
+    icon: [
+      { url: '/images/favicon.ico', sizes: 'any' },
+      { url: '/images/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+      { url: '/images/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/images/favicon-48x48.png', type: 'image/png', sizes: '48x48' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: ['/images/favicon.ico'],
+    apple: [{ url: '/images/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
 }
 
