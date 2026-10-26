@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { MobileActionBar } from '@/components/mobile-action-bar'
 import { PwaRegister } from '@/components/pwa-register'
+import { LanguageProvider } from '@/components/language-provider'
 import { schoolIdentity } from '@/lib/academic-results'
 import './globals.css'
 
@@ -118,8 +119,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
-        <div id="main-content" className="pb-20 lg:pb-0">{children}</div>
-        <MobileActionBar />
+        <LanguageProvider>
+          <div id="main-content" className="pb-20 lg:pb-0">{children}</div>
+          <MobileActionBar />
+        </LanguageProvider>
         <PwaRegister />
         {process.env.NODE_ENV === 'production' && <Analytics />}
         <SpeedInsights />
