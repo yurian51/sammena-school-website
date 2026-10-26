@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { z } from "zod"
 import { getAuthContext } from "@/lib/auth/session"
 import { requireAuthorized } from "@/lib/auth/guards"

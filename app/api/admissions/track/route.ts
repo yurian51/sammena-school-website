@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { NextResponse } from "next/server"
 import { mapDomainError } from "../../../../lib/api/errors"
 import { isValidAdmissionReference } from "../../../../lib/admissions/reference-validation"

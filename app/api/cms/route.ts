@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { mapDomainError } from "../../../lib/api/errors"
 import { createServerServices } from "../../../lib/server/repositories"
 import type { CmsContent } from "../../../lib/cms/types"

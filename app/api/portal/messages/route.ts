@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { getAuthContext } from "@/lib/auth/session"
 import { getRuntimeDbClient } from "@/lib/db/runtime"
 import { mapDomainError } from "@/lib/api/errors"

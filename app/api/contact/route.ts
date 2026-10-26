@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { apiError } from "@/lib/api/errors"
 import { getRuntimeDbClient } from "@/lib/db/runtime"
 import { parseContactSubmission } from "@/lib/contact/inbox"

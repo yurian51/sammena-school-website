@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { getAuthContext } from "@/lib/auth/session"
 import { requireAuthorized } from "@/lib/auth/guards"
 import { getRuntimeDbClient, ensurePostgresDbClient } from "@/lib/db/runtime"
