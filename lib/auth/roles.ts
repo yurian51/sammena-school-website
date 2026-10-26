@@ -15,10 +15,12 @@ export type Permission =
   | "inbox:write"
   | "attendance:read"
   | "attendance:write"
+  | "library:read"
+  | "library:write"
 
 const permissions: Record<Role, readonly Permission[]> = {
-  SUPER_ADMIN: ["cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:timetable:read", "sis:timetable:write", "inbox:read", "inbox:write", "attendance:read", "attendance:write"],
-  SCHOOL_ADMIN: ["cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:timetable:read", "sis:timetable:write", "inbox:read", "inbox:write", "attendance:read", "attendance:write"],
+  SUPER_ADMIN: ["cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:timetable:read", "sis:timetable:write", "inbox:read", "inbox:write", "attendance:read", "attendance:write", "library:read", "library:write"],
+  SCHOOL_ADMIN: ["cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:timetable:read", "sis:timetable:write", "inbox:read", "inbox:write", "attendance:read", "attendance:write", "library:read", "library:write"],
   EDITOR: ["cms:read", "cms:write"],
   TEACHER: ["sis:timetable:read", "sis:timetable:write"],
   PARENT: [],

@@ -8,6 +8,9 @@ export const AUDIT_ACTIONS = {
   CMS_PUBLISHED: "cms.content.published",
   CONTACT_STATUS_CHANGED: "contact.message.status_changed",
   ATTENDANCE_RECORDED: "attendance.recorded",
+  LIBRARY_BOOK_SAVED: "library.book.saved",
+  LIBRARY_BOOK_ISSUED: "library.book.issued",
+  LIBRARY_BOOK_RETURNED: "library.book.returned",
 } as const
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[keyof typeof AUDIT_ACTIONS]
