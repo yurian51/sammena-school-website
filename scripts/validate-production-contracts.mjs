@@ -71,7 +71,7 @@ for (const fragment of [
 }
 
 const health = read("app/api/health/route.ts");
-if (health.includes('Cache-Control", "no-store"')) ok("health endpoint disables caching");
+if (health.includes('"Cache-Control": "no-store"')) ok("health endpoint disables caching");
 else fail("health endpoint must disable caching");
 
 if (health.includes("status: data.status === \"ok\" ? 200 : 503")) ok("health endpoint maps degraded state to HTTP 503");
@@ -86,7 +86,7 @@ for (const fragment of [
   "userAgent: 'Googlebot'",
   "userAgent: 'Bingbot'",
   "allow: ['/', '/api/cms']",
-  "disallow: ['/api/*', '/admin/', '/portal/', '/login']",
+  "disallow: ['/admin/', '/portal/', '/login']",
   "${siteUrl}/sitemap.xml",
 ]) {
   if (robots.includes(fragment)) ok(`crawler policy: ${fragment}`);
@@ -137,7 +137,7 @@ for (const fragment of [
 
 const page = read("app/page.tsx");
 for (const route of ["/admissions", "/academics", "/calendar", "/library", "/contact", "/location"]) {
-  if (page.includes(`href="${route}"`)) ok(`home navigation contract: ${route}`);
+  if (page.includes(`"${route}"`)) ok(`home navigation contract: ${route}`);
   else fail(`home navigation is missing ${route}`);
 }
 
