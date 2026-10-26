@@ -81,10 +81,10 @@ function getConfiguredProvider(): SessionProvider {
         method: "GET",
         headers: { apikey: config.key, Authorization: `Bearer ${session.access_token}` },
         cache: "no-store",
-      }).catch(() => null)
+      }).catch((): null => null)
 
       if (!response?.ok) return null
-      const user = await response.json().catch(() => null) as {
+      const user = await response.json().catch((): null => null) as {
         id?: string
         app_metadata?: { role?: string; school_id?: string }
       } | null
