@@ -152,6 +152,17 @@ export default function AdminDashboardPage() {
             )}
           </article>
         </section>
+
+        <section className="mt-7 border border-slate-200 bg-white p-6 shadow-sm sm:p-7" aria-labelledby="exports-heading">
+          <p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Reports</p>
+          <h2 id="exports-heading" className="mt-2 text-xl font-bold text-[#17365d]">Download records (CSV)</h2>
+          <p className="mt-2 text-sm text-slate-600">Every download is recorded in the audit log.</p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            {[["students", "Students"], ["loans", "Library loans"], ["inbox", "Contact inbox"]].map(([key, label]) => (
+              <a key={key} href={`/api/admin/exports/${key}`} className="inline-flex items-center gap-2 border border-slate-200 px-4 py-2.5 text-sm font-bold text-[#17365d] hover:border-[#b9964f]">{label}</a>
+            ))}
+          </div>
+        </section>
       </div>
     </main>
   )

@@ -14,6 +14,7 @@ export const AUDIT_ACTIONS = {
   ENROLLMENT_CHANGED: "sis.enrollment.changed",
   GUARDIAN_LINKED: "sis.guardian.linked",
   GUARDIAN_UNLINKED: "sis.guardian.unlinked",
+  DATA_EXPORTED: "admin.data.exported",
 } as const
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[keyof typeof AUDIT_ACTIONS]
