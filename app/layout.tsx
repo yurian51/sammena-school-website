@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: '%s | SAMMENA SCHOOLS',
   },
   description: 'The official digital home of Sammena Schools, including Sammena Pre & Primary School and verified information about the school’s future development.',
-  keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'Sammena Secondary School', 'primary school Tanzania', 'school Arusha', 'education Tanzania', 'Sammena Nduruma', 'P15336 Nduruma'],
+  keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'primary school Tanzania', 'school Arusha', 'education Tanzania', 'Sammena Nduruma', 'P15336 Nduruma'],
   category: 'education',
   applicationName: 'Sammena Schools',
   referrer: 'strict-origin-when-cross-origin',
