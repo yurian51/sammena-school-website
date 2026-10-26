@@ -24,7 +24,7 @@ export async function POST(request: Request) {
         Authorization: `Bearer ${session.access_token}`,
       },
       cache: "no-store",
-    }).catch(() => null)
+    }).catch((): null => null)
   }
 
   const response = NextResponse.json({ data: { loggedOut: true } }, { status: 200, headers: { "Cache-Control": "no-store" } })
