@@ -44,12 +44,12 @@ export async function POST(request: Request) {
       headers: { "Content-Type": "application/json", apikey: config.key },
       body: JSON.stringify({ email: identifier, password }),
       cache: "no-store",
-    }).catch(() => null)
+    }).catch((): null => null)
 
     if (!authResponse) return apiError("SERVICE_UNAVAILABLE", "The identity provider could not be reached.", 503, id)
     if (!authResponse.ok) return apiError("UNAUTHORIZED", "The administrator credentials are not valid.", 401, id)
 
-    const session = await authResponse.json().catch(() => null) as {
+    const session = await authResponse.json().catch((): null => null) as {
       access_token?: string
       refresh_token?: string
       expires_in?: number
