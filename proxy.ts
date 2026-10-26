@@ -60,14 +60,14 @@ export async function proxy(request: NextRequest) {
       headers: { "Content-Type": "application/json", apikey: config.key },
       body: JSON.stringify({ refresh_token: session.refresh_token }),
       cache: "no-store",
-    }).catch(() => null)
+    }).catch((): null => null)
 
     if (!refreshed?.ok) {
       response.cookies.delete(COOKIE_NAME)
       return response
     }
 
-    const token = await refreshed.json().catch(() => null) as {
+    const token = await refreshed.json().catch((): null => null) as {
       access_token?: string; refresh_token?: string; expires_in?: number; expires_at?: number
     } | null
     if (!token?.access_token || !token.refresh_token) {
