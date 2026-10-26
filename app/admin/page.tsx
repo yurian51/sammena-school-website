@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import { Activity, ArrowRight, BookOpen, CalendarCheck, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Mail, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users } from "lucide-react"
+import { Activity, ArrowRight, BookOpen, CalendarCheck, GraduationCap, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Mail, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users } from "lucide-react"
 
 type Overview = {
   role: string
@@ -31,6 +31,7 @@ const modules = [
   { label: "Admissions", description: "Review applications and decisions.", href: "/admin/admissions", icon: ClipboardList },
   { label: "Attendance", description: "Record daily class registers for the current academic year.", href: "/admin/attendance", icon: CalendarCheck },
   { label: "Library", description: "Manage the school library catalogue and book loans.", href: "/admin/library", icon: BookOpen },
+  { label: "Enrollment", description: "Place students in classes and move or close enrollments.", href: "/admin/enrollments", icon: GraduationCap },
   { label: "Inbox", description: "Read and track messages from the public contact form.", href: "/admin/inbox", icon: Mail },
   { label: "News & publishing", description: "Create, edit and publish official posts.", href: "/admin/content", icon: Megaphone },
   { label: "Events & calendar", description: "Manage the public school calendar.", href: "/admin/events", icon: CalendarDays },

@@ -11,6 +11,9 @@ export const AUDIT_ACTIONS = {
   LIBRARY_BOOK_SAVED: "library.book.saved",
   LIBRARY_BOOK_ISSUED: "library.book.issued",
   LIBRARY_BOOK_RETURNED: "library.book.returned",
+  ENROLLMENT_CHANGED: "sis.enrollment.changed",
+  GUARDIAN_LINKED: "sis.guardian.linked",
+  GUARDIAN_UNLINKED: "sis.guardian.unlinked",
 } as const
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[keyof typeof AUDIT_ACTIONS]
