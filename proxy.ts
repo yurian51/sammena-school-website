@@ -81,13 +81,18 @@ export async function proxy(request: NextRequest) {
       refresh_token: token.refresh_token,
       expires_at: token.expires_at ?? now + (token.expires_in ?? 3600),
     }
-    response.cookies.set(COOKIE_NAME, Buffer.from(JSON.stringify(nextSession)).toString("base64url"), {
+    const encoded = Buffer.from(JSON.stringify(nextSession)).toString("base64url")
+    // Forward the refreshed token to the route handler in this same request.
+    request.cookies.set(COOKIE_NAME, encoded)
+    const refreshedResponse = NextResponse.next({ request })
+    refreshedResponse.cookies.set(COOKIE_NAME, encoded, {
       httpOnly: true,
       secure: true,
       sameSite: "lax",
       path: "/",
       maxAge: remaining,
     })
+    return refreshedResponse
   }
   return response
 }
