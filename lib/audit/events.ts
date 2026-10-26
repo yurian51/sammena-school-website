@@ -6,6 +6,7 @@ export const AUDIT_ACTIONS = {
   CMS_UPDATED: "cms.content.updated",
   CMS_CREATED: "cms.content.created",
   CMS_PUBLISHED: "cms.content.published",
+  CONTACT_STATUS_CHANGED: "contact.message.status_changed",
 } as const
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[keyof typeof AUDIT_ACTIONS]
