@@ -1,16 +1,24 @@
 import { afterEach, describe, expect, it, vi } from "vitest"
 import { configureSessionProvider, getAuthContext } from "./session"
 
-const originalUrl = process.env.SUPABASE_URL
-const originalKey = process.env.SUPABASE_PUBLISHABLE_KEY
+const envKeys = [
+  "SUPABASE_URL",
+  "SUPABASE_PUBLISHABLE_KEY",
+  "NEXT_PUBLIC_SUPABASE_URL",
+  "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+  "SUPABASE_ANON_KEY",
+  "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+] as const
+const originalEnv = Object.fromEntries(envKeys.map(key => [key, process.env[key]]))
 
 afterEach(() => {
   configureSessionProvider(null)
   vi.unstubAllGlobals()
-  if (originalUrl === undefined) delete process.env.SUPABASE_URL
-  else process.env.SUPABASE_URL = originalUrl
-  if (originalKey === undefined) delete process.env.SUPABASE_PUBLISHABLE_KEY
-  else process.env.SUPABASE_PUBLISHABLE_KEY = originalKey
+  for (const key of envKeys) {
+    const value = originalEnv[key]
+    if (value === undefined) delete process.env[key]
+    else process.env[key] = value
+  }
 })
 
 describe("session provider", () => {
