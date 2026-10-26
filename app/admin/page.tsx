@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import { Activity, ArrowRight, BookOpen, CalendarCheck, GraduationCap, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Mail, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users } from "lucide-react"
+import { Activity, ArrowRight, BookOpen, CalendarCheck, ClipboardCheck, GraduationCap, Receipt, Send, UserCheck, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Mail, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users } from "lucide-react"
 
 type Overview = {
   role: string
@@ -32,6 +32,11 @@ const modules = [
   { label: "Attendance", description: "Record daily class registers for the current academic year.", href: "/admin/attendance", icon: CalendarCheck },
   { label: "Library", description: "Manage the school library catalogue and book loans.", href: "/admin/library", icon: BookOpen },
   { label: "Enrollment", description: "Place students in classes and move or close enrollments.", href: "/admin/enrollments", icon: GraduationCap },
+  { label: "Timetable", description: "Build class timetables for the current academic year.", href: "/admin/timetable", icon: CalendarDays },
+  { label: "Results", description: "Enter assessment scores for a class. Parents see them in the portal.", href: "/admin/results", icon: ClipboardCheck },
+  { label: "Fees & payments", description: "Fee items, invoices, payments and numbered receipts.", href: "/admin/finance", icon: Receipt },
+  { label: "Parent messages", description: "Official notices that appear in the Parent Portal.", href: "/admin/messages", icon: Send },
+  { label: "Teaching assignments", description: "Decide which teacher may act on which class.", href: "/admin/teaching-assignments", icon: UserCheck },
   { label: "Inbox", description: "Read and track messages from the public contact form.", href: "/admin/inbox", icon: Mail },
   { label: "News & publishing", description: "Create, edit and publish official posts.", href: "/admin/content", icon: Megaphone },
   { label: "Events & calendar", description: "Manage the public school calendar.", href: "/admin/events", icon: CalendarDays },

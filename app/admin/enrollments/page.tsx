@@ -70,8 +70,8 @@ export default function AdminEnrollmentsPage() {
     finally { setBusy(false) }
   }
 
-  const close = async (enrollmentId: string, status: "TRANSFERRED" | "INACTIVE") => {
-    if (!window.confirm(status === "TRANSFERRED" ? "Mark this student as transferred out of the class?" : "Mark this enrollment inactive?")) return
+  const close = async (enrollmentId: string, status: "TRANSFERRED" | "WITHDRAWN" | "GRADUATED") => {
+    if (!window.confirm(`Close this enrollment as ${status.toLowerCase()}? The history is kept.`)) return
     setBusy(true)
     try {
       await fetch(`/api/admin/enrollments/${enrollmentId}`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status }) }).then(readJson)
@@ -111,7 +111,7 @@ export default function AdminEnrollmentsPage() {
                     <select id={`move-${r.id}`} value={r.classId} disabled={busy} onChange={(e) => void move(r.id, e.target.value)} className="border border-slate-200 bg-white px-2 py-1.5 text-xs">
                       {classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
-                    <button type="button" disabled={busy} onClick={() => void close(r.id, "TRANSFERRED")} className="border border-slate-200 px-2 py-1.5 text-xs font-bold text-[#17365d] disabled:opacity-50">Transferred out</button>
+                    <button type="button" disabled={busy} onClick={() => void close(r.id, "TRANSFERRED")} className="border border-slate-200 px-2 py-1.5 text-xs font-bold text-[#17365d] disabled:opacity-50">Transferred</button><button type="button" disabled={busy} onClick={() => void close(r.id, "WITHDRAWN")} className="border border-slate-200 px-2 py-1.5 text-xs font-bold text-[#17365d] disabled:opacity-50">Withdrawn</button>
                   </div>
                 </li>
               ))}

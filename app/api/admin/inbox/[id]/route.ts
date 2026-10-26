@@ -19,8 +19,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     if (!parsed.valid) return apiError("VALIDATION_ERROR", "error" in parsed ? parsed.error : "A valid status is required.", 400, id)
 
     const { rows } = await getRuntimeDbClient().query(
-      `update contact_messages set status = $1, updated_at = now() where id = $2 returning id, status, updated_at`,
-      [parsed.status, messageId],
+      `update contact_messages set status = $1, updated_at = now() where id = $2 and school_id = $3 returning id, status, updated_at`,
+      [parsed.status, messageId, context.schoolId],
     )
     if (!rows[0]) return apiError("NOT_FOUND", "The message was not found.", 404, id)
 

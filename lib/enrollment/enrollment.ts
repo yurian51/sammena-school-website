@@ -1,8 +1,7 @@
 import { z } from "zod"
 
-// Enrollment statuses as stored in the database (see migration 0006). The domain service in
-// lib/sis/enrollment-service.ts uses a larger vocabulary that the database does not yet accept.
-export const ENROLLMENT_CLOSE_STATUSES = ["TRANSFERRED", "INACTIVE"] as const
+// Enrollment statuses match lib/sis/enrollment-service.ts. Migration 0020 aligns the database check constraint.
+export const ENROLLMENT_CLOSE_STATUSES = ["TRANSFERRED", "WITHDRAWN", "GRADUATED"] as const
 export const GUARDIAN_RELATIONSHIPS = ["PARENT", "GUARDIAN", "SPONSOR", "OTHER"] as const
 
 export const placeInput = z.object({ studentId: z.string().uuid(), classId: z.string().uuid() })

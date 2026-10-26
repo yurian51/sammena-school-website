@@ -8,15 +8,16 @@ import { parseStatusFilter } from "@/lib/contact/inbox"
 export async function GET(request: Request) {
   const id = requestId(request)
   try {
-    requireAuthorized(await getAuthContext(request), "inbox:read")
+    const context = requireAuthorized(await getAuthContext(request), "inbox:read")
     const status = parseStatusFilter(new URL(request.url).searchParams.get("status"))
+    if (!context.schoolId) throw new Error("SCHOOL_SCOPE_REQUIRED")
     const { rows } = await getRuntimeDbClient().query(
       `select id, name, email, phone, subject, message, status, created_at, updated_at
          from contact_messages
-        where ($1::text is null or status = $1)
+        where school_id = $1 and ($2::text is null or status = $2)
         order by created_at desc
         limit 200`,
-      [status ?? null],
+      [context.schoolId, status ?? null],
     )
     return Response.json({ data: rows, requestId: id }, { headers: { "Cache-Control": "private, no-store" } })
   } catch (error) {

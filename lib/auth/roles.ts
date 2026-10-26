@@ -9,6 +9,7 @@ export type Permission =
   | "admissions:write"
   | "admissions:review"
   | "sis:students:read"
+  | "sis:students:write"
   | "sis:timetable:read"
   | "sis:timetable:write"
   | "inbox:read"
@@ -17,13 +18,28 @@ export type Permission =
   | "attendance:write"
   | "library:read"
   | "library:write"
-  | "sis:students:write"
+  | "results:read"
+  | "results:write"
+  | "finance:read"
+  | "finance:write"
+  | "communication:read"
+  | "communication:write"
+  | "teaching:assign"
+
+const ADMIN_ALL: readonly Permission[] = [
+  "cms:read", "cms:write", "cms:publish",
+  "admissions:read", "admissions:write", "admissions:review",
+  "sis:students:read", "sis:students:write", "sis:timetable:read", "sis:timetable:write",
+  "inbox:read", "inbox:write", "attendance:read", "attendance:write", "library:read", "library:write",
+  "results:read", "results:write", "finance:read", "finance:write", "communication:read", "communication:write", "teaching:assign",
+]
 
 const permissions: Record<Role, readonly Permission[]> = {
-  SUPER_ADMIN: ["cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:timetable:read", "sis:timetable:write", "inbox:read", "inbox:write", "attendance:read", "attendance:write", "library:read", "library:write", "sis:students:write"],
-  SCHOOL_ADMIN: ["cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:timetable:read", "sis:timetable:write", "inbox:read", "inbox:write", "attendance:read", "attendance:write", "library:read", "library:write", "sis:students:write"],
+  SUPER_ADMIN: ADMIN_ALL,
+  SCHOOL_ADMIN: ADMIN_ALL,
   EDITOR: ["cms:read", "cms:write"],
-  TEACHER: ["sis:timetable:read", "sis:timetable:write"],
+  // Teachers only act on classes they are assigned to (enforced in lib/auth/teacher-scope.ts).
+  TEACHER: ["sis:timetable:read", "sis:timetable:write", "attendance:read", "attendance:write", "results:read", "results:write"],
   PARENT: [],
   STUDENT: [],
 }

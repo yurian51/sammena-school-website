@@ -17,8 +17,8 @@ export async function POST(request: Request) {
 
   try {
     const { rows } = await getRuntimeDbClient().query<{ id: string }>(
-      `insert into contact_messages (name, email, phone, subject, message) values ($1, $2, $3, $4, $5) returning id`,
-      [parsed.value.name, parsed.value.email, parsed.value.phone, parsed.value.subject, parsed.value.message],
+      `insert into contact_messages (school_id, name, email, phone, subject, message) values ($6, $1, $2, $3, $4, $5) returning id`,
+      [parsed.value.name, parsed.value.email, parsed.value.phone, parsed.value.subject, parsed.value.message, process.env.SAMMENA_SCHOOL_ID ?? null],
     )
     return Response.json({ data: { id: rows[0]?.id }, requestId }, { status: 201, headers: { "Cache-Control": "no-store" } })
   } catch {

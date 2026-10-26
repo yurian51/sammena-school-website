@@ -43,7 +43,7 @@ const definitions: Record<"students" | "loans" | "inbox", Definition> = {
     keys: ["createdAt", "name", "email", "phone", "subject", "message", "status"],
     sql: `select created_at as "createdAt", name, email, phone, subject, message, status
             from contact_messages
-           where $1::text is not null
+           where school_id = $1
            order by created_at desc
            limit 10000`,
   },

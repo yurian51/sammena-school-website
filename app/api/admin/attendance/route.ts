@@ -5,6 +5,7 @@ import { getRuntimeDbClient } from "@/lib/db/runtime"
 import { apiError, mapDomainError } from "@/lib/api/errors"
 import { requestId } from "@/lib/api/request"
 import { auditAction } from "@/lib/api/admin-audit"
+import { canActOnClass } from "@/lib/auth/teacher-scope"
 import { AUDIT_ACTIONS } from "@/lib/audit/events"
 import { attendanceRosterQuery, attendanceSubmission, findDuplicateStudents, isNotInFuture, isValidCalendarDate } from "@/lib/attendance/attendance"
 
@@ -18,6 +19,7 @@ export async function GET(request: Request) {
     if (!context.schoolId) throw new Error("SCHOOL_SCOPE_REQUIRED")
     const query = attendanceRosterQuery.safeParse(Object.fromEntries(new URL(request.url).searchParams))
     if (!query.success || !isValidCalendarDate(query.data.date)) return apiError("VALIDATION_ERROR", "A valid class and date are required.", 400, id)
+    if (!(await canActOnClass(context, query.data.classId))) return apiError("FORBIDDEN", "You are not assigned to this class.", 403, id)
 
     const { rows } = await getRuntimeDbClient().query(
       `select s.id as "studentId", s.admission_number as "admissionNumber", s.first_name as "firstName", s.last_name as "lastName", a.status as "status"
@@ -45,6 +47,7 @@ export async function POST(request: Request) {
     const parsed = attendanceSubmission.safeParse(body)
     if (!parsed.success || !isValidCalendarDate(parsed.data.date)) return apiError("VALIDATION_ERROR", "Attendance could not be saved. Check the class, date and statuses.", 400, id)
     if (!isNotInFuture(parsed.data.date)) return apiError("VALIDATION_ERROR", "Attendance cannot be recorded for a future date.", 400, id)
+    if (!(await canActOnClass(context, parsed.data.classId))) return apiError("FORBIDDEN", "You are not assigned to this class.", 403, id)
     if (findDuplicateStudents(parsed.data.records).length > 0) return apiError("VALIDATION_ERROR", "A student appears more than once in this submission.", 400, id)
 
     const db = getRuntimeDbClient()

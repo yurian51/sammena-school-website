@@ -6,6 +6,8 @@ import { requestId } from "@/lib/api/request"
 import { auditAction } from "@/lib/api/admin-audit"
 import { AUDIT_ACTIONS } from "@/lib/audit/events"
 import { closeInput, moveInput, uuid } from "@/lib/enrollment/enrollment"
+import { canTransitionEnrollment } from "@/lib/sis/enrollment-service"
+import type { EnrollmentStatus } from "@/lib/sis/types"
 
 /** Moves an active enrollment to another class in the same academic year. */
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -43,11 +45,15 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     if (!enrollmentId.success) return apiError("NOT_FOUND", "The enrollment was not found.", 404, id)
     const parsed = closeInput.safeParse(await request.json().catch((): null => null))
     if (!parsed.success) return apiError("VALIDATION_ERROR", "A closing status is required.", 400, id)
-    const { rows } = await getRuntimeDbClient().query(
-      `update enrollments set status = $3, ended_on = current_date where id = $1 and school_id = $2 and status = 'ACTIVE' returning id, status`,
+    const db = getRuntimeDbClient()
+    const { rows: current } = await db.query<{ status: EnrollmentStatus }>(`select status from enrollments where id = $1 and school_id = $2`, [enrollmentId.data, context.schoolId])
+    if (!current[0]) return apiError("NOT_FOUND", "The enrollment was not found.", 404, id)
+    if (!canTransitionEnrollment(current[0].status, parsed.data.status)) return apiError("VALIDATION_ERROR", `This enrollment cannot change from ${current[0].status} to ${parsed.data.status}.`, 400, id)
+    const { rows } = await db.query(
+      `update enrollments set status = $3, ended_on = current_date where id = $1 and school_id = $2 returning id, status`,
       [enrollmentId.data, context.schoolId, parsed.data.status],
     )
-    if (!rows[0]) return apiError("NOT_FOUND", "The active enrollment was not found.", 404, id)
+    if (!rows[0]) return apiError("NOT_FOUND", "The enrollment was not found.", 404, id)
     await auditAction(context, AUDIT_ACTIONS.ENROLLMENT_CHANGED, "enrollment", enrollmentId.data, id)
     return Response.json({ data: rows[0], requestId: id })
   } catch (error) {
