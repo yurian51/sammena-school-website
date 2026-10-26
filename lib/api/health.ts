@@ -8,6 +8,7 @@ export function describeDatabaseFailure(error: unknown): { reason: string; code?
   const message = error instanceof Error ? error.message : ""
   const code = typeof (error as { code?: unknown })?.code === "string" ? (error as { code: string }).code : undefined
   if (message === "DATABASE_CLIENT_NOT_CONFIGURED") return { reason: "DATABASE_URL_NOT_SET" }
+  if (message === "DATABASE_URL_INVALID") return { reason: "DATABASE_URL_INVALID" }
   if (code) return { reason: "CONNECTION_OR_AUTH_FAILED", code }
   return { reason: "UNKNOWN_ERROR" }
 }

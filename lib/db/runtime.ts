@@ -1,6 +1,7 @@
 import { Pool } from "pg"
 
 import { configureDbClient, getDbClient } from "./client"
+import { parseDatabaseUrl } from "./connection-string"
 
 const DEFAULT_POOL_MAX = 10
 const DEFAULT_CONNECTION_TIMEOUT_MS = 5_000
@@ -28,14 +29,21 @@ export function ensurePostgresDbClient() {
     throw new Error("DATABASE_CLIENT_NOT_CONFIGURED")
   }
 
-  const url = new URL(connectionString)
-  const sslMode = url.searchParams.get("sslmode")?.toLowerCase()
+  const config = parseDatabaseUrl(connectionString)
+  if (!config) {
+    throw new Error("DATABASE_URL_INVALID")
+  }
+  const sslMode = config.sslmode
   const ssl = sslMode && sslMode !== "disable"
-    ? { rejectUnauthorized: sslMode === "verify-full" ? true : false }
+    ? { rejectUnauthorized: sslMode === "verify-full" }
     : undefined
 
   pool = new Pool({
-    connectionString,
+    host: config.host,
+    port: config.port,
+    user: config.user,
+    password: config.password,
+    database: config.database,
     max: readPositiveInteger(process.env.DATABASE_POOL_MAX, DEFAULT_POOL_MAX),
     connectionTimeoutMillis: readPositiveInteger(
       process.env.DATABASE_CONNECTION_TIMEOUT_MS,
