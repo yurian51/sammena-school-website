@@ -1,7 +1,7 @@
 import { createHmac, pbkdf2Sync, scryptSync, timingSafeEqual } from "node:crypto"
 import type { AuthContext } from "./authorization"
 import { getRuntimeDbClient } from "@/lib/db/runtime"
-import type { Role } from "./roles"
+import { ROLES, type Role } from "./roles"
 
 export interface SessionProvider {
   getContext(request: Request): Promise<AuthContext | null>
@@ -19,9 +19,16 @@ type SignedSession = {
   exp: number
 }
 
+type SupabaseSession = {
+  access_token: string
+  refresh_token?: string
+  expires_at?: number
+  session_expires_at?: number
+}
+
 let provider: SessionProvider | null = null
 
-function getConfig() {
+function getAdminConfig() {
   const email = process.env.ADMIN_EMAIL?.trim().toLowerCase()
   const passwordHash = process.env.ADMIN_PASSWORD_HASH?.trim()
   const secret = process.env.ADMIN_SESSION_SECRET?.trim()
@@ -33,6 +40,18 @@ function getConfig() {
     throw new Error("AUTH_PROVIDER_NOT_CONFIGURED")
   }
   return { email, passwordHash, secret, schoolId, role }
+}
+
+function getSupabaseConfig() {
+  const url = (process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL)?.trim().replace(/\/$/, "")
+  const key = (
+    process.env.SUPABASE_PUBLISHABLE_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+    process.env.SUPABASE_ANON_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  )?.trim()
+  if (!url || !key) throw new Error("AUTH_PROVIDER_NOT_CONFIGURED")
+  return { url, key }
 }
 
 function base64Url(value: string) {
@@ -52,6 +71,27 @@ function parseCookie(request: Request) {
   } catch {
     return null
   }
+}
+
+function decodeSupabaseSession(raw: string): SupabaseSession | null {
+  try {
+    const parsed = JSON.parse(Buffer.from(raw, "base64url").toString("utf8")) as Partial<SupabaseSession>
+    if (typeof parsed.access_token !== "string" || !parsed.access_token) return null
+    return {
+      access_token: parsed.access_token,
+      ...(typeof parsed.refresh_token === "string" ? { refresh_token: parsed.refresh_token } : {}),
+      ...(typeof parsed.expires_at === "number" ? { expires_at: parsed.expires_at } : {}),
+      ...(typeof parsed.session_expires_at === "number" ? { session_expires_at: parsed.session_expires_at } : {}),
+    }
+  } catch {
+    return null
+  }
+}
+
+export function readSupabaseSession(request: Request): SupabaseSession | null {
+  const raw = parseCookie(request)
+  if (!raw || raw.includes(".")) return null
+  return decodeSupabaseSession(raw)
 }
 
 function verifyPassword(password: string, encoded: string) {
@@ -97,7 +137,7 @@ function signedCookie(payloadValue: Omit<SignedSession, "exp">, remember: boolea
 }
 
 export function authenticateAdmin(identifier: string, password: string) {
-  const config = getConfig()
+  const config = getAdminConfig()
   if (identifier.trim().toLowerCase() !== config.email || !verifyPassword(password, config.passwordHash)) {
     throw new Error("INVALID_CREDENTIALS")
   }
@@ -105,7 +145,7 @@ export function authenticateAdmin(identifier: string, password: string) {
 }
 
 export function createAdminSessionCookie(options: { email: string; remember: boolean }) {
-  const config = getConfig()
+  const config = getAdminConfig()
   if (options.email.trim().toLowerCase() !== config.email) throw new Error("INVALID_CREDENTIALS")
   return signedCookie({
     sub: "admin",
@@ -116,7 +156,7 @@ export function createAdminSessionCookie(options: { email: string; remember: boo
 }
 
 export function createSchoolSessionCookie(options: { userId: string; email: string; role: Role; schoolId: string; remember: boolean }) {
-  const config = getConfig()
+  const config = getAdminConfig()
   return signedCookie({
     sub: options.userId,
     role: options.role,
@@ -129,61 +169,74 @@ export function createClearedSessionCookie() {
   return `${COOKIE_NAME}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`
 }
 
-/** Signed application sessions are verified locally; this legacy-named export remains for logout compatibility. */
-export function readSupabaseSession(_request: Request): null {
-  return null
+async function getSignedSessionContext(raw: string): Promise<AuthContext | null> {
+  const [payload, signature, extra] = raw.split(".")
+  const secret = process.env.ADMIN_SESSION_SECRET?.trim()
+  if (!payload || !signature || extra || !secret || secret.length < 32) return null
+
+  const expected = Buffer.from(sign(payload, secret))
+  const received = Buffer.from(signature)
+  if (received.length !== expected.length || !timingSafeEqual(received, expected)) return null
+
+  let parsed: SignedSession
+  try {
+    parsed = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as SignedSession
+  } catch {
+    return null
+  }
+  if (!parsed.sub || !parsed.role || !parsed.email || !parsed.exp || parsed.exp <= Math.floor(Date.now() / 1000)) return null
+
+  if (parsed.sub === "admin") {
+    const email = process.env.ADMIN_EMAIL?.trim().toLowerCase()
+    const roleValue = process.env.ADMIN_ROLE?.trim().toUpperCase() || "SUPER_ADMIN"
+    const role = roleValue === "SCHOOL_ADMIN" ? "SCHOOL_ADMIN" : "SUPER_ADMIN"
+    if (!email || parsed.email !== email || parsed.role !== role) return null
+    const schoolId = parsed.schoolId ?? process.env.SAMMENA_SCHOOL_ID
+    return { userId: "admin", role: parsed.role, ...(schoolId ? { schoolId } : {}) }
+  }
+
+  if (!parsed.schoolId) return null
+  try {
+    const db = getRuntimeDbClient()
+    const result = await db.query<{ id: string; role: Role; school_id: string; is_active: boolean }>(
+      "select id, role, school_id, is_active from app_users where id = $1 and school_id = $2 limit 1",
+      [parsed.sub, parsed.schoolId],
+    )
+    const account = result.rows[0]
+    if (!account || !account.is_active || account.role !== parsed.role) return null
+    return { userId: account.id, role: account.role, schoolId: account.school_id }
+  } catch {
+    return null
+  }
 }
 
 function getConfiguredProvider(): SessionProvider {
   return {
     async getContext(request: Request) {
-      let config: ReturnType<typeof getConfig>
-      try {
-        config = getConfig()
-      } catch {
-        return null
-      }
-
       const raw = parseCookie(request)
+      if (raw?.includes(".")) return getSignedSessionContext(raw)
+
+      const config = getSupabaseConfig()
       if (!raw) return null
-      const [payload, signature, extra] = raw.split(".")
-      if (!payload || !signature || extra) return null
+      const session = decodeSupabaseSession(raw)
+      if (!session) return null
+      const now = Math.floor(Date.now() / 1000)
+      if (session.session_expires_at && session.session_expires_at <= now) return null
 
-      const expected = Buffer.from(sign(payload, config.secret))
-      const received = Buffer.from(signature)
-      if (received.length !== expected.length || !timingSafeEqual(received, expected)) return null
+      const response = await fetch(`${config.url}/auth/v1/user`, {
+        headers: { apikey: config.key, Authorization: `Bearer ${session.access_token}` },
+        cache: "no-store",
+      }).catch(() => null)
+      if (!response?.ok) return null
 
-      let parsed: SignedSession
-      try {
-        parsed = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as SignedSession
-      } catch {
-        return null
-      }
-
-      if (!parsed.sub || !parsed.role || !parsed.email || !parsed.exp || parsed.exp <= Math.floor(Date.now() / 1000)) return null
-
-      if (parsed.sub === "admin") {
-        if (parsed.email !== config.email || parsed.role !== config.role) return null
-        return {
-          userId: "admin",
-          role: parsed.role,
-          ...(parsed.schoolId || config.schoolId ? { schoolId: parsed.schoolId ?? config.schoolId } : {}),
-        }
-      }
-
-      if (!parsed.schoolId) return null
-      try {
-        const db = getRuntimeDbClient()
-        const result = await db.query<{ id: string; role: Role; school_id: string; is_active: boolean }>(
-          "select id, role, school_id, is_active from app_users where id = $1 and school_id = $2 limit 1",
-          [parsed.sub, parsed.schoolId],
-        )
-        const account = result.rows[0]
-        if (!account || !account.is_active || account.role !== parsed.role) return null
-        return { userId: account.id, role: account.role, schoolId: account.school_id }
-      } catch {
-        return null
-      }
+      const user = await response.json().catch(() => null) as {
+        id?: string
+        app_metadata?: { role?: string; school_id?: string }
+      } | null
+      const role = user?.app_metadata?.role
+      const schoolId = user?.app_metadata?.school_id
+      if (!user?.id || !role || !ROLES.includes(role as Role)) return null
+      return { userId: user.id, role: role as Role, ...(schoolId ? { schoolId } : {}) }
     },
   }
 }
