@@ -32,7 +32,7 @@ export default function HomePage(){
           </div>
           <div className="mt-10 flex items-center gap-3 text-xs text-white/48"><ShieldCheck className="h-4 w-4 text-[#b9964f]"/>{tr("Official school information, published with care.")}</div>
         </div>
-        <div className="media-frame relative self-center bg-[#f1f0ec]"><Image src="/images/hero-bg.jpg" alt="Sammena school campus" width={1600} height={1200} priority sizes="(max-width:1023px) 100vw,55vw" className="block h-auto w-full"/></div>
+        <div className="media-frame relative self-center bg-[#f1f0ec]"><Image src="/images/hero-bg.jpg" alt="Sammena school campus" width={1600} height={1200} priority quality={80} sizes="(max-width:1023px) 100vw,55vw" className="block h-auto w-full"/></div>
       </div>
     </section>
 
