@@ -14,7 +14,7 @@ export function StudentCreateForm({ onCreated }: { onCreated: () => void }) {
     const form = event.currentTarget
     try {
       const response = await fetch("/api/admin/students", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(form).entries())) })
-      const payload = await response.json().catch(() => null)
+      const payload = await response.json().catch((): null => null)
       if (response.status === 401 || response.status === 403 || response.status === 503) { window.location.assign("/login?type=admin&returnTo=/admin/students"); return }
       if (!response.ok) throw new Error(payload?.error?.message ?? "Student could not be saved.")
       form.reset(); setOpen(false)
