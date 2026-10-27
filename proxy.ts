@@ -37,6 +37,10 @@ export async function proxy(request: NextRequest) {
   const raw = request.cookies.get(COOKIE_NAME)?.value
   if (!raw) return response
 
+  // Application sessions are HMAC-signed payload.signature cookies. They are verified by the auth provider.
+  // Only legacy base64 Supabase sessions need token refresh here.
+  if (raw.includes(".")) return response
+
   const session = decodeSession(raw)
   if (!session) {
     response.cookies.delete(COOKIE_NAME)
