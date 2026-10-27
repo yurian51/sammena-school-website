@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { Poppins, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { MobileActionBar } from '@/components/mobile-action-bar'
 import { PwaRegister } from '@/components/pwa-register'
+import { LanguageProvider } from '@/components/language-provider'
 import { schoolIdentity } from '@/lib/academic-results'
 import './globals.css'
 
@@ -17,7 +19,7 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena-school-website-8ry2.onrender.com'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena.altavox.space'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -26,8 +28,7 @@ export const metadata: Metadata = {
     template: '%s | SAMMENA SCHOOLS',
   },
   description: 'The official digital home of Sammena Schools, including Sammena Pre & Primary School and verified information about the school’s future development.',
-  keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'Sammena Secondary School', 'primary school Tanzania', 'school Arusha', 'education Tanzania', 'Sammena Nduruma', 'P15336 Nduruma'],
-  alternates: { canonical: '/' },
+  keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'primary school Tanzania', 'school Arusha', 'education Tanzania', 'Sammena Nduruma', 'P15336 Nduruma'],
   category: 'education',
   applicationName: 'Sammena Schools',
   referrer: 'strict-origin-when-cross-origin',
@@ -38,10 +39,28 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'SAMMENA SCHOOLS',
     locale: 'en_TZ',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Sammena Pre & Primary School official logo and website' }],
   },
-  twitter: { card: 'summary_large_image', title: 'SAMMENA SCHOOLS', description: 'Building Bright Minds. Shaping Better Futures.' },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SAMMENA SCHOOLS',
+    description: 'Building Bright Minds. Shaping Better Futures.',
+    images: [{ url: '/opengraph-image', alt: 'Sammena Pre & Primary School official logo and website' }],
+  },
   robots: { index: true, follow: true },
-  icons: { icon: '/icon.svg', shortcut: '/icon.svg' },
+  verification: { google: 'lELeRRdvUGwwD4L0nTHtxNSQeIWl9tp4eoKKjgqa7Fs' },
+  manifest: '/images/site.webmanifest',
+  icons: {
+    icon: [
+      { url: '/images/favicon.ico', sizes: 'any' },
+      { url: '/images/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+      { url: '/images/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/images/favicon-48x48.png', type: 'image/png', sizes: '48x48' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: ['/images/favicon.ico'],
+    apple: [{ url: '/images/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
 }
 
 const organizationJsonLd = {
@@ -100,10 +119,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
-        <div id="main-content">{children}</div>
-        <MobileActionBar />
+        <LanguageProvider>
+          <div id="main-content" className="pb-20 lg:pb-0">{children}</div>
+          <MobileActionBar />
+        </LanguageProvider>
         <PwaRegister />
         {process.env.NODE_ENV === 'production' && <Analytics />}
+        <SpeedInsights />
       </body>
     </html>
   )

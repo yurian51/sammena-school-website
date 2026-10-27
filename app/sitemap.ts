@@ -30,7 +30,7 @@ const routes = [
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena-school-website.onrender.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena.altavox.space'
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,
     changeFrequency:

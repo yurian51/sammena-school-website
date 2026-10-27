@@ -30,7 +30,7 @@ export default function HomePage(){
           </div>
           <div className="mt-10 flex items-center gap-3 text-xs text-white/48"><ShieldCheck className="h-4 w-4 text-[#b9964f]"/> Official school information, published with care.</div>
         </div>
-        <div className="media-frame relative min-h-[320px] lg:min-h-[610px]"><Image src="/images/hero-bg.jpg" alt="Sammena school campus" fill priority sizes="(max-width:1023px) 100vw,55vw" className="object-cover"/></div>
+        <div className="media-frame relative self-center bg-[#f1f0ec]"><Image src="/images/hero-bg.jpg" alt="Sammena school campus" width={1600} height={1200} priority sizes="(max-width:1023px) 100vw,55vw" className="block h-auto w-full"/></div>
       </div>
     </section>
 
@@ -56,12 +56,19 @@ export default function HomePage(){
 
     <section className="border-y border-[#e6e1d7] bg-white py-16 sm:py-20">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1fr] lg:items-center">
-        <div className="media-frame relative aspect-[4/3] border border-[#e6e1d7]"><Image src="/images/about-school.jpg" alt="Students at Sammena School" fill sizes="(max-width:1023px) 100vw,50vw" className="object-cover"/></div>
+        <div className="media-frame relative self-center border border-[#e6e1d7] bg-[#f1f0ec]"><Image src="/images/about-school.jpg" alt="Students at Sammena School" width={1200} height={900} sizes="(max-width:1023px) 100vw,50vw" className="block h-auto w-full"/></div>
         <div><p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#b9964f]">The Sammena approach</p><h2 className="mt-4 text-3xl font-semibold leading-tight tracking-[-0.02em] text-[#17365d] sm:text-4xl">Education grounded in learning, character and community.</h2><p className="mt-5 text-sm leading-7 text-[#687184]">Our public website is designed to be as thoughtful as the institution it represents. Families can move from school information to practical services without navigating a maze of visual noise.</p><Link href="/about" className="link-arrow mt-7 text-sm font-bold uppercase tracking-[0.1em] text-[#8d713b]">Read about Sammena <ArrowRight className="h-4 w-4"/></Link></div>
       </div>
     </section>
 
     <InstitutionalSections/>
+
+    <section className="border-y border-[#e6e1d7] bg-[#f8f5ed] py-14 sm:py-16">
+      <div className="mx-auto grid max-w-7xl gap-6 px-5 sm:px-8 md:grid-cols-[1fr_auto] md:items-center">
+        <div><p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#8d713b]">Community partnerships</p><h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] text-[#17365d]">Support Sammena’s next chapter.</h2><p className="mt-3 max-w-2xl text-sm leading-7 text-[#687184]">Explore verified support priorities, school development projects, volunteer enquiries, historical fundraising records and published evidence.</p></div>
+        <Link href="/sponsorship" className="inline-flex min-h-12 items-center justify-center gap-2 bg-[#b9964f] px-6 py-3 text-sm font-bold text-[#102846] transition hover:bg-[#d7c28e]">Support & Partnerships <ArrowRight className="h-4 w-4"/></Link>
+      </div>
+    </section>
 
     <section className="border-t border-[#e6e1d7] bg-[#102846] py-16 text-white sm:py-20">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[1.15fr_.85fr] lg:items-center">

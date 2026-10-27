@@ -19,6 +19,8 @@ const requiredFiles = [
   "app/layout.tsx",
   "app/page.tsx",
   "app/api/health/route.ts",
+  "app/robots.ts",
+  "app/sitemap.ts",
 ];
 
 for (const file of requiredFiles) {
@@ -69,7 +71,7 @@ for (const fragment of [
 }
 
 const health = read("app/api/health/route.ts");
-if (health.includes('Cache-Control", "no-store"')) ok("health endpoint disables caching");
+if (health.includes('"Cache-Control": "no-store"')) ok("health endpoint disables caching");
 else fail("health endpoint must disable caching");
 
 if (health.includes("status: data.status === \"ok\" ? 200 : 503")) ok("health endpoint maps degraded state to HTTP 503");
@@ -79,9 +81,63 @@ const layout = read("app/layout.tsx");
 if (layout.includes("metadataBase: new URL(siteUrl)")) ok("metadataBase is configured");
 else fail("metadataBase is not configured");
 
+const robots = read("app/robots.ts");
+for (const fragment of [
+  "userAgent: 'Googlebot'",
+  "userAgent: 'Bingbot'",
+  "allow: ['/', '/api/cms']",
+  "disallow: ['/admin/', '/portal/', '/login']",
+  "${siteUrl}/sitemap.xml",
+]) {
+  if (robots.includes(fragment)) ok(`crawler policy: ${fragment}`);
+  else fail(`crawler policy missing: ${fragment}`);
+}
+
+const sitemap = read("app/sitemap.ts");
+if (sitemap.includes("https://sammena.altavox.space")) ok("sitemap has the canonical Sammena domain fallback");
+else fail("sitemap is missing the canonical domain fallback");
+
+const sponsorship = read("app/sponsorship/page.tsx");
+for (const fragment of [
+  "https://www.doneeractie.nl/charity-sammena-school-arusha-tanzania/-2021",
+  "Campaign closed",
+  "€5,804",
+  "€4,650",
+  "87",
+  "current balance",
+  "historical",
+]) {
+  if (sponsorship.toLowerCase().includes(fragment.toLowerCase())) ok(`sponsorship source contract: ${fragment}`);
+  else fail(`sponsorship page missing sourced detail: ${fragment}`);
+}
+
+const supportFeatures = read("app/sponsorship/page.tsx");
+for (const fragment of [
+  "Feature 1 · Donor & partner centre",
+  "Feature 2 · School development projects",
+  "Feature 3 · Donations and financial transparency",
+  "Feature 4 · Volunteer and sponsorship programme",
+  "Feature 5 · Reports and evidence library",
+  "Dominique Swinkels",
+  "does not provide a portrait that can be confidently verified",
+]) {
+  if (supportFeatures.toLowerCase().includes(fragment.toLowerCase())) ok(`support feature contract: ${fragment}`);
+  else fail(`support page missing feature or attribution safeguard: ${fragment}`);
+}
+
+const history = read("app/history/page.tsx");
+for (const fragment of [
+  "Founding history requires confirmation",
+  "Samwel Menavi and Mosses Mollel",
+  "https://www.doneeractie.nl/charity-sammena-school-arusha-tanzania/-2021",
+]) {
+  if (history.includes(fragment)) ok(`history source contract: ${fragment}`);
+  else fail(`history page missing provenance note: ${fragment}`);
+}
+
 const page = read("app/page.tsx");
 for (const route of ["/admissions", "/academics", "/calendar", "/library", "/contact", "/location"]) {
-  if (page.includes(`href="${route}"`)) ok(`home navigation contract: ${route}`);
+  if (page.includes(`"${route}"`)) ok(`home navigation contract: ${route}`);
   else fail(`home navigation is missing ${route}`);
 }
 
