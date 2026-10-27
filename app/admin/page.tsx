@@ -33,6 +33,7 @@ const modules = [
   { label: "Admissions", description: "Review applications and decisions.", href: "/admin/admissions", icon: ClipboardList },
   { label: "Attendance", description: "Record daily class registers for the current academic year.", href: "/admin/attendance", icon: CalendarCheck },
   { label: "Library", description: "Manage the school library catalogue and book loans.", href: "/admin/library", icon: BookOpen },
+  { label: "Document versions", description: "Manage official document versions, dates and controlled publication.", href: "/admin/documents", icon: FileText },
   { label: "Enrollment", description: "Place students in classes and move or close enrollments.", href: "/admin/enrollments", icon: GraduationCap },
   { label: "Timetable", description: "Build class timetables for the current academic year.", href: "/admin/timetable", icon: CalendarDays },
   { label: "Results", description: "Enter assessment scores for a class. Parents see them in the portal.", href: "/admin/results", icon: ClipboardCheck },
