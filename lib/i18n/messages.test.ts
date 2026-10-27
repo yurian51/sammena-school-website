@@ -20,6 +20,8 @@ describe("English and Swahili language dictionary", () => {
     expect(translate("Filter calendar", "sw")).toBe("Chuja kalenda")
     expect(translate("Subscribe / export calendar", "sw")).toBe("Jiunge / pakua kalenda")
     expect(translate("The school calendar could not be loaded.", "sw")).toBe("Kalenda ya shule haikuweza kupakiwa. Tafadhali jaribu tena.")
+    expect(translate("Document version history", "sw")).toBe("Historia ya matoleo ya nyaraka")
+    expect(translate("Open this version", "sw")).toBe("Fungua toleo hili")
     expect(translate("One digital front door for families, learners and the wider community.", "sw")).not.toBe(
       "One digital front door for families, learners and the wider community.",
     )
