@@ -4,6 +4,7 @@ import Link from "next/link"
 import { ArrowRight, BookOpen, Heart, ShieldCheck, Target, Eye, GraduationCap, FileCheck2, CalendarDays } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { T } from "@/components/translated-text"
 
 export const metadata: Metadata = {
   title: "About Sammena Schools",
@@ -43,10 +44,10 @@ export default function AboutPage() {
 
       <section className="bg-school-dark pb-20 pt-36 text-white">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-school-gold">About Sammena Schools</p>
-          <h1 className="mt-3 max-w-4xl text-4xl font-bold tracking-tight md:text-6xl">Education with a clear purpose.</h1>
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-school-gold"><T text="About Sammena Schools" /></p>
+          <h1 className="mt-3 max-w-4xl text-4xl font-bold tracking-tight md:text-6xl"><T text="Education with a clear purpose." /></h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-white/75">
-            Sammena Schools is building an education environment centred on learning, character, wellbeing, sport and future readiness.
+            <T text="Sammena Schools is building an education environment centred on learning, character, wellbeing, sport and future readiness." />
           </p>
         </div>
       </section>
@@ -56,9 +57,9 @@ export default function AboutPage() {
           <div className="flex flex-col gap-4 border border-[#c8a64b]/30 bg-[#fffdf6] p-5 sm:flex-row sm:items-start">
             <FileCheck2 className="mt-0.5 h-5 w-5 shrink-0 text-[#9b7728]" aria-hidden="true" />
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#8a6a24]">Institutional information standard</p>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#8a6a24]"><T text="Institutional information standard" /></p>
               <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-700">
-                Public information is published only when it can be supported by an approved school record or official source. Unverified figures, testimonials, rankings and operational claims are not presented as facts.
+                <T text="Public information is published only when it can be supported by an approved school record or official source. Unverified figures, testimonials, rankings and operational claims are not presented as facts." />
               </p>
             </div>
           </div>
@@ -68,20 +69,20 @@ export default function AboutPage() {
       <section className="py-16 sm:py-20 lg:py-24">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:px-8">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#9b7728]">The school today</p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-school-dark md:text-5xl">Sammena Pre & Primary School</h2>
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#9b7728]"><T text="The school today" /></p>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-school-dark md:text-5xl"><T text="Sammena Pre & Primary School" /></h2>
             <p className="mt-5 text-base leading-8 text-slate-600">
-              The current Sammena school is focused on pre-primary and primary education. Its public positioning combines academic learning with character, wellbeing, sport and co-curricular growth.
+              <T text="The current Sammena school is focused on pre-primary and primary education. Its public positioning combines academic learning with character, wellbeing, sport and co-curricular growth." />
             </p>
             <p className="mt-4 text-base leading-8 text-slate-600">
               The current website records 2018 as the school’s formal registration milestone. A historical Doneeractie fundraising page describes the school as founded in 2010 by Samwel Menavi and Mosses Mollel, while an older website timeline listed 2009 as the beginning. These are not being collapsed into one claim: school leadership should confirm the official founding date and founders before the history is treated as final.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link href="/academics" className="inline-flex items-center gap-2 bg-school-dark px-5 py-3 text-sm font-bold text-white">
-                Explore academics <ArrowRight className="h-4 w-4" />
+                <T text="Explore academics" /> <ArrowRight className="h-4 w-4" />
               </Link>
               <Link href="/admissions" className="inline-flex items-center gap-2 border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-school-dark">
-                Admissions <ArrowRight className="h-4 w-4" />
+                <T text="Admissions" /> <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>
@@ -103,14 +104,14 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="grid gap-8 md:grid-cols-2">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#e2c46c]">Current focus</p>
-              <h2 className="mt-2 text-2xl font-bold md:text-3xl">What Sammena is building around</h2>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#e2c46c]"><T text="Current focus" /></p>
+              <h2 className="mt-2 text-2xl font-bold md:text-3xl"><T text="What Sammena is building around" /></h2>
             </div>
             <ul className="grid gap-3 sm:grid-cols-2">
               {currentFocus.map(item => (
                 <li key={item} className="flex items-start gap-3 border border-white/10 bg-white/5 p-4">
                   <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#e2c46c]" aria-hidden="true" />
-                  <span className="text-sm leading-6 text-white/80">{item}</span>
+                  <span className="text-sm leading-6 text-white/80"><T text={item} /></span>
                 </li>
               ))}
             </ul>
@@ -121,8 +122,8 @@ export default function AboutPage() {
       <section className="py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="mx-auto mb-12 max-w-2xl text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#9b7728]">Our foundation</p>
-            <h2 className="mt-3 text-3xl font-bold text-school-dark md:text-5xl">Mission, vision & values</h2>
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#9b7728]"><T text="Our foundation" /></p>
+            <h2 className="mt-3 text-3xl font-bold text-school-dark md:text-5xl"><T text="Mission, vision & values" /></h2>
           </div>
           <div className="grid gap-5 md:grid-cols-3">
             {principles.map(({ icon: Icon, title, text }) => (
@@ -130,8 +131,8 @@ export default function AboutPage() {
                 <span className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#0a3158]/5 text-[#9b7728]">
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </span>
-                <h3 className="mt-5 text-xl font-bold text-school-dark">{title}</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{text}</p>
+                <h3 className="mt-5 text-xl font-bold text-school-dark"><T text={title} /></h3>
+                <p className="mt-3 text-sm leading-7 text-slate-600"><T text={text} /></p>
               </article>
             ))}
           </div>
