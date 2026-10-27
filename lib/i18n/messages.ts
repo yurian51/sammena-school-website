@@ -418,6 +418,8 @@ export const messages: { sw: Record<string, string> } = {
     "Sammena academic results": "Matokeo ya Kitaaluma ya Sammena",
     "A transparent results archive for ": "Kumbukumbu ya matokeo iliyo wazi ya ",
 
+    ", using published examination records and clearly identifying the source of each result.": ", kwa kutumia rekodi za mitihani zilizochapishwa na kubainisha chanzo cha kila matokeo.",
+
     // Footer
     "Explore": "Gundua",
     "About Sammena": "Kuhusu Sammena",
