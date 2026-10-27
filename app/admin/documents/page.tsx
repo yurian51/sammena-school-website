@@ -1,10 +1,10 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState, type FormEvent } from "react"
 import Link from "next/link"
 import { ArrowLeft, FileText, Plus, RefreshCw } from "lucide-react"
 
-type Resource = { id: string; title: string; sourceUrl: string }
+type Resource = { id: string; title: string; sourceUrl: string; readerUrl: string }
 type Version = { id: string; resourceId: string; resourceTitle: string; versionLabel: string; documentDate: string; effectiveFrom: string | null; effectiveUntil: string | null; sourceUrl: string; changeSummary: string; status: "DRAFT" | "PUBLISHED" | "ARCHIVED"; createdAt: string }
 
 const emptyForm = { resourceId: "", versionLabel: "", documentDate: "", effectiveFrom: "", effectiveUntil: "", sourceUrl: "", changeSummary: "", status: "DRAFT" }
@@ -31,7 +31,7 @@ export default function AdminDocumentsPage() {
       const nextResources = (library.resources ?? []) as Resource[]
       setResources(nextResources)
       setVersions((docs.data ?? []) as Version[])
-      setForm(current => ({ ...current, resourceId: current.resourceId || nextResources[0]?.id || "", sourceUrl: current.sourceUrl || nextResources[0]?.sourceUrl || "" }))
+      setForm(current => ({ ...current, resourceId: current.resourceId || nextResources[0]?.id || "", sourceUrl: current.sourceUrl || nextResources[0]?.readerUrl || nextResources[0]?.sourceUrl || "" }))
     } catch (error) {
       setMessage({ kind: "error", text: error instanceof Error ? error.message : "Document records could not be loaded." })
     }
@@ -39,7 +39,7 @@ export default function AdminDocumentsPage() {
 
   useEffect(() => { void load() }, [load])
 
-  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setBusy(true)
     setMessage(null)
@@ -81,7 +81,7 @@ export default function AdminDocumentsPage() {
             <label className="mt-4 block text-sm font-semibold">Existing verified resource
               <select className={input} required value={form.resourceId} onChange={event => {
                 const resource = resources.find(item => item.id === event.target.value)
-                setForm(current => ({ ...current, resourceId: event.target.value, sourceUrl: resource?.sourceUrl ?? current.sourceUrl }))
+                setForm(current => ({ ...current, resourceId: event.target.value, sourceUrl: resource?.readerUrl ?? resource?.sourceUrl ?? current.sourceUrl }))
               }}>
                 {resources.map(resource => <option key={resource.id} value={resource.id}>{resource.title}</option>)}
               </select>
