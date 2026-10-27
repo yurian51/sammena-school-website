@@ -280,3 +280,8 @@ export const messages: { sw: Record<string, string> } = {
     "Speak with the school about admissions and general enquiries.": "Zungumza na shule kuhusu udahili na maswali ya jumla.",
   },
 }
+
+export function translate(text: string, lang: Lang): string {
+  if (lang === "en") return text
+  return messages.sw[text] ?? text
+}
