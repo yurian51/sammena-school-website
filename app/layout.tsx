@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { MobileActionBar } from '@/components/mobile-action-bar'
 import { PwaRegister } from '@/components/pwa-register'
+import { LanguageProvider } from '@/components/language-provider'
 import { schoolIdentity } from '@/lib/academic-results'
 import './globals.css'
 
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
     template: '%s | SAMMENA SCHOOLS',
   },
   description: 'The official digital home of Sammena Schools, including Sammena Pre & Primary School and verified information about the school’s future development.',
-  keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'Sammena Secondary School', 'primary school Tanzania', 'school Arusha', 'education Tanzania', 'Sammena Nduruma', 'P15336 Nduruma'],
+  keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'primary school Tanzania', 'school Arusha', 'education Tanzania', 'Sammena Nduruma', 'P15336 Nduruma'],
   category: 'education',
   applicationName: 'Sammena Schools',
   referrer: 'strict-origin-when-cross-origin',
@@ -118,8 +119,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
-        <div id="main-content" className="pb-20 lg:pb-0">{children}</div>
-        <MobileActionBar />
+        <LanguageProvider>
+          <div id="main-content" className="pb-20 lg:pb-0">{children}</div>
+          <MobileActionBar />
+        </LanguageProvider>
         <PwaRegister />
         {process.env.NODE_ENV === 'production' && <Analytics />}
         <SpeedInsights />

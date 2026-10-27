@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import { Activity, ArrowRight, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users } from "lucide-react"
+import { Activity, ArrowRight, BookOpen, CalendarCheck, ClipboardCheck, GraduationCap, Receipt, Send, UserCheck, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Mail, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users } from "lucide-react"
 
 type Overview = {
   role: string
@@ -14,11 +14,30 @@ type Overview = {
   upcomingEvents: number
   activeStudents: number
   auditEvents30d: number
+  website: {
+    databaseStatus: "ok" | "unavailable"
+    healthStatus: "ok" | "degraded"
+    publishedNews: number
+    publishedAnnouncements: number
+    latestPublishedAt: string | null
+    checkedAt: string
+  }
+  institution: { id: string; name: string; slug: string } | null
+  institutions: { id: string; name: string; slug: string; activeStudents: number }[]
 }
 
 const modules = [
   { label: "Students", description: "Search the live student register and 360° profiles.", href: "/admin/students", icon: Users },
   { label: "Admissions", description: "Review applications and decisions.", href: "/admin/admissions", icon: ClipboardList },
+  { label: "Attendance", description: "Record daily class registers for the current academic year.", href: "/admin/attendance", icon: CalendarCheck },
+  { label: "Library", description: "Manage the school library catalogue and book loans.", href: "/admin/library", icon: BookOpen },
+  { label: "Enrollment", description: "Place students in classes and move or close enrollments.", href: "/admin/enrollments", icon: GraduationCap },
+  { label: "Timetable", description: "Build class timetables for the current academic year.", href: "/admin/timetable", icon: CalendarDays },
+  { label: "Results", description: "Enter assessment scores for a class. Parents see them in the portal.", href: "/admin/results", icon: ClipboardCheck },
+  { label: "Fees & payments", description: "Fee items, invoices, payments and numbered receipts.", href: "/admin/finance", icon: Receipt },
+  { label: "Parent messages", description: "Official notices that appear in the Parent Portal.", href: "/admin/messages", icon: Send },
+  { label: "Teaching assignments", description: "Decide which teacher may act on which class.", href: "/admin/teaching-assignments", icon: UserCheck },
+  { label: "Inbox", description: "Read and track messages from the public contact form.", href: "/admin/inbox", icon: Mail },
   { label: "News & publishing", description: "Create, edit and publish official posts.", href: "/admin/content", icon: Megaphone },
   { label: "Events & calendar", description: "Manage the public school calendar.", href: "/admin/events", icon: CalendarDays },
   { label: "Audit & security", description: "Inspect privileged administrative activity.", href: "/admin/audit", icon: ShieldCheck },
@@ -106,6 +125,49 @@ export default function AdminDashboardPage() {
         </section>
 
         <section className="mt-7 border border-slate-200 bg-white p-6 shadow-sm sm:p-7"><div className="flex flex-col gap-3 border-b border-slate-200 pb-5 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Live modules</p><h2 className="mt-2 text-xl font-bold text-[#17365d]">School administration</h2></div><p className="text-xs text-slate-500">Only connected production workflows are shown as actionable.</p></div><div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">{filteredModules.map(({ label, description, href, icon: Icon }) => <Link key={label} href={href} className="group border border-slate-200 p-5 hover:border-[#b9964f] hover:bg-[#fbfaf7]"><div className="flex items-center justify-between"><span className="grid h-9 w-9 place-items-center bg-[#f3ead5] text-[#8c6c28]"><Icon className="h-4 w-4" /></span><ArrowRight className="h-4 w-4 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#a27e35]" /></div><h3 className="mt-5 font-bold text-[#17365d]">{label}</h3><p className="mt-1 text-xs leading-5 text-slate-500">{description}</p></Link>)}</div></section>
+
+        <section className="mt-7 grid gap-6 xl:grid-cols-2">
+          <article className="border border-slate-200 bg-white p-6 shadow-sm sm:p-7" aria-labelledby="website-status-heading">
+            <p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Website status</p>
+            <h2 id="website-status-heading" className="mt-2 text-xl font-bold text-[#17365d]">Public website health</h2>
+            <dl className="mt-5 grid gap-3 text-sm">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3"><dt className="text-slate-600">Backend</dt><dd className={data.website.healthStatus === "ok" ? "font-bold text-emerald-700" : "font-bold text-red-700"}>{data.website.healthStatus === "ok" ? "Operational" : "Degraded"}</dd></div>
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3"><dt className="text-slate-600">Database</dt><dd className={data.website.databaseStatus === "ok" ? "font-bold text-emerald-700" : "font-bold text-red-700"}>{data.website.databaseStatus === "ok" ? "Connected" : "Unavailable"}</dd></div>
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3"><dt className="text-slate-600">Published news</dt><dd className="font-bold text-[#17365d]">{data.website.publishedNews.toLocaleString()}</dd></div>
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3"><dt className="text-slate-600">Published announcements</dt><dd className="font-bold text-[#17365d]">{data.website.publishedAnnouncements.toLocaleString()}</dd></div>
+              <div className="flex items-center justify-between"><dt className="text-slate-600">Last published</dt><dd className="font-bold text-[#17365d]">{data.website.latestPublishedAt ? new Date(data.website.latestPublishedAt).toLocaleDateString("en-TZ", { day: "numeric", month: "short", year: "numeric" }) : "Nothing yet"}</dd></div>
+            </dl>
+            {data.website.databaseStatus !== "ok" && <p className="mt-5 border border-red-200 bg-red-50 p-3 text-xs text-red-800">The database is unreachable, so news and admissions will not load on the public site. Check DATABASE_URL and migrations in the hosting settings.</p>}
+            <p className="mt-4 text-[11px] text-slate-400">Checked {new Date(data.website.checkedAt).toLocaleString("en-TZ")}</p>
+          </article>
+
+          <article className="border border-slate-200 bg-white p-6 shadow-sm sm:p-7" aria-labelledby="institutions-heading">
+            <p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Educational institutions</p>
+            <h2 id="institutions-heading" className="mt-2 text-xl font-bold text-[#17365d]">{data.institution ? data.institution.name : "Institution not linked"}</h2>
+            {data.institution ? <p className="mt-1 text-sm text-slate-500">Slug: {data.institution.slug}</p> : <p className="mt-1 text-sm text-red-700">This account is not linked to a school record. Check SAMMENA_SCHOOL_ID.</p>}
+            {data.role === "SUPER_ADMIN" && (
+              data.institutions.length > 0 ? (
+                <div className="mt-5 overflow-x-auto">
+                  <table className="w-full text-left text-sm">
+                    <thead className="border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500"><tr><th scope="col" className="py-2 pr-3">School</th><th scope="col" className="py-2 pr-3">Slug</th><th scope="col" className="py-2 text-right">Active students</th></tr></thead>
+                    <tbody>{data.institutions.map((school) => <tr key={school.id} className="border-b border-slate-100"><td className="py-3 pr-3 font-semibold text-[#17365d]">{school.name}</td><td className="py-3 pr-3 text-slate-600">{school.slug}</td><td className="py-3 text-right font-bold text-[#17365d]">{school.activeStudents.toLocaleString()}</td></tr>)}</tbody>
+                  </table>
+                </div>
+              ) : <p className="mt-5 text-sm text-slate-500">No other institutions are registered.</p>
+            )}
+          </article>
+        </section>
+
+        <section className="mt-7 border border-slate-200 bg-white p-6 shadow-sm sm:p-7" aria-labelledby="exports-heading">
+          <p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Reports</p>
+          <h2 id="exports-heading" className="mt-2 text-xl font-bold text-[#17365d]">Download records (CSV)</h2>
+          <p className="mt-2 text-sm text-slate-600">Every download is recorded in the audit log.</p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            {[["students", "Students"], ["loans", "Library loans"], ["inbox", "Contact inbox"]].map(([key, label]) => (
+              <a key={key} href={`/api/admin/exports/${key}`} className="inline-flex items-center gap-2 border border-slate-200 px-4 py-2.5 text-sm font-bold text-[#17365d] hover:border-[#b9964f]">{label}</a>
+            ))}
+          </div>
+        </section>
       </div>
     </main>
   )
