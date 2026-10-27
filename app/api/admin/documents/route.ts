@@ -38,7 +38,7 @@ export async function POST(request: Request) {
   try {
     const context = requireAuthorized(await getAuthContext(request), "library:write")
     if (!context.schoolId) throw new Error("SCHOOL_SCOPE_REQUIRED")
-    const body = await request.json().catch(() => null) as Record<string, unknown> | null
+    const body = await request.json().catch((): null => null) as Record<string, unknown> | null
     if (!body || typeof body.resourceId !== "string" || !/^[0-9a-f-]{36}$/i.test(body.resourceId)
       || typeof body.versionLabel !== "string" || body.versionLabel.trim().length < 1 || body.versionLabel.trim().length > 80
       || !validDate(body.documentDate)
