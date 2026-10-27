@@ -385,6 +385,23 @@ export const messages: { sw: Record<string, string> } = {
     "CEREMONY": "SHEREHE",
     "OTHER": "NYINGINE",
 
+    "Sammena Digital Library": "Maktaba ya Kidijitali ya Sammena",
+    "Learning resources, organised like a real school library.": "Rasilimali za kujifunzia, zimepangwa kama maktaba halisi ya shule.",
+    "A structured digital shelf for textbooks, supplementary learning materials and curriculum guides. Verified publisher resources can be read online, while downloadable files are offered only where the source permits direct access.": "Rafu ya kidijitali iliyopangwa kwa vitabu vya kiada, nyenzo za ziada na miongozo ya mtaala. Rasilimali za wachapishaji zilizothibitishwa zinaweza kusomwa mtandaoni, huku faili zikitolewa kupakuliwa pale chanzo kinaporuhusu.",
+    "Verified resources": "Rasilimali Zilizothibitishwa",
+    "Textbooks": "Vitabu vya Kiada",
+    "Curriculum guide": "Mwongozo wa Mtaala",
+    "Verified-source policy:": "Sera ya Vyanzo Vilivyothibitishwa:",
+    "Library filters": "Vichujio vya Maktaba",
+    "Book, subject...": "Kitabu, somo...",
+    "Resource type": "Aina ya Rasilimali",
+    "Education level": "Ngazi ya Elimu",
+    "Collection": "Mkusanyiko",
+    "Textbooks & learning resources": "Vitabu vya Kiada na Rasilimali za Kujifunzia",
+    "Curriculum & guide": "Mtaala na Mwongozo",
+    "Teacher resource": "Rasilimali za Walimu",
+    "Supplementary": "Nyenzo za Ziada",
+
     // Footer
     "Explore": "Gundua",
     "About Sammena": "Kuhusu Sammena",
