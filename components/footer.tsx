@@ -20,9 +20,12 @@ const groups = [
   {
     title: "School Information",
     links: [
-      ["/admissions", "Admissions & Applications"],
+      ["/admissions", "Admissions Overview"],
+      ["/admissions/apply", "Start Application"],
+      ["/admissions/track", "Track Application"],
       ["/calendar", "Academic Calendar"],
       ["/news", "News & Announcements"],
+      ["/events", "School Events"],
       ["/gallery", "Photo Gallery"],
       ["/policies", "School Policies"],
       ["/sponsorship", "Development & Partnerships"],
@@ -33,9 +36,11 @@ const groups = [
     links: [
       ["/portal", "Parent & Student Hub"],
       ["/results", "Academic Results"],
-      ["/library", "Digital Learning Library"],
-      ["/resources", "Documents & Resources"],
+      ["/library", "Digital Library"],
+      ["/documents", "School Documents"],
+      ["/resources", "Learning Resources"],
       ["/contact", "Contact the School"],
+      ["/services", "School Services"],
     ],
   },
 ]
@@ -127,7 +132,7 @@ export function Footer() {
             <Link href="/location" className="flex items-center gap-3 px-4 py-4 text-sm text-white/70 transition hover:bg-white/[.03] hover:text-white sm:px-5">
               <MapPin className="h-4 w-4 shrink-0 text-[#d7c28e]" aria-hidden="true" />
               <span>
-                <strong className="block text-xs text-white">{tr("P15336, Nduruma")}</strong>
+                <strong className="block text-xs text-white">{tr("Nduruma, Arusha")}</strong>
                 <span className="text-xs text-white/50">{tr("Arusha, Tanzania")}</span>
               </span>
             </Link>
