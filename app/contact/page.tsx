@@ -23,6 +23,7 @@ function Reveal({ children, className, delay = 0 }: { children: React.ReactNode;
 }
 
 export default function ContactPage() {
+  const { tr } = useLanguage()
   const [formState, setFormState] = useState(initialForm)
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
