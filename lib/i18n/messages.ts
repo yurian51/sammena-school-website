@@ -138,6 +138,18 @@ export const messages: { sw: Record<string, string> } = {
     "Search Website": "Tafuta kwenye Tovuti",
     "Contact the School": "Wasiliana na Shule",
 
+    "pass rate": "kiwango cha ufaulu",
+    "Result record": "Rekodi ya matokeo",
+    "NECTA official source": "Chanzo rasmi cha NECTA",
+    "Published secondary source": "Chanzo kingine kilichochapishwa",
+    "Academic record": "Rekodi za kitaaluma",
+    "Campus": "Kampasi",
+    "View verified location": "Tazama eneo lililothibitishwa",
+    "Results archive": "Kumbukumbu za matokeo",
+    "PSLE & SFNA records": "Rekodi za PSLE na SFNA",
+    "Latest SFNA result": "Matokeo ya hivi karibuni ya SFNA",
+    "Source": "Chanzo",
+
     // Footer
     "Explore": "Gundua",
     "About Sammena": "Kuhusu Sammena",
