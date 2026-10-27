@@ -13,10 +13,10 @@ const stepMeta = [
   { short: "Home & School", detail: "Placement & wellbeing" },
   { short: "Review", detail: "Confirm details" },
 ]
-const entryLevels = ["Baby", "Pre-Unity", "Class I", "Class II", "Class III", "Class IV", "Class V", "Class VI", "Class VII"]
+const entryLevels = ["Baby", "Pre-Unit", "Class I", "Class II", "Class III", "Class IV", "Class V", "Class VI", "Class VII"]
 const guardianRelations = ["Father", "Mother", "Aunt", "Uncle", "Brother", "Sister", "Grandfather", "Grandmother", "Guardian", "Other authorized caregiver"]
 const guardianOccupations = ["Farmer", "Driver", "Teacher", "Business owner", "Trader", "Civil servant", "Health worker", "Engineer", "Technician", "Police officer", "Military personnel", "Construction worker", "Fisherman", "Pastor", "Imam", "Lawyer", "Accountant", "Banker", "Student", "Self-employed", "Unemployed", "Other"]
-const draftKey = "sammena-admission-draft-v2"
+const draftKey = "sammena-admission-draft-v3"
 
 type FormData = { guardian:string; phone:string; email:string; relationship:string; occupation:string; guardianNationality:string; address:string; learner:string; dob:string; age:string; gender:string; nationality:string; homeRegion:string; homeDistrict:string; division:string; village:string; eyeColor:string; height:string; weight:string; religion:string; tribe:string; entry:string; studyType:string; academicYear:string; previous:string; previousYear:string; medical:string; allergies:string; distance:string; preferredStart:string; siblings:string; photoReady:boolean; consent:boolean }
 const emptyForm:FormData = { guardian:"",phone:"",email:"",relationship:"",occupation:"",guardianNationality:"",address:"",learner:"",dob:"",age:"",gender:"",nationality:"",homeRegion:"",homeDistrict:"",division:"",village:"",eyeColor:"",height:"",weight:"",religion:"",tribe:"",entry:"",studyType:"Day",academicYear:"",previous:"",previousYear:"",medical:"",allergies:"",distance:"",preferredStart:"",siblings:"",photoReady:false,consent:false }
@@ -25,10 +25,10 @@ type SubmitResponse = { ok?: boolean; data?: { reference?: string; status?: stri
 
 export default function ApplyPage(){
  const [step,setStep]=useState(0),[submitted,setSubmitted]=useState(false),[submitting,setSubmitting]=useState(false),[saved,setSaved]=useState(false),[saveError,setSaveError]=useState(""),[submitError,setSubmitError]=useState(""),[lastSaved,setLastSaved]=useState(""),[reference,setReference]=useState(""),[form,setForm]=useState<FormData>(emptyForm)
- useEffect(()=>{try{const raw=localStorage.getItem(draftKey);if(raw)setForm({...emptyForm,...JSON.parse(raw)})}catch{}},[])
+ useEffect(()=>{try{const raw=sessionStorage.getItem(draftKey);if(raw)setForm({...emptyForm,...JSON.parse(raw)});sessionStorage.removeItem(draftKey)}catch{}},[])
  const update=(key:keyof FormData,value:string|boolean)=>{setSaved(false);setSubmitError("");setForm(p=>({...p,[key]:value}))}
- const saveDraft=()=>{const time=new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });try{window.localStorage.setItem(draftKey,JSON.stringify(form));setSaved(true);setSaveError("");setLastSaved(time)}catch{setSaved(false);setSaveError("Draft could not be saved in this browser. Please keep this page open or try again.")}}
- const clearDraft=()=>{window.localStorage.removeItem(draftKey);setForm(emptyForm);setStep(0);setSaved(false);setSaveError("");setSubmitError("");setLastSaved("")}
+ const saveDraft=()=>{const time=new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });try{window.sessionStorage.setItem(draftKey,JSON.stringify(form));setSaved(true);setSaveError("");setLastSaved(time)}catch{setSaved(false);setSaveError("Draft could not be saved in this browser. Please keep this page open or try again.")}}
+ const clearDraft=()=>{window.sessionStorage.removeItem(draftKey);setForm(emptyForm);setStep(0);setSaved(false);setSaveError("");setSubmitError("");setLastSaved("")}
  const submitApplication=async()=>{
    setSubmitting(true)
    setSubmitError("")
