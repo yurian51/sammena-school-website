@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
       " insert into audit_events (action, entity_type, entity_id, request_id)" +
       " select 'STUDENT_CREATED', 'student', id, $12 from new_student returning id" +
       ")" +
-      " select s.id::text as id, s.admission_number as \\"admissionNumber\\" from new_student s join guardian_link gl on gl.student_id=s.id",
+      ' select s.id::text as id, s.admission_number as "admissionNumber" from new_student s join guardian_link gl on gl.student_id=s.id',
       [auth.schoolId, input.admissionNumber, input.firstName, input.middleName, input.lastName, input.gender, input.dateOfBirth ?? "", input.guardianFullName, input.guardianPhone, input.guardianEmail ?? "", input.guardianRelationship, id],
     )
     if (!result.rows[0]) throw new Error("STUDENT_CREATE_FAILED")
