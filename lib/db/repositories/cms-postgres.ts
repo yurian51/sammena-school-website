@@ -7,12 +7,12 @@ import { mapCmsRow } from "../mappers"
 export class PostgresCmsRepository implements CmsRepository {
   // Administrative CMS collection access.
   async listPublished(type?: CmsContent["type"]) {
-    const result = await getDbClient().query<CmsContentRow>(`select * from cms_content where status='PUBLISHED' and (published_at is null or published_at <= now()) and (expires_at is null or expires_at > now()) and ($1::text is null or type=$1) order by published_at desc nulls last, created_at desc`, [type ?? null])
+    const result = await getDbClient().query<CmsContentRow>(`select * from cms_content where type in ('NEWS','ANNOUNCEMENT') and status='PUBLISHED' and (published_at is null or published_at <= now()) and (expires_at is null or expires_at > now()) and ($1::text is null or type=$1) order by published_at desc nulls last, created_at desc`, [type ?? null])
     return result.rows.map(mapCmsRow)
   }
 
   async listAll() {
-    const result = await getDbClient().query<CmsContentRow>(`select * from cms_content order by updated_at desc, created_at desc`)
+    const result = await getDbClient().query<CmsContentRow>(`select * from cms_content where type in ('NEWS','ANNOUNCEMENT') order by updated_at desc, created_at desc`)
     return result.rows.map(mapCmsRow)
   }
 
@@ -28,7 +28,7 @@ export class PostgresCmsRepository implements CmsRepository {
     const excerpt = content.type === "NEWS" ? content.excerpt : null
     const body = content.type === "NEWS" ? content.body : null
     const expiresAt = content.type === "ANNOUNCEMENT" ? content.expiresAt ?? null : null
-    const result = await getDbClient().query<CmsContentRow>(`insert into cms_content (id,type,title,slug,excerpt,body,category,summary,priority,status,published_at,expires_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) returning *`, [content.id, content.type, content.title, content.slug, excerpt, body, category, summary, priority, content.status, content.publishedAt ?? null, expiresAt])
+    const result = await getDbClient().query<CmsContentRow>(`insert into cms_content (school_id,id,type,title,slug,excerpt,body,category,summary,priority,status,published_at,expires_at) values ((select id from schools where slug='sammena-pre-primary-school' limit 1),$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) returning *`, [content.id, content.type, content.title, content.slug, excerpt, body, category, summary, priority, content.status, content.publishedAt ?? null, expiresAt])
     const row = result.rows[0]
     if (!row) throw new Error("DATABASE_INSERT_FAILED")
     return mapCmsRow(row)
