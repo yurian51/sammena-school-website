@@ -226,7 +226,7 @@ function getConfiguredProvider(): SessionProvider {
       const response = await fetch(`${config.url}/auth/v1/user`, {
         headers: { apikey: config.key, Authorization: `Bearer ${session.access_token}` },
         cache: "no-store",
-      }).catch(() => null)
+      }).catch((): null => null)
       if (!response?.ok) return null
 
       const user = await response.json().catch(() => null) as {
