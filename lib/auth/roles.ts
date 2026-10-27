@@ -13,6 +13,7 @@ export type Permission =
   | "results:read" | "results:write"
   | "finance:read" | "finance:write"
   | "communication:read" | "communication:write"
+  | "messages:write" | "settings:write"
   | "teaching:assign"
 
 const ADMIN_ALL: readonly Permission[] = [
@@ -21,11 +22,11 @@ const ADMIN_ALL: readonly Permission[] = [
   "sis:students:read", "sis:students:write", "sis:timetable:read", "sis:timetable:write",
   "inbox:read", "inbox:write", "attendance:read", "attendance:write",
   "library:read", "library:write", "results:read", "results:write",
-  "finance:read", "finance:write", "communication:read", "communication:write", "teaching:assign",
+  "finance:read", "finance:write", "communication:read", "communication:write", "messages:write", "teaching:assign",
 ]
 
 const permissions: Record<Role, readonly Permission[]> = {
-  SUPER_ADMIN: ADMIN_ALL,
+  SUPER_ADMIN: [...ADMIN_ALL, "settings:write"],
   SCHOOL_ADMIN: ADMIN_ALL,
   ADMIN: ADMIN_ALL,
   EDITOR: ["dashboard.view", "cms:read", "cms:write", "admissions:read", "inbox:read", "inbox:write"],
