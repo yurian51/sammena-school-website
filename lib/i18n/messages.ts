@@ -425,6 +425,13 @@ export const messages: { sw: Record<string, string> } = {
     "About Sammena": "Kuhusu Sammena",
     "News & Events": "Habari na Matukio",
     "Academic Results": "Matokeo ya Kitaaluma",
+
+    // Calendar accessibility and export
+    "Previous month": "Mwezi uliopita",
+    "Next month": "Mwezi ujao",
+    "Filter calendar": "Chuja kalenda",
+    "Subscribe / export calendar": "Jiunge / pakua kalenda",
+    "The school calendar could not be loaded.": "Kalenda ya shule haikuweza kupakiwa. Tafadhali jaribu tena.",
     "School Office & Contact": "Ofisi ya Shule na Mawasiliano",
     "Contact the school": "Wasiliana na shule",
     "Need assistance?": "Unahitaji msaada?",
