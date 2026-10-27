@@ -304,6 +304,17 @@ export const messages: { sw: Record<string, string> } = {
     "News & announcements": "Habari na Matangazo",
     "The official Sammena updates channel. Search published notices, filter news, and find important information quickly.": "Kituo rasmi cha taarifa za Sammena. Tafuta matangazo yaliyochapishwa, chuja habari na upate taarifa muhimu kwa haraka.",
 
+    "Visit Sammena": "Tembelea Sammena",
+    "Find our school.": "Pata Mahali pa Shule Yetu.",
+    "A clear, verified location for families, visitors and partners travelling to Sammena Pre & Primary School.": "Mahali palipo wazi na kuthibitishwa kwa familia, wageni na washirika wanaotembelea Sammena Pre & Primary School.",
+    "School address": "Anwani ya Shule",
+    "Centre Number": "Namba ya Kituo",
+    "Registration": "Usajili",
+    "Get directions": "Pata Maelekezo",
+    "Open in Google Maps": "Fungua kwenye Google Maps",
+    "Need more information?": "Unahitaji taarifa zaidi?",
+    "Admissions, school visits and general enquiries are handled through the official contact channel.": "Maswali ya udahili, ziara za shule na maswali ya jumla hupokelewa kupitia njia rasmi ya mawasiliano.",
+
     // Footer
     "Explore": "Gundua",
     "About Sammena": "Kuhusu Sammena",
