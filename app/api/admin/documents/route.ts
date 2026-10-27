@@ -11,7 +11,7 @@ function validDate(value: unknown): value is string {
   return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value))
 }
 
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<Response> {
   const id = requestId(request)
   try {
     const context = requireAuthorized(await getAuthContext(request), "library:write")
@@ -33,7 +33,7 @@ export async function GET(request: Request) {
   } catch (error) { return mapDomainError(error, id) }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<Response> {
   const id = requestId(request)
   try {
     const context = requireAuthorized(await getAuthContext(request), "library:write")
