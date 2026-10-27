@@ -1,7 +1,8 @@
-export const ROLES = ["SUPER_ADMIN", "SCHOOL_ADMIN", "EDITOR", "TEACHER", "PARENT", "STUDENT"] as const
+export const ROLES = ["SUPER_ADMIN", "SCHOOL_ADMIN", "ADMIN", "EDITOR", "VIEWER", "TEACHER", "PARENT", "STUDENT"] as const
 export type Role = typeof ROLES[number]
 
 export type Permission =
+  | "dashboard.view"
   | "cms:read"
   | "cms:write"
   | "cms:publish"

@@ -28,6 +28,7 @@ function getConfig() {
   const passwordHash = process.env.ADMIN_PASSWORD_HASH?.trim()
   const secret = process.env.ADMIN_SESSION_SECRET?.trim()
   const schoolId = process.env.SAMMENA_SCHOOL_ID?.trim()
+  const configuredRole = process.env.ADMIN_ROLE?.trim().toUpperCase() || "SUPER_ADMIN"
 
   if (!email || !passwordHash || !secret) throw new Error("AUTH_PROVIDER_NOT_CONFIGURED")
   return { email, passwordHash, secret, schoolId }
