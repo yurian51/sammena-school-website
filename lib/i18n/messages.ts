@@ -300,6 +300,10 @@ export const messages: { sw: Record<string, string> } = {
     "Sport and co-curricular development": "Michezo na Maendeleo Kupitia Shughuli za Ziada",
     "Explore academics": "Gundua Masomo",
 
+    "Official school information": "Taarifa Rasmi za Shule",
+    "News & announcements": "Habari na Matangazo",
+    "The official Sammena updates channel. Search published notices, filter news, and find important information quickly.": "Kituo rasmi cha taarifa za Sammena. Tafuta matangazo yaliyochapishwa, chuja habari na upate taarifa muhimu kwa haraka.",
+
     // Footer
     "Explore": "Gundua",
     "About Sammena": "Kuhusu Sammena",
