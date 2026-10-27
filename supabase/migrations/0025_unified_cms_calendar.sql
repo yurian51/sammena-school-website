@@ -21,7 +21,20 @@ insert into public.cms_content
   (id, type, title, slug, body, status, published_at, created_at, updated_at,
    event_category, event_audience, starts_at, ends_at, all_day, location, created_by)
 select id, 'EVENT', title, slug, description, status, published_at, created_at, updated_at,
-       category, audience, starts_at, ends_at, all_day, location, created_by
+       category, audience, starts_at, ends_at, all_day, location, case when created_by ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+from public.school_events
+on conflict do nothing;
+
+alter table public.cms_content enable row level security;
+drop policy if exists cms_public_read_published on public.cms_content;
+create policy cms_public_read_published
+  on public.cms_content for select to anon, authenticated
+  using (
+    status = 'PUBLISHED'
+    and (published_at is null or published_at <= now())
+    and (expires_at is null or expires_at > now())
+  );
+ then created_by::uuid else null end
 from public.school_events
 on conflict do nothing;
 
