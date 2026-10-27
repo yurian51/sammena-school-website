@@ -402,6 +402,22 @@ export const messages: { sw: Record<string, string> } = {
     "Teacher resource": "Rasilimali za Walimu",
     "Supplementary": "Nyenzo za Ziada",
 
+    "Official examination source": "Chanzo Rasmi cha Mtihani",
+    "Official NECTA archive index": "Orodha Rasmi ya Kumbukumbu za NECTA",
+    "The public Sammena site displays aggregate school-level information only. Individual candidate records are not embedded or reproduced here.": "Tovuti ya Sammena huonyesha taarifa za jumla za shule pekee. Rekodi za watahiniwa binafsi haziwekwi wala kunakiliwa hapa.",
+    "Open official source": "Fungua Chanzo Rasmi",
+    "Official archive source": "Chanzo Rasmi cha Kumbukumbu",
+    "NECTA’s official Arusha district archive confirms the Sammena listing for this examination year. The school-level figures are not duplicated until the underlying school result can be read directly, so the website does not manufacture candidates, averages, or grades.": "Kumbukumbu rasmi za NECTA za wilaya ya Arusha zinathibitisha orodha ya Sammena kwa mwaka huu wa mtihani. Takwimu za shule hazirudiwi mpaka matokeo ya msingi ya shule yaweze kusomwa moja kwa moja; tovuti haitengenezi watahiniwa, wastani au madaraja ya kubuni.",
+    "School average": "Wastani wa Shule",
+    "Official NECTA index": "Orodha Rasmi ya NECTA",
+    "Candidates": "Watahiniwa",
+    "Overall grade": "Daraja la Jumla",
+    "Passed": "Waliofaulu",
+    "Pass rate": "Kiwango cha Ufaulu",
+    "Latest PSLE": "PSLE ya Hivi Karibuni",
+    "Sammena academic results": "Matokeo ya Kitaaluma ya Sammena",
+    "A transparent results archive for ": "Kumbukumbu ya matokeo iliyo wazi ya ",
+
     // Footer
     "Explore": "Gundua",
     "About Sammena": "Kuhusu Sammena",
