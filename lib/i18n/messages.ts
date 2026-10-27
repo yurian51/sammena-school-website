@@ -432,6 +432,8 @@ export const messages: { sw: Record<string, string> } = {
     "Filter calendar": "Chuja kalenda",
     "Subscribe / export calendar": "Jiunge / pakua kalenda",
     "The school calendar could not be loaded.": "Kalenda ya shule haikuweza kupakiwa. Tafadhali jaribu tena.",
+    "Document version history": "Historia ya matoleo ya nyaraka",
+    "Open this version": "Fungua toleo hili",
     "School Office & Contact": "Ofisi ya Shule na Mawasiliano",
     "Contact the school": "Wasiliana na shule",
     "Need assistance?": "Unahitaji msaada?",
