@@ -5,6 +5,7 @@ import Link from "next/link"
 import { ArrowLeft, BookOpen, Download, ExternalLink, FileText, Filter, GraduationCap, Search, ShieldCheck, Sparkles } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { useLanguage } from "@/components/language-provider"
 
 type ResourceKind = "Textbook" | "Supplementary" | "Curriculum & guide" | "Teacher resource"
 type Resource = {
@@ -24,6 +25,7 @@ type Resource = {
 const filters = ["All", "Textbook", "Supplementary", "Curriculum & guide", "Teacher resource"] as const
 
 export default function LibraryPage() {
+  const { tr } = useLanguage()
   const [resources, setResources] = useState<Resource[]>([])
   const [query, setQuery] = useState("")
   const [kind, setKind] = useState<(typeof filters)[number]>("All")
@@ -73,27 +75,27 @@ export default function LibraryPage() {
 
       <section className="bg-school-dark pb-16 pt-36 text-white">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-          <Link href="/resources" className="inline-flex items-center gap-2 text-sm font-semibold text-white/70 hover:text-white"><ArrowLeft className="h-4 w-4" /> Resource Centre</Link>
+          <Link href="/resources" className="inline-flex items-center gap-2 text-sm font-semibold text-white/70 hover:text-white"><ArrowLeft className="h-4 w-4" /> {tr("Resource Centre")}</Link>
           <div className="mt-8 max-w-4xl">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-school-gold">Sammena Digital Library</p>
-            <h1 className="mt-3 text-4xl font-bold tracking-tight md:text-6xl">Learning resources, organised like a real school library.</h1>
-            <p className="mt-5 max-w-3xl text-lg leading-8 text-white/75">A structured digital shelf for textbooks, supplementary learning materials and curriculum guides. Verified publisher resources can be read online, while downloadable files are offered only where the source permits direct access.</p>
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-school-gold">{tr("Sammena Digital Library")}</p>
+            <h1 className="mt-3 text-4xl font-bold tracking-tight md:text-6xl">{tr("Learning resources, organised like a real school library.")}</h1>
+            <p className="mt-5 max-w-3xl text-lg leading-8 text-white/75">{tr("A structured digital shelf for textbooks, supplementary learning materials and curriculum guides. Verified publisher resources can be read online, while downloadable files are offered only where the source permits direct access.")}</p>
           </div>
         </div>
       </section>
 
       <section className="border-b border-slate-200 bg-white">
         <div className="mx-auto grid max-w-7xl gap-px border-x border-slate-200 sm:grid-cols-3">
-          <div className="p-5"><p className="text-2xl font-bold text-school-dark">{meta.total}</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Verified resources</p></div>
-          <div className="p-5"><p className="text-2xl font-bold text-school-dark">{meta.textbooks}</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Textbooks</p></div>
-          <div className="p-5"><p className="text-2xl font-bold text-school-dark">{meta.curriculumGuides}</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Curriculum guide</p></div>
+          <div className="p-5"><p className="text-2xl font-bold text-school-dark">{meta.total}</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{tr("Verified resources")}</p></div>
+          <div className="p-5"><p className="text-2xl font-bold text-school-dark">{meta.textbooks}</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{tr("Textbooks")}</p></div>
+          <div className="p-5"><p className="text-2xl font-bold text-school-dark">{meta.curriculumGuides}</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{tr("Curriculum guide")}</p></div>
         </div>
       </section>
 
       <section className="border-b border-slate-200 bg-[#fffdf6] py-6">
         <div className="mx-auto flex max-w-7xl gap-3 px-5 sm:px-6 lg:px-8">
           <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#9b7728]" aria-hidden="true" />
-          <p className="text-sm leading-6 text-slate-700"><strong className="text-school-dark">Verified-source policy:</strong> copyrighted textbooks are not copied into Sammena's public server without permission. The catalogue can link to an official publisher reader or store a Sammena-owned resource when publication rights are confirmed.</p>
+          <p className="text-sm leading-6 text-slate-700"><strong className="text-school-dark">{tr("Verified-source policy:")}</strong> copyrighted textbooks are not copied into Sammena's public server without permission. The catalogue can link to an official publisher reader or store a Sammena-owned resource when publication rights are confirmed.</p>
         </div>
       </section>
 
@@ -101,17 +103,17 @@ export default function LibraryPage() {
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
             <aside className="h-fit border border-slate-200 bg-white p-5 lg:sticky lg:top-24">
-              <div className="flex items-center gap-2"><Filter className="h-4 w-4 text-school-gold" /><p className="text-xs font-bold uppercase tracking-[0.16em] text-school-dark">Library filters</p></div>
-              <label htmlFor="library-search" className="mt-5 block text-xs font-bold text-slate-600">Search</label>
+              <div className="flex items-center gap-2"><Filter className="h-4 w-4 text-school-gold" /><p className="text-xs font-bold uppercase tracking-[0.16em] text-school-dark">{tr("Library filters")}</p></div>
+              <label htmlFor="library-search" className="mt-5 block text-xs font-bold text-slate-600">{tr("Search")}</label>
               <div className="mt-2 flex items-center border border-slate-300 bg-white">
                 <Search className="ml-3 h-4 w-4 text-slate-400" aria-hidden="true" />
-                <input id="library-search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Book, subject..." className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm outline-none" />
+                <input id="library-search" value={query} onChange={event => setQuery(event.target.value)} placeholder={tr("Book, subject...")} className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm outline-none" />
               </div>
-              <label htmlFor="library-kind" className="mt-5 block text-xs font-bold text-slate-600">Resource type</label>
+              <label htmlFor="library-kind" className="mt-5 block text-xs font-bold text-slate-600">{tr("Resource type")}</label>
               <select id="library-kind" value={kind} onChange={event => setKind(event.target.value as (typeof filters)[number])} className="mt-2 w-full border border-slate-300 bg-white px-3 py-3 text-sm outline-none">
-                {filters.map(item => <option key={item}>{item}</option>)}
+                {filters.map(item => <option key={item} value={item}>{tr(item)}</option>)}
               </select>
-              <label htmlFor="library-level" className="mt-5 block text-xs font-bold text-slate-600">Education level</label>
+              <label htmlFor="library-level" className="mt-5 block text-xs font-bold text-slate-600">{tr("Education level")}</label>
               <select id="library-level" value={level} onChange={event => setLevel(event.target.value)} className="mt-2 w-full border border-slate-300 bg-white px-3 py-3 text-sm outline-none">
                 {levels.map(item => <option key={item}>{item}</option>)}
               </select>
@@ -119,7 +121,7 @@ export default function LibraryPage() {
 
             <div>
               <div className="mb-5 flex items-end justify-between gap-4">
-                <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#9b7728]">Collection</p><h2 className="mt-1 text-2xl font-bold text-school-dark">Textbooks & learning resources</h2></div>
+                <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#9b7728]">{tr("Collection")}</p><h2 className="mt-1 text-2xl font-bold text-school-dark">{tr("Textbooks & learning resources")}</h2></div>
                 <p className="text-sm text-slate-500">{filtered.length} resource{filtered.length === 1 ? "" : "s"}</p>
               </div>
 
