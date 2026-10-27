@@ -17,7 +17,7 @@ export class PostgresCmsRepository implements CmsRepository {
   }
 
   async findById(id: string) {
-    const result = await getDbClient().query<CmsContentRow>(`select * from cms_content where id=$1 limit 1`, [id])
+    const result = await getDbClient().query<CmsContentRow>(`select * from cms_content where id=$1 and type in ('NEWS','ANNOUNCEMENT') limit 1`, [id])
     return result.rows[0] ? mapCmsRow(result.rows[0]) : null
   }
 
@@ -41,14 +41,14 @@ export class PostgresCmsRepository implements CmsRepository {
     const excerpt = content.type === "NEWS" ? content.excerpt : null
     const body = content.type === "NEWS" ? content.body : null
     const expiresAt = content.type === "ANNOUNCEMENT" ? content.expiresAt ?? null : null
-    const result = await getDbClient().query<CmsContentRow>(`update cms_content set title=$1, slug=$2, excerpt=$3, body=$4, category=$5, summary=$6, priority=$7, expires_at=$8, updated_at=now() where id=$9 returning *`, [content.title, content.slug, excerpt, body, category, summary, priority, expiresAt, content.id])
+    const result = await getDbClient().query<CmsContentRow>(`update cms_content set title=$1, slug=$2, excerpt=$3, body=$4, category=$5, summary=$6, priority=$7, expires_at=$8, updated_at=now() where id=$9 and type in ('NEWS','ANNOUNCEMENT') returning *`, [content.title, content.slug, excerpt, body, category, summary, priority, expiresAt, content.id])
     const row = result.rows[0]
     if (!row) throw new Error("CMS_CONTENT_NOT_FOUND")
     return mapCmsRow(row)
   }
 
   async updateStatus(id: string, status: CmsContent["status"]) {
-    const result = await getDbClient().query<CmsContentRow>(`update cms_content set status=$1, published_at=case when $1='PUBLISHED' then coalesce(published_at, now()) else published_at end, updated_at=now() where id=$2 returning *`, [status, id])
+    const result = await getDbClient().query<CmsContentRow>(`update cms_content set status=$1, published_at=case when $1='PUBLISHED' then coalesce(published_at, now()) else published_at end, updated_at=now() where id=$2 and type in ('NEWS','ANNOUNCEMENT') returning *`, [status, id])
     const row = result.rows[0]
     if (!row) throw new Error("CMS_CONTENT_NOT_FOUND")
     return mapCmsRow(row)
