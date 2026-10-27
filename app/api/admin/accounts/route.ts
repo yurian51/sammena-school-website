@@ -50,12 +50,13 @@ export async function POST(request: Request) {
 
   const displayName = typeof body.displayName === "string" ? body.displayName.trim() : ""
   const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : ""
-  const role = typeof body.role === "string" ? body.role as ManagedRole : ""
+  const roleValue = typeof body.role === "string" ? body.role : ""
   const password = typeof body.password === "string" ? body.password : ""
 
   if (displayName.length < 2 || displayName.length > 120) return errorResponse("Name must contain 2 to 120 characters.", 400)
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) return errorResponse("Enter a valid email address.", 400)
-  if (!allowedRoles.has(role)) return errorResponse("Choose an allowed school role. Super Admin accounts cannot be created here.", 400)
+  if (!allowedRoles.has(roleValue as ManagedRole)) return errorResponse("Choose an allowed school role. Super Admin accounts cannot be created here.", 400)
+  const role = roleValue as ManagedRole
   if (password.length < 12 || password.length > 256) return errorResponse("Temporary password must contain at least 12 characters.", 400)
 
   try {
