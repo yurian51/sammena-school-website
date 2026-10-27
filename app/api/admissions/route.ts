@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { mapDomainError } from "../../../lib/api/errors"
 import { readJson, requestId } from "../../../lib/api/request"
 import { sanitizeAdmissionsInput } from "../../../lib/admissions/sanitize"

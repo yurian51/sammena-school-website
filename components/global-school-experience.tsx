@@ -38,8 +38,8 @@ export function GlobalSchoolExperience() {
         </div>
 
         <div className="mt-14 grid overflow-hidden border border-slate-200 bg-[#071d3b] lg:grid-cols-[1.05fr_.95fr]">
-          <div className="relative min-h-[300px] lg:min-h-[410px]">
-            <Image src="/images/about-school.jpg" alt="Sammena School learning community" fill className="object-cover" sizes="(min-width: 1024px) 52vw, 100vw" />
+          <div className="relative self-center bg-[#f1f0ec]">
+            <Image src="/images/gallery-1.jpg" alt="Sammena School learning community" width={1200} height={900} className="block h-auto w-full" sizes="(min-width: 1024px) 52vw, 100vw" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#071d3b]/75 via-transparent to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-6 text-white sm:p-8">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#e2c46c]">Rooted in community</p>

@@ -8,12 +8,13 @@
     "start": "node scripts/migrate.mjs && next start",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
-    "test": "node --test",
+    "test": "vitest run",
     "test:unit": "vitest run",
     "test:data": "node scripts/validate-results-data.mjs",
     "test:portal-schema": "node scripts/validate-portal-schema.mjs",
     "db:migrate": "node scripts/migrate.mjs",
-    "test:production-contracts": "node scripts/validate-production-contracts.mjs"
+    "test:production-contracts": "node scripts/validate-production-contracts.mjs",
+    "auth:bootstrap-admin": "node scripts/bootstrap-supabase-admin.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

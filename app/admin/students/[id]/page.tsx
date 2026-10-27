@@ -1,11 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, use } from "react"
 import Link from "next/link"
 import { ArrowLeft, CalendarDays, ClipboardList, RefreshCw, ShieldCheck, UserRound } from "lucide-react"
 
 type Data={student:{admissionNumber:string;firstName:string;middleName?:string;lastName:string;gender:string;dateOfBirth?:string;isActive:boolean};guardians:{fullName:string;phone:string;email?:string;relationship?:string;isPrimary:boolean}[];enrollments:{academicYear:string;class:string;status:string;startedOn:string;endedOn?:string}[];attendance:{date:string;status:string}[];assessments:{subject:string;assessmentName:string;term:string;score:number;maxScore:number;assessedAt:string}[]}
 export default function StudentDetail({params}:{params:Promise<{id:string}>}) {
+  const { id: profileStudentId } = use(params)
   const [data, setData] = useState<Data | null>(null)
   const [error, setError] = useState<string | null>(null)
 
@@ -37,6 +38,7 @@ export default function StudentDetail({params}:{params:Promise<{id:string}>}) {
   const name = [s.firstName, s.middleName, s.lastName].filter(Boolean).join(" ")
 
   return <main className="min-h-screen bg-[#f6f4ef] text-[#172033]">
+    <div className="bg-white px-5 pt-5 sm:px-8"><Link href={`/admin/students/${profileStudentId}/guardians`} className="inline-flex items-center gap-2 text-sm font-semibold text-[#17365d] hover:underline">Manage guardians and parents</Link></div>
     <header className="bg-[#102846] text-white"><div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8"><div><p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#d7c28e]">Student profile</p><h1 className="text-lg font-bold">{name}</h1></div><Link href="/admin/students" className="inline-flex items-center gap-2 text-sm font-semibold text-white/80"><ArrowLeft className="h-4 w-4"/>Students</Link></div></header>
     <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8">
       <section className="border border-slate-200 bg-white p-6 shadow-sm"><div className="flex flex-col gap-5 sm:flex-row sm:items-center"><span className="grid h-16 w-16 place-items-center rounded-full bg-[#f3ead5] text-[#8c6c28]"><UserRound className="h-7 w-7"/></span><div><p className="font-mono text-xs font-bold text-[#a27e35]">{s.admissionNumber}</p><h2 className="mt-1 text-2xl font-bold text-[#17365d]">{name}</h2><p className="mt-1 text-sm text-slate-500">{s.gender} · {s.dateOfBirth ?? "Date of birth not recorded"} · {s.isActive ? "Active" : "Inactive"}</p></div></div></section>
