@@ -2,7 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
+ feat/sammena-admin-account-management
+import { Activity, ArrowRight, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users, UserPlus } from "lucide-react"
+
 import { Activity, ArrowRight, BookOpen, CalendarCheck, ClipboardCheck, GraduationCap, Receipt, Send, UserCheck, CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Mail, Megaphone, RefreshCw, Search, Settings, ShieldCheck, TriangleAlert, Users } from "lucide-react"
+ main
 
 type Overview = {
   role: string
@@ -41,6 +45,7 @@ const modules = [
   { label: "News & publishing", description: "Create, edit and publish official posts.", href: "/admin/content", icon: Megaphone },
   { label: "Events & calendar", description: "Manage the public school calendar.", href: "/admin/events", icon: CalendarDays },
   { label: "Audit & security", description: "Inspect privileged administrative activity.", href: "/admin/audit", icon: ShieldCheck },
+  { label: "School accounts", description: "Create and manage school user accounts. Super Admin only.", href: "/admin/accounts", icon: UserPlus },
   { label: "System settings", description: "Check production integrations and runtime security.", href: "/admin/settings", icon: Settings },
 ]
 
@@ -78,9 +83,10 @@ export default function AdminDashboardPage() {
 
   const filteredModules = useMemo(() => {
     const value = query.trim().toLowerCase()
-    if (!value) return modules
-    return modules.filter((item) => (item.label + " " + item.description).toLowerCase().includes(value))
-  }, [query])
+    const available = data?.role === "SUPER_ADMIN" ? modules : modules.filter((item) => item.href !== "/admin/accounts")
+    if (!value) return available
+    return available.filter((item) => (item.label + " " + item.description).toLowerCase().includes(value))
+  }, [query, data?.role])
 
   if (loading) return <main className="min-h-screen bg-[#f6f4ef] p-6 text-[#172033]"><div className="mx-auto flex min-h-[80vh] max-w-6xl items-center justify-center"><div className="text-center"><RefreshCw className="mx-auto h-7 w-7 animate-spin text-[#b9964f]" /><p className="mt-4 text-sm font-semibold">Opening secure administration…</p></div></div></main>
 
