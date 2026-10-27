@@ -30,7 +30,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-poppins), var(--font-inter), sans-serif;
+  --font-sans: var(--font-poppins), sans-serif;
   --font-mono: 'Geist Mono', monospace;
   --color-school-dark: var(--school-dark);
   --color-school-blue: var(--school-blue);
