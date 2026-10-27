@@ -269,6 +269,14 @@ export const messages: { sw: Record<string, string> } = {
     "Important notice": "Tangazo Muhimu",
     "Announcement": "Tangazo",
 
+    "Official School Information": "Taarifa Rasmi za Shule",
+    "Pre & Primary School": "Shule ya Awali na Msingi",
+    "A considered digital home for families, learners, educators and the Sammena community.": "Nyumba ya kidijitali iliyopangwa kwa ajili ya familia, wanafunzi, walimu na jumuiya ya Sammena.",
+    "P15336, Nduruma": "P15336, Nduruma",
+    "Arusha, Tanzania": "Arusha, Tanzania",
+    "Trust Centre": "Kituo cha Uaminifu",
+    "Privacy & Data Protection": "Faragha na Ulinzi wa Data",
+
     // Footer
     "Explore": "Gundua",
     "About Sammena": "Kuhusu Sammena",
