@@ -15,6 +15,11 @@ describe("English and Swahili language dictionary", () => {
     expect(translate("Find our school.", "sw")).toBe("Pata Mahali pa Shule Yetu.")
     expect(translate("The Sammena Journey", "sw")).toBe("Safari ya Sammena")
     expect(translate("News & announcements", "sw")).toBe("Habari na Matangazo")
+    expect(translate("Previous month", "sw")).toBe("Mwezi uliopita")
+    expect(translate("Next month", "sw")).toBe("Mwezi ujao")
+    expect(translate("Filter calendar", "sw")).toBe("Chuja kalenda")
+    expect(translate("Subscribe / export calendar", "sw")).toBe("Jiunge / pakua kalenda")
+    expect(translate("The school calendar could not be loaded.", "sw")).toBe("Kalenda ya shule haikuweza kupakiwa. Tafadhali jaribu tena.")
     expect(translate("One digital front door for families, learners and the wider community.", "sw")).not.toBe(
       "One digital front door for families, learners and the wider community.",
     )
