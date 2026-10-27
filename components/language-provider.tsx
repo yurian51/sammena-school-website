@@ -1,7 +1,7 @@
 "use client"
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react"
-import { messages, type Lang } from "@/lib/i18n/messages"
+import { translate, type Lang } from "@/lib/i18n/messages"
 
 const STORAGE_KEY = "sammena-lang"
 
@@ -38,14 +38,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const value = useMemo<LanguageContextValue>(() => ({
     lang,
     setLang: (next) => {
+      if (next !== "en" && next !== "sw") return
       setLangState(next)
+      document.documentElement.lang = next === "sw" ? "sw-TZ" : "en-TZ"
       try {
         window.localStorage.setItem(STORAGE_KEY, next)
       } catch {
         // Ignore storage failures; the choice still applies for this page view.
       }
     },
-    tr: (text) => (lang === "sw" ? messages.sw[text] ?? text : text),
+    tr: (text) => translate(text, lang),
   }), [lang])
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
