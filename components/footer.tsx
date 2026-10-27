@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, BookOpen, CalendarDays, FileText, GraduationCap, Mail, MapPin, MessageCircle, Phone, ShieldCheck, Users } from "lucide-react"
+import { ArrowRight, MapPin, MessageCircle, Phone, ShieldCheck } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 
 const groups = [
