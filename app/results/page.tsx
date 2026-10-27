@@ -12,7 +12,7 @@ function OfficialResultFrame({ result }: { result: ReturnType<typeof getResults>
   return (
     <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
       <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a6a24]">
-        {isSchoolLevel ? "<T text="Official examination source" />" : "<T text="Official NECTA archive index" />"}
+        {isSchoolLevel ? <T text="Official examination source" /> : <T text="Official NECTA archive index" />}
       </p>
       <p className="mt-2 text-sm leading-6 text-slate-600">
         <T text="The public Sammena site displays aggregate school-level information only. Individual candidate records are not embedded or reproduced here." />
