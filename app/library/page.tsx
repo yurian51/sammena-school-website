@@ -20,6 +20,7 @@ type Resource = {
   readerUrl: string
   downloadUrl?: string
   description: string
+  versions: { versionLabel: string; documentDate: string; effectiveFrom: string | null; effectiveUntil: string | null; sourceUrl: string; changeSummary: string }[]
 }
 
 const filters = ["All", "Textbook", "Supplementary", "Curriculum & guide", "Teacher resource"] as const
@@ -151,6 +152,23 @@ export default function LibraryPage() {
                   <p className="mt-2 text-sm text-slate-500">{selected ? `${selected.level} • ${selected.subject} • ${selected.source}` : "Choose a published resource from the catalogue."}</p>
                 </div>
                 <div className="p-5 sm:p-7">
+                  {selected?.versions?.length ? (
+                    <section className="mb-6 border border-slate-200 p-4" aria-label={tr("Document version history")}>
+                      <h3 className="text-sm font-bold text-school-dark">{tr("Document version history")}</h3>
+                      <ul className="mt-3 divide-y divide-slate-100">
+                        {selected.versions.map((version) => (
+                          <li key={version.versionLabel} className="py-3 first:pt-0 last:pb-0">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                              <span className="text-sm font-semibold text-slate-800">{version.versionLabel}</span>
+                              <time className="text-xs text-slate-500" dateTime={version.documentDate}>{new Date(version.documentDate + "T00:00:00").toLocaleDateString()}</time>
+                            </div>
+                            {version.changeSummary && <p className="mt-1 text-sm text-slate-600">{version.changeSummary}</p>}
+                            <a className="mt-2 inline-block text-sm font-semibold text-[#8a6a24] underline" href={version.sourceUrl} target="_blank" rel="noreferrer">{tr("Open this version")}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                  ) : null}
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <p className="max-w-2xl text-sm leading-7 text-slate-600">{selected?.description ?? "Published resources will appear here when the library catalogue is available."}</p>
                     <div className="flex shrink-0 flex-wrap gap-2">
