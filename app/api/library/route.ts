@@ -4,7 +4,7 @@ import { getDbClient } from "@/lib/db/client"
 
 const RESOURCE_KINDS = new Set(["TEXTBOOK", "SUPPLEMENTARY", "CURRICULUM_GUIDE", "TEACHER_RESOURCE"])
 
-type LibraryResourceRow = { id: string; title: string; kind: string; education_level: string; subject: string; language: "English" | "Kiswahili" | "Bilingual"; source_name: string; source_url: string; reader_url: string; download_url: string | null; description: string }
+type DocumentVersion = { versionLabel: string; documentDate: string; effectiveFrom: string | null; effectiveUntil: string | null; sourceUrl: string; changeSummary: string }\ntype LibraryResourceRow = { id: string; title: string; kind: string; education_level: string; subject: string; language: "English" | "Kiswahili" | "Bilingual"; source_name: string; source_url: string; reader_url: string; download_url: string | null; description: string; versions: DocumentVersion[] }
 
 export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams.get("q")?.trim() ?? ""
