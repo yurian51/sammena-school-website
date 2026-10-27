@@ -229,7 +229,7 @@ function getConfiguredProvider(): SessionProvider {
       }).catch((): null => null)
       if (!response?.ok) return null
 
-      const user = await response.json().catch(() => null) as {
+      const user = await response.json().catch((): null => null) as {
         id?: string
         app_metadata?: { role?: string; school_id?: string }
       } | null
