@@ -12,6 +12,7 @@ type CmsItem =
 type ApiResponse = { data?: CmsItem[]; error?: { message?: string } }
 
 export function PublicUpdates() {
+  const { tr } = useLanguage()
   const [items, setItems] = useState<CmsItem[]>([])
   const [loading, setLoading] = useState(true)
   const [failed, setFailed] = useState(false)
