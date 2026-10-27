@@ -16,7 +16,7 @@ export async function GET(request: Request) {
 
     const isSuperAdmin = context.role === "SUPER_ADMIN"
 
-    const [applications, pendingApplications, cmsDrafts, cmsPublished, upcomingEvents, activeStudents, audit, health, publishedByType, institutionRow, institutionRows] = await Promise.all([
+    const [applications, pendingApplications, cmsDrafts, cmsPublished, upcomingEvents, activeStudents, audit, unreadMessages, recentActivity, health, publishedByType, institutionRow, institutionRows] = await Promise.all([
       db.query<{ count: number }>('select count(*)::int as count from applications'),
       db.query<{ count: number }>('select count(*)::int as count from applications where "status" in (\'SUBMITTED\',\'UNDER_REVIEW\',\'ASSESSMENT\')'),
       db.query<{ count: number }>("select count(*)::int as count from cms_content where status in ('DRAFT','REVIEW','APPROVED')"),
@@ -24,6 +24,8 @@ export async function GET(request: Request) {
       db.query<{ count: number }>("select count(*)::int as count from school_events where school_id = $1 and status = 'PUBLISHED' and starts_at >= now()", [schoolId]),
       db.query<{ count: number }>("select count(*)::int as count from students where school_id = $1 and is_active = true", [schoolId]),
       db.query<{ count: number }>("select count(*)::int as count from audit_events where created_at >= now() - interval '30 days'"),
+      db.query<{ count: number }>("select count(*)::int as count from contact_messages where school_id = $1 and status not in ('READ','RESOLVED','CLOSED','ARCHIVED')", [schoolId]),
+      db.query<{ id: string; action: string; entity_type: string; entity_id: string | null; created_at: string }>("select id::text as id, action, entity_type, entity_id::text as entity_id, created_at::text as created_at from audit_events order by created_at desc limit 8"),
       backendHealth(),
       db.query<{ type: string; count: number; latest: string | null }>("select type, count(*)::int as count, max(published_at)::text as latest from cms_content where status = 'PUBLISHED' group by type"),
       db.query<{ id: string; name: string; slug: string }>("select id, name, slug from schools where id = $1", [schoolId]),
@@ -52,6 +54,8 @@ export async function GET(request: Request) {
         upcomingEvents: upcomingEvents.rows[0]?.count ?? 0,
         activeStudents: activeStudents.rows[0]?.count ?? 0,
         auditEvents30d: audit.rows[0]?.count ?? 0,
+        unreadMessages: unreadMessages.rows[0]?.count ?? 0,
+        recentActivity: recentActivity.rows,
         website: {
           databaseStatus: health.database,
           healthStatus: health.status,
