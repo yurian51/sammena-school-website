@@ -29,6 +29,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     } catch {
       // Storage can be unavailable (private mode, blocked cookies); English remains the default.
     }
+
+    const syncLanguage = (event: StorageEvent) => {
+      if (event.key !== STORAGE_KEY) return
+      if (event.newValue === "en" || event.newValue === "sw") setLangState(event.newValue)
+    }
+    window.addEventListener("storage", syncLanguage)
+    return () => window.removeEventListener("storage", syncLanguage)
   }, [])
 
   useEffect(() => {
