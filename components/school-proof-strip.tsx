@@ -17,7 +17,7 @@ export function SchoolProofStrip() {
           <BadgeCheck className="h-5 w-5 shrink-0 text-[#9b7728]" aria-hidden="true" />
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">PSLE {psle.year}</p>
-            <p className="mt-1 text-lg font-extrabold text-[#0a3158]">{psle.passRate != null ? `${psle.passRate}% {tr("pass rate")}` : tr("Result record")}</p>
+            <p className="mt-1 text-lg font-extrabold text-[#0a3158]">{psle.passRate != null ? `${psle.passRate}% ${tr("pass rate")}` : tr("Result record")}</p>
             <p className="mt-0.5 text-[10px] text-slate-500">{psle.sourceKind === "official" ? tr("NECTA official source") : tr("Published secondary source")}</p>
           </div>
         </div>
