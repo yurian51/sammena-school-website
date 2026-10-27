@@ -4,7 +4,8 @@ import { getDbClient } from "@/lib/db/client"
 
 const RESOURCE_KINDS = new Set(["TEXTBOOK", "SUPPLEMENTARY", "CURRICULUM_GUIDE", "TEACHER_RESOURCE"])
 
-type DocumentVersion = { versionLabel: string; documentDate: string; effectiveFrom: string | null; effectiveUntil: string | null; sourceUrl: string; changeSummary: string }\ntype LibraryResourceRow = { id: string; title: string; kind: string; education_level: string; subject: string; language: "English" | "Kiswahili" | "Bilingual"; source_name: string; source_url: string; reader_url: string; download_url: string | null; description: string; versions: DocumentVersion[] }
+type DocumentVersion = { versionLabel: string; documentDate: string; effectiveFrom: string | null; effectiveUntil: string | null; sourceUrl: string; changeSummary: string }
+type LibraryResourceRow = { id: string; title: string; kind: string; education_level: string; subject: string; language: "English" | "Kiswahili" | "Bilingual"; source_name: string; source_url: string; reader_url: string; download_url: string | null; description: string; versions: DocumentVersion[] }
 
 export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams.get("q")?.trim() ?? ""
@@ -28,7 +29,21 @@ export async function GET(request: NextRequest) {
       r.source_url,
       r.reader_url,
       r.download_url,
-      r.description
+      r.description,
+      coalesce((
+        select jsonb_agg(jsonb_build_object(
+          'versionLabel', v.version_label,
+          'documentDate', v.document_date::text,
+          'effectiveFrom', v.effective_from::text,
+          'effectiveUntil', v.effective_until::text,
+          'sourceUrl', v.source_url,
+          'changeSummary', v.change_summary
+        ) order by v.document_date desc, v.created_at desc)
+        from document_versions v
+        where v.resource_id = r.id
+          and v.school_id = r.school_id
+          and v.status = 'PUBLISHED'
+      ), '[]'::jsonb) as versions
     from digital_library_resources r
     join schools s on s.id = r.school_id
     where s.slug = 'sammena-pre-primary-school'
@@ -60,6 +75,7 @@ export async function GET(request: NextRequest) {
     readerUrl: row.reader_url,
     downloadUrl: row.download_url ?? undefined,
     description: row.description,
+    versions: row.versions ?? [],
   }))
 
   return NextResponse.json({
