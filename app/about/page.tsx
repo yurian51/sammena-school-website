@@ -74,7 +74,7 @@ export default function AboutPage() {
               The current Sammena school is focused on pre-primary and primary education. Its public positioning combines academic learning with character, wellbeing, sport and co-curricular growth.
             </p>
             <p className="mt-4 text-base leading-8 text-slate-600">
-              The school was established in 2018, subject to the official source record used for institutional publication. The public website keeps historical and operational claims separate from verified current information.
+              The current website records 2018 as the school’s formal registration milestone. A historical Doneeractie fundraising page describes the school as founded in 2010 by Samwel Menavi and Mosses Mollel, while an older website timeline listed 2009 as the beginning. These are not being collapsed into one claim: school leadership should confirm the official founding date and founders before the history is treated as final.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link href="/academics" className="inline-flex items-center gap-2 bg-school-dark px-5 py-3 text-sm font-bold text-white">

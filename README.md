@@ -12,6 +12,14 @@
 
 > **One connected digital experience for school, family and student.**
 
+## Official Website & Deployment
+
+- **Official school website:** https://sammena.altavox.space
+- **Vercel project:** https://vercel.com/arshad-yurians-projects/sammena-school-website
+- **Source repository:** https://github.com/yurian51/sammena-school-website
+
+Use https://sammena.altavox.space as the canonical public website URL in school communications and search listings. Search-engine visibility is not immediate; the domain must be publicly crawlable and submitted through Google Search Console/Bing Webmaster Tools, with a valid sitemap and robots directives.
+
 </div>
 
 ---

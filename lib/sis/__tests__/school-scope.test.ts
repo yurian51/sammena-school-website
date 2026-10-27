@@ -21,8 +21,13 @@ const repository: StudentRepository = {
 }
 
 describe("SIS school scope", () => {
+  it("rejects a repository scoped to a different school at construction", () => {
+    expect(() => new StudentService("school-b", repository)).toThrow("SIS_REPOSITORY_SCOPE_MISMATCH")
+  })
+
   it("rejects cross-school student creation", async () => {
-    const service = new StudentService("school-b", repository)
+    const schoolBRepository: StudentRepository = { ...repository, schoolId: "school-b" }
+    const service = new StudentService("school-b", schoolBRepository)
     await expect(service.create(student)).rejects.toThrow("SIS_SCHOOL_SCOPE_VIOLATION")
   })
 

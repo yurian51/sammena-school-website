@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 const milestones = [
-  { year: "2009", title: "The school begins", text: "Sammena was established with a focus on quality education, care and moral guidance, particularly for children facing difficult circumstances." },
+  { year: "Date to verify", title: "Founding history requires confirmation", text: "A historical Doneeractie campaign describes the school as founded in 2010 by Samwel Menavi and Mosses Mollel. An earlier version of this website listed 2009 as the beginning. School leadership should confirm the official founding date and founders before one date is presented as definitive." },
   { year: "2018", title: "Government registration", text: "The school was formally registered, strengthening its institutional structure and long-term development." },
   { year: "2025", title: "National assessment record", text: "Published 2025 assessment records show 29 PSLE candidates with 27 passing, and 28 SFNA candidates with all 28 passing." },
   { year: "Today", title: "Continuing the work", text: "Sammena continues serving children through pre-primary and primary education in Nduruma, Arusha." },
@@ -33,6 +33,11 @@ export default function HistoryPage() {
           <h2 className="mt-3 text-3xl font-bold text-[#0a3158] md:text-5xl">From a local vision to a growing school community</h2>
           <p className="mt-4 leading-7 text-slate-600">This timeline uses the school profile and published academic records already held by the Sammena website. New milestones should be added only after school confirmation.</p>
         </div>
+        <aside className="mb-8 border border-[#d8b55b]/40 bg-[#fffdf6] p-5 sm:p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#8a6a24]">Historical source note</p>
+          <p className="mt-2 text-sm leading-7 text-slate-700">The public fundraising page <span className="font-semibold">“Charity Sammena School Arusha Tanzania”</span>, shared by volunteer Dominique Swinkels on Doneeractie, reports that Sammena was founded in 2010 by Samwel Menavi and Mosses Mollel. The current website also records 2018 as the formal registration milestone. Founding and registration are different events, but the previously published 2009 founding date conflicts with the fundraiser's account and is therefore flagged for confirmation.</p>
+          <a href="https://www.doneeractie.nl/charity-sammena-school-arusha-tanzania/-2021" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24] hover:underline">Read original fundraising record <ArrowRight className="h-4 w-4" /></a>
+        </aside>
         <div className="relative border-l border-[#d8b55b]/40 pl-7 md:pl-10">
           {milestones.map((item, i) => <article key={item.year} className="relative pb-12 last:pb-0">
             <span className="absolute -left-[2.05rem] top-1 flex h-8 w-8 items-center justify-center rounded-full border-4 border-white bg-[#d8b55b] text-[10px] font-extrabold text-[#071d3b] md:-left-[2.55rem]">{i + 1}</span>

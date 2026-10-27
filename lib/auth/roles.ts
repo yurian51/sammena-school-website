@@ -10,23 +10,42 @@ export type Permission =
   | "admissions:write"
   | "admissions:review"
   | "sis:students:read"
+  | "sis:students:write"
   | "sis:timetable:read"
   | "sis:timetable:write"
-  | "users:read"
-  | "users:write"
-  | "settings:read"
-  | "settings:write"
-  | "audit:read"
-  | "messages:read"
-  | "messages:write"
+  | "inbox:read"
+  | "inbox:write"
+  | "attendance:read"
+  | "attendance:write"
+  | "library:read"
+  | "library:write"
+  | "results:read"
+  | "results:write"
+  | "finance:read"
+  | "finance:write"
+  | "communication:read"
+  | "communication:write"
+  | "teaching:assign"
+
+const ADMIN_ALL: readonly Permission[] = [
+  "cms:read", "cms:write", "cms:publish",
+  "admissions:read", "admissions:write", "admissions:review",
+  "sis:students:read", "sis:students:write", "sis:timetable:read", "sis:timetable:write",
+  "inbox:read", "inbox:write", "attendance:read", "attendance:write", "library:read", "library:write",
+  "results:read", "results:write", "finance:read", "finance:write", "communication:read", "communication:write", "teaching:assign",
+]
 
 const permissions: Record<Role, readonly Permission[]> = {
-  SUPER_ADMIN: ["dashboard.view", "cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:timetable:read", "sis:timetable:write", "users:read", "users:write", "settings:read", "settings:write", "audit:read", "messages:read", "messages:write"],
-  SCHOOL_ADMIN: ["dashboard.view", "cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:timetable:read", "sis:timetable:write", "users:read", "settings:read", "audit:read", "messages:read", "messages:write"],
-  ADMIN: ["dashboard.view", "cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:timetable:read", "sis:timetable:write", "settings:read", "audit:read", "messages:read", "messages:write"],
-  EDITOR: ["dashboard.view", "cms:read", "cms:write", "admissions:read"],
-  VIEWER: ["dashboard.view", "cms:read", "admissions:read", "sis:students:read", "audit:read"],
-  TEACHER: ["dashboard.view", "sis:timetable:read", "sis:timetable:write", "sis:students:read"],
+ feat/sims-student-enrollment-core
+  SUPER_ADMIN: ["cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:students:write", "sis:timetable:read", "sis:timetable:write"],
+  SCHOOL_ADMIN: ["cms:read", "cms:write", "cms:publish", "admissions:read", "admissions:write", "admissions:review", "sis:students:read", "sis:students:write", "sis:timetable:read", "sis:timetable:write"],
+
+  SUPER_ADMIN: ADMIN_ALL,
+  SCHOOL_ADMIN: ADMIN_ALL,
+ main
+  EDITOR: ["cms:read", "cms:write"],
+  // Teachers only act on classes they are assigned to (enforced in lib/auth/teacher-scope.ts).
+  TEACHER: ["sis:timetable:read", "sis:timetable:write", "attendance:read", "attendance:write", "results:read", "results:write"],
   PARENT: [],
   STUDENT: [],
 }

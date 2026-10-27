@@ -1,61 +1,53 @@
+export const dynamic = "force-dynamic"
 import { getAuthContext } from "@/lib/auth/session"
 import { requireAuthorized } from "@/lib/auth/guards"
 import { getRuntimeDbClient } from "@/lib/db/runtime"
-import { mapDomainError } from "@/lib/api/errors"
-import { readJson, requestId } from "@/lib/api/request"
-import { z } from "zod"
+import { apiError, mapDomainError } from "@/lib/api/errors"
+import { requestId } from "@/lib/api/request"
+import { auditAction } from "@/lib/api/admin-audit"
+import { AUDIT_ACTIONS } from "@/lib/audit/events"
+import { messageInput } from "@/lib/messages/messages"
 
 export async function GET(request: Request) {
   const id = requestId(request)
   try {
-    const context = requireAuthorized(await getAuthContext(request), "messages:read")
+    const context = requireAuthorized(await getAuthContext(request), "communication:read")
     if (!context.schoolId) throw new Error("SCHOOL_SCOPE_REQUIRED")
-    const url = new URL(request.url)
-    const status = url.searchParams.get("status")
-    const q = url.searchParams.get("q")?.trim() ?? ""
-    const db = getRuntimeDbClient()
-    const result = await db.query(
-      "select id, sender_name, sender_email, sender_phone, subject, message, status, created_at, updated_at from contact_messages where school_id=$1 and ($2::text is null or status=$2) and ($3::text='' or sender_name ilike '%'||$3||'%' or sender_email ilike '%'||$3||'%' or subject ilike '%'||$3||'%' or message ilike '%'||$3||'%') order by created_at desc limit 100",
-      [context.schoolId, status || null, q],
+    const { rows } = await getRuntimeDbClient().query(
+      `select m.id, m.audience, m.title, m.body, m.created_at as "createdAt", c.name as "className", s.first_name || ' ' || s.last_name as "studentName"
+         from parent_messages m
+         left join classes c on c.id = m.class_id
+         left join students s on s.id = m.student_id
+        where m.school_id = $1 order by m.created_at desc limit 100`,
+      [context.schoolId],
     )
-    return Response.json({ data: result.rows, requestId: id }, { headers: { "Cache-Control": "private, no-store" } })
-  } catch (error) {
-    return mapDomainError(error, id)
-  }
+    return Response.json({ data: rows, requestId: id }, { headers: { "Cache-Control": "private, no-store" } })
+  } catch (error) { return mapDomainError(error, id) }
 }
 
-export async function PATCH(request: Request) {
+export async function POST(request: Request) {
   const id = requestId(request)
   try {
-    const context = requireAuthorized(await getAuthContext(request), "messages:write")
+    const context = requireAuthorized(await getAuthContext(request), "communication:write")
     if (!context.schoolId) throw new Error("SCHOOL_SCOPE_REQUIRED")
-    const body = await readJson<unknown>(request)
-    const parsed = z.object({
-      id: z.string().uuid(),
-      status: z.enum(["UNREAD", "READ", "REPLIED", "ARCHIVED"]),
-    }).safeParse(body)
-    if (!parsed.success) throw new Error("VALIDATION_ERROR")
-    const messageId = parsed.data.id
-    const status = parsed.data.status
+    const parsed = messageInput.safeParse(await request.json().catch((): null => null))
+    if (!parsed.success) return apiError("VALIDATION_ERROR", parsed.error.issues[0]?.message ?? "Check the message.", 400, id)
+    const m = parsed.data
     const db = getRuntimeDbClient()
-    const result = await db.query<{ id: string; status: string }>(
-      `with updated as (
-         update contact_messages
-         set status=$1, updated_at=now()
-         where id=$2 and school_id=$3
-         returning id, status
-       ), audited as (
-         insert into audit_events (actor_user_id, action, entity_type, entity_id, request_id)
-         select $4, 'CONTACT_MESSAGE_STATUS_UPDATED', 'contact_message', id, $5
-         from updated
-         returning entity_id
-       )
-       select id, status from updated`,
-      [status, messageId, context.schoolId, context.userId, id],
+    if (m.classId) {
+      const { rows } = await db.query(`select 1 from classes where id = $1 and school_id = $2`, [m.classId, context.schoolId])
+      if (!rows[0]) return apiError("NOT_FOUND", "The class was not found.", 404, id)
+    }
+    if (m.studentId) {
+      const { rows } = await db.query(`select 1 from students where id = $1 and school_id = $2`, [m.studentId, context.schoolId])
+      if (!rows[0]) return apiError("NOT_FOUND", "The student was not found.", 404, id)
+    }
+    const { rows } = await db.query<{ id: string }>(
+      `insert into parent_messages (school_id, audience, class_id, student_id, title, body, created_by)
+       values ($1,$2,$3,$4,$5,$6, null) returning id`,
+      [context.schoolId, m.audience, m.audience === "CLASS" ? m.classId : null, m.audience === "STUDENT" ? m.studentId : null, m.title, m.body],
     )
-    if (!result.rows.length) throw new Error("NOT_FOUND")
-    return Response.json({ data: result.rows[0], requestId: id })
-  } catch (error) {
-    return mapDomainError(error, id)
-  }
+    await auditAction(context, AUDIT_ACTIONS.MESSAGE_SENT, "parent_message", rows[0]?.id, id)
+    return Response.json({ data: { id: rows[0]?.id }, requestId: id }, { status: 201 })
+  } catch (error) { return mapDomainError(error, id) }
 }
