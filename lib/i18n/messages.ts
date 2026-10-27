@@ -315,6 +315,19 @@ export const messages: { sw: Record<string, string> } = {
     "Need more information?": "Unahitaji taarifa zaidi?",
     "Admissions, school visits and general enquiries are handled through the official contact channel.": "Maswali ya udahili, ziara za shule na maswali ya jumla hupokelewa kupitia njia rasmi ya mawasiliano.",
 
+    "The Sammena Journey": "Safari ya Sammena",
+    "Institutional timeline": "Ratiba ya Historia ya Taasisi",
+    "From a local vision to a growing school community": "Kutoka Dira ya Ndani hadi Jumuiya ya Shule Inayokua",
+    "Historical source note": "Maelezo ya Chanzo cha Kihistoria",
+    "Read original fundraising record": "Soma rekodi ya awali ya uchangishaji",
+    "Date to verify": "Tarehe ya Kuthibitisha",
+    "Founding history requires confirmation": "Historia ya Kuanzishwa Inahitaji Uthibitisho",
+    "Government registration": "Usajili wa Serikali",
+    "National assessment record": "Rekodi ya Tathmini ya Kitaifa",
+    "Continuing the work": "Kuendeleza Kazi",
+    "Continue the Sammena story": "Endelea na Historia ya Sammena",
+    "For verified historical corrections or new milestones, contact the school.": "Kwa marekebisho ya historia yaliyothibitishwa au hatua mpya, wasiliana na shule.",
+
     // Footer
     "Explore": "Gundua",
     "About Sammena": "Kuhusu Sammena",
