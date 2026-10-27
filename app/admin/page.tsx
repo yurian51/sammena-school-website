@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
- feat/sammena-admin-account-management
 import { Activity, ArrowRight, BookOpen, CalendarCheck, CalendarDays, ClipboardCheck, ClipboardList, FileText, GraduationCap, LayoutDashboard, LogOut, Mail, Megaphone, Receipt, RefreshCw, Search, Send, Settings, ShieldCheck, TriangleAlert, UserCheck, UserPlus, Users } from "lucide-react"
 
 type Overview = {
@@ -15,6 +14,8 @@ type Overview = {
   upcomingEvents: number
   activeStudents: number
   auditEvents30d: number
+  unreadMessages: number
+  recentActivity: { id: string; action: string; entity_type: string; entity_id: string | null; created_at: string }[]
   website: {
     databaseStatus: "ok" | "unavailable"
     healthStatus: "ok" | "degraded"
