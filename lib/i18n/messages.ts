@@ -260,6 +260,15 @@ export const messages: { sw: Record<string, string> } = {
     "Join the community": "Jiunge na Jamii",
     "Follow school dates, resources, notices and family services after admission.": "Fuatilia tarehe, rasilimali, matangazo na huduma za familia baada ya udahili.",
 
+    "Loading published school updates…": "Inapakia taarifa za shule zilizochapishwa…",
+    "The public information service is temporarily unavailable.": "Huduma ya taarifa za umma haipatikani kwa muda.",
+    "No unverified announcement is displayed as a fallback.": "Hakuna tangazo lisilothibitishwa litakaloonyeshwa kama mbadala.",
+    "Official publishing desk": "Sehemu Rasmi ya Matangazo",
+    "No public notices have been published yet.": "Bado hakuna matangazo ya umma yaliyochapishwa.",
+    "The website only displays announcements and news after they are approved and published by Sammena administration.": "Tovuti huonyesha matangazo na habari baada ya kuidhinishwa na kuchapishwa na uongozi wa Sammena.",
+    "Important notice": "Tangazo Muhimu",
+    "Announcement": "Tangazo",
+
     // Footer
     "Explore": "Gundua",
     "About Sammena": "Kuhusu Sammena",
