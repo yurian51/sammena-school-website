@@ -10,7 +10,9 @@ import './globals.css'
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['400', '600', '700'],
+  display: 'swap',
+  preload: true,
   variable: '--font-poppins',
 })
 
@@ -103,9 +105,6 @@ const websiteJsonLd = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-TZ" className={`${poppins.variable} bg-background`}>
-      <head>
-        <link rel="preload" as="image" href="/images/Sammena_Pre_Primary_School_Logo_Clean.svg" type="image/svg+xml" fetchPriority="high" />
-      </head>
       <body className="font-sans antialiased">
         <a
           href="#main-content"
@@ -121,7 +120,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </LanguageProvider>
         <PwaRegister />
         {process.env.NODE_ENV === 'production' && <Analytics />}
-        <SpeedInsights />
+        {process.env.NODE_ENV === 'production' && <SpeedInsights />}
       </body>
     </html>
   )
