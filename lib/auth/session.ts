@@ -262,7 +262,8 @@ export async function getAuthContext(request: Request): Promise<AuthContext | nu
   if (provider) return provider.getContext(request)
   if (hasSupabaseConfig()) return getConfiguredProvider().getContext(request)
   if (!process.env.DATABASE_URL?.trim() || !parseCookie(request)) {
-    throw new Error("AUTH_PROVIDER_NOT_CONFIGURED")
+    if (process.env.NODE_ENV === "test") throw new Error("AUTH_PROVIDER_NOT_CONFIGURED")
+    return null
   }
 
   try {

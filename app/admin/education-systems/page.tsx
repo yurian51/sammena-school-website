@@ -1,7 +1,8 @@
 "use client"
 
+import { useMemo, useState } from "react"
 import Link from "next/link"
-import { ArrowRight, BarChart3, BookOpenCheck, ClipboardCheck, FileSpreadsheet, GraduationCap, ShieldCheck, Users } from "lucide-react"
+import { ArrowRight, BarChart3, BookOpenCheck, CheckCircle2, ClipboardCheck, FileSpreadsheet, GraduationCap, PlayCircle, Search, ShieldCheck, Users } from "lucide-react"
 
 const systems = [
   {
@@ -49,7 +50,33 @@ const sisFeatureGroups = [
   ["Sports and supplementary services", "Sports, games, DEWS and supplementary programme records", "/admin/events"],
 ] as const
 
+const workflowStatuses = ["All", "Ready", "In progress", "Planned"] as const
+
+const workflowState = [
+  ["SIS", "Learner register and admissions", "Ready", "/admin/students"],
+  ["SIS", "Attendance, classes and timetable", "Ready", "/admin/attendance"],
+  ["SIS", "Assessments, results and promotion", "Ready", "/admin/results"],
+  ["SIS", "Fees, payments and receipts", "In progress", "/admin/finance"],
+  ["PREM", "Transfers and candidate records", "In progress", "/admin/enrollments"],
+  ["PREM", "Progress, reports and notifications", "Planned", "/admin/enrollments"],
+  ["SQAS", "Self-evaluation and school visits", "Ready", "/quality"],
+  ["SQAS", "Evidence, whole-school reports and actions", "In progress", "/admin/documents"],
+] as const
+
 export default function EducationSystemsPage() {
+  const [statusFilter, setStatusFilter] = useState<(typeof workflowStatuses)[number]>("All")
+  const [query, setQuery] = useState("")
+  const [completed, setCompleted] = useState<string[]>([])
+  const visibleWorkflows = useMemo(() => workflowState.filter(([system, label, status]) => {
+    const matchesStatus = statusFilter === "All" || status === statusFilter
+    const matchesQuery = `${system} ${label}`.toLowerCase().includes(query.toLowerCase())
+    return matchesStatus && matchesQuery
+  }), [query, statusFilter])
+
+  function toggleComplete(label: string) {
+    setCompleted((current) => current.includes(label) ? current.filter((item) => item !== label) : [...current, label])
+  }
+
   return (
     <main className="min-h-screen bg-[#f6f4ef] px-5 py-8 text-[#172033] sm:px-8 lg:py-10">
       <div className="mx-auto max-w-[1280px]">
@@ -76,6 +103,15 @@ export default function EducationSystemsPage() {
               </div>
             </article>
           ))}
+        </section>
+
+        <section className="mt-8 border border-slate-200 bg-white p-6 shadow-sm sm:p-7" aria-labelledby="workflow-tracker">
+          <div className="flex flex-col gap-4 border-b border-slate-100 pb-5 lg:flex-row lg:items-end lg:justify-between">
+            <div><p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Implementation tracker</p><h2 id="workflow-tracker" className="mt-2 text-2xl font-bold text-[#17365d]">Complete the workflows, not just the links</h2><p className="mt-2 text-sm leading-6 text-slate-500">Track which practical SIS, PREM and SQAS workflows are ready in Sammena and open the working screen directly.</p></div>
+            <div className="flex flex-col gap-2 sm:flex-row"><label className="flex items-center gap-2 border border-slate-200 px-3 py-2 text-xs text-slate-500"><Search className="h-4 w-4" /><span className="sr-only">Search workflows</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search workflows" className="w-40 bg-transparent outline-none placeholder:text-slate-400" /></label><div className="flex flex-wrap gap-1">{workflowStatuses.map((status) => <button key={status} type="button" onClick={() => setStatusFilter(status)} className={`px-3 py-2 text-xs font-bold ${statusFilter === status ? "bg-[#17365d] text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}>{status}</button>)}</div></div>
+          </div>
+          <div className="mt-5 grid gap-3 md:grid-cols-2">{visibleWorkflows.map(([system, label, status, href]) => { const isComplete = completed.includes(label); return <div key={label} className="flex items-center justify-between gap-4 border border-slate-200 p-4"><div className="min-w-0"><div className="flex items-center gap-2"><span className="text-[10px] font-bold uppercase tracking-[.14em] text-[#a27e35]">{system}</span><span className={`text-[10px] font-bold uppercase tracking-[.12em] ${status === "Ready" ? "text-emerald-700" : status === "In progress" ? "text-amber-700" : "text-slate-400"}`}>{status}</span></div><p className={`mt-2 text-sm font-bold ${isComplete ? "text-slate-400 line-through" : "text-[#17365d]"}`}>{label}</p></div><div className="flex shrink-0 items-center gap-2"><button type="button" onClick={() => toggleComplete(label)} aria-label={`${isComplete ? "Mark incomplete" : "Mark complete"}: ${label}`} className="rounded-full text-emerald-700 hover:text-emerald-900">{isComplete ? <CheckCircle2 className="h-5 w-5" /> : <PlayCircle className="h-5 w-5 text-slate-300" />}</button><Link href={href} className="border border-slate-200 p-2 text-[#17365d] hover:border-[#b9964f]" aria-label={`Open ${label}`}><ArrowRight className="h-4 w-4" /></Link></div></div> })}</div>
+          {!visibleWorkflows.length && <p className="mt-5 border border-dashed border-slate-200 p-6 text-center text-sm text-slate-500">No workflows match this filter.</p>}
         </section>
 
         <section className="mt-8 border border-slate-200 bg-white p-6 shadow-sm sm:p-7" aria-labelledby="sis-feature-catalog">
