@@ -1,4 +1,4 @@
-export const ROLES = ["SUPER_ADMIN", "SCHOOL_ADMIN", "ADMIN", "EDITOR", "VIEWER", "TEACHER", "PARENT", "STUDENT"] as const
+export const ROLES = ["SUPER_ADMIN", "SCHOOL_ADMIN", "ADMIN", "FINANCE", "EDITOR", "VIEWER", "TEACHER", "PARENT", "STUDENT"] as const
 export type Role = typeof ROLES[number]
 
 export type Permission =
@@ -29,6 +29,7 @@ const permissions: Record<Role, readonly Permission[]> = {
   SUPER_ADMIN: [...ADMIN_ALL, "settings:write"],
   SCHOOL_ADMIN: ADMIN_ALL,
   ADMIN: ADMIN_ALL,
+  FINANCE: ["dashboard.view", "sis:students:read", "finance:read", "finance:write", "audit:read"],
   EDITOR: ["dashboard.view", "cms:read", "cms:write", "admissions:read", "inbox:read", "inbox:write"],
   VIEWER: ["dashboard.view", "cms:read", "admissions:read", "sis:students:read", "sis:timetable:read", "inbox:read", "attendance:read", "library:read", "results:read", "finance:read", "communication:read", "messages:read", "audit:read", "settings:read"],
   // Teacher scope is further restricted by lib/auth/teacher-scope.ts.

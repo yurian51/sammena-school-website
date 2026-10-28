@@ -1,11 +1,16 @@
 import { createHash } from "node:crypto"
-import type { CreateApplicationInput } from "./types"
+type FingerprintInput = {
+  academicYear: string
+  studyType: string
+  guardian: { fullName: string; phone: string; email?: string; relationship?: string }
+  learner: { fullName: string; dateOfBirth: string; entryLevel: string; previousSchool?: string }
+}
 
 function normalize(value: string | undefined | null) {
   return (value ?? "").trim().toLowerCase().replace(/\s+/g, " ")
 }
 
-export function createSubmissionFingerprint(input: CreateApplicationInput): string {
+export function createSubmissionFingerprint(input: FingerprintInput): string {
   const canonical = JSON.stringify({
     academicYear: normalize(input.academicYear),
     studyType: normalize(input.studyType),

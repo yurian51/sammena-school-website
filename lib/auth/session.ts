@@ -1,6 +1,8 @@
 import { createHmac, pbkdf2Sync, scryptSync, timingSafeEqual } from "node:crypto"
 import type { AuthContext } from "./authorization"
 import { getDatabaseAuthContext } from "./database-session-provider"
+import { ROLES, type Role } from "./roles"
+import { getRuntimeDbClient } from "@/lib/db/runtime"
 
 export interface SessionProvider {
   getContext(request: Request): Promise<AuthContext | null>
