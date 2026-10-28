@@ -1,6 +1,8 @@
 import { createHmac, pbkdf2Sync, scryptSync, timingSafeEqual } from "node:crypto"
 import type { AuthContext } from "./authorization"
 import { getDatabaseAuthContext } from "./database-session-provider"
+import { ROLES, type Role } from "./roles"
+import { getRuntimeDbClient } from "@/lib/db/runtime"
 
 export interface SessionProvider {
   getContext(request: Request): Promise<AuthContext | null>
@@ -244,7 +246,31 @@ export function configureSessionProvider(nextProvider: SessionProvider | null) {
   provider = nextProvider
 }
 
+function hasSupabaseConfig() {
+  return Boolean(
+    (process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL)?.trim() &&
+    (
+      process.env.SUPABASE_PUBLISHABLE_KEY ??
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+      process.env.SUPABASE_ANON_KEY ??
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    )?.trim(),
+  )
+}
+
 export async function getAuthContext(request: Request): Promise<AuthContext | null> {
   if (provider) return provider.getContext(request)
-  return getDatabaseAuthContext(request)
+  if (hasSupabaseConfig()) return getConfiguredProvider().getContext(request)
+  if (!process.env.DATABASE_URL?.trim() || !parseCookie(request)) {
+    throw new Error("AUTH_PROVIDER_NOT_CONFIGURED")
+  }
+
+  try {
+    return await getDatabaseAuthContext(request)
+  } catch (error) {
+    if (error instanceof Error && error.message === "DATABASE_CLIENT_NOT_CONFIGURED") {
+      throw new Error("AUTH_PROVIDER_NOT_CONFIGURED")
+    }
+    throw error
+  }
 }

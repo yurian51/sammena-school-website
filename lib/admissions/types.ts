@@ -35,6 +35,8 @@ export type AdmissionApplication = {
   guardian: { fullName: string; phone: string; email?: string; relationship?: string }
   learner: { fullName: string; dateOfBirth: string; entryLevel: string; previousSchool?: string }
   applicationData?: AdmissionApplicationData
+  idempotencyKey?: string
+  submissionFingerprint?: string
   submittedAt?: string
   createdAt: string
   updatedAt: string

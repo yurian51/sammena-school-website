@@ -113,7 +113,6 @@ export async function authenticateUser(
 
   const sessionId = randomUUID()
   const expiresAt = new Date(Date.now() + (remember ? REMEMBERED_SESSION_TTL_SECONDS : SESSION_TTL_SECONDS) * 1000)
-  const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null
 
   await db.query(
     `insert into app_sessions (id, user_id, school_id, expires_at, user_agent, ip_hash)
