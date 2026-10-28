@@ -25,6 +25,23 @@ export const messages: { sw: Record<string, string> } = {
     "Mobile navigation": "Menyu ya simu",
     "Close navigation menu": "Funga menyu",
     "Language": "Lugha",
+    "Explore Sammena": "Fahamu Sammena",
+    "Our Location": "Mahali Tulipo",
+    "School Information": "Taarifa za Shule",
+    "Photo Gallery": "Picha za Shule",
+    "School Policies": "Sera za Shule",
+    "Development & Partnerships": "Maendeleo na Ushirikiano",
+    "Family & Learning": "Familia na Ujifunzaji",
+    "Parent & Student Hub": "Kituo cha Wazazi na Wanafunzi",
+    "School Documents": "Nyaraka za Shule",
+    "Learning Resources": "Rasilimali za Kujifunzia",
+    "School Events": "Matukio ya Shule",
+    "General Enquiries": "Maswali ya Jumla",
+    "Call the School": "Piga Simu Shuleni",
+    "Building Bright Minds. Shaping Better Futures. A learning community focused on strong foundations, character, responsibility and meaningful opportunities for every child.": "Kujenga Akili Bora. Kuandaa Mustakabali Mwema. Jumuiya ya kujifunza inayojenga misingi imara, tabia njema, uwajibikaji na fursa zenye maana kwa kila mtoto.",
+    "All rights reserved.": "Haki zote zimehifadhiwa.",
+    "Documents & Resources": "Nyaraka na Rasilimali",
+
 
     // Groups
     "School": "Shule",

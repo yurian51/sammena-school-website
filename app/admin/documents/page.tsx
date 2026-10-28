@@ -9,7 +9,7 @@ type Version = { id: string; resourceId: string; resourceTitle: string; versionL
 
 const emptyForm = { resourceId: "", versionLabel: "", documentDate: "", effectiveFrom: "", effectiveUntil: "", sourceUrl: "", changeSummary: "", status: "DRAFT" }
 
-async function readJson(response: Response) {
+async function readJson(response: Response): Promise<any> {
   const payload = await response.json().catch(() => null)
   if (!response.ok) throw new Error(payload?.error?.message ?? payload?.error ?? "The request could not be completed.")
   return payload
