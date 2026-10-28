@@ -10,7 +10,9 @@ import './globals.css'
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['400', '600', '700'],
+  display: 'swap',
+  preload: true,
   variable: '--font-poppins',
 })
 
@@ -35,13 +37,13 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'SAMMENA SCHOOLS',
     locale: 'en_TZ',
-    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Sammena Pre & Primary School official logo and website' }],
+    images: [{ url: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Official%20Sammena%20Logo%20B-g9xZzlZA6ztsM4BoI5ZmWiiGLAnLWX.png', width: 1280, height: 1280, alt: 'Official Sammena Pre & Primary School logo' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'SAMMENA SCHOOLS',
     description: 'Building Bright Minds. Shaping Better Futures.',
-    images: [{ url: '/opengraph-image', alt: 'Sammena Pre & Primary School official logo and website' }],
+    images: [{ url: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Official%20Sammena%20Logo%20B-g9xZzlZA6ztsM4BoI5ZmWiiGLAnLWX.png', alt: 'Official Sammena Pre & Primary School logo' }],
   },
   robots: { index: true, follow: true },
   verification: { google: 'lELeRRdvUGwwD4L0nTHtxNSQeIWl9tp4eoKKjgqa7Fs' },
@@ -103,9 +105,6 @@ const websiteJsonLd = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-TZ" className={`${poppins.variable} bg-background`}>
-      <head>
-        <link rel="preload" as="image" href="/images/Sammena_Pre_Primary_School_Logo_Clean.svg" type="image/svg+xml" fetchPriority="high" />
-      </head>
       <body className="font-sans antialiased">
         <a
           href="#main-content"
@@ -121,7 +120,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </LanguageProvider>
         <PwaRegister />
         {process.env.NODE_ENV === 'production' && <Analytics />}
-        <SpeedInsights />
+        {process.env.NODE_ENV === 'production' && <SpeedInsights />}
       </body>
     </html>
   )

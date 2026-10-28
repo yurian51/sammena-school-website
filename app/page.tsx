@@ -20,14 +20,16 @@ export default function HomePage(){
   const { tr } = useLanguage()
   return <main className="min-h-screen overflow-x-clip bg-[#fbfaf7] text-[#172033]">
     <Navbar/>
-    <section className="relative overflow-hidden border-b border-[#e6e1d7] bg-[#102846] pt-[82px] text-white sm:pt-[82px]">
-      <div className="mx-auto grid max-w-7xl lg:grid-cols-[.9fr_1.1fr]">
+    <section className="hero-grid relative overflow-hidden border-b border-[#e6e1d7] bg-[#102846] pt-[82px] text-white sm:pt-[82px]">
+      <div className="pointer-events-none absolute -right-32 top-24 h-80 w-80 rounded-full bg-[#b9964f]/10 blur-3xl" aria-hidden="true" />
+      <div className="pointer-events-none absolute -left-40 bottom-0 h-72 w-72 rounded-full bg-[#5f9dcc]/10 blur-3xl" aria-hidden="true" />
+      <div className="relative mx-auto grid max-w-7xl lg:grid-cols-[.9fr_1.1fr]">
         <div className="relative z-10 flex min-h-[500px] flex-col justify-center px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
           <p className="institutional-rule text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c28e]">SAMMENA SCHOOLS · ARUSHA</p>
           <h1 className="mt-6 max-w-2xl text-[clamp(2.5rem,6vw,4.7rem)] font-semibold leading-[1.03] tracking-[-0.035em]">{tr("A considered beginning for a lifetime of learning.")}</h1>
           <p className="mt-6 max-w-xl text-[15px] leading-7 text-white/68 sm:text-base">{tr("Sammena Pre & Primary School is a learning community centred on strong foundations, character, responsibility and meaningful opportunities for every child.")}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/admissions" className="inline-flex min-h-12 items-center gap-2 bg-[#b9964f] px-5 py-3 text-sm font-bold text-[#102846] transition hover:bg-[#d7c28e]">{tr("Explore Admissions")} <ArrowRight className="h-4 w-4"/></Link>
+            <Link href="/admissions" className="gold-shimmer inline-flex min-h-12 items-center gap-2 px-5 py-3 text-sm font-bold text-[#102846]">{tr("Explore Admissions")} <ArrowRight className="h-4 w-4"/></Link>
             <Link href="/about" className="inline-flex min-h-12 items-center gap-2 border border-white/25 px-5 py-3 text-sm font-semibold text-white transition hover:border-white/50 hover:bg-white/5">{tr("Discover Sammena")}</Link>
           </div>
           <div className="mt-10 flex items-center gap-3 text-xs text-white/48"><ShieldCheck className="h-4 w-4 text-[#b9964f]"/>{tr("Official school information, published with care.")}</div>
@@ -51,7 +53,7 @@ export default function HomePage(){
           <p className="max-w-2xl text-sm leading-7 text-[#687184]">{tr("The Sammena digital experience is organised around the information families actually need: joining the school, understanding learning, finding dates, and accessing verified resources.")}</p>
         </div>
         <div className="mt-10 grid border border-[#e6e1d7] bg-[#e6e1d7] sm:grid-cols-2 lg:grid-cols-4">
-          {quickLinks.map(({href,title,text,icon:Icon})=><Link key={href} href={href} className="group bg-white p-7 transition hover:bg-[#f8f5ed]"><Icon className="h-6 w-6 text-[#b9964f]" aria-hidden="true"/><h3 className="mt-7 text-lg font-semibold text-[#17365d]">{tr(title)}</h3><p className="mt-2 text-sm leading-6 text-[#687184]">{tr(text)}</p><span className="mt-7 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-[#8d713b]">{tr("Explore")} <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"/></span></Link>)}
+          {quickLinks.map(({href,title,text,icon:Icon})=><Link key={href} href={href} className="premium-card group p-7 hover:bg-[#fdfbf7]"><Icon className="h-6 w-6 text-[#b9964f]" aria-hidden="true"/><h3 className="mt-7 text-lg font-semibold text-[#17365d]">{tr(title)}</h3><p className="mt-2 text-sm leading-6 text-[#687184]">{tr(text)}</p><span className="mt-7 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-[#8d713b]">{tr("Explore")} <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"/></span></Link>)}
         </div>
       </div>
     </section>
@@ -68,7 +70,7 @@ export default function HomePage(){
     <section className="border-y border-[#e6e1d7] bg-[#f8f5ed] py-14 sm:py-16">
       <div className="mx-auto grid max-w-7xl gap-6 px-5 sm:px-8 md:grid-cols-[1fr_auto] md:items-center">
         <div><p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#8d713b]">{tr("Community partnerships")}</p><h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] text-[#17365d]">{tr("Support Sammena’s next chapter.")}</h2><p className="mt-3 max-w-2xl text-sm leading-7 text-[#687184]">{tr("Explore verified support priorities, school development projects, volunteer enquiries, historical fundraising records and published evidence.")}</p></div>
-        <Link href="/sponsorship" className="inline-flex min-h-12 items-center justify-center gap-2 bg-[#b9964f] px-6 py-3 text-sm font-bold text-[#102846] transition hover:bg-[#d7c28e]">{tr("Support & Partnerships")} <ArrowRight className="h-4 w-4"/></Link>
+        <Link href="/sponsorship" className="gold-shimmer inline-flex min-h-12 items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-[#102846]">{tr("Support & Partnerships")} <ArrowRight className="h-4 w-4"/></Link>
       </div>
     </section>
 
