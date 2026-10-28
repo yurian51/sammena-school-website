@@ -20,6 +20,14 @@ export async function POST(request: Request) {
       )
     }
 
+    const idempotencyKey = request.headers.get("Idempotency-Key")?.trim() || undefined
+    if (idempotencyKey && (idempotencyKey.length < 16 || idempotencyKey.length > 128)) {
+      return NextResponse.json(
+        { ok: false, error: "INVALID_IDEMPOTENCY_KEY", requestId: id },
+        { status: 400, headers: { "Cache-Control": "no-store", "x-request-id": id } },
+      )
+    }
+
     const services = createServerServices({ schoolId: process.env.SCHOOL_ID ?? "sammena-primary" })
     const application = await services.admissions.createDraft({
       academicYear: parsed.data.academicYear,
@@ -36,6 +44,7 @@ export async function POST(request: Request) {
         entryLevel: parsed.data.entry,
         ...(parsed.data.previous ? { previousSchool: parsed.data.previous } : {}),
       },
+      idempotencyKey,
       applicationData: {
         guardianNationality: parsed.data.guardianNationality || undefined,
         address: parsed.data.address || undefined,

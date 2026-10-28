@@ -46,4 +46,6 @@ export type CreateApplicationInput = {
   guardian: AdmissionApplication["guardian"]
   learner: AdmissionApplication["learner"]
   applicationData?: AdmissionApplicationData
+  idempotencyKey?: string
+  submissionFingerprint?: string
 }

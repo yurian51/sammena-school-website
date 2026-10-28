@@ -12,6 +12,7 @@
     "test:unit": "vitest run",
     "test:data": "node scripts/validate-results-data.mjs",
     "test:portal-schema": "node scripts/validate-portal-schema.mjs",
+    "auth:create-user": "node scripts/create-app-user.mjs",
     "db:migrate": "node scripts/migrate.mjs",
     "test:production-contracts": "node scripts/validate-production-contracts.mjs",
     "auth:bootstrap-admin": "node scripts/bootstrap-supabase-admin.mjs"

@@ -1,7 +1,6 @@
 import { createHmac, pbkdf2Sync, scryptSync, timingSafeEqual } from "node:crypto"
 import type { AuthContext } from "./authorization"
-import { getRuntimeDbClient } from "@/lib/db/runtime"
-import { ROLES, type Role } from "./roles"
+import { getDatabaseAuthContext } from "./database-session-provider"
 
 export interface SessionProvider {
   getContext(request: Request): Promise<AuthContext | null>
@@ -246,5 +245,6 @@ export function configureSessionProvider(nextProvider: SessionProvider | null) {
 }
 
 export async function getAuthContext(request: Request): Promise<AuthContext | null> {
-  return (provider ?? getConfiguredProvider()).getContext(request)
+  if (provider) return provider.getContext(request)
+  return getDatabaseAuthContext(request)
 }
