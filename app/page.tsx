@@ -40,6 +40,23 @@ export default function HomePage(){
 
     <SchoolProofStrip/>
 
+    <section aria-label="Why families choose Sammena" className="border-b border-[#e6e1d7] bg-white">
+      <div className="mx-auto grid max-w-7xl divide-y divide-[#e6e1d7] px-5 sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4 lg:px-8">
+        {[
+          ["01", "Strong foundations", "A purposeful early-years and primary learning journey."],
+          ["02", "Whole-child growth", "Character, confidence, creativity and physical wellbeing."],
+          ["03", "Family partnership", "Clear communication and practical support for every family."],
+          ["04", "A trusted home", "A safe, respectful community rooted in Nduruma, Arusha."],
+        ].map(([number, title, text]) => (
+          <div key={number} className="group px-0 py-7 sm:px-6 lg:px-7">
+            <span className="text-[11px] font-bold tracking-[0.2em] text-[#b9964f]">{number}</span>
+            <h2 className="mt-3 text-base font-bold text-[#17365d]">{tr(title)}</h2>
+            <p className="mt-2 max-w-xs text-sm leading-6 text-[#687184]">{tr(text)}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
     <section className="border-b border-[#e6e1d7] bg-white">
       <div className="mx-auto grid max-w-7xl divide-y divide-[#e6e1d7] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
         {[["/admissions","Admissions","Begin your application journey"],["/academics","Academics","Explore learning at Sammena"],["/contact","Contact","Speak with the school directly"]].map(([href,label,text],i)=><Link key={href} href={href} className="group flex items-center justify-between px-5 py-5 sm:px-7 lg:px-9"><span><span className="block text-[10px] font-bold uppercase tracking-[0.18em] text-[#b9964f]">{tr(label)}</span><span className="mt-1 block text-sm font-semibold text-[#17365d]">{tr(text)}</span></span><ArrowRight className="h-4 w-4 text-[#b9964f] transition-transform group-hover:translate-x-1"/></Link>)}
