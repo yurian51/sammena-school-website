@@ -29,6 +29,7 @@ type Overview = {
 }
 
 const modules = [
+  { label: "Education systems", description: "Coordinate SIS, TAMISEMI readiness, PREM and SQAS workflows.", href: "/admin/education-systems", icon: Network },
   { label: "Students", description: "Search the live student register and 360° profiles.", href: "/admin/students", icon: Users },
   { label: "Admissions", description: "Review applications and decisions.", href: "/admin/admissions", icon: ClipboardList },
   { label: "Attendance", description: "Record daily class registers for the current academic year.", href: "/admin/attendance", icon: CalendarCheck },

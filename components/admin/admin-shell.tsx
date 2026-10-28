@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Mail, Megaphone, Settings, ShieldCheck, Users, X } from "lucide-react"
+import { CalendarDays, ClipboardList, FileText, LayoutDashboard, LogOut, Mail, Megaphone, Network, Settings, ShieldCheck, Users, X } from "lucide-react"
 import { useState } from "react"
 import { hasPermission, type Permission, type Role } from "@/lib/auth/roles"
 
@@ -15,6 +15,7 @@ const nav: Array<{ label: string; href: string; icon: typeof LayoutDashboard; pe
   { label: "Events & Calendar", href: "/admin/events", icon: CalendarDays, permission: "cms:read" },
   { label: "Admissions", href: "/admin/admissions", icon: ClipboardList, permission: "admissions:read" },
   { label: "Messages", href: "/admin/messages", icon: Mail, permission: "messages:read" },
+  { label: "Education systems", href: "/admin/education-systems", icon: Network, permission: "dashboard.view" },
   { label: "Students", href: "/admin/students", icon: Users, permission: "sis:students:read" },
   { label: "Audit Log", href: "/admin/audit", icon: ShieldCheck, permission: "audit:read" },
   { label: "Settings", href: "/admin/settings", icon: Settings, permission: "settings:read" },
