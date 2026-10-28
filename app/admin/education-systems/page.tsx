@@ -18,7 +18,7 @@ const systems = [
     description: "Bring PREM-inspired learner movement, candidate, school, payment, progress and reporting workflows into the same SIS record.",
     icon: GraduationCap,
     tone: "bg-[#edf0f7] text-[#394b7a]",
-    links: [["Learner transfers", "/admin/enrollments"], ["Candidate records", "/admin/students"], ["Payments", "/admin/finance"], ["Reports", "/admin/enrollments"]],
+    links: [["Learner transfers", "/admin/enrollments"], ["Candidate records", "/admin/students"], ["Payments", "/admin/finance"], ["Progress and reports", "/admin/enrollments"]],
   },
   {
     eyebrow: "SQAS · Quality assurance",
@@ -26,7 +26,7 @@ const systems = [
     description: "Bring SQAS-inspired self-evaluation, visits, notifications, evidence, reports and improvement actions into Sammena with audit trails.",
     icon: ClipboardCheck,
     tone: "bg-[#e9f3ed] text-[#28704b]",
-    links: [["Self-evaluation", "/quality"], ["School visits", "/quality"], ["Evidence documents", "/admin/documents"], ["Audit log", "/admin/audit"]],
+    links: [["Self-evaluation", "/quality"], ["School visits", "/quality"], ["Notifications", "/admin/messages"], ["Evidence and reports", "/admin/documents"]],
   },
 ]
 
@@ -58,7 +58,7 @@ export default function EducationSystemsPage() {
           <div className="mt-3 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <h1 className="max-w-3xl text-3xl font-bold tracking-tight text-[#17365d] sm:text-4xl">SIS, PREM and SQAS features in Sammena</h1>
-              <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">Samena brings the useful operational features from all three systems into one school workspace, while keeping each official system&apos;s identity and submission boundaries clear.</p>
+              <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">Sammena brings the useful operational features from all three systems into one school workspace, while keeping each official system&apos;s identity and submission boundaries clear.</p>
             </div>
             <Link href="/admin" className="inline-flex shrink-0 items-center gap-2 border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-[#17365d] shadow-sm hover:border-[#b9964f]">Administration home <ArrowRight className="h-4 w-4" /></Link>
           </div>
@@ -82,7 +82,7 @@ export default function EducationSystemsPage() {
           <div className="flex flex-col gap-3 border-b border-slate-100 pb-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Unified feature map</p>
-              <h2 id="sis-feature-catalog" className="mt-2 text-2xl font-bold text-[#17365d]">Shared workflows across SIS, PREM and SQAS</h2>
+              <h2 id="sis-feature-catalog" className="mt-2 text-2xl font-bold text-[#17365d]">All shared workflows across SIS, PREM and SQAS</h2>
             </div>
             <p className="max-w-md text-xs leading-5 text-slate-500">These are Sammena entry points for the practical features we observed. Official submissions and government records remain controlled by their authorised systems.</p>
           </div>
