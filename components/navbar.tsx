@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation"
 import { ChevronDown, ChevronRight, ExternalLink, Menu, X, Search, Phone, Mail, MapPin, HeartHandshake } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useLanguage } from "@/components/language-provider"
-import { LanguageToggle } from "@/components/language-toggle"
 
 const groups = [
   { label: "School", items: [["/about","About Us","School profile, leadership and values"],["/history","Our Story","Institutional story and milestones"],["/leadership","Leadership","Leadership and governance"],["/academics","Academics","Learning, curriculum and classes"],["/policies","Policies","Published school policies"],["/gallery","School Life","Campus life and activities"]] },
@@ -119,11 +118,9 @@ export function Navbar() {
             })}
             <Link href="/search" className="ml-1 p-3 text-white/70 hover:text-white" aria-label="Search Sammena website"><Search className="h-4 w-4" /></Link>
             <Link href="/sponsorship" className="ml-1 inline-flex items-center gap-1.5 border border-white/25 px-3 py-2.5 text-[12px] font-bold text-white transition hover:bg-white/10">{tr("Support")} <HeartHandshake className="h-3.5 w-3.5" /></Link>
-            <LanguageToggle className="ml-3" />
             <Link href="/admissions/apply" className="ml-2 inline-flex items-center gap-2 bg-[#b9964f] px-4 py-2.5 text-[12px] font-bold text-[#102846] transition hover:bg-[#d7c28e]">{tr("Apply Now")} <ChevronRight className="h-3.5 w-3.5" /></Link>
           </div>
 
-          <LanguageToggle className="mr-2 lg:hidden" />
           <button type="button" onClick={() => setMobileOpen((value) => !value)} className="relative z-[90] grid min-h-11 min-w-11 place-items-center rounded-lg text-white hover:bg-white/10 lg:hidden" aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileOpen}>
             {mobileOpen ? <X /> : <Menu />}
           </button>
