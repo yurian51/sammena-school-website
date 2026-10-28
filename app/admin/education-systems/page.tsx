@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, BarChart3, BookOpenCheck, FileSpreadsheet, ShieldCheck, Users } from "lucide-react"
+import { ArrowRight, BarChart3, BookOpenCheck, ClipboardCheck, FileSpreadsheet, GraduationCap, ShieldCheck, Users } from "lucide-react"
 
 const systems = [
   {
@@ -10,12 +10,23 @@ const systems = [
     description: "A single operational record for admissions, enrolment, attendance, classes, results and family relationships.",
     icon: Users,
     tone: "bg-[#e8f1f3] text-[#0c6570]",
-    links: [
-      ["Student register", "/admin/students"],
-      ["Admissions", "/admin/admissions"],
-      ["Attendance", "/admin/attendance"],
-      ["Results", "/admin/results"],
-    ],
+    links: [["Student register", "/admin/students"], ["Admissions", "/admin/admissions"], ["Attendance", "/admin/attendance"], ["Results", "/admin/results"]],
+  },
+  {
+    eyebrow: "PREM · Learner services",
+    title: "Learner movement and examination readiness",
+    description: "Bring PREM-inspired learner movement, candidate, school, payment, progress and reporting workflows into the same SIS record.",
+    icon: GraduationCap,
+    tone: "bg-[#edf0f7] text-[#394b7a]",
+    links: [["Learner transfers", "/admin/enrollments"], ["Candidate records", "/admin/students"], ["Payments", "/admin/finance"], ["Reports", "/admin/enrollments"]],
+  },
+  {
+    eyebrow: "SQAS · Quality assurance",
+    title: "Self-evaluation and school improvement",
+    description: "Bring SQAS-inspired self-evaluation, visits, notifications, evidence, reports and improvement actions into Sammena with audit trails.",
+    icon: ClipboardCheck,
+    tone: "bg-[#e9f3ed] text-[#28704b]",
+    links: [["Self-evaluation", "/quality"], ["School visits", "/quality"], ["Evidence documents", "/admin/documents"], ["Audit log", "/admin/audit"]],
   },
 ]
 
@@ -27,6 +38,8 @@ const quickActions = [
 ] as const
 
 const sisFeatureGroups = [
+  ["PREM learner movement", "Transfers, candidate records, school and centre context, progress and reports", "/admin/enrollments"],
+  ["SQAS self-evaluation", "Self-evaluation, visits, notifications, evidence and whole-school reports", "/quality"],
   ["School management", "School profile, ownership, staff, users and academic years", "/admin/settings"],
   ["Revenue collection", "Fees, invoices, receipts, balances and payment references", "/admin/finance"],
   ["Inventory", "Books, furniture, equipment and school resource tracking", "/admin/library"],
@@ -44,8 +57,8 @@ export default function EducationSystemsPage() {
           <p className="text-xs font-bold uppercase tracking-[.18em] text-[#a27e35]">Sammena education systems</p>
           <div className="mt-3 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <h1 className="max-w-3xl text-3xl font-bold tracking-tight text-[#17365d] sm:text-4xl">SIS features, built into Sammena</h1>
-              <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">Samena is bringing the useful day-to-day SIS workflows into one school workspace: learner records, attendance, classes, assessments, fees, resources and reporting.</p>
+              <h1 className="max-w-3xl text-3xl font-bold tracking-tight text-[#17365d] sm:text-4xl">SIS, PREM and SQAS features in Sammena</h1>
+              <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">Samena brings the useful operational features from all three systems into one school workspace, while keeping each official system&apos;s identity and submission boundaries clear.</p>
             </div>
             <Link href="/admin" className="inline-flex shrink-0 items-center gap-2 border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-[#17365d] shadow-sm hover:border-[#b9964f]">Administration home <ArrowRight className="h-4 w-4" /></Link>
           </div>
@@ -68,10 +81,10 @@ export default function EducationSystemsPage() {
         <section className="mt-8 border border-slate-200 bg-white p-6 shadow-sm sm:p-7" aria-labelledby="sis-feature-catalog">
           <div className="flex flex-col gap-3 border-b border-slate-100 pb-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">SIS feature map</p>
-              <h2 id="sis-feature-catalog" className="mt-2 text-2xl font-bold text-[#17365d]">Core workflows to bring into Sammena</h2>
+              <p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">Unified feature map</p>
+              <h2 id="sis-feature-catalog" className="mt-2 text-2xl font-bold text-[#17365d]">Shared workflows across SIS, PREM and SQAS</h2>
             </div>
-            <p className="max-w-md text-xs leading-5 text-slate-500">Based on the official SIS dashboard catalogue: the links below are Sammena entry points, while official submissions remain controlled by the authorised government systems.</p>
+            <p className="max-w-md text-xs leading-5 text-slate-500">These are Sammena entry points for the practical features we observed. Official submissions and government records remain controlled by their authorised systems.</p>
           </div>
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {sisFeatureGroups.map(([label, detail, href]) => (
@@ -85,11 +98,11 @@ export default function EducationSystemsPage() {
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[1.1fr_.9fr]">
           <article className="border border-slate-200 bg-[#17365d] p-6 text-white sm:p-7">
-            <p className="text-xs font-bold uppercase tracking-[.16em] text-[#d7c28e]">SIS data foundation</p>
-            <h2 className="mt-2 text-2xl font-bold">One learner record, complete school operations</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70">Every SIS workflow uses the same learner, class and academic-year records. Access remains limited by role, school scope and audit controls.</p>
+            <p className="text-xs font-bold uppercase tracking-[.16em] text-[#d7c28e]">Unified school data foundation</p>
+            <h2 className="mt-2 text-2xl font-bold">One learner record, three authorised workflows</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70">SIS operations, PREM-inspired learner services and SQAS quality evidence connect through shared school records, role permissions and audit controls.</p>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              {[["Learners", "Admission and family links"], ["Operations", "Attendance and results"], ["Reports", "Exports and decisions"]].map(([label, detail]) => <div key={label} className="border border-white/10 bg-white/[.06] p-4"><p className="text-sm font-bold">{label}</p><p className="mt-1 text-xs leading-5 text-white/60">{detail}</p></div>)}
+              {[["SIS", "Daily school operations"], ["PREM", "Learner movement and progress"], ["SQAS", "Evidence and improvement"]].map(([label, detail]) => <div key={label} className="border border-white/10 bg-white/[.06] p-4"><p className="text-sm font-bold">{label}</p><p className="mt-1 text-xs leading-5 text-white/60">{detail}</p></div>)}
             </div>
           </article>
           <article className="border border-slate-200 bg-white p-6 sm:p-7">
@@ -99,7 +112,7 @@ export default function EducationSystemsPage() {
           </article>
         </section>
 
-        <p className="mt-7 flex items-start gap-2 border-t border-slate-200 pt-5 text-xs leading-5 text-slate-500"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#a27e35]" /> This is Sammena&apos;s internal SIS feature workspace. It is designed to improve school operations and does not claim to replace any official government system.</p>
+        <p className="mt-7 flex items-start gap-2 border-t border-slate-200 pt-5 text-xs leading-5 text-slate-500"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#a27e35]" /> This is Sammena&apos;s internal feature workspace. It brings practical SIS, PREM and SQAS workflows together without claiming to replace the official government systems.</p>
       </div>
     </main>
   )
