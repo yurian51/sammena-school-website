@@ -1,0 +1,8 @@
+# Production ownership for the Sammena School website.
+* @yurian51
+.github/ @yurian51
+app/ @yurian51
+components/ @yurian51
+lib/ @yurian51
+scripts/ @yurian51
+tests/ @yurian51

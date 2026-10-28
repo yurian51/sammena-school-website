@@ -40,9 +40,10 @@ export function getAvailableStudentProfileActions(
     actions.push("view_fees")
   }
 
-  if (context.role === "admin" || context.role === "teacher") {
-    if (context.hasGuardian) actions.push("contact_guardian")
-  }
+  // Teachers may contact a guardian only for students they are enrolled with.
+  const canContactGuardian =
+    context.role === "admin" || (context.role === "teacher" && context.hasEnrollment)
+  if (canContactGuardian && context.hasGuardian) actions.push("contact_guardian")
 
   return [...new Set(actions)]
 }

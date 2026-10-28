@@ -15,7 +15,7 @@ test("login navigation exposes all four requested account types", () => {
 
 test("login portal has one secure form with role-specific presentation", () => {
   const login = read("components/login-portal.tsx")
-  assert.match(login, /type LoginAudience = \"parent\" \| \"staff\" \| \"email\" \| \"admin\"/)
+  assert.match(login, /type LoginAudience = "parent" \\| "student" \\| "staff" \\| "email" \\| "admin"/)
   assert.match(login, /fetch\("\/api\/auth\/login"/)
   assert.match(login, /Remember this device/)
   assert.match(login, /Forgot password\?/)

@@ -3,6 +3,18 @@ import { requireAuthorized } from "@/lib/auth/guards"
 import { createCalendarRepository, validateCreateSchoolEvent } from "@/lib/calendar/service"
 import { apiError, mapDomainError } from "@/lib/api/errors"
 import { requestId } from "@/lib/api/request"
+import { auditAction } from "@/lib/api/admin-audit"
+import { AUDIT_ACTIONS } from "@/lib/audit/events"
+
+export async function GET(request: Request) {
+  const id = requestId(request)
+  try {
+    const context = requireAuthorized(await getAuthContext(request), "cms:read")
+    if (!context.schoolId) throw new Error("SCHOOL_SCOPE_REQUIRED")
+    const data = await createCalendarRepository(context.schoolId).listAll()
+    return Response.json({ data, requestId: id }, { headers: { "Cache-Control": "private, no-store" } })
+  } catch (error) { return mapDomainError(error, id) }
+}
 
 export async function POST(request: Request) {
   const id = requestId(request)
@@ -12,6 +24,7 @@ export async function POST(request: Request) {
     const body = await request.json()
     const input = validateCreateSchoolEvent(body)
     const event = await createCalendarRepository(context.schoolId).create(input, context.userId)
+    await auditAction(context, AUDIT_ACTIONS.CALENDAR_CREATED, "school_event", event.id, id)
     return Response.json({ data: event, requestId: id }, { status: 201, headers: { "Cache-Control": "no-store" } })
   } catch (error) {
     if (error instanceof SyntaxError) return apiError("VALIDATION_ERROR", "The submitted event body is invalid JSON.", 400, id)

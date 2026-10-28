@@ -6,7 +6,7 @@ type EventRow = {
   school_id: string
   title: string
   slug: string
-  description: string
+  description: string | null
   category: EventCategory
   audience: EventAudience
   starts_at: string
@@ -19,13 +19,17 @@ type EventRow = {
   updated_at: string
 }
 
+const eventColumns = `id::text, school_id::text, title, slug, body as description,
+  event_category as category, event_audience as audience, starts_at::text, ends_at::text,
+  all_day, location, status, published_at::text, created_at::text, updated_at::text`
+
 function mapEvent(row: EventRow): SchoolEvent {
   return {
     id: row.id,
     schoolId: row.school_id,
     title: row.title,
     slug: row.slug,
-    description: row.description,
+    description: row.description ?? "",
     category: row.category,
     audience: row.audience,
     startsAt: row.starts_at,
@@ -44,28 +48,36 @@ export class PostgresCalendarRepository {
 
   async listPublished(from?: string, to?: string, category?: EventCategory) {
     const result = await getDbClient().query<EventRow>(
-      `select id::text, school_id::text, title, slug, description, category, audience,
-        starts_at::text, ends_at::text, all_day, location, status,
-        published_at::text, created_at::text, updated_at::text
-       from school_events
-       where school_id = $1
+      `select ${eventColumns}
+       from cms_content
+       where school_id = $1 and type = 'EVENT'
          and status = 'PUBLISHED'
-         and audience = 'PUBLIC'
+         and event_audience = 'PUBLIC'
+         and (published_at is null or published_at <= now())
          and ($2::timestamptz is null or coalesce(ends_at, starts_at) >= $2::timestamptz)
          and ($3::timestamptz is null or starts_at <= $3::timestamptz)
-         and ($4::text is null or category = $4)
+         and ($4::text is null or event_category = $4)
        order by starts_at asc, title asc`,
       [this.schoolId, from ?? null, to ?? null, category ?? null],
     )
     return result.rows.map(mapEvent)
   }
 
+  async listAll() {
+    const result = await getDbClient().query<EventRow>(
+      `select ${eventColumns}
+       from cms_content
+       where school_id = $1 and type = 'EVENT'
+       order by starts_at asc, created_at desc`,
+      [this.schoolId],
+    )
+    return result.rows.map(mapEvent)
+  }
+
   async findById(id: string) {
     const result = await getDbClient().query<EventRow>(
-      `select id::text, school_id::text, title, slug, description, category, audience,
-        starts_at::text, ends_at::text, all_day, location, status,
-        published_at::text, created_at::text, updated_at::text
-       from school_events where id = $1 and school_id = $2 limit 1`,
+      `select ${eventColumns}
+       from cms_content where id = $1 and school_id = $2 and type = 'EVENT' limit 1`,
       [id, this.schoolId],
     )
     return result.rows[0] ? mapEvent(result.rows[0]) : null
@@ -73,12 +85,10 @@ export class PostgresCalendarRepository {
 
   async create(input: CreateSchoolEventInput, actorId: string) {
     const result = await getDbClient().query<EventRow>(
-      `insert into school_events
-        (school_id, title, slug, description, category, audience, starts_at, ends_at, all_day, location, status, created_by)
-       values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'DRAFT',$11)
-       returning id::text, school_id::text, title, slug, description, category, audience,
-        starts_at::text, ends_at::text, all_day, location, status,
-        published_at::text, created_at::text, updated_at::text`,
+      `insert into cms_content
+        (school_id, type, title, slug, body, event_category, event_audience, starts_at, ends_at, all_day, location, status, created_by)
+       values ($1,'EVENT',$2,$3,$4,$5,$6,$7,$8,$9,$10,'DRAFT',$11)
+       returning ${eventColumns}`,
       [this.schoolId, input.title, input.slug, input.description ?? "", input.category, input.audience ?? "PUBLIC", input.startsAt, input.endsAt ?? null, input.allDay ?? false, input.location ?? null, actorId],
     )
     const row = result.rows[0]
@@ -88,14 +98,12 @@ export class PostgresCalendarRepository {
 
   async updateStatus(id: string, status: EventStatus) {
     const result = await getDbClient().query<EventRow>(
-      `update school_events
+      `update cms_content
        set status = $1,
            published_at = case when $1 = 'PUBLISHED' then coalesce(published_at, now()) else published_at end,
            updated_at = now()
-       where id = $2 and school_id = $3
-       returning id::text, school_id::text, title, slug, description, category, audience,
-        starts_at::text, ends_at::text, all_day, location, status,
-        published_at::text, created_at::text, updated_at::text`,
+       where id = $2 and school_id = $3 and type = 'EVENT'
+       returning ${eventColumns}`,
       [status, id, this.schoolId],
     )
     const row = result.rows[0]

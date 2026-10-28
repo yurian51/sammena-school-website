@@ -21,7 +21,7 @@ const searchablePages = [
   { title: "School Gallery", description: "Photos and visual stories from Sammena school life.", href: "/gallery", icon: Images, terms: "gallery photos campus students school life images" },
   { title: "Contact Sammena", description: "Official contact details for admissions and general enquiries.", href: "/contact", icon: Phone, terms: "contact phone WhatsApp enquiries admissions visit" },
   { title: "School Trust & Verification", description: "Institutional identity, verification and published school information.", href: "/trust", icon: ShieldCheck, terms: "trust verification official identity centre registration proof" },
-  { title: "Secondary School", description: "Published information about Sammena’s planned secondary-school expansion.", href: "/secondary", icon: GraduationCap, terms: "secondary school 2028 future expansion education pathway" },
+  { title: "Secondary School", description: "Published information about Sammena’s secondary education pathway and future development.", href: "/secondary", icon: GraduationCap, terms: "secondary school future expansion education pathway" },
 ]
 
 function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: number }) {

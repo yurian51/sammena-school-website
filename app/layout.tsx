@@ -1,23 +1,23 @@
 import type { Metadata } from 'next'
-import { Poppins, Inter } from 'next/font/google'
+import { Poppins } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { MobileActionBar } from '@/components/mobile-action-bar'
 import { PwaRegister } from '@/components/pwa-register'
+import { LanguageProvider } from '@/components/language-provider'
 import { schoolIdentity } from '@/lib/academic-results'
 import './globals.css'
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
+  weight: ['400', '600', '700'],
+  display: 'swap',
+  preload: true,
   variable: '--font-poppins',
 })
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-})
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena.sch.tz'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena.altavox.space'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -25,9 +25,8 @@ export const metadata: Metadata = {
     default: 'SAMMENA SCHOOLS | Building Bright Minds. Shaping Better Futures.',
     template: '%s | SAMMENA SCHOOLS',
   },
-  description: 'The official digital home of Sammena Schools, including Sammena Pre & Primary School and the planned Sammena Secondary School expansion for 2028.',
-  keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'Sammena Secondary School', 'primary school Tanzania', 'school Arusha', 'education Tanzania', 'Sammena Nduruma', 'P15336 Nduruma'],
-  alternates: { canonical: '/' },
+  description: 'The official digital home of Sammena Schools, including Sammena Pre & Primary School and verified information about the school’s future development.',
+  keywords: ['Sammena Schools', 'Sammena Pre & Primary School', 'primary school Tanzania', 'school Arusha', 'education Tanzania', 'Sammena Nduruma', 'P15336 Nduruma'],
   category: 'education',
   applicationName: 'Sammena Schools',
   referrer: 'strict-origin-when-cross-origin',
@@ -38,9 +37,28 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'SAMMENA SCHOOLS',
     locale: 'en_TZ',
+    images: [{ url: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Official%20Sammena%20Logo%20B-g9xZzlZA6ztsM4BoI5ZmWiiGLAnLWX.png', width: 1280, height: 1280, alt: 'Official Sammena Pre & Primary School logo' }],
   },
-  twitter: { card: 'summary_large_image', title: 'SAMMENA SCHOOLS', description: 'Building Bright Minds. Shaping Better Futures.' },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SAMMENA SCHOOLS',
+    description: 'Building Bright Minds. Shaping Better Futures.',
+    images: [{ url: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Official%20Sammena%20Logo%20B-g9xZzlZA6ztsM4BoI5ZmWiiGLAnLWX.png', alt: 'Official Sammena Pre & Primary School logo' }],
+  },
   robots: { index: true, follow: true },
+  verification: { google: 'lELeRRdvUGwwD4L0nTHtxNSQeIWl9tp4eoKKjgqa7Fs' },
+  manifest: '/images/site.webmanifest',
+  icons: {
+    icon: [
+      { url: '/images/favicon.ico', sizes: 'any' },
+      { url: '/images/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+      { url: '/images/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/images/favicon-48x48.png', type: 'image/png', sizes: '48x48' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: ['/images/favicon.ico'],
+    apple: [{ url: '/images/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
 }
 
 const organizationJsonLd = {
@@ -49,7 +67,7 @@ const organizationJsonLd = {
   name: schoolIdentity.brand,
   alternateName: schoolIdentity.name,
   url: siteUrl,
-  description: 'Educational institution serving learners through Sammena Pre & Primary School and a planned secondary expansion for 2028.',
+  description: 'Educational institution serving learners through Sammena Pre & Primary School, with future development information published only when confirmed.',
   identifier: [
     { '@type': 'PropertyValue', propertyID: 'NECTA centre number', value: schoolIdentity.centreNumber },
     { '@type': 'PropertyValue', propertyID: 'Registration number', value: schoolIdentity.registrationNumber },
@@ -86,7 +104,7 @@ const websiteJsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-TZ" className={`${poppins.variable} ${inter.variable} bg-background`}>
+    <html lang="en-TZ" className={`${poppins.variable} bg-background`}>
       <body className="font-sans antialiased">
         <a
           href="#main-content"
@@ -96,10 +114,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
-        <div id="main-content">{children}</div>
-        <MobileActionBar />
+        <LanguageProvider>
+          <div id="main-content" className="pb-20 lg:pb-0">{children}</div>
+          <MobileActionBar />
+        </LanguageProvider>
         <PwaRegister />
         {process.env.NODE_ENV === 'production' && <Analytics />}
+        {process.env.NODE_ENV === 'production' && <SpeedInsights />}
       </body>
     </html>
   )

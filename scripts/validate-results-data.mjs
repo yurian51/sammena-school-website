@@ -92,7 +92,7 @@ const psle2025 = sourceFile.match(/year:\s*2025,[\s\S]*?type:\s*"PSLE"[\s\S]*?so
 if (!psle2025) throw new Error("PSLE 2025 must retain an official NECTA index link");
 if (!psle2025[1].includes("onlinesys.necta.go.tz/results/2025/psle/results/")) throw new Error("PSLE 2025 official index link is not a NECTA results URL");
 
-const psle2025Stats = sourceFile.match(/year:\s*2025,[\s\S]*?type:\s*"PSLE"[\s\S]*?candidates:\s*(\d+),[\s\S]*?passed:\s*(\d+),[\s\S]*?passRate:\s*([\d.]+),[\s\S]*?grades:\s*\{([\s\S]*?)\},/);
+const psle2025Stats = sourceFile.match(/\{\s*year:\s*2025,\s*type:\s*"PSLE"[\s\S]*?candidates:\s*(\d+),[\s\S]*?passed:\s*(\d+),[\s\S]*?passRate:\s*([\d.]+),[\s\S]*?grades:\s*\{([\s\S]*?)\},[\s\S]*?sourceUrl:/);
 if (!psle2025Stats) throw new Error("PSLE 2025 published statistics are incomplete");
 const [, candidateCount, passedCount, passRateText, gradeText] = psle2025Stats;
 const candidateTotal = Number(candidateCount);
@@ -103,7 +103,7 @@ if (Math.abs((passed / candidateTotal) * 100 - passRate) > 0.2) throw new Error(
 const psle2025GradeCounts = [...gradeText.matchAll(/(A|B|C|D|E):\s*(\d+)/g)].reduce((sum, match) => sum + Number(match[2]), 0);
 if (psle2025GradeCounts !== candidateTotal) throw new Error("PSLE 2025 grade distribution does not match candidates");
 
-const sfna2025Stats = sourceFile.match(/year:\s*2025,[\s\S]*?type:\s*"SFNA"[\s\S]*?candidates:\s*(\d+),[\s\S]*?passed:\s*(\d+),[\s\S]*?passRate:\s*([\d.]+),[\s\S]*?grades:\s*\{([\s\S]*?)\},/);
+const sfna2025Stats = sourceFile.match(/\{\s*year:\s*2025,\s*type:\s*"SFNA"[\s\S]*?candidates:\s*(\d+),[\s\S]*?passed:\s*(\d+),[\s\S]*?passRate:\s*([\d.]+),[\s\S]*?grades:\s*\{([\s\S]*?)\},[\s\S]*?sourceUrl:/);
 if (!sfna2025Stats) throw new Error("SFNA 2025 published statistics are incomplete");
 const [, sfnaCandidateCount, sfnaPassedCount, sfnaPassRateText, sfnaGradeText] = sfna2025Stats;
 const sfnaCandidateTotal = Number(sfnaCandidateCount);
@@ -114,7 +114,7 @@ if (Math.abs((sfnaPassed / sfnaCandidateTotal) * 100 - sfnaPassRate) > 0.2) thro
 const sfna2025GradeCounts = [...sfnaGradeText.matchAll(/(A|B|C|D|E):\s*(\d+)/g)].reduce((sum, match) => sum + Number(match[2]), 0);
 if (sfna2025GradeCounts !== sfnaCandidateTotal) throw new Error("SFNA 2025 grade distribution does not match candidates");
 
-const officialUrls = [...sourceFile.matchAll(/sourceKind:\s*"official"[\s\S]*?sourceUrl:\s*"(https:\/\/[^" ]+)"/g)].map((match) => match[1]);
+const officialUrls = sourceFile.split(/\n  \},\n  \{/).flatMap((block) => block.includes('sourceKind: "official"') ? [...block.matchAll(/sourceUrl:\s*"(https:\/\/[^"]+)"/g)].map((match) => match[1]) : []);
 if (officialUrls.length !== 6) throw new Error(`Unexpected official source count: ${officialUrls.length}`);
 if (officialUrls.some((url) => !url.startsWith("https://onlinesys.necta.go.tz/"))) throw new Error("Official result sources must point to NECTA");
 

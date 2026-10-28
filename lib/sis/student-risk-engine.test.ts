@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest"
 import { calculateStudentRisk } from "./student-risk-engine"
+import type { StudentProfileHealth } from "./student-profile-features"
 
-const completeHealth = {
+const completeHealth: StudentProfileHealth = {
   score: 100,
   hasGuardian: true,
   hasPrimaryGuardian: true,

@@ -19,7 +19,7 @@ test('toolchain, scripts and core routes are present', () => {
   assert.equal(typeof pkg.dependencies.pg, 'string')
   assert.equal(typeof pkg.devDependencies['@types/pg'], 'string')
   assert.match(read('pnpm-lock.yaml'), /lockfileVersion:/)
-  for (const route of ['', 'about', 'academics', 'admissions', 'gallery', 'contact', 'secondary', 'resources', 'news', 'calendar', 'search', 'services']) {
+  for (const route of ['', 'about', 'academics', 'admissions', 'gallery', 'contact', 'secondary', 'resources', 'documents', 'facilities', 'events', 'news', 'calendar', 'results', 'location', 'search', 'services']) {
     const file = route ? `app/${route}/page.tsx` : 'app/page.tsx'
     assert.ok(exists(file), `Missing route entrypoint: ${file}`)
   }
@@ -28,7 +28,7 @@ test('toolchain, scripts and core routes are present', () => {
 test('production metadata, sitemap and robots are protected', () => {
   for (const file of ['app/sitemap.ts', 'app/robots.ts', 'app/layout.tsx', 'app/manifest.ts']) assert.ok(exists(file))
   const sitemap = read('app/sitemap.ts')
-  for (const route of ['/about', '/academics', '/admissions', '/gallery', '/contact', '/news', '/calendar', '/resources', '/services']) assert.match(sitemap, new RegExp(`['"]${route.replace('/', '\\/')}['"]`))
+  for (const route of ['/about', '/academics', '/admissions', '/gallery', '/contact', '/news', '/calendar', '/resources', '/documents', '/facilities', '/events', '/results', '/location', '/services']) assert.match(sitemap, new RegExp(`['"]${route.replace('/', '\\/')}['"]`))
   assert.doesNotMatch(sitemap, /['"]\/portal['"]|['"]\/admissions\/admin['"]|['"]\/api(?:\/|['"])/)
   match(read('app/robots.ts'), [/sitemap:/, /sitemap\.xml/, /['"]\/api(?:\/|['"])/, /['"]\/portal(?:\/|['"])/])
 })
@@ -84,10 +84,11 @@ test('portal reads are school-scoped and duplicate-safe', () => {
 
 test('public results, contact and deployment metadata remain traceable', () => {
   const results = read('app/results/page.tsx')
+  assert.doesNotMatch(results, /<iframe[^>]+official results source/i)
   for (const year of ['2018','2019','2020','2021','2022','2023','2024','2025']) assert.match(results, new RegExp(year))
   match(results, [/PS0101160/, /historicalArchive/, /verified/])
   const nav = read('components/navbar.tsx'); const contact = read('app/contact/page.tsx')
-  match(nav, [/tel:\+255750227073/]); match(contact, [/wa\.me\/255750227073/, /\+255 750 227 073/])
+  match(nav, [/tel:\+255750227073/]); match(contact, [/wa\.me\/255750227073/, /\+255 750 227 073/, /Phone Number/, /window\.open/]); assert.doesNotMatch(contact, /John Doe|john@example\.com|\+255 692 227 073|Boarding Facilities/)
   match(read('app/sitemap.ts'), [/sammena-school-website\.onrender\.com/]); match(read('app/robots.ts'), [/sammena-school-website\.onrender\.com/])
 })
 

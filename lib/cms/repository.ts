@@ -4,6 +4,7 @@ export interface CmsRepository {
   listPublished(contentType?: CmsContent["type"]): Promise<CmsContent[]>
   findById(id: string): Promise<CmsContent | null>
   save(content: CmsContent): Promise<CmsContent>
+  update(content: CmsContent): Promise<CmsContent>
   updateStatus(id: string, status: CmsContentStatus): Promise<CmsContent>
 }
 
@@ -14,8 +15,10 @@ export class InMemoryCmsRepository implements CmsRepository {
     const now = Date.now()
     return [...this.records.values()].filter(item => item.status === "PUBLISHED" && (!contentType || item.type === contentType) && (item.type !== "ANNOUNCEMENT" || !item.expiresAt || Date.parse(item.expiresAt) > now))
   }
+  async listAll() { return [...this.records.values()].sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt)) }
   async findById(id: string) { return this.records.get(id) ?? null }
   async save(content: CmsContent) { this.records.set(content.id, content); return content }
+  async update(content: CmsContent) { this.records.set(content.id, content); return content }
   async updateStatus(id: string, status: CmsContentStatus) {
     const existing = this.records.get(id)
     if (!existing) throw new Error("CONTENT_NOT_FOUND")

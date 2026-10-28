@@ -2,6 +2,7 @@ import Link from "next/link"
 import { ExternalLink, GraduationCap, ShieldCheck, TrendingUp } from "lucide-react"
 import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
+import { T } from "@/components/translated-text"
 import { getLatestResult, getResults, schoolIdentity, type ResultType } from "@/lib/academic-results"
 
 function OfficialResultFrame({ result }: { result: ReturnType<typeof getResults>[number] }) {
@@ -9,15 +10,21 @@ function OfficialResultFrame({ result }: { result: ReturnType<typeof getResults>
   if (!officialUrl) return null
   const isSchoolLevel = result.sourceKind === "official" && !result.sourceOnly
   return (
-    <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-inner">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3 sm:px-5">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a6a24]">{isSchoolLevel ? "Original examination page" : "Official NECTA archive index"}</p>
-          <p className="mt-1 text-sm font-semibold text-[#071d3b]">{isSchoolLevel ? "NECTA published school-level result" : "NECTA published Arusha district result index"}</p>
-        </div>
-        <a href={officialUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">Open source <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" /></a>
-      </div>
-      <iframe title={`${result.year} ${result.type} official results source`} src={officialUrl} loading="lazy" className="block h-[760px] w-full border-0 bg-white sm:h-[900px] lg:h-[1050px]" referrerPolicy="no-referrer" />
+    <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+      <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a6a24]">
+        {isSchoolLevel ? <T text="Official examination source" /> : <T text="Official NECTA archive index" />}
+      </p>
+      <p className="mt-2 text-sm leading-6 text-slate-600">
+        <T text="The public Sammena site displays aggregate school-level information only. Individual candidate records are not embedded or reproduced here." />
+      </p>
+      <a
+        href={officialUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]"
+      >
+        <T text="Open official source" /> <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+      </a>
     </div>
   )
 }
@@ -30,9 +37,9 @@ function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] 
       <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-7">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div><span className="rounded-full bg-[#071d3b] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#d8b55b]">{result.type}</span><h2 className="mt-4 text-2xl font-bold text-[#071d3b]">{result.year}</h2></div>
-          <span className="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700">Official archive source</span>
+          <span className="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700"><T text="Official archive source" /></span>
         </div>
-        <p className="mt-5 text-sm leading-6 text-slate-600">NECTA's official Arusha district archive confirms the Sammena listing for this examination year. The school-level figures are not duplicated until the underlying school result can be read directly, so the website does not manufacture candidates, averages, or grades.</p>
+        <p className="mt-5 text-sm leading-6 text-slate-600"><T text="NECTA’s official Arusha district archive confirms the Sammena listing for this examination year. The school-level figures are not duplicated until the underlying school result can be read directly, so the website does not manufacture candidates, averages, or grades." /></p>
         <OfficialResultFrame result={result} />
         <a href={result.sourceUrl} target="_blank" rel="noreferrer" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24] hover:text-[#071d3b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">{result.sourceLabel} <ExternalLink className="h-4 w-4" /></a>
       </article>
@@ -42,17 +49,17 @@ function ResultCard({ result }: { result: ReturnType<typeof getResults>[number] 
     <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-7">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div><span className="rounded-full bg-[#071d3b] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#d8b55b]">{result.type}</span><h2 className="mt-4 text-2xl font-bold text-[#071d3b]">{result.year}</h2></div>
-        <div className="text-right"><p className="text-3xl font-extrabold text-[#071d3b]">{result.average?.toFixed(2)}</p><p className="text-xs text-slate-500">School average</p></div>
+        <div className="text-right"><p className="text-3xl font-extrabold text-[#071d3b]">{result.average?.toFixed(2)}</p><p className="text-xs text-slate-500"><T text="School average" /></p></div>
       </div>
       <div className="mt-5 flex flex-wrap items-center gap-2 text-xs font-semibold">
         <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 ${official ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-800"}`}><ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />{official ? "Official school-level source" : "Secondary published school summary"}</span>
-        {hasOfficialIndex && <a href={result.officialIndexUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-emerald-700 hover:bg-emerald-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]">Official NECTA index <ExternalLink className="h-3 w-3" /></a>}
+        {hasOfficialIndex && <a href={result.officialIndexUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-emerald-700 hover:bg-emerald-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a64b]"><T text="Official NECTA index" /> <ExternalLink className="h-3 w-3" /></a>}
       </div>
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Candidates</p><p className="mt-1 font-bold text-[#071d3b]">{result.candidates}</p></div>
-        <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Overall grade</p><p className="mt-1 font-bold text-[#071d3b]">{result.grade}</p></div>
-        {result.passed !== undefined && <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Passed</p><p className="mt-1 font-bold text-[#071d3b]">{result.passed}</p></div>}
-        {result.passRate !== undefined && <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Pass rate</p><p className="mt-1 font-bold text-[#071d3b]">{result.passRate}%</p></div>}
+        <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500"><T text="Candidates" /></p><p className="mt-1 font-bold text-[#071d3b]">{result.candidates}</p></div>
+        <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500"><T text="Overall grade" /></p><p className="mt-1 font-bold text-[#071d3b]">{result.grade}</p></div>
+        {result.passed !== undefined && <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500"><T text="Passed" /></p><p className="mt-1 font-bold text-[#071d3b]">{result.passed}</p></div>}
+        {result.passRate !== undefined && <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500"><T text="Pass rate" /></p><p className="mt-1 font-bold text-[#071d3b]">{result.passRate}%</p></div>}
       </div>
       <div className="mt-5 flex flex-wrap gap-2">{Object.entries(result.grades ?? {}).map(([grade, count]) => <span key={grade} className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600">{grade}: {count}</span>)}</div>
       <OfficialResultFrame result={result} />
@@ -68,8 +75,8 @@ export default function ResultsPage() {
   const officialCount = getResults().filter((result) => result.sourceKind === "official").length
   const secondaryCount = getResults().filter((result) => result.sourceKind === "secondary").length
   return (
-    <main className="min-h-screen bg-[#f8fafc]"><Navbar /><section className="bg-[#071d3b] pb-20 pt-36 text-white"><div className="mx-auto max-w-6xl px-5 sm:px-6"><div className="max-w-3xl"><span className="inline-flex items-center gap-2 rounded-full border border-[#d8b55b]/30 bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#d8b55b]"><GraduationCap className="h-4 w-4" /> Academic Results</span><h1 className="mt-7 text-4xl font-bold tracking-tight sm:text-5xl">Sammena academic results</h1><p className="mt-5 text-base leading-8 text-white/70 sm:text-lg">A transparent results archive for {schoolIdentity.name}, using published examination records and clearly identifying the source of each result.</p></div></div></section>
-      <section className="py-16 sm:py-20"><div className="mx-auto max-w-6xl px-5 sm:px-6"><div className="grid gap-4 sm:grid-cols-3"><div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Latest PSLE</p><p className="mt-2 text-2xl font-black text-[#071d3b]">{latestPsle.year}</p><p className="mt-1 text-sm text-slate-500">Average {latestPsle.average?.toFixed(2)}</p></div><div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">Official records</p><p className="mt-2 text-2xl font-black text-[#071d3b]">{officialCount}</p><p className="mt-1 text-sm text-slate-600">School-level records and official archive indexes</p></div><div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-amber-800">Secondary records</p><p className="mt-2 text-2xl font-black text-[#071d3b]">{secondaryCount}</p><p className="mt-1 text-sm text-slate-600">Clearly labelled summaries</p></div></div>
+    <main className="min-h-screen bg-[#f8fafc]"><Navbar /><section className="bg-[#071d3b] pb-20 pt-36 text-white"><div className="mx-auto max-w-6xl px-5 sm:px-6"><div className="max-w-3xl"><span className="inline-flex items-center gap-2 rounded-full border border-[#d8b55b]/30 bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#d8b55b]"><GraduationCap className="h-4 w-4" /> <T text="Academic Results" /></span><h1 className="mt-7 text-4xl font-bold tracking-tight sm:text-5xl"><T text="Sammena academic results" /></h1><p className="mt-5 text-base leading-8 text-white/70 sm:text-lg"><><T text="A transparent results archive for " />{schoolIdentity.name}<T text=", using published examination records and clearly identifying the source of each result." /></></p></div></div></section>
+      <section className="py-16 sm:py-20"><div className="mx-auto max-w-6xl px-5 sm:px-6"><div className="grid gap-4 sm:grid-cols-3"><div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500"><T text="Latest PSLE" /></p><p className="mt-2 text-2xl font-black text-[#071d3b]">{latestPsle.year}</p><p className="mt-1 text-sm text-slate-500">Average {latestPsle.average?.toFixed(2)}</p></div><div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">Official records</p><p className="mt-2 text-2xl font-black text-[#071d3b]">{officialCount}</p><p className="mt-1 text-sm text-slate-600">School-level records and official archive indexes</p></div><div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-amber-800">Secondary records</p><p className="mt-2 text-2xl font-black text-[#071d3b]">{secondaryCount}</p><p className="mt-1 text-sm text-slate-600">Clearly labelled summaries</p></div></div>
           <div className="mt-5 rounded-3xl border border-[#d8b55b]/25 bg-[#f8f4e9] p-6 sm:p-8"><div className="flex gap-4"><ShieldCheck className="mt-1 h-6 w-6 shrink-0 text-[#8a6a24]" /><div><h2 className="font-bold text-[#071d3b]">Verified public records</h2><p className="mt-2 text-sm leading-6 text-slate-600">Centre number: <strong>{schoolIdentity.centreNumber}</strong>. Each card exposes whether its figures come from an official school-level record, an official NECTA archive index, or a secondary published summary.</p></div></div></div>
           <div className="mt-12"><div className="flex items-end justify-between gap-4"><div><span className="text-sm font-bold uppercase tracking-[0.18em] text-[#9a7628]">Darasa la Saba</span><h2 className="mt-2 text-3xl font-bold text-[#071d3b]">PSLE results</h2></div><Link href="/trust" className="inline-flex items-center gap-2 text-sm font-bold text-[#8a6a24] hover:underline"><TrendingUp className="h-4 w-4" /> Evidence ledger</Link></div><div className="mt-6 grid gap-5 lg:grid-cols-2">{psle.map(result => <ResultCard key={result.type + result.year} result={result} />)}</div></div>
           <div className="mt-16"><div><span className="text-sm font-bold uppercase tracking-[0.18em] text-[#9a7628]">Darasa la Nne</span><h2 className="mt-2 text-3xl font-bold text-[#071d3b]">SFNA results</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">SFNA coverage now starts from 2022. The 2022 and 2023 official NECTA archive records are shown with direct source links, while school-level figures remain unfilled until directly verified.</p></div><div className="mt-6 grid gap-5 lg:grid-cols-2">{sfna.map(result => <ResultCard key={result.type + result.year} result={result} />)}</div></div>

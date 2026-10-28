@@ -4,15 +4,23 @@ const securityHeaders = [
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+  { key: 'X-DNS-Prefetch-Control', value: 'on' },
+  { key: 'X-Permitted-Cross-Domain-Policies', value: 'none' },
   { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
 ]
 
 const nextConfig = {
-  images: {
-    unoptimized: true,
-  },
+  poweredByHeader: false,
+  compress: true,
   async headers() {
     return [
+      {
+        source: '/images/:path*',
+        headers: [
+          ...securityHeaders,
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
       {
         source: '/(.*)',
         headers: securityHeaders,

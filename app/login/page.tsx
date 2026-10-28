@@ -4,7 +4,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { LoginPortal, type LoginAudience } from "@/components/login-portal"
 
-const validTypes = new Set<LoginAudience>(["parent", "staff", "email", "admin"])
+const validTypes = new Set<LoginAudience>(["parent", "student", "staff", "email", "admin"])
 
 type LoginPageProps = { searchParams: Promise<{ type?: string }> }
 

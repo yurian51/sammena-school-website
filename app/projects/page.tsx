@@ -6,46 +6,11 @@ import {
 } from "lucide-react"
 
 const projects = [
-  {
-    icon: Bath,
-    title: "Hostel Toilets Construction",
-    description: "Modern and safe toilet facilities for the hostels, separate for boys and girls, to improve hygiene, health, dignity, and safety for boarding pupils.",
-    scope: "Toilet blocks, water connection, hand washing facilities",
-    cost: "TZS 25,000,000",
-    priority: 1,
-  },
-  {
-    icon: Zap,
-    title: "Electricity Installation",
-    description: "Reliable electricity to support lighting, administration, ICT use, security, and extended study hours for pupils.",
-    scope: "Power connection, wiring, lighting, and basic electrical fittings",
-    cost: "TZS 20,000,000",
-    priority: 2,
-  },
-  {
-    icon: GraduationCap,
-    title: "Secondary School Buildings",
-    description: "Establish Sammena Secondary School to ensure educational continuity for vulnerable children after primary education.",
-    scope: "Classrooms, teachers' offices, laboratories (phased approach)",
-    cost: "TZS 350,000,000",
-    priority: 3,
-  },
-  {
-    icon: Egg,
-    title: "School Poultry Farming",
-    description: "A sustainable income-generating project to support school operations and assist orphans with food and basic needs.",
-    scope: "Poultry house, chicks, feed, equipment, training",
-    cost: "TZS 7,000,000",
-    priority: 4,
-  },
-  {
-    icon: Construction,
-    title: "Infrastructure & Access Road",
-    description: "Improve safety, accessibility, and learning conditions by upgrading internal infrastructure and the road leading to the school.",
-    scope: "School pathways, drainage, fencing improvements, and access road grading",
-    cost: "TZS 95,000,000",
-    priority: 5,
-  },
+  { icon: Bath, title: "Health, hygiene & sanitation", description: "A development area that can be documented here once Sammena confirms the specific project scope and current need.", scope: "Official scope to be published by the school" },
+  { icon: Zap, title: "Electricity & essential services", description: "Infrastructure improvements may be published when the school confirms the project, scope and implementation status.", scope: "Official scope to be published by the school" },
+  { icon: GraduationCap, title: "Future education expansion", description: "The school can publish confirmed expansion projects here with approved plans and timelines.", scope: "Official scope to be published by the school" },
+  { icon: Egg, title: "Sustainability initiatives", description: "Income-generating or sustainability projects should appear here only after official confirmation.", scope: "Official scope to be published by the school" },
+  { icon: Construction, title: "Campus & access improvements", description: "Confirmed infrastructure and access projects can be added with their approved scope and status.", scope: "Official scope to be published by the school" },
 ]
 
 const projectGoals = [
@@ -56,9 +21,7 @@ const projectGoals = [
 ]
 
 export default function ProjectsPage() {
-  const totalCost = "TZS 497,000,000"
-
-  return (
+    return (
     <main className="min-h-screen">
       <Navbar />
 
@@ -76,9 +39,9 @@ export default function ProjectsPage() {
       {/* Total Cost Banner */}
       <section className="py-8 bg-school-orange">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="text-white/80 text-sm mb-1">Total Estimated Cost</div>
-          <div className="text-3xl md:text-4xl font-bold text-white">{totalCost}</div>
-          <div className="text-white/70 text-sm mt-1">(Approximately USD $190,000)</div>
+          <div className="text-white/80 text-sm mb-1">Development planning</div>
+          <div className="text-2xl md:text-3xl font-bold text-white">Confirmed projects only</div>
+          <div className="text-white/70 text-sm mt-1">Project costs and timelines are published only after school confirmation.</div>
         </div>
       </section>
 
@@ -86,7 +49,7 @@ export default function ProjectsPage() {
       <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-6">
-            {projects.map(({ icon: Icon, title, description, scope, cost, priority }) => (
+            {projects.map(({ icon: Icon, title, description, scope }, index) => (
               <div
                 key={title}
                 className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden hover:shadow-md transition-shadow"
@@ -98,8 +61,8 @@ export default function ProjectsPage() {
                       <Icon className="w-7 h-7 text-school-orange" />
                     </div>
                     <div className="lg:text-center">
-                      <div className="text-school-orange font-bold text-xs uppercase tracking-wider">Priority</div>
-                      <div className="text-3xl font-bold text-foreground">{priority}</div>
+                      <div className="text-school-orange font-bold text-xs uppercase tracking-wider">Planning area</div>
+                      <div className="text-3xl font-bold text-foreground">{index + 1}</div>
                     </div>
                   </div>
 
@@ -110,10 +73,7 @@ export default function ProjectsPage() {
                         <h3 className="text-xl font-bold text-foreground mb-2">{title}</h3>
                         <p className="text-muted-foreground leading-relaxed">{description}</p>
                       </div>
-                      <div className="sm:text-right shrink-0">
-                        <div className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Estimated Cost</div>
-                        <div className="text-xl font-bold text-school-orange">{cost}</div>
-                      </div>
+                      
                     </div>
                     <div className="pt-4 border-t border-border">
                       <div className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Project Scope</div>

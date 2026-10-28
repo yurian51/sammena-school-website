@@ -5,8 +5,8 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 
 export const metadata: Metadata = {
-  title: "Secondary School | Planned 2028 Expansion",
-  description: "Information about Sammena Schools' planned secondary education expansion, with a current target of 2028. Secondary education is not currently operating.",
+  title: "Secondary School | Future Development",
+  description: "Information about Sammena Schools' future secondary education pathway. Secondary education is not currently operating; official launch information will be published when confirmed.",
   robots: { index: true, follow: true },
 }
 
@@ -26,7 +26,7 @@ export default function SecondaryPage() {
         <div className="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-[#123f73]/50 blur-3xl" />
         <div className="relative mx-auto max-w-5xl px-5 text-center sm:px-6">
           <span className="inline-flex items-center gap-2 rounded-full border border-[#d8b55b]/30 bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b55b]">
-            <GraduationCap className="h-4 w-4" /> Planned expansion · 2028
+            <GraduationCap className="h-4 w-4" /> Future development
           </span>
           <h1 className="mt-7 text-4xl font-bold leading-tight sm:text-5xl md:text-6xl">Sammena Secondary School</h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70">The next chapter of the Sammena Schools journey, extending the institution's educational pathway beyond primary education.</p>
@@ -59,8 +59,8 @@ export default function SecondaryPage() {
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#8a6a24]">Launch target</p>
-                <p className="mt-2 text-3xl font-bold text-[#071d3b]">2028</p>
-                <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-600">The 2028 target is a planning direction, not a statement that the secondary school is currently operating.</p>
+                <p className="mt-2 text-3xl font-bold text-[#071d3b]">Future</p>
+                <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-600">Secondary education remains a future development area. Any official launch date, admissions details and operating information will be published only after confirmation.</p>
               </div>
               <Link href="/contact" className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#071d3b] px-6 py-3.5 font-semibold text-white hover:bg-[#123f73]">Contact Sammena <ArrowRight className="h-4 w-4" /></Link>
             </div>

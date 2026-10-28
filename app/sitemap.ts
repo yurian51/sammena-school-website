@@ -6,26 +6,33 @@ const routes = [
   '/academics',
   '/admissions',
   '/admissions/apply',
+  '/admissions/fees',
+  '/admissions/track',
   '/gallery',
   '/contact',
   '/location',
   '/services',
   '/secondary',
+  '/projects',
   '/resources',
+  '/documents',
+  '/facilities',
   '/news',
   '/calendar',
+  '/events',
   '/results',
+  '/history',
+  '/leadership',
+  '/policies',
+  '/sponsorship',
   '/trust',
   '/privacy',
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena.sch.tz'
-  const now = new Date()
-
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sammena.altavox.space'
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: now,
     changeFrequency:
       route === '' || route === '/news' || route === '/results' || route === '/calendar' ? 'weekly' : 'monthly',
     priority:
