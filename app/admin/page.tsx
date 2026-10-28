@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import { Activity, ArrowRight, BookOpen, CalendarCheck, CalendarDays, ClipboardCheck, ClipboardList, FileText, GraduationCap, LayoutDashboard, LogOut, Mail, Megaphone, Receipt, RefreshCw, Search, Send, Settings, ShieldCheck, TriangleAlert, UserCheck, UserPlus, Users } from "lucide-react"
+import { Activity, ArrowRight, BookOpen, CalendarCheck, CalendarDays, ClipboardCheck, ClipboardList, FileText, GraduationCap, LayoutDashboard, LogOut, Mail, Megaphone, Receipt, RefreshCw, Search, Send, Settings, ShieldCheck, TriangleAlert, UserCheck, UserPlus, Users, Network } from "lucide-react"
 
 type Overview = {
   role: string

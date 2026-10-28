@@ -65,6 +65,16 @@ const quickActions = [
   ["View performance", "/portal", BarChart3],
 ] as const
 
+const sisFeatureGroups = [
+  ["School management", "School profile, ownership, staff, users and academic years", "/admin/settings"],
+  ["Revenue collection", "Fees, invoices, receipts, balances and payment references", "/admin/finance"],
+  ["Inventory", "Books, furniture, equipment and school resource tracking", "/admin/library"],
+  ["Readiness and class operations", "School readiness, streams, timetables and daily class workflows", "/admin/timetable"],
+  ["Assessment and promotion", "Continuous assessment, report cards and student progression", "/admin/results"],
+  ["Annual census and reporting", "SNP, annual school census, data cleaning and export preparation", "/admin/enrollments"],
+  ["Sports and supplementary services", "Sports, games, DEWS and supplementary programme records", "/admin/events"],
+] as const
+
 export default function EducationSystemsPage() {
   return (
     <main className="min-h-screen bg-[#f6f4ef] px-5 py-8 text-[#172033] sm:px-8 lg:py-10">
@@ -92,6 +102,24 @@ export default function EducationSystemsPage() {
               </div>
             </article>
           ))}
+        </section>
+
+        <section className="mt-8 border border-slate-200 bg-white p-6 shadow-sm sm:p-7" aria-labelledby="sis-feature-catalog">
+          <div className="flex flex-col gap-3 border-b border-slate-100 pb-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[.16em] text-[#a27e35]">SIS feature map</p>
+              <h2 id="sis-feature-catalog" className="mt-2 text-2xl font-bold text-[#17365d]">Core workflows to bring into Sammena</h2>
+            </div>
+            <p className="max-w-md text-xs leading-5 text-slate-500">Based on the official SIS dashboard catalogue: the links below are Sammena entry points, while official submissions remain controlled by the authorised government systems.</p>
+          </div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {sisFeatureGroups.map(([label, detail, href]) => (
+              <Link key={label} href={href} className="group border border-slate-200 p-4 transition hover:border-[#b9964f] hover:bg-[#fbfaf7]">
+                <div className="flex items-start justify-between gap-3"><h3 className="text-sm font-bold text-[#17365d]">{label}</h3><ArrowRight className="h-4 w-4 shrink-0 text-slate-300 transition group-hover:text-[#a27e35]" /></div>
+                <p className="mt-2 text-xs leading-5 text-slate-500">{detail}</p>
+              </Link>
+            ))}
+          </div>
         </section>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[1.1fr_.9fr]">
