@@ -7,7 +7,7 @@ describe("Sammena academic results", () => {
   })
 
   it("contains verified PSLE records from 2022 through 2025", () => {
-    expect(getResults("PSLE").map(result => result.year)).toEqual([2022, 2023, 2024, 2025])
+    expect(getResults("PSLE").filter(result => !result.sourceOnly).map(result => result.year)).toEqual([2022, 2023, 2024, 2025])
   })
 
   it("does not invent a pass rate when one is not published in the source", () => {
