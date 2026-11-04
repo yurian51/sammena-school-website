@@ -15,6 +15,7 @@ export type SchoolResult = {
   sourceKind: ResultSourceKind
   officialIndexUrl?: string
   sourceOnly?: boolean
+  publicationStatus?: "awaiting"
 }
 
 export const schoolIdentity = {
@@ -30,6 +31,14 @@ export const schoolIdentity = {
 } as const
 
 export const verifiedResults: SchoolResult[] = [
+  {
+    year: 2026,
+    type: "PSLE",
+    sourceUrl: "https://onlinesys.necta.go.tz/results/2026/psle/psle.htm",
+    sourceLabel: "NECTA PSLE 2026 official results portal",
+    sourceKind: "official",
+    sourceOnly: true,
+  },
   {
     year: 2022,
     type: "PSLE",
@@ -103,6 +112,15 @@ export const verifiedResults: SchoolResult[] = [
     sourceUrl: "https://onlinesys.necta.go.tz/results/2024/sfna/results/ps0101160.htm",
     sourceLabel: "NECTA SFNA 2024",
     sourceKind: "official",
+  },
+  {
+    year: 2026,
+    type: "SFNA",
+    sourceUrl: "https://www.necta.go.tz/news/all",
+    sourceLabel: "NECTA SFNA 2026 announcements",
+    sourceKind: "official",
+    sourceOnly: true,
+    publicationStatus: "awaiting",
   },
   {
     year: 2025,
